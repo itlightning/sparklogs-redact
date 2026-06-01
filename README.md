@@ -31,6 +31,19 @@ npm run build            # build core, then cli (the cli bundles the core's dist
 npm test                 # run each package's test suite (node --test)
 ```
 
+## CI
+
+GitHub Actions runs the same gate as local dev:
+
+```bash
+make ci    # install (core + cli) · build · typecheck · test · smoke
+```
+
+On pull requests, the workflow posts a sticky summary comment (see
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live
+under [`test/fixtures/clean/`](test/fixtures/clean/) — expand over time; never commit raw customer
+logs.
+
 Build only the core + CLI (e.g. for the source-library PII-scan gate, skipping the React toolchain):
 
 ```bash
