@@ -1,0 +1,42 @@
+{
+  "name": "@sparklogs/redact-core",
+  "version": "0.1.0",
+  "description": "Isomorphic core: detect and consistently pseudonymise PII in log text, with a residual-PII scanner. Pure string/regex — safe in Node or the browser. Driven by portable JSON detection specs.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./patterns/windows-log.json": "./patterns/windows-log.json"
+  },
+  "files": [
+    "dist",
+    "patterns",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "pii",
+    "redaction",
+    "anonymization",
+    "pseudonymization",
+    "logs",
+    "windows",
+    "cbs",
+    "gdpr",
+    "privacy",
+    "isomorphic"
+  ]
+}

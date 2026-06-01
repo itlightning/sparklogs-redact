@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+
+# Never commit real logs used for ad-hoc local redaction trials.
+*.log
+scratch/
+
+# Redaction correlation maps (--save-map / --load-map) embed RAW original tokens => RAW PII.
+# Use this suffix for them so they can never be committed by accident.
+*.redact-map.json
