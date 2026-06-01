@@ -115,7 +115,10 @@ export class Redactor {
     let cursor = 0;
     for (const s of accepted) {
       const fake = mapping.fakeFor(s.category, s.original);
-      out += text.slice(cursor, s.start) + fake;
+      out += text.slice(cursor, s.start);
+      const outStart = out.length;
+      out += fake;
+      const outEnd = out.length;
       cursor = s.end;
       stats[s.category] = (stats[s.category] ?? 0) + 1;
       const line = upperBound(lineStarts, s.start);
@@ -128,6 +131,8 @@ export class Redactor {
         end: s.end,
         masked: mask(s.original),
         replacement: fake,
+        outStart,
+        outEnd,
       });
     }
     out += text.slice(cursor);

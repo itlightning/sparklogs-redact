@@ -24,11 +24,33 @@ test("redact: emits one RedactionRecord per token, in document order, with offse
   assert.equal(first.masked, "fXXXX");
   assert.match(first.replacement, /^User\d+$/);
   assert.ok(res.text.includes(first.replacement), "replacement actually appears in the output");
+  // outStart/outEnd locate the fake in the OUTPUT text.
+  assert.equal(res.text.slice(first.outStart, first.outEnd), first.replacement);
 
   // Record 1 — grace on line 3.
   assert.equal(second.line, 3);
   assert.equal(input.slice(second.start, second.end), "grace");
+  assert.equal(res.text.slice(second.outStart, second.outEnd), second.replacement);
   assert.notEqual(first.replacement, second.replacement); // distinct tokens -> distinct fakes
+});
+
+test("redact: outStart/outEnd slice each replacement out of the redacted text, in order", () => {
+  const red = r();
+  // Mix of token lengths so replacement lengths differ from originals (offsets must shift).
+  const input = "\\Users\\al \\Users\\bartholomew \\Users\\al";
+  const res = red.redact(input);
+
+  assert.ok(res.redactions.length >= 3);
+  let prevEnd = -1;
+  for (const rec of res.redactions) {
+    assert.equal(
+      res.text.slice(rec.outStart, rec.outEnd),
+      rec.replacement,
+      "output offsets must slice back to the replacement",
+    );
+    assert.ok(rec.outStart >= prevEnd, "records stay in document order, non-overlapping");
+    prevEnd = rec.outEnd;
+  }
 });
 
 test("scan: hits carry 0-based start/end offsets that slice back to the raw token", () => {

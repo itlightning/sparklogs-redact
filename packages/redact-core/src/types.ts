@@ -79,6 +79,15 @@ export interface ScanHit {
 export interface RedactionRecord extends ScanHit {
   /** The format-shaped fake substituted for the token. */
   replacement: string;
+  /**
+   * 0-based character offset of the replacement's first character within `RedactionResult.text`.
+   * (`start`/`end` locate the token in the ORIGINAL text; these locate the fake in the OUTPUT, so a
+   * UI can highlight the redacted side without re-scanning — the fakes are realistic and not
+   * regex-recoverable.)
+   */
+  outStart: number;
+  /** 0-based character offset just past the replacement's last character within `RedactionResult.text`. */
+  outEnd: number;
 }
 
 /** Detected text encoding of a byte buffer. */
