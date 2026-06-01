@@ -1,0 +1,92 @@
+{
+  "profile": "generic",
+  "version": 0,
+  "description": "General-purpose PII for non-Windows server/application logs: IPv4 (incl. CIDR), IPv6 (all common textual forms), email, MAC, credit-card (Luhn-validated), US SSN, and narrow phone formats. Pair with `windows-log` for Windows hosts. Each detector's full match IS the sensitive token (context excluded with look-around); `safe` (or, for validator-gated detectors, a deliberately-invalid fake) keeps redaction idempotent and lets the residual-PII scanner flag only un-redacted real PII.",
+  "notes": [
+    "IPv4/IPv6 collide with version strings (e.g. 10.0.0.0) and other dotted/colon-grouped tokens; that is acceptable here (this profile is opt-in for general logs). Keep IP redaction OUT of `windows-log`, where dotted-quads are overwhelmingly version numbers.",
+    "IPv4 will NOT redact an address preceded by '-'/'_' (the digits are usually part of a larger identifier) or by '~~' (a Windows assembly-identity / version marker like amd64~~10.0.1.2). A single '~' is allowed (it can be a field separator). Two detectors re-allow a leading '-' under a high-confidence signal: `ipv4-range-tail` rescues the SECOND operand of a glued range 'A-B' (the dash must be preceded by a dotted-quad, so 10.0.0.1-10.0.0.5 redacts both ends while build2-10.0.0.5 stays put), and `ipv4-cidr` catches 'foo-10.0.0.0/8' via the trailing /0-32 CIDR signal. A range's head is caught by the base ipv4 detector and its tail by ipv4-range-tail — two independent spans mapped through the same correlation map, with the '-' left intact between them.",
+    "credit-card / ssn use a `validate` hook (Luhn+brand / SSN-assignment rules) so a broad regex stays precise; their fakes are deliberately INVALID (wrong Luhn check digit / never-assigned 000 area), which is what makes those detectors idempotent without a `safe` regex.",
+    "Phone is intentionally narrow — only E.164 (+ anchor) and NANP with separators and a [2-9] area/exchange — because broad phone patterns over-match numeric IDs in logs. GUIDs/UUIDs are deliberately NOT redacted: in logs they are correlation/component IDs, not personal identifiers."
+  ],
+  "detectors": [
+    {
+      "name": "email",
+      "category": "email",
+      "pattern": "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
+      "flags": "",
+      "safe": "@example\\.(invalid|com)$",
+      "description": "Email address."
+    },
+    {
+      "name": "ipv4",
+      "category": "ipv4",
+      "pattern": "(?<![\\w.-])(?<!~~)(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}(?![\\w.])",
+      "flags": "",
+      "safe": "^(?:192\\.0\\.2\\.|198\\.51\\.100\\.|203\\.0\\.113\\.)",
+      "description": "Dotted-quad IPv4 address (each octet 0-255). Not matched when preceded by '-' or '_' (likely part of a larger token) or by '~~' (a Windows assembly-identity / version marker, e.g. amd64~~10.0.1.2). A single '~' does NOT block the match (it can be a field separator). Fakes use RFC 5737 doc ranges, so `safe` never collides with a real IP."
+    },
+    {
+      "name": "ipv4-cidr",
+      "category": "ipv4",
+      "pattern": "(?<![\\w.])(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}(?=/(?:3[0-2]|[12]?\\d)(?!\\d))",
+      "flags": "",
+      "safe": "^(?:192\\.0\\.2\\.|198\\.51\\.100\\.|203\\.0\\.113\\.)",
+      "description": "IPv4 address that is immediately followed by a /0-32 prefix — a high-confidence CIDR signal, so (unlike the base ipv4 detector) it has no '-' exclusion. The trailing /n is left intact (look-ahead)."
+    },
+    {
+      "name": "ipv4-range-tail",
+      "category": "ipv4",
+      "pattern": "(?<=(?:\\d{1,3}\\.){3}\\d{1,3}-)(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}(?![\\w.])",
+      "flags": "",
+      "safe": "^(?:192\\.0\\.2\\.|198\\.51\\.100\\.|203\\.0\\.113\\.)",
+      "description": "The SECOND operand of a glued IPv4 range 'A.B.C.D-E.F.G.H'. The base ipv4 detector refuses any '-' on its left; this one re-allows it ONLY when the dash is itself preceded by a dotted-quad (a real range signal), so it rescues the range tail without matching identifier-glued addresses like 'build2-10.0.0.5'. Same category/`safe` as ipv4 (each endpoint is mapped independently and the '-' is preserved between them), so a redacted range scans clean and re-redacts idempotently."
+    },
+    {
+      "name": "ipv6",
+      "category": "ipv6",
+      "pattern": "(?<![0-9A-Za-z:._%-])(?:(?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|::ffff(?::0{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)|(?:[0-9A-Fa-f]{1,4}:){1,4}:(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)|(?:[0-9A-Fa-f]{1,4}:){1,7}:|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?::[0-9A-Fa-f]{1,4}){1,6}|:(?::[0-9A-Fa-f]{1,4}){1,7})(?:%[0-9A-Za-z._-]+)?(?![0-9A-Za-z:])",
+      "flags": "i",
+      "safe": "^(?:2001:db8|::ffff:192\\.0\\.2\\.)",
+      "description": "IPv6 address: full 8-group, '::'-compressed, IPv4-mapped (::ffff:1.2.3.4), and IPv4-embedded forms, with an optional %zone id. Requires 8 groups or a real '::' (bare '::' is NOT matched, to avoid C++ '::'/'std::' false positives); a preceding letter/digit also blocks the match. Fakes land in the RFC 3849 2001:db8::/32 doc range, shaped to mirror the original form."
+    },
+    {
+      "name": "mac-address",
+      "category": "mac",
+      "pattern": "\\b(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\\b",
+      "flags": "",
+      "safe": "^00:00:5E:00:53:",
+      "description": "MAC/EUI-48 hardware address."
+    },
+    {
+      "name": "credit-card",
+      "category": "creditcard",
+      "pattern": "(?<![\\dA-Za-z])\\d(?:[ -]?\\d){12,18}(?![\\dA-Za-z])",
+      "flags": "",
+      "validate": "creditcard",
+      "description": "Payment card number, 13-19 digits with optional space/dash grouping. The `creditcard` validator (Luhn + brand prefix + length) suppresses the many numeric-ID false positives; only a number that actually checks out is redacted."
+    },
+    {
+      "name": "us-ssn",
+      "category": "ssn",
+      "pattern": "(?<![\\d-])\\d{3}-\\d{2}-\\d{4}(?![\\d-])",
+      "flags": "",
+      "validate": "ssn",
+      "description": "US Social Security Number in the dashed AAA-GG-SSSS form (the dashless 9-digit form is intentionally NOT matched — far too noisy in logs). The `ssn` validator rejects never-assigned area/group/serial values."
+    },
+    {
+      "name": "phone-e164",
+      "category": "phone",
+      "pattern": "(?<![\\w+])\\+\\d{10,15}(?![\\d])",
+      "flags": "",
+      "safe": "^\\+999",
+      "description": "E.164 international phone number (leading +, 10-15 digits). The '+' anchor keeps this narrow."
+    },
+    {
+      "name": "phone-nanp",
+      "category": "phone",
+      "pattern": "(?<![\\dA-Za-z])(?:\\([2-9]\\d{2}\\)[ ]?|[2-9]\\d{2}-)[2-9]\\d{2}-\\d{4}(?![\\d])",
+      "flags": "",
+      "description": "North American phone number with separators: '(NXX) NXX-XXXX' or 'NXX-NXX-XXXX', where the area and exchange start 2-9 (NANP rule). Fakes use the never-valid 000 area, so they are not re-matched (no `safe` needed)."
+    }
+  ]
+}

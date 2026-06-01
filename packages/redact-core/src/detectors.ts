@@ -4,9 +4,13 @@
 
 import type { Detector, Profile } from "./types.ts";
 import windowsLog from "../patterns/windows-log.json" with { type: "json" };
+import generic from "../patterns/generic.json" with { type: "json" };
+import secret from "../patterns/secret.json" with { type: "json" };
 
 const PROFILES: Record<string, Profile> = {
   "windows-log": windowsLog as Profile,
+  generic: generic as Profile,
+  secret: secret as Profile,
 };
 
 /** Names of the built-in profiles. */
@@ -25,4 +29,4 @@ export function loadProfile(name: string): Detector[] {
   return p.detectors;
 }
 
-export { windowsLog as WINDOWS_LOG };
+export { windowsLog as WINDOWS_LOG, generic as GENERIC, secret as SECRET };

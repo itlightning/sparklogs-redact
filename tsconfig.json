@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/redact-core" },
+    { "path": "./packages/redact-cli" }
+  ]
+}
