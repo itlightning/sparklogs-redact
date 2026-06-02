@@ -1,0 +1,5 @@
+2026-05-01 10:00:00, Info  CBS  Service started successfully on host-a.example.com
+2026-05-01 10:00:01, Info  CBS  Verifying 100 components
+Package version 10.0.0.0 installed
+LocalSystem S-1-5-18 running
+Operation completed HRESULT = 0x00000000

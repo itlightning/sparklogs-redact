@@ -2,7 +2,7 @@
 NPM ?= npm
 NODE ?= node
 CLI := packages/redact-cli/dist/cli.js
-CLEAN_FIXTURE := test/fixtures/clean/sample.log
+CLEAN_FIXTURE := test/fixtures/clean/sample.fixture
 
 .PHONY: ci install build typecheck test smoke help
 
@@ -40,5 +40,5 @@ help:
 	@echo "  make build      npm run build (core, cli, react)"
 	@echo "  make typecheck  tsc --noEmit in core, cli, and react"
 	@echo "  make test       node --test in every package that defines test"
-	@echo "  make smoke      CLI profiles + scan on test/fixtures/clean/sample.log"
+	@echo "  make smoke      CLI profiles + scan on test/fixtures/clean/sample.fixture"
 	@echo ""

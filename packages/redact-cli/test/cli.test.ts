@@ -7,7 +7,7 @@ import { test } from "node:test";
 
 const pkgRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cliJs = join(pkgRoot, "dist", "cli.js");
-const cleanFixture = join(pkgRoot, "..", "..", "test", "fixtures", "clean", "sample.log");
+const cleanFixture = join(pkgRoot, "..", "..", "test", "fixtures", "clean", "sample.fixture");
 
 /** spawnSync stdout/stderr are strings when `encoding` is set; narrow for strict tsc. */
 function asText(chunk: ReturnType<typeof spawnSync>["stdout"]): string {
