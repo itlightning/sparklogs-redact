@@ -1,9 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { Redactor } from "../src/redact.ts";
 import { loadProfile, profileNames, WINDOWS_LOG } from "../src/detectors.ts";
 
-test("profileNames includes windows-log", () => {
-  assert.ok(profileNames().includes("windows-log"));
+test("profileNames includes windows-log, generic, and secret", () => {
+  for (const name of ["windows-log", "generic", "secret"]) {
+    assert.ok(profileNames().includes(name), `missing profile ${name}`);
+  }
 });
 
 test("loadProfile returns detectors for windows-log", () => {
@@ -25,9 +28,25 @@ test("WINDOWS_LOG export matches loadProfile", () => {
   assert.deepEqual(WINDOWS_LOG.detectors, loadProfile("windows-log"));
 });
 
-test("every detector pattern compiles as a RegExp", () => {
-  for (const d of loadProfile("windows-log")) {
-    assert.doesNotThrow(() => new RegExp(d.pattern, (d.flags ?? "") + "g"));
-    if (d.safe) assert.doesNotThrow(() => new RegExp(d.safe, "i"));
+test("every detector pattern (every profile) compiles as a RegExp", () => {
+  for (const name of profileNames()) {
+    for (const d of loadProfile(name)) {
+      assert.doesNotThrow(
+        () => new RegExp(d.pattern, (d.flags ?? "") + "g"),
+        `${name}/${d.name} pattern`,
+      );
+      if (d.safe) {
+        const safe = d.safe;
+        assert.doesNotThrow(() => new RegExp(safe, "i"), `${name}/${d.name} safe`);
+      }
+    }
+  }
+});
+
+test("every profile builds a Redactor (resolves any referenced validators)", () => {
+  // compile() throws on an unknown `validate` name, so constructing a Redactor per profile is the
+  // cheapest end-to-end check that the JSON specs only reference built-in validators.
+  for (const name of profileNames()) {
+    assert.doesNotThrow(() => new Redactor(loadProfile(name)), `profile ${name} should compile`);
   }
 });

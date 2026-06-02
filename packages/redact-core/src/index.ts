@@ -8,12 +8,15 @@ export type {
   Detector,
   Profile,
   RedactionResult,
+  RedactionRecord,
   ScanHit,
   EncodingInfo,
 } from "./types.ts";
 
 export { detectEncoding, decode } from "./encoding.ts";
 export { Redactor } from "./redact.ts";
+export { VALIDATORS } from "./validators.ts";
+export type { Validator } from "./validators.ts";
 export { FAKE_GENERATORS, MappingEngine } from "./fakes.ts";
 export type { MappingSnapshot } from "./fakes.ts";
-export { loadProfile, profileNames, WINDOWS_LOG } from "./detectors.ts";
+export { loadProfile, profileNames, WINDOWS_LOG, GENERIC, SECRET } from "./detectors.ts";

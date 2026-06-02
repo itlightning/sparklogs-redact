@@ -30,6 +30,26 @@ result.mappingSize; // 2
 redactor.scan(result.text); // []
 ```
 
+### Redaction metadata (for before/after UIs)
+
+`result.redactions` holds one `RedactionRecord` per replaced token, in document order, carrying **no
+raw PII** (only a shape-preserving `masked` sample) — safe to keep or transmit alongside the output.
+Each record locates the token on **both** sides of the redaction:
+
+- `start` / `end` — 0-based offsets of the original token in the **input** text.
+- `outStart` / `outEnd` — 0-based offsets of the fake in `result.text` (the **output**).
+
+So a browser preview can highlight the redacted side directly — the format-shaped fakes are realistic
+and not regex-recoverable, so the output offsets are the reliable way to find them:
+
+```ts
+for (const rec of result.redactions) {
+  input.slice(rec.start, rec.end);          // the original token (raw — only available if you hold the source)
+  result.text.slice(rec.outStart, rec.outEnd); // === rec.replacement, the fake in the output
+  rec.category;                              // e.g. "username", "email", "ipv4"
+}
+```
+
 ## Detection profiles
 
 Profiles are portable JSON specs under [`patterns/`](patterns/). Each detector's **full regex match

@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "test": "node --test",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

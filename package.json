@@ -13,9 +13,11 @@
   "scripts": {
     "build": "npm run build -w @sparklogs/redact-core && npm run build -w @sparklogs/redact-cli",
     "test": "npm run test --workspaces --if-present",
+    "typecheck": "tsc -p packages/redact-core && tsc -p packages/redact-cli",
     "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo"
   },
   "devDependencies": {
+    "@types/node": "^22.19.19",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
   }

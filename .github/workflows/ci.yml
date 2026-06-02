@@ -1,0 +1,86 @@
+name: sparklogs-redact CI
+
+# Runs `make ci` (install + build + test + smoke) and posts a sticky pass/fail summary on PRs.
+# Pattern mirrors sparklogs-source-library and itl-flutter CI workflows.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write # only for the CI summary comment
+
+jobs:
+  ci:
+    name: build + test + smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out sparklogs-redact
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Run make ci
+        id: ci
+        run: |
+          set -o pipefail
+          make ci 2>&1 | tee "${RUNNER_TEMP}/ci-output.txt"
+
+      - name: Post CI summary comment
+        if: ${{ always() && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v8
+        env:
+          CI_OUTCOME: ${{ steps.ci.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const passed = process.env.CI_OUTCOME === 'success';
+
+            let summary = '(no output captured)';
+            try {
+              const out = fs.readFileSync(`${process.env.RUNNER_TEMP}/ci-output.txt`, 'utf8');
+              const lines = out.split('\n').filter(l =>
+                /^={2,3}\s/.test(l) || /CI OK|smoke OK|FAIL|error/i.test(l));
+              if (lines.length) summary = lines.join('\n');
+              if (summary.length > 3500) summary = summary.slice(-3500);
+            } catch (e) { /* output file missing */ }
+
+            const { owner, repo } = context.repo;
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const sha = context.payload.pull_request?.head?.sha || context.sha;
+            const shaUrl = `${context.serverUrl}/${owner}/${repo}/commit/${sha}`;
+            const marker = '<!-- sparklogs-redact-ci -->';
+            const body = [
+              marker,
+              `### sparklogs-redact CI ${passed ? '✅ passed' : '❌ failed'}`,
+              '',
+              `- \`make ci\` ${passed ? 'succeeded' : 'failed'} ([logs](${runUrl}))`,
+              '',
+              '```',
+              summary,
+              '```',
+              '',
+              `<sub>install · build · typecheck · test · smoke · [\`${sha.slice(0, 7)}\`](${shaUrl})</sub>`,
+            ].join('\n');
+
+            const issue_number = context.issue.number;
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number });
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }

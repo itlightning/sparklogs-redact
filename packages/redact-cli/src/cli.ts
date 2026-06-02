@@ -5,8 +5,8 @@
 // workspace is linked and the core is built (Node >=23 strips the .ts types).
 //
 // Usage:
-//   sparklogs-redact redact <input|-> [-o <output|->]      [--profile <name>] [--stats]
-//   sparklogs-redact redact <in...>  --out-dir <dir>        [--profile <name>] [--stats]
+//   sparklogs-redact redact <input|-> [-o <output|->]      [--profile <name>] [--stats] [--report <f>]
+//   sparklogs-redact redact <in...>  --out-dir <dir>        [--profile <name>] [--stats] [--report <f>]
 //                                    [--save-map <f>] [--load-map <f>]   # shared correlation map
 //   sparklogs-redact scan   <path...>                       [--profile <name>] [--max <N>] [--quiet]
 //   sparklogs-redact profiles
@@ -14,6 +14,10 @@
 // Multiple inputs (or --out-dir) redact through ONE correlation map, so the same real token gets the
 // same pseudonym in every file. --save-map writes that map and --load-map seeds it from a prior run
 // (to top up the SAME dataset later) — the map file CONTAINS RAW PII and must never be committed.
+//
+// --report <f> writes a JSON array of per-redaction records (file, detector, category, line/column,
+// start/end offsets, a MASKED sample, and the replacement). It carries NO raw PII, so unlike the
+// correlation map it is safe to keep — downstream tools use it to map redactions onto the source.
 //
 // Exit codes:  redact -> 0 ok.   scan -> 0 clean, 1 residual PII found, 2 usage/IO error.
 
@@ -26,6 +30,7 @@ import {
   MappingEngine,
   loadProfile,
   profileNames,
+  type RedactionRecord,
 } from "@sparklogs/redact-core";
 
 function fail(msg: string, code = 2): never {
@@ -81,6 +86,7 @@ function cmdRedact(args: string[]): void {
   const out = takeOpt(args, "-o") ?? takeOpt(args, "--out");
   const saveMap = takeOpt(args, "--save-map");
   const loadMap = takeOpt(args, "--load-map");
+  const report = takeOpt(args, "--report");
   const showStats = takeFlag(args, "--stats");
   for (const a of args) {
     if (a.startsWith("--")) fail(`redact: unknown option ${a}`);
@@ -114,6 +120,8 @@ function cmdRedact(args: string[]): void {
   const tally = (s: Record<string, number>) => {
     for (const [k, v] of Object.entries(s)) agg[k] = (agg[k] ?? 0) + v;
   };
+  // Per-redaction metadata (location + masked sample + replacement); carries no raw PII.
+  const reportRecords: Array<{ file: string } & RedactionRecord> = [];
 
   if (multi) {
     mkdirSync(outDir!, { recursive: true });
@@ -122,14 +130,23 @@ function cmdRedact(args: string[]): void {
       const dest = join(outDir!, basename(input));
       writeFileSync(dest, res.text, "utf-8");
       tally(res.stats);
+      if (report) for (const r of res.redactions) reportRecords.push({ file: input, ...r });
       if (showStats) process.stderr.write(`  ${input} -> ${dest}\n`);
     }
   } else {
     const res = redactor.redact(decode(readBytes(inputs[0])), engine);
     tally(res.stats);
+    if (report) for (const r of res.redactions) reportRecords.push({ file: inputs[0], ...r });
     const dest = out ?? "-";
     if (dest === "-") process.stdout.write(res.text);
     else writeFileSync(dest, res.text, "utf-8");
+  }
+
+  if (report) {
+    writeFileSync(report, JSON.stringify(reportRecords, null, 2) + "\n", "utf-8");
+    if (showStats) {
+      process.stderr.write(`sparklogs-redact: wrote ${reportRecords.length} redaction record(s) to ${report}\n`);
+    }
   }
 
   if (saveMap) {
@@ -201,12 +218,14 @@ function main(argv: string[]): void {
     case "--help":
       process.stdout.write(
         "sparklogs-redact <command>\n\n" +
-          "  redact <input|-> [-o out] [--profile name] [--stats]\n" +
-          "  redact <in...> --out-dir dir [--save-map f] [--load-map f] [--profile name] [--stats]\n" +
+          "  redact <input|-> [-o out] [--profile name] [--stats] [--report f]\n" +
+          "  redact <in...> --out-dir dir [--save-map f] [--load-map f] [--profile name] [--stats] [--report f]\n" +
           "  scan <path...> [--profile name] [--max N] [--quiet]\n" +
           "  profiles\n\n" +
+          "  Profiles: " + profileNames().join(", ") + "\n" +
           "  Multiple inputs (or --out-dir) share one correlation map so a token maps the same in\n" +
-          "  every file. --save-map/--load-map persist that map (RAW PII — never commit it).\n",
+          "  every file. --save-map/--load-map persist that map (RAW PII — never commit it).\n" +
+          "  --report writes per-redaction metadata as JSON (no raw PII; safe to keep).\n",
       );
       return;
     default:

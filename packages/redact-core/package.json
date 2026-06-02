@@ -15,7 +15,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./patterns/windows-log.json": "./patterns/windows-log.json"
+    "./patterns/windows-log.json": "./patterns/windows-log.json",
+    "./patterns/generic.json": "./patterns/generic.json",
+    "./patterns/secret.json": "./patterns/secret.json"
   },
   "files": [
     "dist",
