@@ -10,24 +10,20 @@ ci: install build typecheck test smoke
 	@echo "== sparklogs-redact CI OK =="
 
 install:
-	@echo "== install (core + cli workspaces) =="
-	$(NPM) install -w @sparklogs/redact-core -w @sparklogs/redact-cli
+	@echo "== install (all workspaces, lockfile-pinned) =="
+	$(NPM) ci
 
 build:
-	@echo "== build @sparklogs/redact-core =="
-	$(NPM) run build -w @sparklogs/redact-core
-	@echo "== build @sparklogs/redact-cli =="
-	$(NPM) run build -w @sparklogs/redact-cli
+	@echo "== build (core, cli, react) =="
+	$(NPM) run build
 
 typecheck:
-	@echo "== typecheck (tsc --noEmit, core + cli src + test) =="
+	@echo "== typecheck (core + cli + react) =="
 	$(NPM) run typecheck
 
 test:
-	@echo "== test @sparklogs/redact-core =="
-	$(NPM) test -w @sparklogs/redact-core
-	@echo "== test @sparklogs/redact-cli =="
-	$(NPM) test -w @sparklogs/redact-cli
+	@echo "== test (all workspaces with a test script) =="
+	$(NPM) test
 
 smoke:
 	@echo "== smoke: CLI profiles =="
@@ -39,10 +35,10 @@ smoke:
 help:
 	@echo ""
 	@echo "sparklogs-redact — make targets"
-	@echo "  make ci       install + build + typecheck + test + smoke (full gate)"
-	@echo "  make typecheck  tsc --noEmit (core + cli, src + test)"
-	@echo "  make install  npm install (core + cli workspaces only)"
-	@echo "  make build    tsup both packages"
-	@echo "  make test     node --test in core and cli"
-	@echo "  make smoke    CLI profiles + scan on test/fixtures/clean/sample.log"
+	@echo "  make ci         npm ci + build + typecheck + test + smoke (full gate)"
+	@echo "  make install    npm ci (all workspaces)"
+	@echo "  make build      npm run build (core, cli, react)"
+	@echo "  make typecheck  tsc --noEmit in core, cli, and react"
+	@echo "  make test       node --test in every package that defines test"
+	@echo "  make smoke      CLI profiles + scan on test/fixtures/clean/sample.log"
 	@echo ""
