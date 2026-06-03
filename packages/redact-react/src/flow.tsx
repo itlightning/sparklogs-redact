@@ -73,6 +73,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   const navStyle = props.navStyle ?? "rail";
   const previewStyle = props.previewStyle ?? "inline";
   const allowRevealOriginal = props.allowRevealOriginal ?? true;
+  const bindFindKey = props.bindFindKey ?? true;
   const profiles = props.profiles ?? DEFAULT_PROFILES;
   const createWorker = props.createWorker;
   const consentItems = props.consents;
@@ -135,6 +136,9 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   // ---- ingest -----------------------------------------------------------
   const addEntries = useCallback(
     async (entries: { file: File; path: string }[]) => {
+      // New input invalidates any prior redaction so the preview step re-runs over the full set
+      // (incl. newly added files) through the shared correlation map.
+      setSummary(null);
       const fresh: WizardFile[] = entries.map(({ file, path }) => ({
         id: uid(),
         file,
@@ -181,10 +185,11 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     [addEntries],
   );
 
-  const removeFile = useCallback(
-    (id: string) => setFiles((prev) => prev.filter((f) => f.id !== id)),
-    [],
-  );
+  const removeFile = useCallback((id: string) => {
+    // Removing a file changes the batch; re-run redaction so totals/usage stay accurate.
+    setSummary(null);
+    setFiles((prev) => prev.filter((f) => f.id !== id));
+  }, []);
   const clearAll = useCallback(() => setFiles([]), []);
 
   // ---- redaction pass ---------------------------------------------------
@@ -247,8 +252,10 @@ function useUploadFlow(props: RedactUploadWizardProps) {
       if (textFiles.length) runRef.current();
       else setSummary(EMPTY_SUMMARY);
     }
+    // Re-fires when `summary` is invalidated (a file was added/removed) so the preview re-redacts the
+    // full batch. No loop: after a run, `summary` is set, so the guard is false.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
+  }, [step, summary, redacting]);
 
   // object URLs for image previews
   const urlFor = useCallback((f: WizardFile) => {
@@ -399,6 +406,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     navStyle,
     previewStyle,
     allowRevealOriginal,
+    bindFindKey,
     policy,
     categoryFor,
     detailsSlot: props.detailsSlot,

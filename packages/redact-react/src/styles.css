@@ -615,6 +615,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Per-file redaction count, shown before the name so reviewers can spot which files had matches. */
+.slup__pvCount {
+  color: var(--slup-spark);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 
 .slup__viewer {
   border: 1px solid var(--slup-border-subtle);
@@ -633,6 +639,9 @@
   padding: 9px 14px;
   border-bottom: 1px solid var(--slup-border-subtle);
   background: var(--slup-surface-raised);
+  /* Query container so the toolbar can collapse button labels when it gets narrow. */
+  container-type: inline-size;
+  container-name: slup-viewerbar;
 }
 .slup__viewerName {
   font-size: 0.82rem;
@@ -641,6 +650,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 .slup__viewerTools {
   display: flex;
@@ -674,6 +684,67 @@
 .slup__splitHint {
   font-size: 0.74rem;
   color: var(--slup-text-muted);
+}
+/* Icon-only toolbar buttons (jump prev/next, find). */
+.slup__iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 26px;
+  padding: 0;
+  cursor: pointer;
+  color: var(--slup-text-muted);
+  background: transparent;
+  border: 1px solid var(--slup-border);
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+.slup__iconBtn:hover:not(:disabled) {
+  color: var(--slup-text);
+  border-color: var(--slup-accent);
+}
+.slup__iconBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.slup__iconBtn svg {
+  width: 15px;
+  height: 15px;
+}
+.slup__posCounter {
+  font-size: 0.72rem;
+  font-family: var(--slup-font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--slup-text-muted);
+  min-width: 2.5ch;
+  text-align: center;
+  flex-shrink: 0;
+}
+.slup__toolSep {
+  width: 1px;
+  height: 18px;
+  background: var(--slup-border);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+/* When the toolbar is narrow, progressively shed chrome to keep the icon buttons usable: first the
+   toggle text labels (icons + tooltips remain), then the split hint, and only when very tight, the
+   position counter. */
+@container slup-viewerbar (max-width: 470px) {
+  .slup__toggleLabel {
+    display: none;
+  }
+}
+@container slup-viewerbar (max-width: 360px) {
+  .slup__splitHint {
+    display: none;
+  }
+}
+@container slup-viewerbar (max-width: 300px) {
+  .slup__posCounter {
+    display: none;
+  }
 }
 
 .slup__code {
@@ -725,6 +796,12 @@
   color: var(--pc, var(--slup-accent));
   font-weight: 600;
   text-decoration: line-through dotted;
+}
+/* The redaction the user has jumped to via the prev/next controls. Themeable via --slup-cm-active
+   (defaults to the spark accent). box-shadow draws a ring that follows the pill's radius without
+   shifting surrounding text. */
+.slup .slup-cm-pill--active {
+  box-shadow: 0 0 0 2px var(--slup-cm-active, var(--slup-spark));
 }
 .slup__imgWrap {
   flex: 1;
@@ -1369,32 +1446,31 @@
   .slup__rail {
     position: static;
   }
+  /* Compact horizontal stepper: distribute the numbered dots to fit the width (no horizontal scroll).
+     The active step's name still shows in the panel header, so the per-step labels are dropped. */
   .slup__steps {
     display: flex;
     gap: 4px;
-    overflow-x: auto;
   }
   .slup__step {
-    flex: 0 0 auto;
-    grid-template-columns: 30px auto;
-    padding: 6px 10px 6px 0;
+    flex: 1 1 0;
+    min-width: 0;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 4px 0;
   }
   .slup__step:not(:last-child)::before {
     display: none;
   }
-  .slup__stepHint {
+  .slup__stepText {
     display: none;
   }
   .slup__preview {
     grid-template-columns: 1fr;
   }
+  /* Keep the file list stacked vertically (not a horizontal scroll) when the preview goes single-column. */
   .slup__previewList {
-    flex-direction: row;
-    overflow-x: auto;
-    max-height: none;
-  }
-  .slup__pvItem {
-    flex: 0 0 auto;
+    max-height: 220px;
   }
 }
 @media (max-width: 560px) {

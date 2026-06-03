@@ -1,8 +1,8 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import * as Icon from "../icons.tsx";
 import { fmtBytes } from "../util.ts";
 import { useFlow, type WizardFile } from "../flow.tsx";
-import type { PreviewRenderArgs } from "../types.ts";
+import type { PreviewApi, PreviewRenderArgs } from "../types.ts";
 import { Note } from "./shared.tsx";
 
 // Lazy so the CodeMirror dependency only loads when a text preview is actually rendered. The factory
@@ -74,9 +74,86 @@ function redactedArgs(f: WizardFile, flow: ReturnType<typeof useFlow>): PreviewR
   };
 }
 
+/**
+ * Toolbar controls that drive the default CodeMirror preview: jump to prev/next redaction (with a
+ * position counter) and open the find panel. Rendered only for the built-in viewer — a host
+ * `renderPreview` exposes no {@link PreviewApi}, so these controls are hidden there.
+ */
+function PreviewToolControls({
+  api,
+  total,
+  bindFindKey,
+}: {
+  api: PreviewApi | null;
+  total: number;
+  bindFindKey: boolean;
+}) {
+  const [pos, setPos] = useState(0);
+
+  // While mounted (i.e. on the preview step), bind Ctrl/Cmd+F to the find panel so it beats the
+  // browser's native find, which can't see the virtualized text.
+  useEffect(() => {
+    if (!bindFindKey) return;
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && !e.altKey && (e.key === "f" || e.key === "F")) {
+        if (e.defaultPrevented) return; // the editor's own keymap already handled it
+        e.preventDefault();
+        api?.openSearch();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [api, bindFindKey]);
+
+  const jump = (dir: 1 | -1) => {
+    const p = api?.gotoRedaction(dir);
+    if (p) setPos(p);
+  };
+  const canJump = !!api && total > 0;
+
+  return (
+    <>
+      <span className="slup__toolSep" aria-hidden="true" />
+      <button
+        className="slup__iconBtn"
+        onClick={() => jump(-1)}
+        disabled={!canJump}
+        title="Previous redaction"
+        aria-label="Jump to previous redaction"
+      >
+        <Icon.ChevronUp />
+      </button>
+      <button
+        className="slup__iconBtn"
+        onClick={() => jump(1)}
+        disabled={!canJump}
+        title="Next redaction"
+        aria-label="Jump to next redaction"
+      >
+        <Icon.ChevronDown />
+      </button>
+      {total > 0 ? (
+        <span className="slup__posCounter" aria-label={`${pos || 0} of ${total} redactions`}>
+          {(pos || "–") + "/" + total}
+        </span>
+      ) : null}
+      <button
+        className="slup__iconBtn"
+        onClick={() => api?.toggleSearch()}
+        disabled={!api}
+        title="Find in the redacted text (Ctrl/Cmd+F). Searches the redacted output, so a value with no matches was fully redacted."
+        aria-label="Find in the redacted text"
+      >
+        <Icon.Search />
+      </button>
+    </>
+  );
+}
+
 function Viewer() {
   const flow = useFlow();
-  const { reveal, wrap, allowRevealOriginal, urlFor, policy } = flow;
+  const { reveal, wrap, allowRevealOriginal, urlFor, policy, renderPreview, bindFindKey } = flow;
+  const [api, setApi] = useState<PreviewApi | null>(null);
   const f = selectedFile(flow);
   if (!f)
     return (
@@ -86,6 +163,7 @@ function Viewer() {
     );
   const isText = f.det!.kind === "text";
   const isImg = f.det!.kind === "binary" && policy.imageExtensions.has(f.det!.ext);
+  const redactionTotal = (f.redactions ?? []).filter((r) => r.outEnd > r.outStart).length;
   return (
     <div className="slup__viewer">
       <div className="slup__viewerBar">
@@ -101,7 +179,7 @@ function Viewer() {
               title="Toggle soft line wrapping in the preview."
             >
               <Icon.WrapText />
-              {wrap ? "Wrapping" : "No wrap"}
+              <span className="slup__toggleLabel">{wrap ? "Wrapping" : "No wrap"}</span>
             </button>
             {allowRevealOriginal ? (
               <button
@@ -111,14 +189,24 @@ function Viewer() {
                 title="Local-only. Shows the original values that were replaced."
               >
                 {reveal ? <Icon.Eye /> : <Icon.EyeOff />}
-                {reveal ? "Showing original" : "Reveal original"}
+                <span className="slup__toggleLabel">
+                  {reveal ? "Showing original" : "Reveal original"}
+                </span>
               </button>
+            ) : null}
+            {!renderPreview ? (
+              <PreviewToolControls
+                key={f.id}
+                api={api}
+                total={redactionTotal}
+                bindFindKey={bindFindKey}
+              />
             ) : null}
           </div>
         ) : null}
       </div>
       {isText ? (
-        <TextPreview {...redactedArgs(f, flow)} />
+        <TextPreview {...redactedArgs(f, flow)} onReady={setApi} />
       ) : isImg ? (
         <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
           <div className="slup__imgWrap">
@@ -142,8 +230,10 @@ function Viewer() {
 
 function SplitViewer() {
   const flow = useFlow();
+  const [api, setApi] = useState<PreviewApi | null>(null);
   const f = selectedFile(flow);
   if (!f || f.det!.kind !== "text") return <Viewer />;
+  const redactionTotal = (f.redactions ?? []).filter((r) => r.outEnd > r.outStart).length;
   return (
     <div className="slup__viewer">
       <div className="slup__viewerBar">
@@ -158,8 +248,16 @@ function SplitViewer() {
             title="Toggle soft line wrapping in the preview."
           >
             <Icon.WrapText />
-            {flow.wrap ? "Wrapping" : "No wrap"}
+            <span className="slup__toggleLabel">{flow.wrap ? "Wrapping" : "No wrap"}</span>
           </button>
+          {!flow.renderPreview ? (
+            <PreviewToolControls
+              key={f.id}
+              api={api}
+              total={redactionTotal}
+              bindFindKey={flow.bindFindKey}
+            />
+          ) : null}
           <span className="slup__splitHint">Original → Redacted</span>
         </div>
       </div>
@@ -167,7 +265,7 @@ function SplitViewer() {
         <div className="slup__splitOrig">
           <TextPreview text={f.originalText ?? ""} wrap={flow.wrap} />
         </div>
-        <TextPreview {...redactedArgs(f, flow)} />
+        <TextPreview {...redactedArgs(f, flow)} onReady={setApi} />
       </div>
     </div>
   );
@@ -191,7 +289,7 @@ export function StepRedact() {
         <div style={{ color: "var(--slup-text-muted)", marginTop: 6 }}>
           {p && p.total > 1
             ? "Processed " + p.done + " of " + p.total + " files."
-            : "Runs on your device; the UI stays responsive."}
+            : "Processing locally on your device."}
         </div>
         <button
           className="slup__btn slup__btn--quiet"
@@ -205,16 +303,21 @@ export function StepRedact() {
     );
   }
 
-  const totalRed = summary ? Object.values(summary.totals).reduce((a, b) => a + b, 0) : 0;
+  const distinctValues = summary ? summary.mappingSize : 0;
+  const instances = summary
+    ? [...summary.usage.values()].reduce((a, u) => a + u.count, 0)
+    : 0;
   const catCount = summary ? Object.keys(summary.totals).length : 0;
+  const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
   return (
     <div>
       <Note icon={Icon.ShieldCheck}>
-        {totalRed > 0 ? (
+        {distinctValues > 0 ? (
           <>
-            Replaced <strong>{totalRed + " values"}</strong> across{" "}
-            <strong>{catCount + " categories"}</strong>. Hover any{" "}
+            Replaced <strong>{plural(distinctValues, "distinct value", "distinct values")}</strong> (
+            {plural(instances, "instance", "instances")}) across{" "}
+            <strong>{plural(catCount, "category", "categories")}</strong>. Hover any{" "}
             <span className="slup__spark">highlight</span> to see how often it appears and that it
             maps consistently everywhere.
           </>
@@ -228,6 +331,7 @@ export function StepRedact() {
           {uploadable.map((f) => {
             const isImg = f.det!.kind === "binary" && policy.imageExtensions.has(f.det!.ext);
             const Comp = f.det!.kind === "text" ? Icon.FileText : isImg ? Icon.Image : Icon.File;
+            const redCount = (f.redactions ?? []).filter((r) => r.outEnd > r.outStart).length;
             return (
               <button
                 key={f.id}
@@ -236,6 +340,11 @@ export function StepRedact() {
               >
                 <Comp />
                 <span className="slup__pvName" title={f.path}>
+                  {redCount > 0 ? (
+                    <span className="slup__pvCount" aria-label={`${redCount} redactions`}>
+                      ({redCount}){" "}
+                    </span>
+                  ) : null}
                   {f.name}
                 </span>
               </button>

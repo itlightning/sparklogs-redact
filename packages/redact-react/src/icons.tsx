@@ -86,6 +86,14 @@ export const X = svg(
 export const Check = svg(<path d="M20 6 9 17l-5-5" />);
 export const ChevronRight = svg(<path d="m9 18 6-6-6-6" />);
 export const ChevronLeft = svg(<path d="m15 18-6-6 6-6" />);
+export const ChevronUp = svg(<path d="m18 15-6-6-6 6" />);
+export const ChevronDown = svg(<path d="m6 9 6 6 6-6" />);
+export const Search = svg(
+  <>
+    <circle cx={11} cy={11} r={8} />
+    <path d="m21 21-4.3-4.3" />
+  </>,
+);
 export const Info = svg(
   <>
     <circle cx={12} cy={12} r={10} />

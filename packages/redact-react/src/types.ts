@@ -21,6 +21,28 @@ export interface PreviewRenderArgs {
   categoryFor?: (category: string) => CategoryDisplay;
   /** Cross-file usage aggregate, keyed by replacement, for hover metadata. */
   usage?: Map<string, { replacement: string; category: string; count: number; files: Set<string> }>;
+  /**
+   * Called when the viewer mounts (with an imperative {@link PreviewApi}) and on unmount (with null).
+   * The default CodeMirror viewer provides one so the toolbar can drive jump-to-redaction and the
+   * search panel; a custom preview may omit it (those controls then hide).
+   */
+  onReady?: (api: PreviewApi | null) => void;
+}
+
+/**
+ * Imperative handle a preview can expose via {@link PreviewRenderArgs.onReady} so the toolbar (and the
+ * Ctrl/Cmd+F binding) can drive it. All operations target this preview's own document.
+ */
+export interface PreviewApi {
+  /** Number of highlightable redactions in the current document. */
+  redactionCount: number;
+  /** Move the cursor to the next (`1`) / previous (`-1`) redaction and scroll it into view. Returns the
+   * new 1-based position, or 0 when there are none. Wraps around the ends. */
+  gotoRedaction: (dir: 1 | -1) => number;
+  /** Open the find panel (if closed) and focus + select its query field. */
+  openSearch: () => void;
+  /** Toggle the find panel open/closed (focusing the field when opening). */
+  toggleSearch: () => void;
 }
 
 /** Built-in @sparklogs/redact-core detection profiles this wizard can compose. */
@@ -195,6 +217,12 @@ export interface RedactUploadWizardProps {
    * the in-browser file text and never transmitted. Default true.
    */
   allowRevealOriginal?: boolean;
+  /**
+   * While the preview step is active, bind Ctrl/Cmd+F to open the preview's find panel (instead of the
+   * browser's native find, which can't see the virtualized text). Default true; set false to leave the
+   * native find shortcut alone.
+   */
+  bindFindKey?: boolean;
   /** Override category display (label/color/desc) by redact-core category key. */
   categoryMeta?: Record<string, Partial<CategoryDisplay>>;
 }
