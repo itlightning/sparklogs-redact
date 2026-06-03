@@ -11,9 +11,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w @sparklogs/redact-core && npm run build -w @sparklogs/redact-cli",
+    "build": "npm run build -w @sparklogs/redact-core && npm run build -w @sparklogs/redact-cli && npm run build -w @sparklogs/redact-react",
     "test": "npm run test --workspaces --if-present",
-    "typecheck": "tsc -p packages/redact-core && tsc -p packages/redact-cli",
+    "typecheck": "tsc -p packages/redact-core && tsc -p packages/redact-cli && tsc -p packages/redact-react",
     "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo"
   },
   "devDependencies": {

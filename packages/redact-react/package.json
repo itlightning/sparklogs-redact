@@ -1,0 +1,50 @@
+{
+  "name": "@sparklogs/redact-react",
+  "version": "0.2.0",
+  "description": "Reusable React wizard for in-browser, redact-locally-then-upload flows. Classifies files, redacts PII with @sparklogs/redact-core, shows a before/after preview, and hands a redacted payload to a host-supplied onSubmit. Themeable via CSS variables; transport- and captcha-agnostic.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "node --test",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@sparklogs/redact-core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "keywords": [
+    "pii",
+    "redaction",
+    "react",
+    "upload",
+    "privacy",
+    "logs"
+  ]
+}
