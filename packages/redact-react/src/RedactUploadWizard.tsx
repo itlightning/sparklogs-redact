@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import * as Icon from "./icons.tsx";
 import type { RedactUploadWizardProps } from "./types.ts";
 import { FlowProvider, useFlow } from "./flow.tsx";
 import { FloatingTip } from "./components/shared.tsx";
 import { StepSelect } from "./components/StepSelect.tsx";
 import { StepReview } from "./components/StepReview.tsx";
-import { StepRedact } from "./components/StepRedact.tsx";
+import { StepRedact, prefetchCodeMirrorPreview } from "./components/StepRedact.tsx";
 import { StepDetails, ConsentModal } from "./components/StepDetails.tsx";
 import { StepSend } from "./components/StepSend.tsx";
 
@@ -20,7 +21,7 @@ function Stepper() {
   const { step, maxReached, upState, setStep, copy } = useFlow();
   const locked = upState === "running" || upState === "done";
   return (
-    <nav className="slup__rail">
+    <nav className="slup__rail" aria-label={copy.railTitle}>
       <div className="slup__railTitle">{copy.railTitle}</div>
       <ol className="slup__steps">
         {STEPS.map((s, i) => {
@@ -32,9 +33,24 @@ function Stepper() {
               className={
                 "slup__step slup__step--" + state + (clickable ? " slup__step--clickable" : "")
               }
-              onClick={clickable ? () => setStep(i) : undefined}
+              aria-current={state === "active" ? "step" : undefined}
+              {...(clickable
+                ? {
+                    role: "button",
+                    tabIndex: 0,
+                    onClick: () => setStep(i),
+                    onKeyDown: (e: React.KeyboardEvent) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setStep(i);
+                      }
+                    },
+                  }
+                : {})}
             >
-              <span className="slup__dot">{state === "done" ? <Icon.Check /> : i + 1}</span>
+              <span className="slup__dot" aria-hidden="true">
+                {state === "done" ? <Icon.Check /> : i + 1}
+              </span>
               <span className="slup__stepText">
                 <span className="slup__stepLabel">{s.label}</span>
                 <span className="slup__stepHint">{s.hint}</span>
@@ -146,6 +162,27 @@ function WizardShell() {
  * the host's `onSubmit`. Import the stylesheet once: `import "@sparklogs/redact-react/styles.css"`.
  */
 export function RedactUploadWizard(props: RedactUploadWizardProps) {
+  // Warm the lazy CodeMirror preview chunk right after first paint (during idle time), so it's loaded
+  // by the time the user reaches the preview step without delaying the wizard's initial render. Skipped
+  // when the host renders its own preview, since CodeMirror is then never used.
+  const hasCustomPreview = !!props.renderPreview;
+  useEffect(() => {
+    if (hasCustomPreview) return;
+    // `requestIdleCallback` isn't in every engine (e.g. older Safari), so feature-detect via a plain
+    // optional-shaped view of `window` rather than the DOM lib's non-optional declaration.
+    const w = window as unknown as {
+      requestIdleCallback?: (cb: () => void) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const id = w.requestIdleCallback
+      ? w.requestIdleCallback(prefetchCodeMirrorPreview)
+      : window.setTimeout(prefetchCodeMirrorPreview, 200);
+    return () => {
+      if (w.requestIdleCallback && w.cancelIdleCallback) w.cancelIdleCallback(id);
+      else window.clearTimeout(id);
+    };
+  }, [hasCustomPreview]);
+
   return (
     <FlowProvider props={props}>
       <WizardShell />

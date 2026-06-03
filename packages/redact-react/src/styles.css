@@ -694,9 +694,37 @@
   flex: 1;
   min-height: 0;
 }
+.slup__split > * {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
 .slup__splitOrig {
   border-right: 1px solid var(--slup-border-subtle);
-  color: var(--slup-bad);
+}
+
+/* CodeMirror 6 preview (virtualized, viewport-only). The editor fills the viewer body; redaction
+   ranges are decorated with .slup-cm-pill. */
+.slup__cm {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.slup__cm .cm-editor {
+  height: 100%;
+}
+.slup .slup-cm-pill {
+  background: var(--pc, var(--slup-accent));
+  color: #06101a;
+  border-radius: 4px;
+  padding: 0 2px;
+}
+.slup .slup-cm-pill--revealed {
+  background: transparent;
+  color: var(--pc, var(--slup-accent));
+  font-weight: 600;
+  text-decoration: line-through dotted;
 }
 .slup__imgWrap {
   flex: 1;

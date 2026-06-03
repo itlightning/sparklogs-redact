@@ -11,7 +11,14 @@ export function fmtBytes(n: number): string {
   return (n < 10 ? n.toFixed(1) : Math.round(n)) + " " + u[i];
 }
 
-export const uid = (): string => Math.random().toString(36).slice(2, 9);
+/** Collision-resistant id for React keys / internal file handles. Prefers crypto.randomUUID (secure
+ *  contexts), falling back to Math.random for non-secure-origin dev. */
+export function uid(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return Math.random().toString(36).slice(2, 10);
+}
 
 /** A human-friendly upload reference id, e.g. "SLU-260601-A3K2". */
 export function genRef(): string {

@@ -59,7 +59,7 @@ export function StepSend() {
   if (upState === "error") {
     return (
       <div className="slup__upWrap">
-        <Note variant="bad" icon={Icon.Alert}>
+        <Note variant="bad" icon={Icon.Alert} role="alert">
           {upError}
         </Note>
         <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 22 }}>
@@ -84,14 +84,27 @@ export function StepSend() {
   return (
     <div className="slup__upWrap">
       <div className="slup__upBig">
-        <div className="slup__upPct">
+        <div className="slup__upPct" aria-hidden="true">
           {pct != null ? pct + "%" : <Icon.Loader className="slup__spin" />}
         </div>
-        <div className="slup__upState">
-          {"Uploading " + uploadable.length + " redacted file" + (uploadable.length > 1 ? "s" : "") + " over TLS…"}
+        <div className="slup__upState" role="status" aria-live="polite">
+          {"Uploading " +
+            uploadable.length +
+            " redacted file" +
+            (uploadable.length > 1 ? "s" : "") +
+            " over TLS…" +
+            (pct != null ? " " + pct + "%" : "")}
         </div>
       </div>
-      <div className="slup__meterTrack" style={{ height: 10, marginBottom: 18 }}>
+      <div
+        className="slup__meterTrack"
+        style={{ height: 10, marginBottom: 18 }}
+        role="progressbar"
+        aria-label="Upload progress"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={pct ?? undefined}
+      >
         <div className="slup__meterFill" style={{ width: (pct ?? 4) + "%" }} />
       </div>
       <div className="slup__upList">

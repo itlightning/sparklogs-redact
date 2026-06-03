@@ -13,6 +13,7 @@ export type {
   ProfileName,
   Detection,
   ClassifyPolicy,
+  PreviewRenderArgs,
 } from "./types.ts";
 export { DEFAULT_CATEGORY_META } from "./categoryMeta.ts";
 export { classifyFile, DEFAULT_IMAGE_EXTS, DEFAULT_DOC_EXTS } from "./classify.ts";

@@ -1,7 +1,7 @@
 // Redaction adapter over @sparklogs/redact-core. Runs every text file through ONE shared correlation
 // map (redactMany), then derives the cross-file "usage" aggregate and per-category totals the
 // preview UI needs — neither of which the core tracks, because they only matter to a batch UI.
-import { Redactor, loadProfile } from "@sparklogs/redact-core";
+import { Redactor, MappingEngine, loadProfile } from "@sparklogs/redact-core";
 import type { Detector, RedactionRecord } from "@sparklogs/redact-core";
 import type { ProfileName } from "./types.ts";
 
@@ -41,19 +41,24 @@ function detectorsFor(profiles: ProfileName[]): Detector[] {
   return [...byName.values()];
 }
 
-/** Redact a batch of text files together; returns redacted text + UI-facing aggregates. */
+/**
+ * Redact a batch of text files together; returns redacted text + UI-facing aggregates. All files go
+ * through ONE shared correlation map so the same token gets the same fake everywhere. `onProgress`,
+ * if given, fires after each file (so a UI — or the worker — can report file-level progress).
+ */
 export function runRedaction(
   files: { id: string; text: string }[],
   profiles: ProfileName[],
+  onProgress?: (done: number, total: number) => void,
 ): RedactionSummary {
   const redactor = new Redactor(detectorsFor(profiles));
-  const { results } = redactor.redactMany(files.map((f) => f.text));
+  const mapping = new MappingEngine();
 
   const byId = new Map<string, FileRedaction>();
   const usage = new Map<string, UsageEntry>();
 
-  results.forEach((res, i) => {
-    const f = files[i];
+  files.forEach((f, i) => {
+    const res = redactor.redact(f.text, mapping);
     byId.set(f.id, { text: res.text, redactions: res.redactions, stats: res.stats });
     for (const rec of res.redactions) {
       let u = usage.get(rec.replacement);
@@ -64,6 +69,7 @@ export function runRedaction(
       u.count++;
       u.files.add(f.id);
     }
+    onProgress?.(i + 1, files.length);
   });
 
   const totals: Record<string, number> = {};

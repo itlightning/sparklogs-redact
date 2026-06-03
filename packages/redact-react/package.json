@@ -1,8 +1,21 @@
 {
   "name": "@sparklogs/redact-react",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "Reusable React wizard for in-browser, redact-locally-then-upload flows. Classifies files, redacts PII with @sparklogs/redact-core, shows a before/after preview, and hands a redacted payload to a host-supplied onSubmit. Themeable via CSS variables; transport- and captcha-agnostic.",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "IT Lightning, LLC (https://sparklogs.com)",
+  "homepage": "https://github.com/itlightning/sparklogs-redact/tree/main/packages/redact-react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itlightning/sparklogs-redact.git",
+    "directory": "packages/redact-react"
+  },
+  "bugs": {
+    "url": "https://github.com/itlightning/sparklogs-redact/issues"
+  },
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -17,16 +30,23 @@
     },
     "./styles.css": "./dist/styles.css"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
-    "dist"
+    "dist",
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "tsup",
-    "test": "node --test",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.34.1",
     "@sparklogs/redact-core": "^0.1.0"
   },
   "peerDependencies": {
@@ -34,10 +54,16 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "happy-dom": "^15.11.7",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "vitest": "^2.1.9"
   },
   "keywords": [
     "pii",

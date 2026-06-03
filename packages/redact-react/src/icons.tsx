@@ -1,5 +1,6 @@
-// Lucide-style inline icons (stroke 2, round caps). Self-contained so the package pulls in no icon
-// dependency. Each icon is a function component taking standard SVG props.
+// Icon path data is from Lucide (https://lucide.dev), ISC licensed — see THIRD-PARTY-NOTICES.md.
+// Inlined as small SVG components (not an icon dependency) so the package pulls in no icon runtime.
+// Each icon is a function component taking standard SVG props (stroke 2, round caps).
 import type { SVGProps } from "react";
 
 type IconProps = SVGProps<SVGSVGElement>;
@@ -125,6 +126,14 @@ export const EyeOff = svg(
     <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
     <path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
     <line x1={2} y1={2} x2={22} y2={22} />
+  </>,
+);
+export const WrapText = svg(
+  <>
+    <line x1={3} y1={6} x2={21} y2={6} />
+    <path d="M3 12h15a3 3 0 1 1 0 6h-4" />
+    <polyline points="16 16 14 18 16 20" />
+    <line x1={3} y1={18} x2={10} y2={18} />
   </>,
 );
 export const Loader = svg(

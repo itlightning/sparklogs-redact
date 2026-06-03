@@ -3,6 +3,19 @@
   "version": "0.1.0",
   "description": "Node CLI for @sparklogs/redact-core: redact PII in log files and scan for residual (un-redacted) PII as a CI gate.",
   "license": "MIT",
+  "author": "IT Lightning, LLC (https://sparklogs.com)",
+  "homepage": "https://github.com/itlightning/sparklogs-redact/tree/main/packages/redact-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itlightning/sparklogs-redact.git",
+    "directory": "packages/redact-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/itlightning/sparklogs-redact/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=20"

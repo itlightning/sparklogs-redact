@@ -1,4 +1,27 @@
 import type { ReactNode } from "react";
+import type { RedactionRecord } from "@sparklogs/redact-core";
+
+/**
+ * Args passed to a custom `renderPreview`. The default preview is a virtualized CodeMirror 6 viewer
+ * that highlights each redaction range (`outStart`/`outEnd`) and, when `reveal` is set, shows the
+ * original token sliced from `originalText` via the input offsets.
+ */
+export interface PreviewRenderArgs {
+  /** The text to render (redacted text for the right pane; original for the split left pane). */
+  text: string;
+  /** Redaction records to highlight; omit for a plain (un-highlighted) document. */
+  redactions?: RedactionRecord[];
+  /** Original decoded text (present only when reveal/split need it). */
+  originalText?: string;
+  /** Whether to reveal originals in place of the fakes. */
+  reveal?: boolean;
+  /** Soft-wrap long lines (default true). When false, the viewer scrolls horizontally instead. */
+  wrap?: boolean;
+  /** Resolve a category's display (label/color). */
+  categoryFor?: (category: string) => CategoryDisplay;
+  /** Cross-file usage aggregate, keyed by replacement, for hover metadata. */
+  usage?: Map<string, { replacement: string; category: string; count: number; files: Set<string> }>;
+}
 
 /** Built-in @sparklogs/redact-core detection profiles this wizard can compose. */
 export type ProfileName = "windows-log" | "generic" | "secret";
@@ -150,6 +173,17 @@ export interface RedactUploadWizardProps {
   imageExtensions?: string[];
   /** Allow-listed document extensions (lowercase, no dot). Uploaded as-is, not redacted. */
   docExtensions?: string[];
+  /**
+   * Escape hatch for constructing the redaction Web Worker if your bundler needs specific syntax. The
+   * component bundles + instantiates its own worker by default, and falls back to a synchronous
+   * in-thread pass if a worker can't be created, so this is rarely needed.
+   */
+  createWorker?: () => Worker;
+  /**
+   * Override the text preview. By default the component lazy-loads a virtualized CodeMirror 6 viewer.
+   * Provide this to render your own (e.g. to drop the CodeMirror dependency).
+   */
+  renderPreview?: (args: PreviewRenderArgs) => ReactNode;
   /** Which detection profiles to compose. Default: all three. */
   profiles?: ProfileName[];
   /** Stepper layout. Default "rail". */

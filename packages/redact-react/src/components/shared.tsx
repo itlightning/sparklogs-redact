@@ -6,16 +6,18 @@ import { useFlow, type WizardFile } from "../flow.tsx";
 export function Note({
   variant,
   icon: IconComp = Icon.Info,
+  role,
   children,
 }: {
   variant?: "warn" | "bad";
   icon?: (p: any) => ReactNode;
+  role?: string;
   children: ReactNode;
 }) {
   const cls = "slup__note" + (variant ? " slup__note--" + variant : "");
   return (
-    <div className={cls}>
-      <IconComp />
+    <div className={cls} role={role}>
+      <IconComp aria-hidden="true" />
       <span>{children}</span>
     </div>
   );
@@ -38,6 +40,7 @@ function TypeBadge({ det }: { det: WizardFile["det"] }) {
     <span
       className="slup__badge slup__badge--rejected"
       tabIndex={0}
+      aria-label={"Skipped. " + meta}
       onMouseEnter={(e) => showTip(e, "Skipped", "var(--slup-text-muted)", meta)}
       onMouseLeave={hideTip}
       onFocus={(e) => showTip(e, "Skipped", "var(--slup-text-muted)", meta)}
@@ -72,6 +75,8 @@ function NoRedactTag({ det }: { det: WizardFile["det"] }) {
     <span
       className="slup__tag"
       tabIndex={0}
+      role="img"
+      aria-label={"Not redacted. " + meta}
       onMouseEnter={(e) => showTip(e, "Not redacted", "var(--slup-warn)", meta)}
       onMouseLeave={hideTip}
       onFocus={(e) => showTip(e, "Not redacted", "var(--slup-warn)", meta)}
@@ -127,6 +132,8 @@ export function FloatingTip() {
   return (
     <div
       className="slup__floatTip"
+      role="tooltip"
+      aria-hidden="true"
       style={{
         left: tip.left + "px",
         top: (above ? tip.top - 10 : tip.bottom + 10) + "px",

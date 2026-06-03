@@ -1,5 +1,4 @@
-import { test } from "node:test";
-import assert from "node:assert/strict";
+import { test, expect } from "vitest";
 import { initConsents, toggleConsent, validateConsents } from "../src/consent.ts";
 import type { ConsentItem } from "../src/types.ts";
 
@@ -10,34 +9,34 @@ const ITEMS: ConsentItem[] = [
 ];
 
 test("initConsents: everything starts unchecked", () => {
-  assert.deepEqual(initConsents(ITEMS), { support: false, product: false, community: false });
+  expect(initConsents(ITEMS)).toEqual({ support: false, product: false, community: false });
 });
 
 test("toggleConsent: checking a child also checks what it implies", () => {
   let c = initConsents(ITEMS);
   c = toggleConsent(c, ITEMS, "community");
-  assert.equal(c.community, true);
-  assert.equal(c.product, true, "community implies product");
+  expect(c.community).toBe(true);
+  expect(c.product, "community implies product").toBe(true);
 });
 
 test("toggleConsent: unchecking a parent also unchecks anything that implies it", () => {
-  let c = { support: true, product: true, community: true };
+  let c: Record<string, boolean> = { support: true, product: true, community: true };
   c = toggleConsent(c, ITEMS, "product");
-  assert.equal(c.product, false);
-  assert.equal(c.community, false, "community can't stay checked without product");
-  assert.equal(c.support, true, "unrelated consent untouched");
+  expect(c.product).toBe(false);
+  expect(c.community, "community can't stay checked without product").toBe(false);
+  expect(c.support, "unrelated consent untouched").toBe(true);
 });
 
 test("toggleConsent: checking the parent alone does not check the child", () => {
   let c = initConsents(ITEMS);
   c = toggleConsent(c, ITEMS, "product");
-  assert.equal(c.product, true);
-  assert.equal(c.community, false);
+  expect(c.product).toBe(true);
+  expect(c.community).toBe(false);
 });
 
 test("validateConsents: flags only unchecked required items", () => {
-  assert.deepEqual(validateConsents({ support: false, product: false, community: false }, ITEMS), {
+  expect(validateConsents({ support: false, product: false, community: false }, ITEMS)).toEqual({
     support: "Required to proceed",
   });
-  assert.deepEqual(validateConsents({ support: true, product: false, community: false }, ITEMS), {});
+  expect(validateConsents({ support: true, product: false, community: false }, ITEMS)).toEqual({});
 });

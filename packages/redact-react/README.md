@@ -50,6 +50,14 @@ See `RedactUploadWizardProps` for policy knobs (`maxTotalBytes`, `maxFiles`, `im
 `docExtensions`, `profiles`), layout (`navStyle`, `previewStyle`), `allowRevealOriginal`, and
 `categoryMeta` overrides.
 
+- **`renderPreview(args)`** (optional) replaces the default text preview. By default the component
+  lazy-loads a virtualized CodeMirror 6 viewer (only fetched at the preview step); provide this to
+  render your own viewer (e.g. to drop the CodeMirror dependency). `args` (`PreviewRenderArgs`) carries
+  the text, the redaction records with output offsets, the category resolver, and the reveal flag.
+- **`createWorker()`** (optional) overrides how the redaction Web Worker is constructed, for bundlers
+  that need specific syntax. The component bundles + instantiates its own worker by default and falls
+  back to a synchronous in-thread pass if a worker can't be created, so this is rarely needed.
+
 ## Theming
 
 All visuals are driven by `--slup-*` custom properties (see [`src/styles.css`](src/styles.css) for the
@@ -85,13 +93,58 @@ npm run build -w @sparklogs/redact-core
 npx tsup --watch --config packages/redact-react/tsup.config.ts   # rebuilds dist on save
 ```
 
-## Deferred (not in v1)
+## Accessibility
 
-- **Web Worker redaction** — `runRedaction` is eager/in-memory; fine for typical logs. Move it to a
-  worker for multi-MB inputs so the main thread stays responsive.
-- **Virtualized preview** — the before/after view renders the whole file; swap the `<pre>` for a
-  windowed/virtualized text view (CodeMirror 6 / `react-window`) for very large files.
+- Form fields use associated `<label htmlFor>` + `aria-required`, and errors link via
+  `aria-invalid`/`aria-describedby` (and announce with `role="alert"`). The pre-submit modal traps
+  focus, restores it on close, and closes on Escape (`role="dialog"` + `aria-labelledby`).
+- Upload progress is a `role="progressbar"`; status changes ("Anonymizing…", upload state) use polite
+  live regions; redaction-highlight pills and the skipped/not-redacted badges carry `aria-label`s.
+- Keyboard-operable throughout (stepper steps, pills, file controls).
+
+## Browser support
+
+Targets modern evergreen browsers. The default stylesheet uses CSS `color-mix()` (Chrome/Edge 111+,
+Safari 16.2+, Firefox 113+) for subtle surface tints — override the affected `--slup-*` variables if
+you must support older engines. Requires the File/Blob and `TextDecoder` APIs; `crypto.randomUUID` is
+used when available (secure context) with a graceful fallback.
+
+## Styling contract
+
+Styles are global, BEM-prefixed (`.slup__*`) under a single `.slup` root, and **fully scoped** to that
+root (the package never styles host elements). The public, stable surface for theming is the
+`--slup-*` custom properties and the `.slup` root class — these are intentionally global so hosts can
+theme via variables and, if needed, override a class. Import the stylesheet once:
+`import "@sparklogs/redact-react/styles.css"`.
+
+## Large-file performance
+
+- **Off-thread redaction** — the redaction pass runs in a Web Worker, so the main thread stays
+  responsive on multi-MB inputs; the wizard shows per-file progress and a working Cancel. If a worker
+  can't be constructed (CSP, unusual bundler), it transparently falls back to a synchronous in-thread
+  pass. Override worker construction with `createWorker` if your bundler needs it.
+- **Virtualized preview** — the default preview is a CodeMirror 6 viewer that only renders the visible
+  viewport (the whole multi-MB document is never in the DOM at once). It loads in its own async chunk:
+  CodeMirror is fetched only when the component is used (never on other pages), prefetched at idle after
+  first paint so it's ready by the preview step, and is rendered lazily there. Swap it out entirely with
+  `renderPreview` to drop the dependency.
+
+### Deferred enhancements
+
+- **Streaming / bounded memory**: the engine would decode and redact each file fully in memory. For inputs
+  large enough to strain memory (hundreds of MB), a chunked/streaming pass would be needed; the
+  detectors that span lines (e.g. PEM blocks) make this non-trivial. Not yet implemented.
+
+## Acknowledgements
+
+Thank you to the authors of these awesome packages:
+
+- [**CodeMirror 6**](https://codemirror.dev) (by Marijn Haverbeke and contributors): powers the
+  default virtualized before/after preview.
+- [**Lucide Icons**](https://lucide.dev) (ISC): we inlined as as
+  small SVG components. See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
 
 ## License
 
-[MIT](../../LICENSE)
+[MIT](../../LICENSE). Third-party notices for redistributed material are in
+[THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

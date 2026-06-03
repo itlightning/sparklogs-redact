@@ -2,7 +2,7 @@
   "name": "sparklogs-redact",
   "private": true,
   "type": "module",
-  "description": "Monorepo for @sparklogs/redact-* — consistent PII pseudonymisation + residual-PII scanning for logs. Framework-agnostic core, a Node CLI, and (forthcoming) React components for in-browser redaction.",
+  "description": "Monorepo for @sparklogs/redact-* — consistent PII pseudonymisation + residual-PII scanning for logs. Framework-agnostic core, a Node CLI, and React components for in-browser redaction.",
   "license": "MIT",
   "engines": {
     "node": ">=20"

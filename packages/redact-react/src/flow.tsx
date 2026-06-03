@@ -20,12 +20,9 @@ import type {
 } from "./types.ts";
 import { classifyFile, DEFAULT_DOC_EXTS, DEFAULT_IMAGE_EXTS } from "./classify.ts";
 import { resolveCategoryMeta } from "./categoryMeta.ts";
-import {
-  runRedaction as runRedactionBatch,
-  type RedactionSummary,
-  type UsageEntry,
-} from "./redaction.ts";
-import { fromDataTransfer, genRef, readFileText, uid } from "./util.ts";
+import { type RedactionSummary, type UsageEntry } from "./redaction.ts";
+import { fromDataTransfer, genRef, uid } from "./util.ts";
+import { runRedactionOffThread } from "./worker-runner.ts";
 import {
   initConsents,
   toggleConsent as applyConsentToggle,
@@ -77,6 +74,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   const previewStyle = props.previewStyle ?? "inline";
   const allowRevealOriginal = props.allowRevealOriginal ?? true;
   const profiles = props.profiles ?? DEFAULT_PROFILES;
+  const createWorker = props.createWorker;
   const consentItems = props.consents;
   const nudgeConfig = props.nudge ?? null;
   const copy = useMemo(() => ({ ...DEFAULT_COPY, ...props.copy }), [props.copy]);
@@ -101,9 +99,12 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   const [files, setFiles] = useState<WizardFile[]>([]);
   const [dragOver, setDragOver] = useState(false);
   const [redacting, setRedacting] = useState(false);
+  const [redactProgress, setRedactProgress] = useState<{ done: number; total: number } | null>(null);
+  const redactAbortRef = useRef<AbortController | null>(null);
   const [summary, setSummary] = useState<RedactionSummary | null>(null);
   const [sel, setSel] = useState<string | null>(null);
   const [reveal, setReveal] = useState(false);
+  const [wrap, setWrap] = useState(true); // text preview soft-wraps long lines by default
   const [tip, setTip] = useState<Tip | null>(null);
   const [form, setForm] = useState<FormFields>(() => ({
     name: "",
@@ -187,33 +188,56 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   const clearAll = useCallback(() => setFiles([]), []);
 
   // ---- redaction pass ---------------------------------------------------
+  // Redaction runs off the main thread (Web Worker) when possible so the UI stays responsive and shows
+  // progress; it transparently falls back to a synchronous pass. `originalText` is only fetched when
+  // the reveal feature or split preview actually needs it (memory win for large files otherwise).
   const runRedaction = useCallback(async () => {
+    const controller = new AbortController();
+    redactAbortRef.current = controller;
     setRedacting(true);
     setSummary(null);
-    const reads = await Promise.all(
-      textFiles.map(async (f) => ({ id: f.id, text: await readFileText(f.file) })),
-    );
-    const textById = new Map(reads.map((r) => [r.id, r.text]));
-    // brief pause so the work is visible
-    await new Promise((r) => setTimeout(r, 500));
-    const result = runRedactionBatch(reads, profiles);
-    setFiles((prev) =>
-      prev.map((p) => {
-        const fr = result.byId.get(p.id);
-        if (!fr) return p;
-        return {
-          ...p,
-          originalText: textById.get(p.id),
-          redactedText: fr.text,
-          redactions: fr.redactions,
-          stats: fr.stats,
-        };
-      }),
-    );
-    setSummary(result);
+    setRedactProgress(null);
+    const needsOriginal = allowRevealOriginal || previewStyle === "split";
+    try {
+      const { summary: result, originals } = await runRedactionOffThread(
+        textFiles.map((f) => ({ id: f.id, file: f.file })),
+        profiles,
+        {
+          needsOriginal,
+          onProgress: (done, total) => setRedactProgress({ done, total }),
+          signal: controller.signal,
+          createWorker,
+        },
+      );
+      setFiles((prev) =>
+        prev.map((p) => {
+          const fr = result.byId.get(p.id);
+          if (!fr) return p;
+          return {
+            ...p,
+            originalText: originals[p.id],
+            redactedText: fr.text,
+            redactions: fr.redactions,
+            stats: fr.stats,
+          };
+        }),
+      );
+      setSummary(result);
+      setSel((cur) => cur ?? uploadable[0]?.id ?? null);
+    } catch {
+      if (controller.signal.aborted) return; // canceled — cancelRedaction handles navigation
+      setSummary(EMPTY_SUMMARY); // defensive: never leave the wizard stuck on the spinner
+    } finally {
+      if (!controller.signal.aborted) setRedacting(false);
+    }
+  }, [textFiles, profiles, uploadable, allowRevealOriginal, previewStyle, createWorker]);
+
+  const cancelRedaction = useCallback(() => {
+    redactAbortRef.current?.abort();
     setRedacting(false);
-    setSel((cur) => cur ?? uploadable[0]?.id ?? null);
-  }, [textFiles, profiles, uploadable]);
+    setRedactProgress(null);
+    goto(1); // leave the preview step so the auto-run effect doesn't immediately re-trigger
+  }, [goto]);
 
   // auto-run redaction on arrival at the preview step (guarded against loops via a ref)
   const runRef = useRef(runRedaction);
@@ -378,6 +402,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     policy,
     categoryFor,
     detailsSlot: props.detailsSlot,
+    renderPreview: props.renderPreview,
     consentItems,
     consentGroups: props.consentGroups,
     nudgeConfig,
@@ -388,9 +413,11 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     files,
     dragOver,
     redacting,
+    redactProgress,
     summary,
     sel,
     reveal,
+    wrap,
     tip,
     form,
     errs,
@@ -409,6 +436,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     setDragOver,
     setSel,
     setReveal,
+    setWrap,
     setNudge,
     setForm,
     setFormField,
@@ -425,6 +453,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     proceedToUpload,
     startUpload,
     cancelUpload,
+    cancelRedaction,
     resetAll,
     showTip,
     hideTip,
