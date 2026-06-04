@@ -1,0 +1,1592 @@
+/* ============================================================================
+   @sparklogs/redact-react — default styles
+   ----------------------------------------------------------------------------
+   The component is themed entirely through its OWN custom properties (--slup-*).
+   These defaults are a neutral dark theme — no host-specific tokens. To reskin,
+   override any --slup-* var on a wrapper (or :root). Nothing here references an
+   external design system.
+   ============================================================================ */
+
+.slup {
+  /* surfaces */
+  --slup-bg: #0b0f17;
+  --slup-surface: #131a24;
+  --slup-surface-raised: #1b232f;
+  --slup-surface-hover: rgba(255, 255, 255, 0.05);
+  --slup-surface-selected: rgba(255, 255, 255, 0.08);
+  /* lines */
+  --slup-border: #34404e;
+  --slup-border-subtle: #232c38;
+  --slup-border-accent: #2f6df0;
+  /* text */
+  --slup-text: #eef2f7;
+  --slup-text-2: #c4ccd6;
+  --slup-text-muted: #8492a2;
+  /* accents */
+  --slup-accent: #5aa6ff;
+  --slup-spark: #ffd23f;
+  --slup-spark-soft: #ffe07a;
+  --slup-good: #4fd869;
+  --slup-warn: #ffb020;
+  --slup-bad: #ff6b6b;
+  /* radii / shadow / motion */
+  --slup-radius: 8px;
+  --slup-radius-sm: 4px;
+  --slup-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --slup-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --slup-dur: 0.2s;
+  /* fonts */
+  --slup-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --slup-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* redaction category colors (keys match @sparklogs/redact-core categories) */
+  --slup-cat-username: #ffe066;
+  --slup-cat-email: #5aa6ff;
+  --slup-cat-ip: #4fd869;
+  --slup-cat-mac: #f38ff0;
+  --slup-cat-card: #ff6b6b;
+  --slup-cat-ssn: #ff9f43;
+  --slup-cat-phone: #2bb4ff;
+  --slup-cat-host: #b89cff;
+  --slup-cat-sid: #9aa7b5;
+  --slup-cat-secret: #ffc400;
+
+  color: var(--slup-text);
+  font-family: var(--slup-font-sans);
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.slup *,
+.slup *::before,
+.slup *::after {
+  box-sizing: border-box;
+}
+
+/* ---- top-level layout: rail + main ---------------------------------------- */
+.slup__shell {
+  display: grid;
+  grid-template-columns: 264px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+.slup--top .slup__shell {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* =====================================================================
+   STEPPER (vertical rail)
+   ===================================================================== */
+.slup__rail {
+  position: sticky;
+  top: 84px;
+  background: var(--slup-surface);
+  border: 1px solid var(--slup-border);
+  border-radius: var(--slup-radius);
+  padding: 22px 20px;
+  box-shadow: var(--slup-shadow);
+}
+.slup__railTitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--slup-spark);
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.slup__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.slup__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 9px 0;
+  cursor: default;
+}
+.slup__step--clickable {
+  cursor: pointer;
+}
+.slup__step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 38px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--slup-border-subtle);
+}
+.slup__step--done:not(:last-child)::before {
+  background: var(--slup-accent);
+}
+.slup__dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 2px solid var(--slup-border);
+  background: var(--slup-surface-raised);
+  color: var(--slup-text-muted);
+  transition: all var(--slup-dur) var(--slup-ease);
+  z-index: 1;
+}
+.slup__step--active .slup__dot {
+  border-color: var(--slup-accent);
+  color: #04121f;
+  background: var(--slup-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--slup-accent) 22%, transparent);
+}
+.slup__step--done .slup__dot {
+  border-color: var(--slup-accent);
+  color: var(--slup-accent);
+  background: color-mix(in srgb, var(--slup-accent) 14%, transparent);
+}
+.slup__stepText {
+  padding-top: 3px;
+  display: flex;
+  flex-direction: column;
+}
+.slup__stepLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--slup-text-2);
+  display: block;
+}
+.slup__step--active .slup__stepLabel,
+.slup__step--done .slup__stepLabel {
+  color: var(--slup-text);
+}
+.slup__stepHint {
+  font-size: 0.78rem;
+  color: var(--slup-text-muted);
+  margin-top: 2px;
+}
+
+/* horizontal variant ------------------------------------------------------- */
+.slup--top .slup__rail {
+  position: static;
+  padding: 16px 20px;
+}
+.slup--top .slup__railTitle {
+  display: none;
+}
+.slup--top .slup__steps {
+  display: flex;
+  gap: 6px;
+}
+.slup--top .slup__step {
+  flex: 1;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+  grid-template-rows: 30px auto;
+  gap: 8px;
+  padding: 4px 0;
+}
+.slup--top .slup__step:not(:last-child)::before {
+  left: calc(50% + 22px);
+  right: auto;
+  top: 14px;
+  bottom: auto;
+  width: calc(100% - 44px);
+  height: 2px;
+}
+.slup--top .slup__stepHint {
+  display: none;
+}
+.slup--top .slup__stepText {
+  padding-top: 0;
+}
+
+/* =====================================================================
+   MAIN PANEL
+   ===================================================================== */
+.slup__main {
+  background: var(--slup-surface);
+  border: 1px solid var(--slup-border);
+  border-radius: var(--slup-radius);
+  box-shadow: var(--slup-shadow);
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.slup__head {
+  padding: 26px 30px 18px;
+  border-bottom: 1px solid var(--slup-border-subtle);
+}
+.slup__kicker {
+  color: var(--slup-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.slup__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 6px 0 4px;
+}
+.slup__sub {
+  color: var(--slup-text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+  max-width: 62ch;
+}
+.slup__body {
+  padding: 26px 30px;
+  flex: 1;
+}
+.slup__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 30px;
+  border-top: 1px solid var(--slup-border-subtle);
+  background: color-mix(in srgb, var(--slup-bg) 35%, transparent);
+}
+.slup__footNote {
+  font-size: 0.82rem;
+  color: var(--slup-text-muted);
+}
+
+/* =====================================================================
+   BUTTONS
+   ===================================================================== */
+.slup__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--slup-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.18s var(--slup-ease), border-color 0.18s var(--slup-ease),
+    color 0.18s, opacity 0.18s, transform 0.08s;
+}
+.slup__btn:active {
+  transform: translateY(1px);
+}
+.slup__btn--primary {
+  background: var(--slup-spark);
+  color: #1b1b1b;
+  border-color: var(--slup-spark);
+}
+.slup__btn--primary:hover {
+  background: var(--slup-spark-soft);
+}
+.slup__btn--ghost {
+  background: transparent;
+  color: var(--slup-text);
+  border-color: var(--slup-border);
+}
+.slup__btn--ghost:hover {
+  background: var(--slup-surface-hover);
+  border-color: var(--slup-accent);
+}
+.slup__btn--quiet {
+  background: transparent;
+  color: var(--slup-text-muted);
+  border-color: transparent;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+.slup__btn--quiet:hover {
+  color: var(--slup-text);
+}
+.slup__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.slup__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* =====================================================================
+   DROPZONE
+   ===================================================================== */
+.slup__drop {
+  border: 2px dashed var(--slup-border);
+  border-radius: var(--slup-radius);
+  background: color-mix(in srgb, var(--slup-bg) 40%, transparent);
+  padding: 46px 28px;
+  text-align: center;
+  transition: border-color 0.18s, background 0.18s;
+}
+.slup__drop--over {
+  border-color: var(--slup-accent);
+  background: color-mix(in srgb, var(--slup-accent) 9%, transparent);
+}
+.slup__dropIcon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--slup-accent) 14%, transparent);
+  color: var(--slup-accent);
+}
+.slup__dropIcon svg {
+  width: 28px;
+  height: 28px;
+}
+.slup__dropTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.slup__dropSub {
+  color: var(--slup-text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 18px;
+}
+.slup__dropBtns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* size meter --------------------------------------------------------------- */
+.slup__meter {
+  margin-top: 22px;
+}
+.slup__meterTop {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 7px;
+}
+.slup__meterLabel {
+  color: var(--slup-text-muted);
+}
+.slup__meterVal {
+  font-variant-numeric: tabular-nums;
+  color: var(--slup-text-2);
+}
+.slup__meterTrack {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--slup-surface-raised);
+  overflow: hidden;
+}
+.slup__meterFill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--slup-accent);
+  transition: width 0.3s var(--slup-ease), background 0.3s;
+}
+.slup__meterFill--warn {
+  background: var(--slup-warn);
+}
+.slup__meterFill--over {
+  background: var(--slup-bad);
+}
+
+/* =====================================================================
+   FILE LIST
+   ===================================================================== */
+.slup__listHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.slup__listTitle {
+  font-weight: 700;
+  font-size: 1rem;
+}
+.slup__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.slup__row {
+  display: grid;
+  grid-template-columns: 34px 1fr auto auto 30px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--slup-radius-sm);
+  background: var(--slup-surface-raised);
+  border: 1px solid var(--slup-border-subtle);
+}
+.slup__row--rejected {
+  opacity: 0.62;
+}
+.slup__rowIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  color: var(--slup-text-2);
+  background: color-mix(in srgb, var(--slup-bg) 45%, transparent);
+}
+.slup__rowIcon svg {
+  width: 18px;
+  height: 18px;
+}
+.slup__rowMain {
+  min-width: 0;
+}
+.slup__rowName {
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.slup__rowPath {
+  font-size: 0.76rem;
+  color: var(--slup-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--slup-font-mono);
+}
+.slup__rowSize {
+  font-size: 0.82rem;
+  color: var(--slup-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.slup__badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.slup__badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.slup__badge--text {
+  color: var(--slup-good);
+  background: color-mix(in srgb, var(--slup-good) 14%, transparent);
+}
+.slup__badge--binary {
+  color: var(--slup-accent);
+  background: color-mix(in srgb, var(--slup-accent) 14%, transparent);
+}
+.slup__badge--rejected {
+  color: var(--slup-text-muted);
+  background: color-mix(in srgb, var(--slup-text-muted) 16%, transparent);
+}
+.slup__rowX {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--slup-text-muted);
+  display: grid;
+  place-items: center;
+}
+.slup__rowX:hover {
+  background: color-mix(in srgb, var(--slup-bad) 18%, transparent);
+  color: var(--slup-bad);
+}
+.slup__rowX svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* detect summary stats ----------------------------------------------------- */
+.slup__detectSummary {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.slup__stat {
+  background: var(--slup-surface-raised);
+  border: 1px solid var(--slup-border-subtle);
+  border-radius: var(--slup-radius);
+  padding: 12px 16px;
+  flex: 1;
+  min-width: 120px;
+}
+.slup__statNum {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.slup__statLabel {
+  font-size: 0.8rem;
+  color: var(--slup-text-muted);
+}
+
+/* "Customize redaction rules" panel (review step) ---------------------------- */
+.slup__rules {
+  margin-top: 14px;
+  border: 1px solid var(--slup-border-subtle);
+  border-radius: var(--slup-radius);
+  background: var(--slup-surface);
+  overflow: hidden;
+}
+.slup__rulesHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--slup-text);
+  text-align: left;
+}
+.slup__rulesHead:hover {
+  background: var(--slup-surface-hover);
+}
+.slup__rulesChev {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--slup-text-muted);
+  transition: transform var(--slup-dur) var(--slup-ease);
+}
+.slup__rulesChev--open {
+  transform: rotate(90deg);
+}
+.slup__rulesHint {
+  margin-left: auto;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--slup-text-muted);
+}
+.slup__rulesBody {
+  padding: 4px 14px 14px;
+  border-top: 1px solid var(--slup-border-subtle);
+}
+.slup__rulesNote {
+  margin: 10px 0 12px;
+  font-size: 0.8rem;
+  color: var(--slup-text-muted);
+}
+.slup__rulesPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.slup__rulePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 99px;
+  border: 1px solid var(--slup-border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--slup-text-2);
+  cursor: pointer;
+}
+.slup__rulePill--on {
+  border-color: var(--slup-border-accent);
+  background: var(--slup-surface-selected);
+  color: var(--slup-text);
+}
+.slup__rulePill--off {
+  color: var(--slup-text-muted);
+  opacity: 0.7;
+}
+.slup__rulePill--off:hover {
+  opacity: 1;
+}
+.slup__rulePill--locked {
+  cursor: default;
+  border-style: dashed;
+  color: var(--slup-text-muted);
+}
+.slup__rulePill svg {
+  width: 12px;
+  height: 12px;
+}
+.slup__ruleDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--slup-border);
+  flex-shrink: 0;
+}
+
+/* =====================================================================
+   REDACTION / PREVIEW
+   ===================================================================== */
+.slup__legend {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0 18px;
+}
+.slup__legChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  padding: 5px 11px;
+  border-radius: 99px;
+  background: var(--slup-surface-raised);
+  border: 1px solid var(--slup-border-subtle);
+}
+.slup__legDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+}
+.slup__legCount {
+  color: var(--slup-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.slup__preview {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  gap: 16px;
+}
+.slup__previewList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+.slup__pvItem {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 9px;
+  align-items: center;
+  padding: 9px 11px;
+  border-radius: var(--slup-radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-align: left;
+  width: 100%;
+  background: transparent;
+  color: var(--slup-text-2);
+  font-family: inherit;
+}
+.slup__pvItem:hover {
+  background: var(--slup-surface-hover);
+}
+.slup__pvItem--active {
+  background: var(--slup-surface-selected);
+  border-color: var(--slup-border-accent);
+  color: var(--slup-text);
+}
+.slup__pvItem svg {
+  width: 16px;
+  height: 16px;
+}
+.slup__pvName {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Per-file redaction count, shown before the name so reviewers can spot which files had matches. */
+.slup__pvCount {
+  color: var(--slup-spark);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.slup__viewer {
+  border: 1px solid var(--slup-border-subtle);
+  border-radius: var(--slup-radius);
+  background: var(--slup-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 460px;
+}
+.slup__viewerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--slup-border-subtle);
+  background: var(--slup-surface-raised);
+  /* Query container so the toolbar can collapse button labels when it gets narrow. */
+  container-type: inline-size;
+  container-name: slup-viewerbar;
+}
+.slup__viewerName {
+  font-size: 0.82rem;
+  font-family: var(--slup-font-mono);
+  color: var(--slup-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.slup__viewerTools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.slup__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  color: var(--slup-text-muted);
+  background: transparent;
+  border: 1px solid var(--slup-border);
+  padding: 4px 9px;
+  border-radius: 99px;
+  font-family: inherit;
+}
+.slup__toggle--on {
+  color: var(--slup-text);
+  border-color: var(--slup-accent);
+  background: color-mix(in srgb, var(--slup-accent) 12%, transparent);
+}
+.slup__toggle svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.slup__splitHint {
+  font-size: 0.74rem;
+  color: var(--slup-text-muted);
+}
+/* Icon-only toolbar buttons (jump prev/next, find). */
+.slup__iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 26px;
+  padding: 0;
+  cursor: pointer;
+  color: var(--slup-text-muted);
+  background: transparent;
+  border: 1px solid var(--slup-border);
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+.slup__iconBtn:hover:not(:disabled) {
+  color: var(--slup-text);
+  border-color: var(--slup-accent);
+}
+.slup__iconBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.slup__iconBtn svg {
+  width: 15px;
+  height: 15px;
+}
+.slup__posCounter {
+  font-size: 0.72rem;
+  font-family: var(--slup-font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--slup-text-muted);
+  min-width: 2.5ch;
+  text-align: center;
+  flex-shrink: 0;
+}
+.slup__toolSep {
+  width: 1px;
+  height: 18px;
+  background: var(--slup-border);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+/* When the toolbar is narrow, progressively shed chrome to keep the icon buttons usable: first the
+   toggle text labels (icons + tooltips remain), then the split hint, and only when very tight, the
+   position counter. */
+@container slup-viewerbar (max-width: 470px) {
+  .slup__toggleLabel {
+    display: none;
+  }
+}
+@container slup-viewerbar (max-width: 360px) {
+  .slup__splitHint {
+    display: none;
+  }
+}
+@container slup-viewerbar (max-width: 300px) {
+  .slup__posCounter {
+    display: none;
+  }
+}
+
+.slup__code {
+  margin: 0;
+  padding: 16px 18px;
+  overflow: auto;
+  flex: 1;
+  font-family: var(--slup-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--slup-text-2);
+}
+.slup__split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  min-height: 0;
+}
+.slup__split > * {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.slup__splitOrig {
+  border-right: 1px solid var(--slup-border-subtle);
+}
+
+/* CodeMirror 6 preview (virtualized, viewport-only). The editor fills the viewer body; redaction
+   ranges are decorated with .slup-cm-pill. */
+.slup__cm {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.slup__cm .cm-editor {
+  height: 100%;
+}
+.slup .slup-cm-pill {
+  background: var(--pc, var(--slup-accent));
+  color: #06101a;
+  border-radius: 4px;
+  padding: 0 2px;
+}
+.slup .slup-cm-pill--revealed {
+  background: transparent;
+  color: var(--pc, var(--slup-accent));
+  font-weight: 600;
+  text-decoration: line-through dotted;
+}
+/* The redaction the user has jumped to via the prev/next controls. Themeable via --slup-cm-active
+   (defaults to the spark accent). box-shadow draws a ring that follows the pill's radius without
+   shifting surrounding text. */
+.slup .slup-cm-pill--active {
+  box-shadow: 0 0 0 2px var(--slup-cm-active, var(--slup-spark));
+}
+.slup__imgWrap {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  overflow: auto;
+  background: repeating-conic-gradient(#0e141d 0% 25%, #0a0f17 0% 50%) 50% / 22px 22px;
+}
+.slup__imgWrap img {
+  max-width: 100%;
+  max-height: 380px;
+  border-radius: 6px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+.slup__imgNote {
+  text-align: center;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--slup-warn);
+  border-top: 1px solid var(--slup-border-subtle);
+}
+.slup__docFallback {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--slup-text-muted);
+  padding: 30px;
+}
+.slup__docFallback svg {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+/* redaction pill ----------------------------------------------------------- */
+.slup__pill {
+  border-radius: 4px;
+  padding: 0 4px;
+  font-weight: 700;
+  cursor: help;
+  color: #06101a;
+  position: relative;
+  white-space: nowrap;
+  background: var(--pc, var(--slup-accent));
+}
+.slup__pill[data-revealed="1"] {
+  background: transparent;
+  color: var(--pc, var(--slup-accent));
+  font-weight: 600;
+  text-decoration: line-through dotted;
+}
+.slup__pill:focus-visible {
+  outline: 2px solid var(--slup-accent);
+  outline-offset: 1px;
+}
+
+/* floating tooltip — fixed-position so it escapes the viewer's overflow clip */
+.slup__floatTip {
+  position: fixed;
+  z-index: 1000;
+  width: 244px;
+  pointer-events: none;
+  background: var(--slup-surface-raised);
+  color: var(--slup-text);
+  border: 1px solid var(--slup-border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  box-shadow: var(--slup-shadow);
+  font-size: 0.77rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  animation: slup-fade 0.1s var(--slup-ease);
+}
+.slup__tipKey {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 3px;
+}
+.slup__tipMeta {
+  color: var(--slup-text-muted);
+}
+
+/* =====================================================================
+   FORM (details step)
+   ===================================================================== */
+.slup__field {
+  margin-bottom: 20px;
+}
+.slup__label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--slup-accent);
+  margin-bottom: 8px;
+}
+.slup__req {
+  color: var(--slup-bad);
+  margin-left: 2px;
+}
+.slup__inputWrap {
+  position: relative;
+}
+.slup__inputWrap > svg {
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  width: 18px;
+  height: 18px;
+  color: var(--slup-text-muted);
+  pointer-events: none;
+}
+.slup__input,
+.slup__textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.98rem;
+  color: var(--slup-text);
+  background: color-mix(in srgb, var(--slup-bg) 60%, transparent);
+  border: 1.5px solid var(--slup-border);
+  border-radius: var(--slup-radius-sm);
+  padding: 11px 14px 11px 42px;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.slup__textarea {
+  resize: vertical;
+  min-height: 104px;
+  line-height: 1.55;
+}
+.slup__input::placeholder,
+.slup__textarea::placeholder {
+  color: var(--slup-text-muted);
+}
+.slup__input:focus,
+.slup__textarea:focus {
+  outline: none;
+  border-color: var(--slup-border-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--slup-border-accent) 22%, transparent);
+}
+.slup__input--err,
+.slup__textarea--err {
+  border-color: var(--slup-bad);
+}
+.slup__errMsg {
+  color: var(--slup-bad);
+  font-size: 0.82rem;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.slup__errMsg svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* consent cards ------------------------------------------------------------ */
+.slup__consentTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--slup-accent);
+  margin: 4px 0 10px;
+}
+.slup__consents {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.slup__consent {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 13px;
+  align-items: start;
+  padding: 15px 16px;
+  border-radius: var(--slup-radius);
+  background: var(--slup-surface-raised);
+  border: 1px solid var(--slup-border-subtle);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.slup__consent:hover {
+  border-color: var(--slup-border);
+}
+.slup__consent:focus-within {
+  outline: 2px solid var(--slup-accent);
+  outline-offset: 2px;
+}
+.slup__consent--on {
+  border-color: var(--slup-border-accent);
+  background: color-mix(in srgb, var(--slup-border-accent) 10%, transparent);
+}
+.slup__check {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  margin-top: 1px;
+  border: 2px solid var(--slup-border);
+  background: var(--slup-bg);
+  display: grid;
+  place-items: center;
+  color: #06101a;
+  transition: all 0.15s;
+}
+.slup__consent--on .slup__check {
+  background: var(--slup-accent);
+  border-color: var(--slup-accent);
+}
+.slup__check svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+}
+.slup__consent--on .slup__check svg {
+  opacity: 1;
+}
+.slup__consentNativeInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.slup__consentName {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.slup__consentReq {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--slup-spark);
+  margin-left: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.slup__consentDesc {
+  font-size: 0.85rem;
+  color: var(--slup-text-muted);
+  margin-top: 3px;
+}
+
+/* =====================================================================
+   UPLOAD PROGRESS + CONFIRMATION
+   ===================================================================== */
+.slup__upWrap {
+  max-width: 560px;
+  margin: 8px auto;
+}
+.slup__upBig {
+  text-align: center;
+  margin-bottom: 26px;
+}
+.slup__upPct {
+  font-size: 3rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--slup-text);
+}
+/* Indeterminate state shows a spinner here instead of a "NN%" number; constrain the SVG so it doesn't
+   inherit the browser's default (huge) intrinsic size for a viewBox-only <svg>. */
+.slup__upPct svg {
+  width: 3rem;
+  height: 3rem;
+  vertical-align: middle;
+  color: var(--slup-accent);
+}
+.slup__upState {
+  color: var(--slup-text-muted);
+  font-size: 0.95rem;
+}
+.slup__upList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.slup__upRow {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 11px;
+  align-items: center;
+  font-size: 0.86rem;
+  padding: 8px 12px;
+  border-radius: var(--slup-radius-sm);
+  background: var(--slup-surface-raised);
+}
+.slup__upRow svg {
+  width: 17px;
+  height: 17px;
+}
+.slup__upRowName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--slup-font-mono);
+}
+.slup__upDot {
+  color: var(--slup-text-muted);
+}
+.slup__upDot--done {
+  color: var(--slup-good);
+}
+.slup__upDot--active {
+  color: var(--slup-accent);
+}
+.slup__spin {
+  animation: slup-spin 0.8s linear infinite;
+}
+@keyframes slup-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.slup__confirm {
+  text-align: center;
+  max-width: 560px;
+  margin: 12px auto;
+}
+.slup__confirmIcon {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  color: var(--slup-good);
+  background: color-mix(in srgb, var(--slup-good) 15%, transparent);
+  border: 2px solid color-mix(in srgb, var(--slup-good) 45%, transparent);
+}
+.slup__confirmIcon svg {
+  width: 42px;
+  height: 42px;
+}
+.slup__confirmTitle {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.slup__confirmSub {
+  color: var(--slup-text-2);
+  margin: 0 0 22px;
+}
+.slup__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--slup-surface-raised);
+  border: 1px solid var(--slup-border);
+  border-radius: var(--slup-radius);
+  padding: 12px 18px;
+  margin-bottom: 24px;
+  font-family: var(--slup-font-mono);
+}
+.slup__refLabel {
+  font-size: 0.72rem;
+  color: var(--slup-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.slup__refVal {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--slup-spark);
+}
+.slup__receipt {
+  text-align: left;
+  background: color-mix(in srgb, var(--slup-bg) 40%, transparent);
+  border: 1px solid var(--slup-border-subtle);
+  border-radius: var(--slup-radius);
+  padding: 16px 20px;
+}
+.slup__receipt dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 18px;
+  margin: 0;
+  font-size: 0.88rem;
+}
+.slup__receipt dt {
+  color: var(--slup-text-muted);
+}
+.slup__receipt dd {
+  margin: 0;
+  text-align: right;
+  color: var(--slup-text-2);
+}
+
+/* not-redacted tag on binary rows --------------------------------------- */
+.slup__badgeCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.slup__tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  color: var(--slup-warn);
+  cursor: help;
+}
+.slup__tag svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* optional-consent group ------------------------------------------------ */
+@keyframes slup-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.slup__optGroup {
+  margin-top: 12px;
+  border: 1px solid var(--slup-border-subtle);
+  border-radius: var(--slup-radius);
+  background: color-mix(in srgb, var(--slup-bg) 35%, transparent);
+  padding: 14px 16px 16px;
+}
+.slup__optGroupHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--slup-text-2);
+  margin-bottom: 12px;
+}
+.slup__optGroupTag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--slup-accent);
+  background: color-mix(in srgb, var(--slup-accent) 14%, transparent);
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+.slup__optGroupNote {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 0.8rem;
+  color: var(--slup-text-muted);
+  margin: 12px 2px 0;
+}
+.slup__optGroupNote svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--slup-good);
+  margin-top: 1px;
+}
+.slup__optGroupNote strong {
+  color: var(--slup-text-2);
+}
+
+/* opt-in modal ---------------------------------------------------------- */
+.slup__modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 6, 18, 0.72);
+  backdrop-filter: blur(2px);
+  animation: slup-fadein 0.15s var(--slup-ease);
+}
+@keyframes slup-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.slup__modal {
+  width: 100%;
+  max-width: 460px;
+  background: var(--slup-surface);
+  border: 1px solid var(--slup-border);
+  border-radius: var(--slup-radius);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  padding: 26px 26px 22px;
+  animation: slup-pop 0.18s var(--slup-ease);
+}
+@keyframes slup-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.slup__modalIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: #1b1b1b;
+  background: var(--slup-spark);
+  margin-bottom: 14px;
+}
+.slup__modalIcon svg {
+  width: 24px;
+  height: 24px;
+}
+.slup__modalTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+.slup__modalBody {
+  font-size: 0.92rem;
+  color: var(--slup-text-2);
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+.slup__modalBody strong {
+  color: var(--slup-text);
+}
+.slup__modalReassure {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 0.84rem;
+  color: var(--slup-text-2);
+  margin: 0 0 20px;
+  background: color-mix(in srgb, var(--slup-good) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--slup-good) 26%, transparent);
+  border-radius: var(--slup-radius-sm);
+  padding: 11px 13px;
+  line-height: 1.5;
+}
+.slup__modalReassure svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--slup-good);
+  margin-top: 1px;
+}
+.slup__modalReassure strong {
+  color: var(--slup-text);
+}
+.slup__modalBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.slup__modalBtns .slup__btn {
+  width: 100%;
+}
+.slup__modalCancel {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* misc --------------------------------------------------------------------- */
+.slup__empty {
+  text-align: center;
+  color: var(--slup-text-muted);
+  padding: 40px 20px;
+}
+.slup__note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  color: var(--slup-text-2);
+  background: color-mix(in srgb, var(--slup-accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--slup-accent) 30%, transparent);
+  border-radius: var(--slup-radius);
+  padding: 12px 15px;
+  margin-top: 16px;
+}
+.slup__note svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--slup-accent);
+  margin-top: 1px;
+}
+.slup__note--warn {
+  background: color-mix(in srgb, var(--slup-warn) 9%, transparent);
+  border-color: color-mix(in srgb, var(--slup-warn) 32%, transparent);
+}
+.slup__note--warn svg {
+  color: var(--slup-warn);
+}
+.slup__note--bad {
+  background: color-mix(in srgb, var(--slup-bad) 9%, transparent);
+  border-color: color-mix(in srgb, var(--slup-bad) 32%, transparent);
+}
+.slup__note--bad svg {
+  color: var(--slup-bad);
+}
+
+.slup__spark {
+  color: var(--slup-spark);
+}
+
+/* scrollbars */
+.slup__list::-webkit-scrollbar,
+.slup__code::-webkit-scrollbar,
+.slup__previewList::-webkit-scrollbar,
+.slup__upList::-webkit-scrollbar,
+.slup__imgWrap::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.slup__list::-webkit-scrollbar-thumb,
+.slup__code::-webkit-scrollbar-thumb,
+.slup__previewList::-webkit-scrollbar-thumb,
+.slup__upList::-webkit-scrollbar-thumb,
+.slup__imgWrap::-webkit-scrollbar-thumb {
+  background: var(--slup-border);
+  border-radius: 99px;
+}
+
+/* responsive --------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .slup__shell {
+    grid-template-columns: 1fr;
+  }
+  .slup__rail {
+    position: static;
+  }
+  /* Compact horizontal stepper: distribute the numbered dots to fit the width (no horizontal scroll).
+     The active step's name still shows in the panel header, so the per-step labels are dropped. */
+  .slup__steps {
+    display: flex;
+    gap: 4px;
+  }
+  .slup__step {
+    flex: 1 1 0;
+    min-width: 0;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 4px 0;
+  }
+  .slup__step:not(:last-child)::before {
+    display: none;
+  }
+  .slup__stepText {
+    display: none;
+  }
+  .slup__preview {
+    grid-template-columns: 1fr;
+  }
+  /* Keep the file list stacked vertically (not a horizontal scroll) when the preview goes single-column. */
+  .slup__previewList {
+    max-height: 220px;
+  }
+}
+@media (max-width: 560px) {
+  .slup__body,
+  .slup__head {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .slup__foot {
+    padding-left: 18px;
+    padding-right: 18px;
+    flex-wrap: wrap;
+  }
+  .slup__row {
+    grid-template-columns: 30px 1fr 30px;
+  }
+  .slup__rowSize,
+  .slup__row .slup__badge {
+    display: none;
+  }
+}

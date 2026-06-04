@@ -5,14 +5,14 @@ you can wire into CI as a gate. Built for Windows-style sys/app logs first,
 but the detection rules are portable JSON specs you can extend for any log format.
 
 This is an **npm-workspaces monorepo**. The pieces are split along package boundaries so the
-isomorphic core stays dependency-free and browser-safe, while the Node CLI and (forthcoming) React
-UI build on top of it:
+isomorphic core stays dependency-free and browser-safe, while the Node CLI and React UI build on top
+of it:
 
 | Package | Path | What it is |
 |---|---|---|
 | [`@sparklogs/redact-core`](packages/redact-core) | `packages/redact-core` | **Isomorphic** detection + consistent-mapping engine + scanner. Pure string/regex; safe in Node or the browser. Zero runtime deps. Driven by portable JSON detection specs. |
 | [`@sparklogs/redact-cli`](packages/redact-cli) | `packages/redact-cli` | **Node CLI** (`sparklogs-redact`): redact files / scan a tree for residual PII (CI gate). Bundles the core into a self-contained `dist/cli.js`. |
-| `@sparklogs/redact-react` | `packages/redact-react` *(planned)* | **React components** for in-browser local redaction — redact client-side, then upload. Builds on the isomorphic core (no server ever sees raw PII). |
+| [`@sparklogs/redact-react`](packages/redact-react) | `packages/redact-react` | **React components** for in-browser local redaction — redact client-side, then upload. Builds on the isomorphic core (no server ever sees raw PII). |
 
 ## Why a monorepo
 
@@ -27,35 +27,45 @@ redaction (the React package) possible.
 
 ```bash
 npm install              # link workspaces + install dev tooling (tsup, typescript)
-npm run build            # build core, then cli (the cli bundles the core's dist) -> packages/*/dist
+npm run build            # build core, cli, react -> packages/*/dist
 npm test                 # run each package's test suite (node --test)
+npm run typecheck        # tsc --noEmit in core, cli, and react
 ```
+
+For a reproducible tree (same as CI), use `npm ci` instead of `npm install` when
+`package-lock.json` is present.
 
 ## CI
 
 GitHub Actions runs the same gate as local dev:
 
 ```bash
-make ci    # install (core + cli) · build · typecheck · test · smoke
+make ci    # npm ci · build · typecheck · test · smoke
 ```
+
+`make ci` installs **all** workspaces (including React devDependencies), builds every package,
+typechecks core/cli/react, runs all package tests, then smoke-tests the CLI bundle.
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live
-under [`test/fixtures/clean/`](test/fixtures/clean/) — expand over time; never commit raw customer
-logs.
+under [`test/fixtures/clean/`](test/fixtures/clean/) (`*.fixture` synthetic logs; never commit raw
+customer `*.log` files — see that directory's README).
 
-Build only the core + CLI (e.g. for the source-library PII-scan gate, skipping the React toolchain):
+### CLI-only in another repo (e.g. source-library PII scan)
+
+When you only need the self-contained CLI bundle and want to avoid pulling the full monorepo gate,
+install the core + CLI workspaces **and** root dev tooling (`tsup` lives at the repo root; npm 11+
+does not install it with a bare `-w` filter):
 
 ```bash
-npm install  -w @sparklogs/redact-core -w @sparklogs/redact-cli
+npm install -w @sparklogs/redact-core -w @sparklogs/redact-cli --include-workspace-root
 npm run build -w @sparklogs/redact-core
 npm run build -w @sparklogs/redact-cli
 node packages/redact-cli/dist/cli.js scan ./some/dir
 ```
 
-> Adding `@sparklogs/redact-react` later: drop it under `packages/`, then extend the root `build`
-> script to build it after the core (`&& npm run build -w @sparklogs/redact-react`). Scoped installs
-> like the one above never pull its React deps.
+Alternatively, run `npm ci` once and build only the workspaces you need; React deps are installed
+but unused.
 
 ## Quick start (CLI)
 
@@ -69,6 +79,7 @@ node packages/redact-cli/dist/cli.js profiles
 
 Full command reference: [`packages/redact-cli/README.md`](packages/redact-cli/README.md). Library
 API + detection-profile docs: [`packages/redact-core/README.md`](packages/redact-core/README.md).
+React wizard: [`packages/redact-react/README.md`](packages/redact-react/README.md).
 
 ## License
 
