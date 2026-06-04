@@ -50,3 +50,30 @@ test("every profile builds a Redactor (resolves any referenced validators)", () 
     assert.doesNotThrow(() => new Redactor(loadProfile(name)), `profile ${name} should compile`);
   }
 });
+
+test("unc-host: real UNC host is redacted, JSON doubled-backslash path segments are not", () => {
+  const r = new Redactor(loadProfile("windows-log").filter((d) => d.category === "host"));
+  // real UNC path \\SERVER\share
+  assert.match(r.redact("open \\\\FILESERVER01\\share\\x").text, /^open \\\\HOST\d+\\share\\x$/);
+  // JSON-escaped path (every separator doubled) must NOT match each segment as a host
+  const json = '"\\\\\\\\?\\\\C:\\\\Windows\\\\CBS\\\\ACR\\\\file.cab"';
+  assert.equal(r.redact(json).text, json, "JSON doubled-backslash path segments should be left intact");
+});
+
+test("fqdn-internal: only known-internal suffixes redact; filenames/public FQDNs stay intact", () => {
+  const r = new Redactor(loadProfile("windows-log").filter((d) => d.category === "host"));
+  // internal suffixes redact
+  assert.match(r.redact("conn db01.corp.local ok").text, /HOST\d+/, ".local should redact");
+  assert.match(r.redact("printer.home.arpa").text, /^HOST\d+$/, ".home.arpa should redact");
+  assert.match(r.redact("svc.intranet up").text, /HOST\d+/, ".intranet should redact");
+  // everything else stays intact (the key win over a public-TLD exclusion list)
+  for (const intact of [
+    "GET api.example.com/v1", // public FQDN
+    "read config.json now", // filename
+    "build x.OS.rs2.amd64.mfl", // dotted version/filename
+    "app.config.prod restart", // non-internal dotted token
+    "to redacted1@example.invalid", // the email fake domain (idempotency)
+  ]) {
+    assert.equal(r.redact(intact).text, intact, `should be intact: ${intact}`);
+  }
+});

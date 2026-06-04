@@ -163,6 +163,8 @@ export interface UploadPayload {
     /** Total distinct values redacted. */
     mappingSize: number;
     fileCount: number;
+    /** Final enabled state per redaction category (locked categories are always true). */
+    redactRules: Record<string, boolean>;
   };
 }
 
@@ -213,10 +215,25 @@ export interface RedactUploadWizardProps {
   /** Redaction preview layout. Default "inline". */
   previewStyle?: "inline" | "split";
   /**
+   * Whether the text preview soft-wraps long lines by default. Default false — unwrapped lines keep a
+   * uniform height, so the preview's scrollbar stays steady on large files (wrapping makes CodeMirror
+   * estimate wrap-counts on demand, which jiggles the scrollbar). Users can still toggle wrap per file.
+   */
+  defaultWrap?: boolean;
+  /**
    * Allow the local-only "reveal original" toggle in the preview. The original values are read from
    * the in-browser file text and never transmitted. Default true.
    */
   allowRevealOriginal?: boolean;
+  /**
+   * Which discretionary redaction categories the user may toggle (in the "Customize redaction rules"
+   * panel), keyed by category with each one's DEFAULT enabled state. Categories absent here — and the
+   * always-on locked set (creditcard, ssn, email, secret, token) — are always redacted and not
+   * customizable. Defaults to a sensible discretionary set (see `DEFAULT_REDACTION_RULES`).
+   */
+  redactionRules?: Record<string, boolean>;
+  /** Show the "Customize redaction rules" panel in the review step. Default true. */
+  allowRuleCustomization?: boolean;
   /**
    * While the preview step is active, bind Ctrl/Cmd+F to open the preview's find panel (instead of the
    * browser's native find, which can't see the virtualized text). Default true; set false to leave the

@@ -30,12 +30,28 @@ import {
   MappingEngine,
   loadProfile,
   profileNames,
+  type Detector,
   type RedactionRecord,
 } from "@sparklogs/redact-core";
 
 function fail(msg: string, code = 2): never {
   process.stderr.write(`sparklogs-redact: ${msg}\n`);
   process.exit(code);
+}
+
+/**
+ * Detectors for a run: a single named `--profile`, or — with `--enable-all` — EVERY detector from
+ * EVERY profile (deduped by name), composed into one list. The compose path is what tooling that needs
+ * the broadest possible redaction should use (e.g. sanitising data destined for a public/source
+ * library): it guarantees no category is missed just because it lives in another profile.
+ */
+function detectorsForRun(profile: string, enableAll: boolean): Detector[] {
+  if (!enableAll) return loadProfile(profile);
+  const byName = new Map<string, Detector>();
+  for (const name of profileNames()) {
+    for (const d of loadProfile(name)) if (!byName.has(d.name)) byName.set(d.name, d);
+  }
+  return [...byName.values()];
 }
 
 function readBytes(path: string): Uint8Array {
@@ -88,6 +104,7 @@ function cmdRedact(args: string[]): void {
   const loadMap = takeOpt(args, "--load-map");
   const report = takeOpt(args, "--report");
   const showStats = takeFlag(args, "--stats");
+  const enableAll = takeFlag(args, "--enable-all");
   for (const a of args) {
     if (a.startsWith("--")) fail(`redact: unknown option ${a}`);
   }
@@ -102,7 +119,7 @@ function cmdRedact(args: string[]): void {
   }
   if (out && multi) fail("redact: -o is for a single input; use --out-dir for multiple");
 
-  const redactor = new Redactor(loadProfile(profile));
+  const redactor = new Redactor(detectorsForRun(profile, enableAll));
   // One correlation map shared across every input in this invocation; optionally seeded from a prior
   // run so a later top-up of the SAME dataset keeps the same pseudonyms.
   let engine: MappingEngine;
@@ -172,12 +189,13 @@ function cmdScan(args: string[]): void {
   const profile = takeOpt(args, "--profile") ?? "windows-log";
   const max = Number(takeOpt(args, "--max") ?? "50");
   const quiet = takeFlag(args, "--quiet");
+  const enableAll = takeFlag(args, "--enable-all");
   if (args.length === 0) fail("scan: missing <path...>");
 
   const files: string[] = [];
   for (const p of args) walk(p, files);
 
-  const redactor = new Redactor(loadProfile(profile));
+  const redactor = new Redactor(detectorsForRun(profile, enableAll));
   let total = 0;
   let shown = 0;
   for (const f of files) {
@@ -218,11 +236,13 @@ function main(argv: string[]): void {
     case "--help":
       process.stdout.write(
         "sparklogs-redact <command>\n\n" +
-          "  redact <input|-> [-o out] [--profile name] [--stats] [--report f]\n" +
-          "  redact <in...> --out-dir dir [--save-map f] [--load-map f] [--profile name] [--stats] [--report f]\n" +
-          "  scan <path...> [--profile name] [--max N] [--quiet]\n" +
+          "  redact <input|-> [-o out] [--profile name | --enable-all] [--stats] [--report f]\n" +
+          "  redact <in...> --out-dir dir [--save-map f] [--load-map f] [--profile name | --enable-all] [--stats] [--report f]\n" +
+          "  scan <path...> [--profile name | --enable-all] [--max N] [--quiet]\n" +
           "  profiles\n\n" +
           "  Profiles: " + profileNames().join(", ") + "\n" +
+          "  --enable-all composes EVERY detector from EVERY profile (broadest redaction; use this when\n" +
+          "  sanitising data for a public/source library so no category is missed).\n" +
           "  Multiple inputs (or --out-dir) share one correlation map so a token maps the same in\n" +
           "  every file. --save-map/--load-map persist that map (RAW PII — never commit it).\n" +
           "  --report writes per-redaction metadata as JSON (no raw PII; safe to keep).\n",

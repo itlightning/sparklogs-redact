@@ -91,6 +91,43 @@ function docOf(text: string): Text {
   return Text.of(text.split("\n"));
 }
 
+/**
+ * Scroll the editor's OWN scroller so `pos` is centered (or at the top) — never the surrounding page.
+ * CodeMirror's `scrollIntoView` walks up scrollable ancestors (it would scroll the whole window to
+ * bring the line into the browser viewport), which is disorienting; setting `scrollDOM.scrollTop`
+ * directly keeps the movement entirely inside the preview.
+ */
+function scrollToPos(view: EditorView, pos: number, mode: "center" | "start", wrapping: boolean): void {
+  const p = Math.min(pos, view.state.doc.length);
+  if (!wrapping) {
+    // Wrap OFF ⇒ every line is one row of UNIFORM height, so CodeMirror's height map is exact. We can
+    // therefore scroll the editor's OWN scroller precisely and — unlike CM's scrollIntoView — never
+    // touch the page. requestMeasure forces the new viewport to paint.
+    const block = view.lineBlockAt(p);
+    view.scrollDOM.scrollTop = Math.max(
+      0,
+      mode === "center" ? block.top - Math.max(0, (view.scrollDOM.clientHeight - block.height) / 2) : block.top,
+    );
+    if (mode === "center") {
+      const col = p - view.state.doc.lineAt(p).from;
+      view.scrollDOM.scrollLeft = Math.max(0, col * view.defaultCharacterWidth - view.scrollDOM.clientWidth / 2);
+    }
+    view.requestMeasure();
+    return;
+  }
+  // Wrap ON ⇒ wrap-counts (and thus line heights) are estimated until rendered, so we let CodeMirror's
+  // OWN scrollIntoView do the work: its measure loop lands accurately and always re-paints the viewport.
+  // It also scrolls the PAGE to bring the redaction into the window — accepted as a consistent, slightly
+  // degraded experience for this opt-in mode. We deliberately do NOT fight that page scroll: snapping it
+  // back interferes with CM's measure loop and is what made the viewport fail to re-render.
+  view.dispatch({
+    effects: EditorView.scrollIntoView(
+      p,
+      mode === "center" ? { y: "center", x: "center" } : { y: "start" },
+    ),
+  });
+}
+
 /** Sorted output-offset start positions for the highlightable redactions — the jump targets. */
 function redactionStarts(redactions: PreviewRenderArgs["redactions"]): number[] {
   if (!redactions) return [];
@@ -232,16 +269,13 @@ export default function CodeMirrorPreview(args: PreviewRenderArgs) {
         const pos = Math.min(target, view.state.doc.length);
         view.dispatch({
           selection: EditorSelection.cursor(pos),
-          effects: [
-            EditorView.scrollIntoView(pos, { y: "center" }),
-            // Re-mark decorations so the jumped-to redaction gets the active highlight.
-            decoCompartment.current.reconfigure(
-              EditorView.decorations.of(buildDecorations(argsRef.current, target)),
-            ),
-          ],
+          // Re-mark decorations so the jumped-to redaction gets the active highlight.
+          effects: decoCompartment.current.reconfigure(
+            EditorView.decorations.of(buildDecorations(argsRef.current, target)),
+          ),
         });
-        // NB: no view.focus() here — focusing the editor would scroll the surrounding page to it; the
-        // scrollIntoView effect already moves the preview's own viewport.
+        // Center the target. With wrap off this moves only the editor's scroller (never the page).
+        scrollToPos(view, pos, "center", argsRef.current.wrap !== false);
         return i + 1;
       },
       openSearch,
@@ -282,13 +316,12 @@ export default function CodeMirrorPreview(args: PreviewRenderArgs) {
       changes: textChanged
         ? { from: 0, to: view.state.doc.length, insert: docOf(args.text) }
         : undefined,
-      effects: [
-        decoCompartment.current.reconfigure(
-          EditorView.decorations.of(buildDecorations(args, activePosRef.current)),
-        ),
-        ...(anchor != null ? [EditorView.scrollIntoView(anchor, { y: "start" })] : []),
-      ],
+      effects: decoCompartment.current.reconfigure(
+        EditorView.decorations.of(buildDecorations(args, activePosRef.current)),
+      ),
     });
+    // Re-pin the same top line within the preview's own scroller (no page scroll).
+    if (anchor != null) scrollToPos(view, anchor, "start", args.wrap !== false);
     startsRef.current = redactionStarts(args.redactions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [args.text, args.redactions, args.reveal, args.originalText, args.usage, args.categoryFor]);

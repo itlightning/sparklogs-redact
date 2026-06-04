@@ -132,9 +132,9 @@ function PreviewToolControls({
       >
         <Icon.ChevronDown />
       </button>
-      {total > 0 ? (
-        <span className="slup__posCounter" aria-label={`${pos || 0} of ${total} redactions`}>
-          {(pos || "–") + "/" + total}
+      {pos > 0 ? (
+        <span className="slup__posCounter" aria-label={`${pos} of ${total} redactions`}>
+          {pos + "/" + total}
         </span>
       ) : null}
       <button

@@ -11,10 +11,10 @@
     {
       "name": "win-username-path",
       "category": "username",
-      "pattern": "(?<=\\\\[Uu]sers\\\\)[^\\\\/\\s,;\"'()\\[\\]<>|:*?]+",
+      "pattern": "(?<=\\\\[Uu]sers\\\\|/[Uu]sers/|/home/)[^\\\\/\\s,;\"'()\\[\\]<>|:*?]+",
       "flags": "",
       "safe": "^User\\d+$",
-      "description": "Local account name in a \\Users\\<name> profile path (the most common PII in CBS/DISM)."
+      "description": "Local account name in a home-directory path: Windows \\Users\\<name>, macOS /Users/<name>, or Linux /home/<name>. The Unix forms are slightly looser (a URL path like .../home/<x> can match), but the category is opt-in; for support logs (CBS/DISM) the Windows form is the common case."
     },
     {
       "name": "user-sid",
@@ -35,10 +35,18 @@
     {
       "name": "unc-host",
       "category": "host",
-      "pattern": "(?<=\\\\\\\\)[A-Za-z][A-Za-z0-9_-]{0,62}(?=\\\\)",
+      "pattern": "(?<=\\\\\\\\)[A-Za-z][A-Za-z0-9_-]{0,62}(?=\\\\(?!\\\\))",
       "flags": "",
       "safe": "^HOST\\d+$",
-      "description": "Hostname in a UNC path \\\\HOST\\share (device paths \\\\?\\ and \\\\.\\ are excluded by the leading-letter rule)."
+      "description": "Hostname in a UNC path \\\\HOST\\share. The lookahead requires a single, NON-doubled trailing backslash so JSON-escaped paths (where every separator is doubled, e.g. C:\\\\Windows\\\\CBS) don't match each path segment as a host. Device paths \\\\?\\ and \\\\.\\ are excluded by the leading-letter rule. (host is broad and not strong PII — keep it off by default.)"
+    },
+    {
+      "name": "fqdn-internal",
+      "category": "host",
+      "pattern": "\\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+(?:home\\.arpa|local|lan|corp|internal|intranet|intra|localdomain|localnet|private|home)\\b(?![.@-])",
+      "flags": "i",
+      "safe": "^HOST\\d+$",
+      "description": "An FQDN ending in a KNOWN-internal suffix (db01.corp.local, host.intranet, printer.home.arpa). This deliberately matches ONLY a small allow-list of non-routable/internal suffixes — local, lan, corp, internal, intranet, intra, localdomain, localnet, private, home(.arpa) — so it can't mistake ordinary dotted filenames (config.json, x.amd64.mfl) or public FQDNs (api.example.com) for hosts. It therefore MISSES internal hosts that use a custom/brand suffix; that under-redaction is the safe trade-off. Not strong PII — keep off by default."
     },
     {
       "name": "mac-address",

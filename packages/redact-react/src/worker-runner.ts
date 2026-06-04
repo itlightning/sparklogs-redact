@@ -16,6 +16,8 @@ export interface RedactRunResult {
 
 interface RunOptions {
   needsOriginal: boolean;
+  /** Only run detectors in these categories (locked + user-enabled). */
+  enabledCategories: string[];
   onProgress?: (done: number, total: number) => void;
   signal?: AbortSignal;
   createWorker?: CreateWorker;
@@ -75,7 +77,13 @@ export async function runRedactionOffThread(
       cleanup();
       runInThread(files, profiles, opts).then(resolve, reject);
     };
-    w.postMessage({ type: "redact", files, profiles, needsOriginal: opts.needsOriginal });
+    w.postMessage({
+      type: "redact",
+      files,
+      profiles,
+      enabledCategories: opts.enabledCategories,
+      needsOriginal: opts.needsOriginal,
+    });
   });
 }
 
@@ -96,6 +104,6 @@ async function runInThread(
   if (opts.signal?.aborted) throw new DOMException("Aborted", "AbortError");
   const originals: Record<string, string> = {};
   if (opts.needsOriginal) for (const r of reads) originals[r.id] = r.text;
-  const summary = runRedaction(reads, profiles, opts.onProgress);
+  const summary = runRedaction(reads, profiles, opts.enabledCategories, opts.onProgress);
   return { summary, originals };
 }

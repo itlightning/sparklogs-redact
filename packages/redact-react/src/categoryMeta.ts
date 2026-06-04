@@ -40,6 +40,33 @@ export const DEFAULT_CATEGORY_META: Record<string, CategoryDisplay> = {
   },
 };
 
+/**
+ * Categories that are ALWAYS redacted and can never be toggled off in the wizard — high-harm PII
+ * (payment cards, SSNs, emails) and credentials (secrets, tokens). `redactionRules` cannot unlock these.
+ */
+export const LOCKED_CATEGORIES: ReadonlySet<string> = new Set([
+  "creditcard",
+  "ssn",
+  "email",
+  "secret",
+  "token",
+]);
+
+/**
+ * Default `redactionRules`: which discretionary categories are user-toggleable, and each one's default
+ * enabled state. A category absent here (and not locked) is always-on and NOT customizable. Hosts
+ * override via the `redactionRules` prop — e.g. SparkLogs ships host/username/sid off.
+ */
+export const DEFAULT_REDACTION_RULES: Record<string, boolean> = {
+  username: true,
+  sid: true,
+  ipv4: true,
+  ipv6: true,
+  mac: true,
+  phone: true,
+  host: false,
+};
+
 /** A neutral fallback for any category not in the map. */
 export const FALLBACK_CATEGORY: CategoryDisplay = {
   label: "Redacted",

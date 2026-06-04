@@ -41,6 +41,11 @@ function detectorsFor(profiles: ProfileName[]): Detector[] {
   return [...byName.values()];
 }
 
+/** Distinct redaction categories the given profiles can emit — the universe for the rule toggles. */
+export function redactionCategories(profiles: ProfileName[]): string[] {
+  return [...new Set(detectorsFor(profiles).map((d) => d.category))];
+}
+
 /**
  * Redact a batch of text files together; returns redacted text + UI-facing aggregates. All files go
  * through ONE shared correlation map so the same token gets the same fake everywhere. `onProgress`,
@@ -49,9 +54,15 @@ function detectorsFor(profiles: ProfileName[]): Detector[] {
 export function runRedaction(
   files: { id: string; text: string }[],
   profiles: ProfileName[],
+  enabledCategories?: readonly string[] | null,
   onProgress?: (done: number, total: number) => void,
 ): RedactionSummary {
-  const redactor = new Redactor(detectorsFor(profiles));
+  let detectors = detectorsFor(profiles);
+  if (enabledCategories) {
+    const allow = new Set(enabledCategories);
+    detectors = detectors.filter((d) => allow.has(d.category));
+  }
+  const redactor = new Redactor(detectors);
   const mapping = new MappingEngine();
 
   const byId = new Map<string, FileRedaction>();

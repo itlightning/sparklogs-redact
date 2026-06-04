@@ -19,8 +19,12 @@ import type {
   UploadPayload,
 } from "./types.ts";
 import { classifyFile, DEFAULT_DOC_EXTS, DEFAULT_IMAGE_EXTS } from "./classify.ts";
-import { resolveCategoryMeta } from "./categoryMeta.ts";
-import { type RedactionSummary, type UsageEntry } from "./redaction.ts";
+import {
+  DEFAULT_REDACTION_RULES,
+  LOCKED_CATEGORIES,
+  resolveCategoryMeta,
+} from "./categoryMeta.ts";
+import { redactionCategories, type RedactionSummary, type UsageEntry } from "./redaction.ts";
 import { fromDataTransfer, genRef, uid } from "./util.ts";
 import { runRedactionOffThread } from "./worker-runner.ts";
 import {
@@ -95,6 +99,38 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     [props.categoryMeta],
   );
 
+  // ---- redaction-rule customization -------------------------------------
+  const allowRuleCustomization = props.allowRuleCustomization ?? true;
+  const ruleDefaults = props.redactionRules ?? DEFAULT_REDACTION_RULES;
+  // One entry per category the active profiles can emit: whether it's locked-on, user-toggleable, and
+  // its default state. A category is customizable only if it isn't locked AND appears in ruleDefaults.
+  const ruleConfig = useMemo(() => {
+    return redactionCategories(profiles).map((category) => {
+      const locked = LOCKED_CATEGORIES.has(category);
+      const customizable = !locked && category in ruleDefaults;
+      const defaultEnabled = locked ? true : customizable ? !!ruleDefaults[category] : true;
+      return { category, locked, customizable, defaultEnabled };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profiles, ruleDefaults]);
+  const [enabledCategories, setEnabledCategories] = useState<Set<string>>(
+    () => new Set(ruleConfig.filter((r) => r.defaultEnabled).map((r) => r.category)),
+  );
+  const toggleCategory = useCallback(
+    (category: string) => {
+      const item = ruleConfig.find((r) => r.category === category);
+      if (!item || !item.customizable) return; // locked / non-customizable can't change
+      setEnabledCategories((prev) => {
+        const next = new Set(prev);
+        if (next.has(category)) next.delete(category);
+        else next.add(category);
+        return next;
+      });
+      setSummary(null); // rule change ⇒ re-redact the batch on the preview step
+    },
+    [ruleConfig],
+  );
+
   const [step, setStep] = useState(0);
   const [maxReached, setMaxReached] = useState(0);
   const [files, setFiles] = useState<WizardFile[]>([]);
@@ -105,7 +141,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   const [summary, setSummary] = useState<RedactionSummary | null>(null);
   const [sel, setSel] = useState<string | null>(null);
   const [reveal, setReveal] = useState(false);
-  const [wrap, setWrap] = useState(true); // text preview soft-wraps long lines by default
+  const [wrap, setWrap] = useState(props.defaultWrap ?? false); // off by default → steady scrollbar
   const [tip, setTip] = useState<Tip | null>(null);
   const [form, setForm] = useState<FormFields>(() => ({
     name: "",
@@ -209,6 +245,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
         profiles,
         {
           needsOriginal,
+          enabledCategories: [...enabledCategories],
           onProgress: (done, total) => setRedactProgress({ done, total }),
           signal: controller.signal,
           createWorker,
@@ -235,7 +272,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     } finally {
       if (!controller.signal.aborted) setRedacting(false);
     }
-  }, [textFiles, profiles, uploadable, allowRevealOriginal, previewStyle, createWorker]);
+  }, [textFiles, profiles, uploadable, allowRevealOriginal, previewStyle, createWorker, enabledCategories]);
 
   const cancelRedaction = useCallback(() => {
     redactAbortRef.current?.abort();
@@ -315,12 +352,19 @@ function useUploadFlow(props: RedactUploadWizardProps) {
         : { name: f.name, path: f.path, kind: "binary", blob: f.file },
     );
     const s = summary ?? EMPTY_SUMMARY;
+    const redactRules: Record<string, boolean> = {};
+    for (const r of ruleConfig) redactRules[r.category] = enabledCategories.has(r.category);
     return {
       fields: form,
       files: out,
-      summary: { totals: s.totals, mappingSize: s.mappingSize, fileCount: out.length },
+      summary: {
+        totals: s.totals,
+        mappingSize: s.mappingSize,
+        fileCount: out.length,
+        redactRules,
+      },
     };
-  }, [uploadable, summary, form]);
+  }, [uploadable, summary, form, ruleConfig, enabledCategories]);
 
   const startUpload = useCallback(async () => {
     const controller = new AbortController();
@@ -407,6 +451,10 @@ function useUploadFlow(props: RedactUploadWizardProps) {
     previewStyle,
     allowRevealOriginal,
     bindFindKey,
+    allowRuleCustomization,
+    ruleConfig,
+    enabledCategories,
+    toggleCategory,
     policy,
     categoryFor,
     detailsSlot: props.detailsSlot,

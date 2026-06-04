@@ -10,6 +10,7 @@ interface RedactMessage {
   type: "redact";
   files: { id: string; file: File }[];
   profiles: ProfileName[];
+  enabledCategories: string[];
   needsOriginal: boolean;
 }
 
@@ -31,7 +32,7 @@ self.onmessage = async (e: MessageEvent<RedactMessage>) => {
     );
     const originals: Record<string, string> = {};
     if (msg.needsOriginal) for (const r of reads) originals[r.id] = r.text;
-    const summary = runRedaction(reads, msg.profiles, (done) =>
+    const summary = runRedaction(reads, msg.profiles, msg.enabledCategories, (done) =>
       post({ type: "progress", done, total }),
     );
     post({ type: "result", summary, originals });
