@@ -36,8 +36,9 @@ import "@sparklogs/redact-react/styles.css";
 
 - **`onSubmit(payload, ctx)`** receives the already-redacted `UploadPayload` (redacted text for text
   files, original blobs for allow-listed images/docs, plus a redaction summary). `ctx.onProgress({loaded,
-  total})` drives the wizard's progress bar; `ctx.signal` aborts when the user clicks Cancel. (`fetch`
-  cannot report upload progress — use `XMLHttpRequest`.) Resolve with `{ referenceId }` to show it on
+  total, message?})` drives the wizard's progress bar and optional status line (`message` is
+  host-localized); `ctx.signal` aborts when the user clicks Cancel. (`fetch` cannot report upload
+  progress — use `XMLHttpRequest`.) Resolve with `{ referenceId }` to show it on
   the receipt; reject to surface an error and let the user retry.
 - **`consents`** are host-defined; the component renders the primary/optional grouping, enforces
   `implies` dependencies, and validates `required`. The payload carries `consents: Record<id, boolean>`.

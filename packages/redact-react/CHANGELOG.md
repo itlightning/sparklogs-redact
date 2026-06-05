@@ -3,6 +3,12 @@
 All notable changes to `@sparklogs/redact-react` are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- **`UploadProgress.message`** — optional host-localized status line on `ctx.onProgress`; replaces the
+  default send-step copy while the bar still uses `loaded`/`total`. Completion remains when `onSubmit`
+  resolves (not when `loaded === total`).
+
 ## 0.1.0
 
 Initial public release.

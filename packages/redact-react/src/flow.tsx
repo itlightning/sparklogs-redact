@@ -17,6 +17,7 @@ import type {
   RedactUploadWizardProps,
   UploadFile,
   UploadPayload,
+  UploadProgress,
 } from "./types.ts";
 import { classifyFile, DEFAULT_DOC_EXTS, DEFAULT_IMAGE_EXTS } from "./classify.ts";
 import {
@@ -152,7 +153,7 @@ function useUploadFlow(props: RedactUploadWizardProps) {
   const [errs, setErrs] = useState<Record<string, string>>({});
   const [upState, setUpState] = useState<UploadState>("idle");
   const [upError, setUpError] = useState("");
-  const [upProgress, setUpProgress] = useState<{ loaded: number; total: number } | null>(null);
+  const [upProgress, setUpProgress] = useState<UploadProgress | null>(null);
   const [refId, setRefId] = useState("");
   const [nudge, setNudge] = useState(false);
   const [nudgeSeen, setNudgeSeen] = useState(false);

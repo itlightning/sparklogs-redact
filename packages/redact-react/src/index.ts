@@ -4,6 +4,7 @@ export type {
   UploadPayload,
   UploadFile,
   UploadContext,
+  UploadProgress,
   FormFields,
   ConsentItem,
   ConsentGroupsConfig,

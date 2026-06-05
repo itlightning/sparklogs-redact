@@ -132,10 +132,24 @@ export interface FormFields {
   consents: Record<string, boolean>;
 }
 
+/** Progress snapshot passed to the wizard from the host's onSubmit. */
+export interface UploadProgress {
+  /** Numerator for the determinate bar (bytes or a synthetic scale such as 0–100). */
+  loaded: number;
+  /** Denominator paired with loaded. */
+  total: number;
+  /**
+   * Host-defined status line (already localized). When set, replaces the default upload copy; the
+   * wizard still appends a percent when loaded/total yield one. Completion is only when onSubmit
+   * resolves — not when loaded === total.
+   */
+  message?: string;
+}
+
 /** Passed to the host's onSubmit so it can stream progress + observe cancellation. */
 export interface UploadContext {
-  /** Report cumulative upload progress (bytes) so the wizard renders a determinate bar. */
-  onProgress: (p: { loaded: number; total: number }) => void;
+  /** Report progress so the wizard renders a determinate bar + optional status message. */
+  onProgress: (p: UploadProgress) => void;
   /** Aborts when the user clicks Cancel; the host must abort its in-flight transport. */
   signal: AbortSignal;
 }
@@ -171,8 +185,9 @@ export interface UploadPayload {
 export interface RedactUploadWizardProps {
   /**
    * Transmit the redacted payload. The host owns the network call and any extra fields (e.g. a
-   * captcha token). `ctx.onProgress` lets the host stream upload progress to the wizard's bar, and
-   * `ctx.signal` aborts when the user cancels. Resolve with a `referenceId` to show it on the
+   * captcha token). `ctx.onProgress` lets the host stream upload progress (and an optional localized
+   * `message`) to the wizard's bar; `ctx.signal` aborts when the user cancels. Resolve with a
+   * `referenceId` to show it on the
    * confirmation screen; reject to surface an error and let the user retry.
    */
   onSubmit: (payload: UploadPayload, ctx: UploadContext) => Promise<{ referenceId?: string } | void>;
