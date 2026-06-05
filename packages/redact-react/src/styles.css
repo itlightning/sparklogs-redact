@@ -623,12 +623,16 @@
 }
 .slup__rulePill--locked {
   cursor: default;
-  border-style: dashed;
-  color: var(--slup-text-muted);
+  border-color: var(--slup-border-accent);
+  background: var(--slup-surface-selected);
+  color: var(--slup-text);
 }
 .slup__rulePill svg {
   width: 12px;
   height: 12px;
+}
+.slup__rulePill--locked svg {
+  color: var(--slup-spark);
 }
 .slup__ruleDot {
   width: 9px;

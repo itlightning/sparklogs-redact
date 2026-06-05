@@ -1,6 +1,6 @@
 {
   "name": "@sparklogs/redact-react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Reusable React wizard for in-browser, redact-locally-then-upload flows. Classifies files, redacts PII with @sparklogs/redact-core, shows a before/after preview, and hands a redacted payload to a host-supplied onSubmit. Themeable via CSS variables; transport- and captcha-agnostic.",
   "license": "MIT",
   "publishConfig": {
@@ -48,7 +48,7 @@
     "@codemirror/search": "^6.7.0",
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.34.1",
-    "@sparklogs/redact-core": "^0.1.0"
+    "@sparklogs/redact-core": "^0.2.0"
   },
   "peerDependencies": {
     "react": ">=18",

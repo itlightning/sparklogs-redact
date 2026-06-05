@@ -76,11 +76,20 @@ export function StepSend() {
     );
   }
 
-  // running
+  // running — completion is when onSubmit resolves; loaded/total only drive the bar.
   const pct =
     upProgress && upProgress.total > 0
       ? Math.min(100, Math.round((upProgress.loaded / upProgress.total) * 100))
       : null;
+  const defaultStatus =
+    "Uploading " +
+    uploadable.length +
+    " redacted file" +
+    (uploadable.length > 1 ? "s" : "") +
+    "…";
+  const statusBase = upProgress?.message?.trim() || defaultStatus;
+  const statusText = statusBase + (pct != null ? " " + pct + "%" : "");
+  const progressAria = upProgress?.message?.trim() || "Upload progress";
   return (
     <div className="slup__upWrap">
       <div className="slup__upBig">
@@ -88,19 +97,14 @@ export function StepSend() {
           {pct != null ? pct + "%" : <Icon.Loader className="slup__spin" />}
         </div>
         <div className="slup__upState" role="status" aria-live="polite">
-          {"Uploading " +
-            uploadable.length +
-            " redacted file" +
-            (uploadable.length > 1 ? "s" : "") +
-            " over TLS…" +
-            (pct != null ? " " + pct + "%" : "")}
+          {statusText}
         </div>
       </div>
       <div
         className="slup__meterTrack"
         style={{ height: 10, marginBottom: 18 }}
         role="progressbar"
-        aria-label="Upload progress"
+        aria-label={progressAria}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={pct ?? undefined}
@@ -123,7 +127,7 @@ export function StepSend() {
         ))}
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16 }}>
-        <span className="slup__footNote">{"Sending " + fmtBytes(totalSize) + " — stays on this page until done."}</span>
+        <span className="slup__footNote">{"Sending " + fmtBytes(totalSize) + ". Keep this tab open until you see confirmation."}</span>
         <button className="slup__btn slup__btn--quiet" onClick={cancelUpload}>
           <Icon.X />
           Cancel
