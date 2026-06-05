@@ -40,11 +40,12 @@ For a reproducible tree (same as CI), use `npm ci` instead of `npm install` when
 GitHub Actions runs the same gate as local dev:
 
 ```bash
-make ci    # npm ci · build · typecheck · test · smoke
+make ci    # npm ci · build · typecheck · test · audit · smoke
 ```
 
 `make ci` installs **all** workspaces (including React devDependencies), builds every package,
-typechecks core/cli/react, runs all package tests, then smoke-tests the CLI bundle.
+typechecks core/cli/react, runs all package tests, runs `npm audit` (logs all findings; **fails** on
+high/critical in **production** deps only), then smoke-tests the CLI bundle.
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live
@@ -80,6 +81,17 @@ node packages/redact-cli/dist/cli.js profiles
 Full command reference: [`packages/redact-cli/README.md`](packages/redact-cli/README.md). Library
 API + detection-profile docs: [`packages/redact-core/README.md`](packages/redact-core/README.md).
 React wizard: [`packages/redact-react/README.md`](packages/redact-react/README.md).
+
+## Limitations
+
+- **Pseudonymization, not anonymization** — consistent fakes preserve structure and correlations; a clean `scan` does not mean safe to publish without review.
+- **Regex-based** — false negatives/positives depend on profile and log shape; built-in profiles deliberately skip some shapes (e.g. `windows-log` and IPv4).
+- Not legal/compliance advice.
+
+Package-specific caveats:
+- [`redact-core`](packages/redact-core/README.md#limitations)
+- [`redact-cli`](packages/redact-cli/README.md#limitations)
+- [`redact-react`](packages/redact-react/README.md#limitations)
 
 ## License
 

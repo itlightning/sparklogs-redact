@@ -54,6 +54,12 @@ and **must never be committed**.
 | `redact` | ok | — | usage / IO error |
 | `scan` | clean | residual PII found | usage / IO error |
 
+## Limitations
+
+- `scan` only catches patterns the selected profile(s) know; a pass is not "no PII anywhere."
+- Same engine limits as [`redact-core`](../redact-core/README.md#limitations).
+- `--save-map` / `--load-map` correlation files embed **raw tokens** — secret material, never commit (see repo `.gitignore`).
+
 ## License
 
 [MIT](../../LICENSE)
