@@ -1,6 +1,6 @@
 {
   "name": "@sparklogs/redact-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Node CLI for @sparklogs/redact-core: redact PII in log files and scan for residual (un-redacted) PII as a CI gate.",
   "license": "MIT",
   "author": "IT Lightning, LLC (https://sparklogs.com)",
@@ -32,7 +32,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@sparklogs/redact-core": "^0.1.0"
+    "@sparklogs/redact-core": "^0.2.0"
   },
   "keywords": [
     "pii",

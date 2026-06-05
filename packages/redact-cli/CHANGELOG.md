@@ -6,7 +6,9 @@ All notable changes to `@sparklogs/redact-cli` are documented here. This project
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-core` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
-## Unreleased
+## 0.2.0
+
+Monorepo lockstep release; no functional changes in this package.
 
 ## 0.1.0
 

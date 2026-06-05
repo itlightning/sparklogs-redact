@@ -6,11 +6,16 @@ All notable changes to `@sparklogs/redact-react` are documented here. This proje
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-core` and
 `@sparklogs/redact-cli` (same version number; see repo root README).
 
-## Unreleased
+## 0.2.0
 
 - **`UploadProgress.message`** — optional host-localized status line on `ctx.onProgress`; replaces the
   default send-step copy while the bar still uses `loaded`/`total`. Completion remains when `onSubmit`
   resolves (not when `loaded === total`).
+- **Export `UploadProgress`** from the package entrypoint.
+- **Wizard copy** — clearer step hints, headers, and footers (on-device redaction, upload timing,
+  keep tab open until confirmation).
+- **Send step** — host `message` drives status text and progress bar `aria-label`; footer copy updated.
+- **Locked rule pills** — selected styling (was dashed/muted).
 
 ## 0.1.0
 
