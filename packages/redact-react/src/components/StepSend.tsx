@@ -86,7 +86,7 @@ export function StepSend() {
     uploadable.length +
     " redacted file" +
     (uploadable.length > 1 ? "s" : "") +
-    " over TLS…";
+    "…";
   const statusBase = upProgress?.message?.trim() || defaultStatus;
   const statusText = statusBase + (pct != null ? " " + pct + "%" : "");
   const progressAria = upProgress?.message?.trim() || "Upload progress";
@@ -127,7 +127,7 @@ export function StepSend() {
         ))}
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16 }}>
-        <span className="slup__footNote">{"Sending " + fmtBytes(totalSize) + " — stays on this page until done."}</span>
+        <span className="slup__footNote">{"Sending " + fmtBytes(totalSize) + ". Keep this tab open until you see confirmation."}</span>
         <button className="slup__btn slup__btn--quiet" onClick={cancelUpload}>
           <Icon.X />
           Cancel

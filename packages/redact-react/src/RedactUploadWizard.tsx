@@ -12,9 +12,9 @@ import { StepSend } from "./components/StepSend.tsx";
 const STEPS = [
   { label: "Select files", hint: "Drop folders or files" },
   { label: "Review types", hint: "Confirm what we detected" },
-  { label: "Redact & preview", hint: "Anonymize, then look" },
+  { label: "Redact & preview", hint: "Preview redacted output" },
   { label: "Your details", hint: "Contact & permissions" },
-  { label: "Send", hint: "Upload & confirm" },
+  { label: "Send", hint: "Upload when ready" },
 ];
 
 function Stepper() {
@@ -72,12 +72,12 @@ const HEADS = [
   {
     k: "Step 2",
     t: "Review what we detected",
-    s: "Confirm the read on each file. Text files get PII-redacted; allow-listed images and docs go as-is.",
+    s: "Check how each file was classified. Text logs are redacted; allowed images and documents upload unchanged.",
   },
   {
     k: "Step 3",
     t: "Redact, then preview",
-    s: "PII is replaced in-memory across all files at once. Scroll the result and open any screenshot before sending.",
+    s: "Sensitive values are redacted on your device before anything uploads. Review every file below, including screenshots, before you continue.",
   },
   {
     k: "Step 4",
@@ -87,7 +87,7 @@ const HEADS = [
   {
     k: "Step 5",
     t: "Sending your redacted files",
-    s: "Uploading over TLS. This stays on the page until it finishes.",
+    s: "Upload in progress. Your files are encrypted in transit. Keep this tab open until the confirmation screen appears.",
   },
 ];
 
@@ -104,7 +104,7 @@ function Footer() {
           ? "Redaction runs entirely on your device."
           : "No text files to redact."
         : step === 3
-          ? "You can review everything before it sends."
+          ? "Nothing uploads until you click Upload redacted data. Review the prior steps first if you need to."
           : "";
   const nextLabel =
     step === 3 ? "Upload redacted data" : step === 2 ? "Looks good, continue" : "Continue";

@@ -322,7 +322,7 @@ export function StepRedact() {
             maps consistently everywhere.
           </>
         ) : (
-          "Review what we’re about to upload below."
+          "Review the files below before you continue."
         )}
       </Note>
       <Legend />
