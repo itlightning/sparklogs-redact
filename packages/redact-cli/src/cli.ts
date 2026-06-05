@@ -8,7 +8,7 @@
 //   sparklogs-redact redact <input|-> [-o <output|->]      [--profile <name>] [--stats] [--report <f>]
 //   sparklogs-redact redact <in...>  --out-dir <dir>        [--profile <name>] [--stats] [--report <f>]
 //                                    [--save-map <f>] [--load-map <f>]   # shared correlation map
-//   sparklogs-redact scan   <path...>                       [--profile <name>] [--max <N>] [--quiet]
+//   sparklogs-redact scan   <path...>                       [--profile <name> | --enable-all | --disable-categories list] [--max N] [--quiet]
 //   sparklogs-redact profiles
 //
 // Multiple inputs (or --out-dir) redact through ONE correlation map, so the same real token gets the
@@ -30,6 +30,7 @@ import {
   MappingEngine,
   loadProfile,
   profileNames,
+  detectorCategories,
   type Detector,
   type RedactionRecord,
 } from "@sparklogs/redact-core";
@@ -40,18 +41,69 @@ function fail(msg: string, code = 2): never {
 }
 
 /**
- * Detectors for a run: a single named `--profile`, or — with `--enable-all` — EVERY detector from
- * EVERY profile (deduped by name), composed into one list. The compose path is what tooling that needs
- * the broadest possible redaction should use (e.g. sanitising data destined for a public/source
- * library): it guarantees no category is missed just because it lives in another profile.
+ * Compose EVERY detector from EVERY profile (deduped by detector name).
  */
-function detectorsForRun(profile: string, enableAll: boolean): Detector[] {
-  if (!enableAll) return loadProfile(profile);
+function composeAllProfiles(): Detector[] {
   const byName = new Map<string, Detector>();
   for (const name of profileNames()) {
     for (const d of loadProfile(name)) if (!byName.has(d.name)) byName.set(d.name, d);
   }
   return [...byName.values()];
+}
+
+function parseCategoryList(raw: string): Set<string> {
+  const known = new Set(detectorCategories());
+  const out = new Set<string>();
+  const invalid: string[] = [];
+  for (const part of raw.split(",")) {
+    const c = part.trim().toLowerCase();
+    if (!c) continue;
+    if (known.has(c)) out.add(c);
+    else invalid.push(c);
+  }
+  if (invalid.length > 0) {
+    fail(
+      `unknown categor${invalid.length === 1 ? "y" : "ies"} in --disable-categories: ${invalid.join(", ")} ` +
+        `(known: ${detectorCategories().join(", ")})`,
+    );
+  }
+  if (out.size === 0) fail("empty --disable-categories list");
+  return out;
+}
+
+interface DetectorRunOpts {
+  profile: string;
+  profileExplicit: boolean;
+  enableAll: boolean;
+  disableCategories: Set<string>;
+}
+
+/** Tri-mode detector selection: default profile | --enable-all | --disable-categories (all minus list). */
+function detectorsForRun(opts: DetectorRunOpts): Detector[] {
+  if (opts.enableAll && opts.disableCategories.size > 0) {
+    fail("use --enable-all OR --disable-categories, not both");
+  }
+  if (opts.disableCategories.size > 0) {
+    if (opts.profileExplicit) {
+      fail("--disable-categories composes all profiles; do not combine with --profile");
+    }
+    return composeAllProfiles().filter((d) => !opts.disableCategories.has(d.category));
+  }
+  if (opts.enableAll) return composeAllProfiles();
+  return loadProfile(opts.profile);
+}
+
+function takeDetectorRunOpts(args: string[]): DetectorRunOpts {
+  const profileOpt = takeOpt(args, "--profile");
+  const disableRaw = takeOpt(args, "--disable-categories");
+  const enableAll = takeFlag(args, "--enable-all");
+  const disableCategories = disableRaw ? parseCategoryList(disableRaw) : new Set<string>();
+  return {
+    profile: profileOpt ?? "windows-log",
+    profileExplicit: profileOpt !== undefined,
+    enableAll,
+    disableCategories,
+  };
 }
 
 function readBytes(path: string): Uint8Array {
@@ -97,14 +149,13 @@ function walk(path: string, out: string[]): void {
 }
 
 function cmdRedact(args: string[]): void {
-  const profile = takeOpt(args, "--profile") ?? "windows-log";
   const outDir = takeOpt(args, "--out-dir");
   const out = takeOpt(args, "-o") ?? takeOpt(args, "--out");
   const saveMap = takeOpt(args, "--save-map");
   const loadMap = takeOpt(args, "--load-map");
   const report = takeOpt(args, "--report");
   const showStats = takeFlag(args, "--stats");
-  const enableAll = takeFlag(args, "--enable-all");
+  const det = takeDetectorRunOpts(args);
   for (const a of args) {
     if (a.startsWith("--")) fail(`redact: unknown option ${a}`);
   }
@@ -119,7 +170,7 @@ function cmdRedact(args: string[]): void {
   }
   if (out && multi) fail("redact: -o is for a single input; use --out-dir for multiple");
 
-  const redactor = new Redactor(detectorsForRun(profile, enableAll));
+  const redactor = new Redactor(detectorsForRun(det));
   // One correlation map shared across every input in this invocation; optionally seeded from a prior
   // run so a later top-up of the SAME dataset keeps the same pseudonyms.
   let engine: MappingEngine;
@@ -186,16 +237,18 @@ function cmdRedact(args: string[]): void {
 }
 
 function cmdScan(args: string[]): void {
-  const profile = takeOpt(args, "--profile") ?? "windows-log";
   const max = Number(takeOpt(args, "--max") ?? "50");
   const quiet = takeFlag(args, "--quiet");
-  const enableAll = takeFlag(args, "--enable-all");
+  const det = takeDetectorRunOpts(args);
   if (args.length === 0) fail("scan: missing <path...>");
+  for (const a of args) {
+    if (a.startsWith("--")) fail(`scan: unknown option ${a}`);
+  }
 
   const files: string[] = [];
   for (const p of args) walk(p, files);
 
-  const redactor = new Redactor(detectorsForRun(profile, enableAll));
+  const redactor = new Redactor(detectorsForRun(det));
   let total = 0;
   let shown = 0;
   for (const f of files) {
@@ -236,13 +289,18 @@ function main(argv: string[]): void {
     case "--help":
       process.stdout.write(
         "sparklogs-redact <command>\n\n" +
-          "  redact <input|-> [-o out] [--profile name | --enable-all] [--stats] [--report f]\n" +
-          "  redact <in...> --out-dir dir [--save-map f] [--load-map f] [--profile name | --enable-all] [--stats] [--report f]\n" +
-          "  scan <path...> [--profile name | --enable-all] [--max N] [--quiet]\n" +
+          "  redact <input|-> [-o out] [--profile name | --enable-all | --disable-categories list] [--stats] [--report f]\n" +
+          "  redact <in...> --out-dir dir [--save-map f] [--load-map f] [--profile | --enable-all | --disable-categories] [--stats] [--report f]\n" +
+          "  scan <path...> [--profile name | --enable-all | --disable-categories list] [--max N] [--quiet]\n" +
           "  profiles\n\n" +
           "  Profiles: " + profileNames().join(", ") + "\n" +
-          "  --enable-all composes EVERY detector from EVERY profile (broadest redaction; use this when\n" +
-          "  sanitising data for a public/source library so no category is missed).\n" +
+          "  Categories: " + detectorCategories().join(", ") + "\n" +
+          "  Detector selection (mutually exclusive — pick one):\n" +
+          "    (default)     --profile <name>  (windows-log when omitted)\n" +
+          "    --enable-all                    every detector from every profile\n" +
+          "    --disable-categories a,b,c      every profile, minus listed categories\n" +
+          "  --disable-categories cannot be combined with --profile or --enable-all.\n" +
+          "  CI fixture gate example: scan fixtures/ --disable-categories username,host\n" +
           "  Multiple inputs (or --out-dir) share one correlation map so a token maps the same in\n" +
           "  every file. --save-map/--load-map persist that map (RAW PII — never commit it).\n" +
           "  --report writes per-redaction metadata as JSON (no raw PII; safe to keep).\n",

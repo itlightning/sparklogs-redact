@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -47,4 +48,80 @@ test("redact stdin/stdout round-trip exits 0", () => {
   });
   assert.equal(r.status, 0, asText(r.stderr) || asText(r.stdout));
   assert.ok(asText(r.stdout).includes("10.0.0.0"), "benign version string preserved");
+});
+
+function writeTempLog(name: string, text: string): string {
+  const dir = mkdtempSync(join(tmpdir(), "redact-cli-"));
+  const path = join(dir, name);
+  writeFileSync(path, text, "utf8");
+  return path;
+}
+
+test("scan: /Users/Default/ in CBS-style path is clean (profile safelist)", () => {
+  const path = writeTempLog(
+    "cbs.log",
+    "GLOBALROOT/Device/HarddiskVolumeShadowCopy6/Users/Default/ntuser.dat\n",
+  );
+  const r = runCli(["scan", path, "--quiet"]);
+  assert.equal(r.status, 0, asText(r.stderr) || asText(r.stdout));
+});
+
+test("scan: --disable-categories skips username but still catches secrets", () => {
+  const jwt =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+    "eyJzdWIiOiIxMjM0NTY3ODkwIn0." +
+    "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  const userOnly = writeTempLog("user.log", "path \\Users\\realperson\\docs\n");
+  const secret = writeTempLog("secret.log", `token ${jwt}\n`);
+
+  const rUser = runCli([
+    "scan",
+    userOnly,
+    "--quiet",
+    "--disable-categories",
+    "username,host",
+  ]);
+  assert.equal(rUser.status, 0, asText(rUser.stderr) || asText(rUser.stdout));
+
+  const rSecret = runCli([
+    "scan",
+    secret,
+    "--quiet",
+    "--disable-categories",
+    "username,host",
+  ]);
+  assert.equal(rSecret.status, 1, "JWT should still be flagged");
+
+  const userSid = writeTempLog("sid.log", "owner S-1-5-21-1004336348-1177238915-682003330-1001\n");
+  const rSid = runCli(["scan", userSid, "--quiet", "--disable-categories", "username,host"]);
+  assert.equal(rSid.status, 1, "user SID should still be flagged when only username/host disabled");
+});
+
+test("scan: --enable-all and --disable-categories together is a usage error", () => {
+  const path = writeTempLog("x.log", "hello\n");
+  const r = runCli(["scan", path, "--enable-all", "--disable-categories", "host"]);
+  assert.equal(r.status, 2, asText(r.stderr) || asText(r.stdout));
+  assert.match(asText(r.stderr), /not both/i);
+});
+
+test("scan: --profile and --disable-categories together is a usage error", () => {
+  const path = writeTempLog("x.log", "hello\n");
+  const r = runCli(["scan", path, "--profile", "generic", "--disable-categories", "host"]);
+  assert.equal(r.status, 2, asText(r.stderr) || asText(r.stdout));
+  assert.match(asText(r.stderr), /do not combine with --profile/i);
+});
+
+test("scan: unknown --disable-categories name is a usage error", () => {
+  const path = writeTempLog("x.log", "hello\n");
+  const r = runCli(["scan", path, "--disable-categories", "usernames"]);
+  assert.equal(r.status, 2, asText(r.stderr) || asText(r.stdout));
+  assert.match(asText(r.stderr), /unknown categor.*usernames/i);
+  assert.match(asText(r.stderr), /known:/i);
+});
+
+test("redact: unknown --disable-categories name is a usage error", () => {
+  const path = writeTempLog("x.log", "hello\n");
+  const r = runCli(["redact", path, "-o", "-", "--disable-categories", "hosts"]);
+  assert.equal(r.status, 2, asText(r.stderr) || asText(r.stdout));
+  assert.match(asText(r.stderr), /unknown categor.*hosts/i);
 });

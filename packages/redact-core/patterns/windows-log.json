@@ -13,8 +13,8 @@
       "category": "username",
       "pattern": "(?<=\\\\[Uu]sers\\\\|/[Uu]sers/|/home/)[^\\\\/\\s,;\"'()\\[\\]<>|:*?]+",
       "flags": "",
-      "safe": "^User\\d+$",
-      "description": "Local account name in a home-directory path: Windows \\Users\\<name>, macOS /Users/<name>, or Linux /home/<name>. The Unix forms are slightly looser (a URL path like .../home/<x> can match), but the category is opt-in; for support logs (CBS/DISM) the Windows form is the common case."
+      "safe": "^(?:User\\d+|Default|Public|Shared|Guest|Administrator|WDAGUtilityAccount|defaultuser\\d*|All)$",
+      "description": "Local account name in a home-directory path: Windows \\Users\\<name>, macOS /Users/<name>, or Linux /home/<name>. The Unix forms are slightly looser (a URL path like .../home/<x> can match), but the category is opt-in; for support logs (CBS/DISM) the Windows form is the common case. Well-known OS profile folder names (Default, Public, Shared, Guest, Administrator, WDAGUtilityAccount, defaultuser0, …) and All (first segment of \\Users\\All Users\\) are treated as safe — they are public Microsoft/Windows identifiers, not customer identities."
     },
     {
       "name": "user-sid",

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { Redactor } from "../src/redact.ts";
-import { loadProfile, profileNames, WINDOWS_LOG } from "../src/detectors.ts";
+import { detectorCategories, loadProfile, profileNames, WINDOWS_LOG } from "../src/detectors.ts";
 
 test("profileNames includes windows-log, generic, and secret", () => {
   for (const name of ["windows-log", "generic", "secret"]) {
@@ -22,6 +22,19 @@ test("loadProfile returns detectors for windows-log", () => {
 
 test("loadProfile throws on unknown profile", () => {
   assert.throws(() => loadProfile("nope"), /unknown profile/);
+});
+
+test("detectorCategories lists every category used by built-in profiles", () => {
+  const cats = detectorCategories();
+  assert.ok(cats.length > 0);
+  assert.deepEqual(cats, [...cats].sort());
+  assert.ok(cats.includes("username"));
+  assert.ok(cats.includes("secret"));
+  for (const name of profileNames()) {
+    for (const d of loadProfile(name)) {
+      assert.ok(cats.includes(d.category), `${name}/${d.name} category ${d.category}`);
+    }
+  }
 });
 
 test("WINDOWS_LOG export matches loadProfile", () => {
@@ -58,6 +71,31 @@ test("unc-host: real UNC host is redacted, JSON doubled-backslash path segments 
   // JSON-escaped path (every separator doubled) must NOT match each segment as a host
   const json = '"\\\\\\\\?\\\\C:\\\\Windows\\\\CBS\\\\ACR\\\\file.cab"';
   assert.equal(r.redact(json).text, json, "JSON doubled-backslash path segments should be left intact");
+});
+
+test("win-username-path: well-known profile folders are safe; real account names redact", () => {
+  const r = new Redactor(loadProfile("windows-log").filter((d) => d.category === "username"));
+  const cbs =
+    "GLOBALROOT/Device/HarddiskVolumeShadowCopy6/Users/Default/ntuser.dat from \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy6\\Users\\User00001\\ntuser.dat";
+  assert.equal(r.redact(cbs).text, cbs, "CBS /Users/Default/ registry path should stay intact");
+  assert.deepEqual(r.scan(cbs), []);
+
+  for (const intact of [
+    "open C:\\Users\\Public\\Documents\\file.txt",
+    "path C:\\Users\\All Users\\Desktop\\x",
+    "home C:\\Users\\defaultuser0\\AppData",
+    "acct C:\\Users\\WDAGUtilityAccount\\Data",
+    "admin C:\\Users\\Administrator\\Desktop",
+    "/Users/Shared/foo",
+    "/home/Guest/docs",
+  ]) {
+    assert.equal(r.redact(intact).text, intact, `should be intact: ${intact}`);
+    assert.deepEqual(r.scan(intact), [], `scan clean: ${intact}`);
+  }
+
+  const red = r.redact("user \\Users\\alice logged in");
+  assert.match(red.text, /\\Users\\User\d+/, "real username should redact");
+  assert.notEqual(red.text, "user \\Users\\alice logged in");
 });
 
 test("fqdn-internal: only known-internal suffixes redact; filenames/public FQDNs stay intact", () => {
