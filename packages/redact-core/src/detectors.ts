@@ -29,4 +29,13 @@ export function loadProfile(name: string): Detector[] {
   return p.detectors;
 }
 
+/** Sorted unique detector categories across every built-in profile. */
+export function detectorCategories(): string[] {
+  const seen = new Set<string>();
+  for (const name of profileNames()) {
+    for (const d of loadProfile(name)) seen.add(d.category);
+  }
+  return [...seen].sort();
+}
+
 export { windowsLog as WINDOWS_LOG, generic as GENERIC, secret as SECRET };

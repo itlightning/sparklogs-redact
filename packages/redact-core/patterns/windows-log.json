@@ -4,7 +4,7 @@
   "description": "Detection specs for PII commonly found in Windows servicing/diagnostic logs (CBS, DISM, SxS). Portable, language-agnostic regex specs: each detector's full match IS the sensitive token (context is excluded with look-around), so a redactor can replace match[0] directly. `safe` describes what the token looks like AFTER redaction — a redactor skips tokens that already match it (idempotent), and a residual-PII scanner treats them as clean (so it flags only un-redacted, real-looking PII).",
   "notes": [
     "IPv4 is deliberately ABSENT: in CBS/DISM the dotted-quad shape is overwhelmingly a Windows version (10.0.0.0, 6.4.1.0), so redacting it would corrupt version strings and break AutoExtract patterns for ~zero PII gain. Use the `generic` profile if you truly need IP redaction.",
-    "Only USER SIDs (S-1-5-21-...) are matched; well-known/system SIDs (S-1-5-18/19/20, S-1-5-32-*) are not PII and are left intact.",
+    "Only USER/domain account SIDs (S-1-5-21-…-RID) are matched. Well-known NT Authority SIDs (S-1-5-18 LocalSystem, S-1-5-19/20 services, S-1-5-32-* built-in groups, S-1-5-80-* service logons, S-1-15-* app containers, etc.) are fixed public identifiers and are left intact — they never match this pattern.",
     "Microsoft WinSxS assembly names (amd64_microsoft-windows-*_31bf3856ad364e35_...) are NOT redacted: they are public component identifiers and are load-bearing for corruption analysis. A separate opt-in detector can target third-party assembly names when needed."
   ],
   "detectors": [
@@ -13,8 +13,8 @@
       "category": "username",
       "pattern": "(?<=\\\\[Uu]sers\\\\|/[Uu]sers/|/home/)[^\\\\/\\s,;\"'()\\[\\]<>|:*?]+",
       "flags": "",
-      "safe": "^User\\d+$",
-      "description": "Local account name in a home-directory path: Windows \\Users\\<name>, macOS /Users/<name>, or Linux /home/<name>. The Unix forms are slightly looser (a URL path like .../home/<x> can match), but the category is opt-in; for support logs (CBS/DISM) the Windows form is the common case."
+      "safe": "^(?:User\\d+|Default|Public|Shared|Guest|Administrator|WDAGUtilityAccount|defaultuser\\d*|All)$",
+      "description": "Local account name in a home-directory path: Windows \\Users\\<name>, macOS /Users/<name>, or Linux /home/<name>. The Unix forms are slightly looser (a URL path like .../home/<x> can match), but the category is opt-in; for support logs (CBS/DISM) the Windows form is the common case. Well-known OS profile folder names (Default, Public, Shared, Guest, Administrator, WDAGUtilityAccount, defaultuser0, …) and All (first segment of \\Users\\All Users\\) are treated as safe — they are public Microsoft/Windows identifiers, not customer identities."
     },
     {
       "name": "user-sid",
@@ -22,7 +22,7 @@
       "pattern": "S-1-5-21-\\d+-\\d+-\\d+-\\d+",
       "flags": "",
       "safe": "^S-1-5-21-0-0-0-\\d+$",
-      "description": "User/domain security identifier. Machine+RID identify an account; the well-known prefix S-1-5-21 marks a user SID (system SIDs are excluded)."
+      "description": "User or domain account SID: S-1-5-21-<machine-or-domain>-<RID>. The S-1-5-21 prefix marks the account domain (unique per local SAM or AD forest); the trailing RID identifies the account within that domain. Well-known NT Authority SIDs outside this shape (S-1-5-18 LocalSystem, S-1-5-19 Local Service, S-1-5-20 Network Service, S-1-5-32-* built-in groups, S-1-5-80-* services, S-1-15-* app packages, …) are fixed Microsoft identifiers and are not matched. After redaction, fakes use a zeroed domain triplet (S-1-5-21-0-0-0-<RID>)."
     },
     {
       "name": "email",

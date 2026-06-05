@@ -23,10 +23,13 @@ test("redacts a user SID, zeroing the machine triplet", () => {
 
 test("does not redact system SIDs (only S-1-5-21 user SIDs)", () => {
   const r = redactor();
-  const text = "LocalSystem S-1-5-18 and admins S-1-5-32-544";
+  const text =
+    "LocalSystem S-1-5-18 LocalService S-1-5-19 NetworkService S-1-5-20 " +
+    "admins S-1-5-32-544 service S-1-5-80-1234567890-1234567890-1234567890-1234567890-1234567890";
   const out = r.redact(text);
   assert.equal(out.text, text);
   assert.equal(out.mappingSize, 0);
+  assert.deepEqual(r.scan(text), []);
 });
 
 test("does not redact dotted-quad version strings (no IPv4 detector)", () => {
