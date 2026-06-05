@@ -1,6 +1,6 @@
 name: sparklogs-redact CI
 
-# Runs `make ci` (install + build + test + smoke) and posts a sticky pass/fail summary on PRs.
+# Runs `make ci` (install + build + test + audit + smoke) and posts a sticky pass/fail summary on PRs.
 # Pattern mirrors sparklogs-source-library and itl-flutter CI workflows.
 
 on:
@@ -73,7 +73,7 @@ jobs:
               summary,
               '```',
               '',
-              `<sub>install · build · typecheck · test · smoke · [\`${sha.slice(0, 7)}\`](${shaUrl})</sub>`,
+              `<sub>install · build · typecheck · test · audit · smoke · [\`${sha.slice(0, 7)}\`](${shaUrl})</sub>`,
             ].join('\n');
 
             const issue_number = context.issue.number;
