@@ -84,13 +84,14 @@ React wizard: [`packages/redact-react/README.md`](packages/redact-react/README.m
 
 ## Limitations
 
-**Pseudonymization, not anonymization** — consistent fakes preserve structure and correlations; a clean
-`scan` does not mean safe to publish without review. **Regex-based** — false negatives/positives depend
-on profile and log shape; built-in profiles deliberately skip some shapes (e.g. `windows-log` and IPv4).
-Not legal/compliance advice. Package-specific caveats:
-[`redact-core`](packages/redact-core/README.md#limitations),
-[`redact-cli`](packages/redact-cli/README.md#limitations),
-[`redact-react`](packages/redact-react/README.md#limitations).
+- **Pseudonymization, not anonymization** — consistent fakes preserve structure and correlations; a clean `scan` does not mean safe to publish without review.
+- **Regex-based** — false negatives/positives depend on profile and log shape; built-in profiles deliberately skip some shapes (e.g. `windows-log` and IPv4).
+- Not legal/compliance advice.
+
+Package-specific caveats:
+- [`redact-core`](packages/redact-core/README.md#limitations)
+- [`redact-cli`](packages/redact-cli/README.md#limitations)
+- [`redact-react`](packages/redact-react/README.md#limitations)
 
 ## License
 

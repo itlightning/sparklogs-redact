@@ -131,9 +131,22 @@ theme via variables and, if needed, override a class. Import the stylesheet once
 
 ### Deferred enhancements
 
+- **i18n (planned)** — English-only today; `copy` overrides four strings. Planned: a `WizardStrings`
+  default table (~60–90 UI/aria keys), `strings?: Partial<WizardStrings>` on the wizard (merged like
+  `copy`), passed via context to steps. Host supplies locale text; no ICU/plurals in v1. Consent/nudge
+  labels stay host-defined. Not started.
 - **Streaming / bounded memory**: the engine would decode and redact each file fully in memory. For inputs
   large enough to strain memory (hundreds of MB), a chunked/streaming pass would be needed; the
   detectors that span lines (e.g. PEM blocks) make this non-trivial. Not yet implemented.
+
+## Limitations
+
+- Builds on [`redact-core`](../redact-core/README.md#limitations) — same detection gaps.
+- **Allow-listed images/docs upload unredacted** (original blobs in `onSubmit`).
+- **Reveal original** (default on) shows raw values in-browser only; disable via `allowRevealOriginal` if UX allows.
+- Whole files decoded in memory (no streaming yet).
+- Default `profiles` include `secret` (aggressive).
+- Not a compliance product; host owns, consent copy, transport, and retention.
 
 ## Acknowledgements
 

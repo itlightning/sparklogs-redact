@@ -72,6 +72,15 @@ node --test          # run the test suite (Node built-in runner, TS via type-str
 npm run build        # bundle to dist/ via tsup (for publishing / consumption by redact-cli)
 ```
 
+## Limitations
+
+- Regex detectors may miss unanticipated PII and can false-positive (especially `generic` / `secret`).
+- Profile `notes` document intentional skips (e.g. `windows-log` does not redact dotted-quad “version” strings).
+- **Pseudonymization** keeps cross-token correlations within a pass; that can aid analysis but is not full anonymization.
+- `scan() === []` is a useful gate, not a guarantee of publishable output.
+- Custom profiles: pass `Detector[]` to `new Redactor(...)` or import JSON from `patterns/`; `loadProfile()` only knows built-ins.
+- `MappingEngine.toJSON()` / CLI `--save-map` files hold **raw originals** — treat like secrets; never commit.
+
 ## License
 
 [MIT](../../LICENSE)
