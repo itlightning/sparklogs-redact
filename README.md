@@ -23,6 +23,28 @@ the React package pulls in a UI toolchain — so a browser bundle of the core ne
 build-time dependency tree. The core being client-safe is exactly what makes in-browser local
 redaction (the React package) possible.
 
+## Versioning
+
+All publishable packages (`@sparklogs/redact-core`, `@sparklogs/redact-cli`, `@sparklogs/redact-react`)
+share **one semver** — bump every `packages/*/package.json` together on release, even when only one
+package changed functionally.
+
+- **Minor** (`0.1.0` → `0.2.0`): backward-compatible API or notable features.
+- **Patch**: bug fixes, no public API change.
+- **Major** (or pre-1.0 minor when breaking): incompatible API changes.
+
+Each package has a `CHANGELOG.md`. During development, edit **`## Unreleased`** in the package(s) you
+changed; either **all three** changelogs have that section or **none** do (release PR). On release,
+move `## Unreleased` → `## X.Y.Z` in every changelog (packages with no functional change get a
+lockstep stub line), set all `package.json` versions to `X.Y.Z`, and set `@sparklogs/redact-core` in
+cli/react to `^X.Y.Z`.
+
+CI runs `make check-versions` (`scripts/check-lockstep-versions.mjs`) to enforce lockstep versions,
+core dependency ranges, and changelog symmetry.
+
+**Agents:** never bump a single package version; run `make check-versions` after version or changelog
+edits.
+
 ## Develop
 
 ```bash
@@ -40,12 +62,13 @@ For a reproducible tree (same as CI), use `npm ci` instead of `npm install` when
 GitHub Actions runs the same gate as local dev:
 
 ```bash
-make ci    # npm ci · build · typecheck · test · audit · smoke
+make ci    # npm ci · build · typecheck · test · audit · smoke · check-versions
 ```
 
 `make ci` installs **all** workspaces (including React devDependencies), builds every package,
 typechecks core/cli/react, runs all package tests, runs `npm audit` (logs all findings; **fails** on
-high/critical in **production** deps only), then smoke-tests the CLI bundle.
+high/critical in **production** deps only), smoke-tests the CLI bundle, and verifies lockstep package
+versions plus changelog conventions (`make check-versions`).
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live

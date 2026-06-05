@@ -1,0 +1,32 @@
+---
+description: Apply when editing sparklogs-redact package versions, CHANGELOG.md, or release notes — lockstep semver across all @sparklogs/redact-* packages.
+globs: "packages/**/package.json,packages/**/CHANGELOG.md,package-lock.json"
+alwaysApply: false
+---
+
+# sparklogs-redact lockstep versioning
+
+Read repo root [README.md](../../README.md) **Versioning** section first.
+
+## Rules
+
+1. **Never bump one package alone** — `@sparklogs/redact-core`, `@sparklogs/redact-cli`, and
+   `@sparklogs/redact-react` share the same semver in `package.json`.
+2. **`@sparklogs/redact-core` range** — in `redact-cli` and `redact-react`, set
+   `"@sparklogs/redact-core": "^X.Y.Z"` where `X.Y.Z` is that shared version.
+3. **Changelogs** — all three `packages/*/CHANGELOG.md` must exist. Either all have `## Unreleased`
+   or none do. Latest `## X.Y.Z` heading must match `package.json`. Put `## Unreleased` above release
+   sections.
+4. **Dev PRs** — edit `## Unreleased` only in packages you changed; keep `package.json` at the current
+   release until a release PR.
+5. **Release PR** — bump all versions, promote `## Unreleased` → `## X.Y.Z` in every changelog (stub
+   line for packages with no functional change), run `npm install` at repo root, then
+   `make check-versions`.
+
+## Verify
+
+```bash
+make check-versions
+```
+
+Implemented in [`scripts/check-lockstep-versions.mjs`](../../scripts/check-lockstep-versions.mjs); wired into `make ci`.

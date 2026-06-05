@@ -3,6 +3,9 @@
 All notable changes to `@sparklogs/redact-react` are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
+Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-core` and
+`@sparklogs/redact-cli` (same version number; see repo root README).
+
 ## Unreleased
 
 - **`UploadProgress.message`** — optional host-localized status line on `ctx.onProgress`; replaces the

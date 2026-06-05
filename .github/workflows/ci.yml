@@ -73,7 +73,7 @@ jobs:
               summary,
               '```',
               '',
-              `<sub>install · build · typecheck · test · audit · smoke · [\`${sha.slice(0, 7)}\`](${shaUrl})</sub>`,
+              `<sub>install · build · typecheck · test · audit · smoke · check-versions · [\`${sha.slice(0, 7)}\`](${shaUrl})</sub>`,
             ].join('\n');
 
             const issue_number = context.issue.number;

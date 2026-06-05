@@ -4,9 +4,9 @@ NODE ?= node
 CLI := packages/redact-cli/dist/cli.js
 CLEAN_FIXTURE := test/fixtures/clean/sample.fixture
 
-.PHONY: ci install build typecheck test audit smoke help
+.PHONY: ci install build typecheck test audit smoke check-versions help
 
-ci: install build typecheck test audit smoke
+ci: install build typecheck test audit smoke check-versions
 	@echo "== sparklogs-redact CI OK =="
 
 install:
@@ -39,14 +39,19 @@ smoke:
 	$(NODE) $(CLI) scan $(CLEAN_FIXTURE) --quiet
 	@echo "== smoke OK =="
 
+check-versions:
+	@echo "== check-versions (lockstep semver + changelogs) =="
+	$(NODE) scripts/check-lockstep-versions.mjs
+
 help:
 	@echo ""
 	@echo "sparklogs-redact — make targets"
-	@echo "  make ci         npm ci + build + typecheck + test + audit + smoke (full gate)"
+	@echo "  make ci         npm ci + build + typecheck + test + audit + smoke + check-versions"
 	@echo "  make install    npm ci (all workspaces)"
 	@echo "  make build      npm run build (core, cli, react)"
 	@echo "  make typecheck  tsc --noEmit in core, cli, and react"
 	@echo "  make test       node --test in every package that defines test"
 	@echo "  make audit      npm audit (log all); fail on prod high/critical"
 	@echo "  make smoke      CLI profiles + scan on test/fixtures/clean/sample.fixture"
+	@echo "  make check-versions  lockstep package.json + CHANGELOG gate"
 	@echo ""
