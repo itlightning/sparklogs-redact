@@ -1,13 +1,27 @@
 # @sparklogs/redact-react
 
-A reusable React wizard for **"redact locally, then upload"** flows. The user picks log files;
-everything is classified and redacted **in the browser** with
-[`@sparklogs/redact-core`](../redact-core); they preview exactly what will be sent (before/after with
-per-value metadata) and fill in contact/consent details. Nothing is transmitted until they confirm —
-and the actual network call is the host's, via `onSubmit`.
+[![RedactUploadWizard: redact locally, then upload](https://raw.githubusercontent.com/itlightning/sparklogs-redact/main/docs/assets/redact-react-demo.gif)](https://raw.githubusercontent.com/itlightning/sparklogs-redact/main/docs/assets/redact-react-demo.gif)
 
-The component is **transport- and captcha-agnostic** (no endpoint or token baked in) and **themeable**
-through CSS custom properties. Sensible neutral defaults ship out of the box.
+React wizard for **"redact locally, then upload"** flows. The user picks log files; everything is
+classified and redacted **in the browser** with
+[`@sparklogs/redact-core`](https://www.npmjs.com/package/@sparklogs/redact-core). They preview what
+will be sent (before/after with per-value metadata) and fill in contact/consent details. Nothing is
+transmitted until they confirm; the actual network call is the host's, via `onSubmit`.
+
+**Transport- and captcha-agnostic** (no endpoint or token baked in). Theme via `--slup-*` CSS custom
+properties on the `.slup` root (see [Theming](#theming) below).
+
+From the [sparklogs-redact](https://github.com/itlightning/sparklogs-redact) monorepo. Depends on
+[`@sparklogs/redact-core`](https://www.npmjs.com/package/@sparklogs/redact-core) at the same version.
+CLI: [`@sparklogs/redact-cli`](https://www.npmjs.com/package/@sparklogs/redact-cli).
+
+## Install
+
+```bash
+npm install @sparklogs/redact-react
+```
+
+Requires **React 18+** (`react` and `react-dom` as peer dependencies).
 
 ## Use
 
@@ -38,14 +52,14 @@ import "@sparklogs/redact-react/styles.css";
   files, original blobs for allow-listed images/docs, plus a redaction summary). `ctx.onProgress({loaded,
   total, message?})` drives the wizard's progress bar and optional status line (`message` is
   host-localized); `ctx.signal` aborts when the user clicks Cancel. (`fetch` cannot report upload
-  progress — use `XMLHttpRequest`.) Resolve with `{ referenceId }` to show it on
+  progress; use `XMLHttpRequest`.) Resolve with `{ referenceId }` to show it on
   the receipt; reject to surface an error and let the user retry.
 - **`consents`** are host-defined; the component renders the primary/optional grouping, enforces
   `implies` dependencies, and validates `required`. The payload carries `consents: Record<id, boolean>`.
 - **`nudge`** (optional; omit to skip) shows a one-time modal on "continue" when an optional consent is
   left unchecked. **`copy`** overrides a few strings (rail title, reason label/placeholder, consent title).
-- **`detailsSlot`** renders host content inside the "Your details" step — e.g. a Cloudflare Turnstile
-  widget. The component never reads it; the host wires whatever it renders here into `onSubmit`.
+- **`detailsSlot`** renders host content inside the "Your details" step (e.g. a Cloudflare Turnstile
+  widget). The component never reads it; the host wires whatever it renders here into `onSubmit`.
 
 See `RedactUploadWizardProps` for policy knobs (`maxTotalBytes`, `maxFiles`, `imageExtensions`,
 `docExtensions`, `profiles`), layout (`navStyle`, `previewStyle`), `allowRevealOriginal`, and
@@ -59,11 +73,22 @@ See `RedactUploadWizardProps` for policy knobs (`maxTotalBytes`, `maxFiles`, `im
   that need specific syntax. The component bundles + instantiates its own worker by default and falls
   back to a synchronous in-thread pass if a worker can't be created, so this is rarely needed.
 
+## Preview
+
+The before/after view highlights redacted text using `outStart`/`outEnd` on each
+`RedactionRecord` from `@sparklogs/redact-core`. The reveal-original toggle reads input offsets from
+the in-browser source only. Raw PII never leaves the browser and is not part of `onSubmit`'s payload.
+See [Redaction metadata](https://github.com/itlightning/sparklogs-redact/blob/main/packages/redact-core/README.md#redaction-metadata-for-beforeafter-uis)
+in the core package.
+
 ## Theming
 
-All visuals are driven by `--slup-*` custom properties (see [`src/styles.css`](src/styles.css) for the
-full list). Override any of them on a wrapper to reskin — including redaction category colors
-(`--slup-cat-username`, `--slup-cat-email`, …). No host design tokens are referenced.
+Import once: `import "@sparklogs/redact-react/styles.css"`.
+
+Styles are BEM-prefixed (`.slup__*`) under a `.slup` root and do not style host elements outside that
+root. The stable theming surface is `--slup-*` custom properties (full list in
+[`styles.css` on GitHub](https://github.com/itlightning/sparklogs-redact/blob/main/packages/redact-react/src/styles.css)),
+including per-category colors (`--slup-cat-username`, `--slup-cat-email`, …).
 
 ```css
 .my-upload-page .slup {
@@ -71,27 +96,6 @@ full list). Override any of them on a wrapper to reskin — including redaction 
   --slup-spark: #ffe800;
   --slup-cat-email: var(--brand-blue);
 }
-```
-
-## How redaction metadata drives the preview
-
-`@sparklogs/redact-core` returns, per replaced token, both the original-text offsets (`start`/`end`)
-and the **output-text offsets** (`outStart`/`outEnd`). The preview slices the redacted text by the
-output offsets to place highlight "pills" (the realistic fakes are not regex-recoverable), and — for
-the local-only "reveal original" toggle — reads the raw value from the in-browser source via the
-input offsets. Raw PII never leaves the browser and is never part of `onSubmit`'s payload.
-
-## Local development (consuming this package without npm)
-
-This is an unpublished workspace package. A consumer (e.g. a Docusaurus site) resolves it from a
-sibling `sparklogs-redact` checkout via a bundler alias pointed at `dist/`. For fast iteration, run
-the core and this package in watch mode so edits rebuild `dist` immediately:
-
-```bash
-# from the sparklogs-redact repo root
-npm install
-npm run build -w @sparklogs/redact-core
-npx tsup --watch --config packages/redact-react/tsup.config.ts   # rebuilds dist on save
 ```
 
 ## Accessibility
@@ -106,59 +110,38 @@ npx tsup --watch --config packages/redact-react/tsup.config.ts   # rebuilds dist
 ## Browser support
 
 Targets modern evergreen browsers. The default stylesheet uses CSS `color-mix()` (Chrome/Edge 111+,
-Safari 16.2+, Firefox 113+) for subtle surface tints — override the affected `--slup-*` variables if
+Safari 16.2+, Firefox 113+) for subtle surface tints; override the affected `--slup-*` variables if
 you must support older engines. Requires the File/Blob and `TextDecoder` APIs; `crypto.randomUUID` is
 used when available (secure context) with a graceful fallback.
 
-## Styling contract
-
-Styles are global, BEM-prefixed (`.slup__*`) under a single `.slup` root, and **fully scoped** to that
-root (the package never styles host elements). The public, stable surface for theming is the
-`--slup-*` custom properties and the `.slup` root class — these are intentionally global so hosts can
-theme via variables and, if needed, override a class. Import the stylesheet once:
-`import "@sparklogs/redact-react/styles.css"`.
-
 ## Large-file performance
 
-- **Off-thread redaction** — the redaction pass runs in a Web Worker, so the main thread stays
+- **Off-thread redaction**: the redaction pass runs in a Web Worker, so the main thread stays
   responsive on multi-MB inputs; the wizard shows per-file progress and a working Cancel. If a worker
   can't be constructed (CSP, unusual bundler), it transparently falls back to a synchronous in-thread
   pass. Override worker construction with `createWorker` if your bundler needs it.
-- **Virtualized preview** — the default preview is a CodeMirror 6 viewer that only renders the visible
+- **Virtualized preview**: the default preview is a CodeMirror 6 viewer that only renders the visible
   viewport (the whole multi-MB document is never in the DOM at once). It loads in its own async chunk:
-  CodeMirror is fetched only when the component is used (never on other pages), prefetched at idle after
-  first paint so it's ready by the preview step, and is rendered lazily there. Swap it out entirely with
-  `renderPreview` to drop the dependency.
-
-### Deferred enhancements
-
-- **i18n (planned)** — English-only today; `copy` overrides four strings. Planned: a `WizardStrings`
-  default table (~60–90 UI/aria keys), `strings?: Partial<WizardStrings>` on the wizard (merged like
-  `copy`), passed via context to steps. Host supplies locale text; no ICU/plurals in v1. Consent/nudge
-  labels stay host-defined. Not started.
-- **Streaming / bounded memory**: the engine would decode and redact each file fully in memory. For inputs
-  large enough to strain memory (hundreds of MB), a chunked/streaming pass would be needed; the
-  detectors that span lines (e.g. PEM blocks) make this non-trivial. Not yet implemented.
+  CodeMirror is fetched only when the component is used, prefetched at idle after first paint, and
+  rendered lazily at the preview step. Swap it out entirely with `renderPreview` to drop the dependency.
 
 ## Limitations
 
-- Builds on [`redact-core`](../redact-core/README.md#limitations) — same detection gaps.
+- Same detection gaps as [`@sparklogs/redact-core`](https://www.npmjs.com/package/@sparklogs/redact-core#limitations).
 - **Allow-listed images/docs upload unredacted** (original blobs in `onSubmit`).
 - **Reveal original** (default on) shows raw values in-browser only; disable via `allowRevealOriginal` if UX allows.
 - Whole files decoded in memory (no streaming yet).
 - Default `profiles` include `secret` (aggressive).
-- Not a compliance product; host owns, consent copy, transport, and retention.
+- English-only UI today (`copy` overrides a few strings; broader i18n planned).
+- Not a compliance product; host owns consent copy, transport, and retention.
 
 ## Acknowledgements
 
-Thank you to the authors of these awesome packages:
-
-- [**CodeMirror 6**](https://codemirror.dev) (by Marijn Haverbeke and contributors): powers the
-  default virtualized before/after preview.
-- [**Lucide Icons**](https://lucide.dev) (ISC): we inlined as as
-  small SVG components. See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
+- [**CodeMirror 6**](https://codemirror.dev): default virtualized before/after preview.
+- [**Lucide Icons**](https://lucide.dev) (ISC): inlined as small SVG components. See
+  [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
 
 ## License
 
-[MIT](../../LICENSE). Third-party notices for redistributed material are in
+[MIT](https://github.com/itlightning/sparklogs-redact/blob/main/LICENSE). Third-party notices:
 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

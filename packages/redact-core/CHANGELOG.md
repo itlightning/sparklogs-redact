@@ -6,6 +6,10 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
+## 0.2.1
+
+- **README**: consumer-focused docs; install section, npm links (no monorepo contributor copy).
+
 ## 0.2.0
 
 Monorepo lockstep release; no functional changes in this package.
@@ -14,5 +18,5 @@ Monorepo lockstep release; no functional changes in this package.
 
 Initial public release.
 
-- Isomorphic detection + consistent-mapping engine + residual-PII scanner.
+- Isomorphic detection, consistent-mapping engine, and residual-PII scanner.
 - Portable JSON detection profiles (`windows-log`, `generic`, `secret`).
