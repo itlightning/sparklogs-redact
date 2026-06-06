@@ -19,4 +19,4 @@ Monorepo lockstep release; no functional changes in this package.
 Initial public release.
 
 - Node CLI (`sparklogs-redact`): `redact`, `scan`, and `profiles` commands.
-- Bundles `@sparklogs/redact-core` into a self-contained `dist/cli.js`.
+- Self-contained `dist/cli.js` bundling `@sparklogs/redact-core`.

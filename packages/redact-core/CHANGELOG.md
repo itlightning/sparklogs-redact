@@ -18,5 +18,5 @@ Monorepo lockstep release; no functional changes in this package.
 
 Initial public release.
 
-- Isomorphic detection + consistent-mapping engine + residual-PII scanner.
+- Isomorphic detection, consistent-mapping engine, and residual-PII scanner.
 - Portable JSON detection profiles (`windows-log`, `generic`, `secret`).
