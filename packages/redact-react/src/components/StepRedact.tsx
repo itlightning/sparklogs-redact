@@ -114,6 +114,11 @@ function PreviewToolControls({
   return (
     <>
       <span className="slup__toolSep" aria-hidden="true" />
+      {pos > 0 ? (
+        <span className="slup__posCounter" aria-label={`${pos} of ${total} redactions`}>
+          {pos + " / " + total}
+        </span>
+      ) : null}
       <button
         className="slup__iconBtn"
         onClick={() => jump(-1)}
@@ -132,11 +137,6 @@ function PreviewToolControls({
       >
         <Icon.ChevronDown />
       </button>
-      {pos > 0 ? (
-        <span className="slup__posCounter" aria-label={`${pos} of ${total} redactions`}>
-          {pos + "/" + total}
-        </span>
-      ) : null}
       <button
         className="slup__iconBtn"
         onClick={() => api?.toggleSearch()}

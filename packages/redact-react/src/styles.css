@@ -819,7 +819,7 @@
   font-family: var(--slup-font-mono);
   font-variant-numeric: tabular-nums;
   color: var(--slup-text-muted);
-  min-width: 2.5ch;
+  min-width: 10ch;
   text-align: center;
   flex-shrink: 0;
 }

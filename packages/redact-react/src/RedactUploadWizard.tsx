@@ -12,7 +12,7 @@ import { StepSend } from "./components/StepSend.tsx";
 const STEPS = [
   { label: "Select files", hint: "Drop folders or files" },
   { label: "Review types", hint: "Confirm what we detected" },
-  { label: "Redact & preview", hint: "Preview redacted output" },
+  { label: "Redact & preview", hint: "Check for sensitive content" },
   { label: "Your details", hint: "Contact & permissions" },
   { label: "Send", hint: "Upload when ready" },
 ];
