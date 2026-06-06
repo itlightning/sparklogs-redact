@@ -1,6 +1,6 @@
 {
   "name": "@sparklogs/redact-core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Isomorphic core: detect and consistently pseudonymise PII in log text, with a residual-PII scanner. Pure string/regex — safe in Node or the browser. Driven by portable JSON detection specs.",
   "license": "MIT",
   "author": "IT Lightning, LLC (https://sparklogs.com)",

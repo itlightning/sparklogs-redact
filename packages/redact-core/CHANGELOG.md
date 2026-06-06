@@ -6,6 +6,10 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
+## 0.2.1
+
+- **README**: consumer-focused docs; install section, npm links (no monorepo contributor copy).
+
 ## 0.2.0
 
 Monorepo lockstep release; no functional changes in this package.

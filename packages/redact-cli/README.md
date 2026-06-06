@@ -1,27 +1,29 @@
 # @sparklogs/redact-cli
 
-The **Node CLI** for [sparklogs-redact](../../README.md). The only Node-specific package
-(`fs`/`process`/`stdin`); it wraps the isomorphic [`@sparklogs/redact-core`](../redact-core) and
-bundles it into a self-contained `dist/cli.js` (no runtime `node_modules` resolution needed).
+Node CLI for [`@sparklogs/redact-core`](https://www.npmjs.com/package/@sparklogs/redact-core):
+**redact** log files with consistent pseudonyms, or **scan** a tree for residual (un-redacted) PII as
+a CI gate. Self-contained bundle; no runtime `node_modules` resolution.
 
-The executable is named **`sparklogs-redact`**.
+The executable is **`sparklogs-redact`**.
 
-## Build + run
+From the [sparklogs-redact](https://github.com/itlightning/sparklogs-redact) monorepo. Wraps
+[`@sparklogs/redact-core`](https://www.npmjs.com/package/@sparklogs/redact-core) at the same version.
+For in-browser upload flows, see
+[`@sparklogs/redact-react`](https://www.npmjs.com/package/@sparklogs/redact-react).
 
-```bash
-# from the repo root
-npm install
-npm run build                      # builds core, then this cli -> dist/cli.js
-
-node packages/redact-cli/dist/cli.js scan ./fixtures
-```
-
-During development you can also run the TypeScript entry directly (Node ≥ 23 strips the types), as
-long as the workspace is linked (`npm install`) and the core has been built:
+## Install
 
 ```bash
-node packages/redact-cli/src/cli.ts profiles
+npm install @sparklogs/redact-cli
 ```
+
+Then run via `npx` or add `node_modules/.bin` to your PATH:
+
+```bash
+npx sparklogs-redact --help
+```
+
+Global install also works: `npm install -g @sparklogs/redact-cli`.
 
 ## Commands
 
@@ -37,29 +39,29 @@ cat app.log | sparklogs-redact redact - -o app.redacted.log --stats
 sparklogs-redact redact a.log b.log --out-dir /tmp/clean --save-map /tmp/d.redact-map.json
 sparklogs-redact redact c.log       --out-dir /tmp/clean --load-map /tmp/d.redact-map.json
 
-# Scan a tree for residual (un-redacted) PII — exit 1 if any is found (CI gate)
+# Scan a tree for residual (un-redacted) PII; exit 1 if any is found (CI gate)
 sparklogs-redact scan ./fixtures
 
 # List built-in profiles
 sparklogs-redact profiles
 ```
 
-The `*.redact-map.json` correlation map embeds RAW original tokens (i.e. RAW PII) — it is gitignored
-and **must never be committed**.
+The `*.redact-map.json` correlation map embeds RAW original tokens (i.e. RAW PII). Treat as secret
+material and **never commit** it.
 
 ### Exit codes
 
 | Command | 0 | 1 | 2 |
 |---|---|---|---|
-| `redact` | ok | — | usage / IO error |
+| `redact` | ok | n/a | usage / IO error |
 | `scan` | clean | residual PII found | usage / IO error |
 
 ## Limitations
 
 - `scan` only catches patterns the selected profile(s) know; a pass is not "no PII anywhere."
-- Same engine limits as [`redact-core`](../redact-core/README.md#limitations).
-- `--save-map` / `--load-map` correlation files embed **raw tokens** — secret material, never commit (see repo `.gitignore`).
+- Same engine limits as [`@sparklogs/redact-core`](https://www.npmjs.com/package/@sparklogs/redact-core#limitations).
+- `--save-map` / `--load-map` correlation files embed **raw tokens**; secret material, never commit.
 
 ## License
 
-[MIT](../../LICENSE)
+[MIT](https://github.com/itlightning/sparklogs-redact/blob/main/LICENSE)

@@ -6,6 +6,10 @@ All notable changes to `@sparklogs/redact-react` are documented here. This proje
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-core` and
 `@sparklogs/redact-cli` (same version number; see repo root README).
 
+## 0.2.1
+
+- **README**: consumer-focused docs; linked demo GIF on npm, install/use sections, npm links (no monorepo/sibling copy).
+
 ## 0.2.0
 
 - **`UploadProgress.message`** — optional host-localized status line on `ctx.onProgress`; replaces the
