@@ -161,3 +161,158 @@ test("secret: a plain sentence with no credentials is untouched", () => {
   assert.equal(red.redact(text).text, text);
   assert.deepEqual(red.scan(text), []);
 });
+
+// Connection-string credential matrix. All SYNTHETIC: the shapes are the published vendor forms, the
+// credentials are invented. Each row asserts three things at once: the credential is gone, the
+// surroundings survive byte for byte (over-redaction is a product failure of its own), and the
+// redacted text is scan-clean and idempotent.
+const CONN_CASES: Array<{ name: string; text: string; secret: string; keeps: string[] }> = [
+  {
+    name: "sql server oledb",
+    text: "Provider=SQLOLEDB;Data Source=SQLSRV01;Initial Catalog=BillingDb;User ID=svc_billing;Password=Wint3rStorm;",
+    secret: "Wint3rStorm",
+    keeps: ["Provider=SQLOLEDB", "Initial Catalog=BillingDb", "User ID=svc_billing", "Password=", ";"],
+  },
+  {
+    name: "sql server odbc",
+    text: "Driver={ODBC Driver 17 for SQL Server};Server=tcp:sqlsrv01,1433;Database=BillingDb;UID=svc_billing;PWD=Wint3rStorm;Encrypt=yes",
+    secret: "Wint3rStorm",
+    keeps: ["UID=svc_billing", ";Encrypt=yes"],
+  },
+  {
+    name: "sql server sqlclient, space-bearing password",
+    text: "Server=sqlsrv01;Database=BillingDb;User Id=svc_billing;Password=P@ss w0rd!;MultipleActiveResultSets=True",
+    secret: "P@ss w0rd!",
+    keeps: ["User Id=svc_billing", ";MultipleActiveResultSets=True"],
+  },
+  {
+    name: "sqlclient, space-bearing password at end of line",
+    text: "Server=sqlsrv01;Uid=svc;Password=P@ss w0rd!",
+    secret: "P@ss w0rd!",
+    keeps: ["Server=sqlsrv01", "Uid=svc"],
+  },
+  {
+    name: "quoted value containing a semicolon",
+    text: 'Server=sqlsrv01;Database=BillingDb;Uid=svc;Password="quoted;pw";Encrypt=true',
+    secret: "quoted;pw",
+    keeps: ["Uid=svc", ";Encrypt=true"],
+  },
+  {
+    name: "unquoted value containing semicolons",
+    text: "Server=sqlsrv01;Uid=svc;Password=pw;with;semis;Encrypt=true",
+    secret: "pw;with;semis",
+    keeps: ["Server=sqlsrv01", ";Encrypt=true"],
+  },
+  {
+    name: "mysql",
+    text: "server=mysql01;port=3306;database=shopdb;user=appuser;password=Tr0ub4dor&3;SslMode=Required",
+    secret: "Tr0ub4dor&3",
+    keeps: ["user=appuser", ";SslMode=Required"],
+  },
+  {
+    name: "postgresql keyword form",
+    text: "Host=pg01;Port=5432;Database=analytics;Username=reader;Password=corr3ct-h0rse;Pooling=true",
+    secret: "corr3ct-h0rse",
+    keeps: ["Username=reader", ";Pooling=true"],
+  },
+  {
+    name: "oracle odp.net",
+    text: "Data Source=ORCL;User Id=hr;Password=hrPa55;Enlist=false",
+    secret: "hrPa55",
+    keeps: ["Data Source=ORCL", ";Enlist=false"],
+  },
+  {
+    name: "access jet oledb",
+    text: "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\\Share\\Ledger.mdb;Jet OLEDB:Database Password=Led&ger1;",
+    secret: "Led&ger1",
+    keeps: ["Data Source=D:\\Share\\Ledger.mdb", "Database Password="],
+  },
+  {
+    name: "azure storage account key",
+    text: "DefaultEndpointsProtocol=https;AccountName=contosologs;AccountKey=Yzk4NmJhZmZlZTAxMjM0NTY3ODlhYmNkZWY=;EndpointSuffix=core.windows.net",
+    secret: "Yzk4NmJhZmZlZTAxMjM0NTY3ODlhYmNkZWY=",
+    keeps: ["AccountName=contosologs", ";EndpointSuffix=core.windows.net"],
+  },
+  {
+    name: "azure shared access signature",
+    text: "BlobEndpoint=https://contosologs.blob.core.windows.net/;SharedAccessSignature=sv=2021-06-08&ss=b&sig=aBcDeFg;",
+    secret: "sv=2021-06-08&ss=b&sig=aBcDeFg",
+    keeps: ["BlobEndpoint=https://contosologs.blob.core.windows.net/"],
+  },
+];
+
+for (const c of CONN_CASES) {
+  test(`conn-string-password: ${c.name}`, () => {
+    const red = r();
+    const out = red.redact(c.text);
+    assert.ok(!out.text.includes(c.secret), `${c.name}: credential removed`);
+    for (const keep of c.keeps) {
+      assert.ok(out.text.includes(keep), `${c.name}: kept ${keep}`);
+    }
+    assert.deepEqual(red.scan(out.text), [], `${c.name}: scan clean`);
+    assert.equal(red.redact(out.text).text, out.text, `${c.name}: idempotent`);
+  });
+}
+
+// URL userinfo passwords: the username, host, port and path are diagnostic and must survive.
+const URL_CASES: Array<{ name: string; text: string; secret: string; keeps: string[] }> = [
+  {
+    name: "postgresql uri",
+    text: "postgresql://reader:corr3ct-h0rse@pg01:5432/analytics",
+    secret: "corr3ct-h0rse",
+    keeps: ["postgresql://reader:", "@pg01:5432/analytics"],
+  },
+  {
+    name: "mongodb srv",
+    text: "mongodb+srv://appuser:M0ng0-Pa55@cluster0.example.net/shopdb?retryWrites=true",
+    secret: "M0ng0-Pa55",
+    keeps: ["mongodb+srv://appuser:", "@cluster0.example.net/shopdb?retryWrites=true"],
+  },
+  {
+    name: "amqp uri",
+    text: "amqp://svc_queue:Rabb1t-Pa55@rabbit01:5672/prod",
+    secret: "Rabb1t-Pa55",
+    keeps: ["amqp://svc_queue:", "@rabbit01:5672/prod"],
+  },
+];
+
+for (const c of URL_CASES) {
+  test(`conn-string-url-password: ${c.name}`, () => {
+    const red = r();
+    const out = red.redact(c.text);
+    assert.ok(!out.text.includes(c.secret), `${c.name}: credential removed`);
+    for (const keep of c.keeps) {
+      assert.ok(out.text.includes(keep), `${c.name}: kept ${keep}`);
+    }
+    assert.deepEqual(red.scan(out.text), [], `${c.name}: scan clean`);
+    assert.equal(red.redact(out.text).text, out.text, `${c.name}: idempotent`);
+  });
+}
+
+test("conn-string: NEGATIVE PROOF, a credential-free connection string is untouched", () => {
+  const red = r();
+  const text = "Provider=SQLOLEDB;Data Source=SQLSRV01;Initial Catalog=BillingDb;Integrated Security=SSPI;";
+  assert.equal(red.redact(text).text, text);
+  assert.deepEqual(red.scan(text), []);
+});
+
+test("conn-string: a host:port URL with no userinfo is untouched", () => {
+  const red = r();
+  const text = "Health probe https://contoso.example.com:8443/api/health returned 503";
+  assert.equal(red.redact(text).text, text);
+});
+
+test("conn-string: bare password= in prose stays whitespace-terminated", () => {
+  const red = r();
+  const out = red.redact("Vault sync failed: password=hunter2 and then more prose here");
+  assert.ok(!out.text.includes("hunter2"));
+  assert.ok(out.text.endsWith(" and then more prose here"), "prose after the credential survives");
+  assert.deepEqual(red.scan(out.text), []);
+  assert.equal(red.redact(out.text).text, out.text);
+});
+
+test("conn-string: the word password in ordinary prose is not an assignment", () => {
+  const red = r();
+  const text = "The user password expired for account svc_billing";
+  assert.equal(red.redact(text).text, text);
+});
