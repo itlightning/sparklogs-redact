@@ -6,6 +6,17 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
+## 0.2.3
+
+- **secret profile, `conn-string-password`**: the key alternation now allows an optional
+  `[A-Za-z_]*` identifier prefix, so `SecretAccessKey=` and `AwsSecretAccessKey=` are matched. A `\b`
+  anchor does not fire between a lowercase letter and an uppercase one, so the alternation could
+  never start mid-identifier and the AWS form was missed: that is the secret half of an AWS key pair
+  and a common application-log shape, so the gap leaked a live credential. The key must still sit
+  immediately before the `=`, so configuration values keep their own names:
+  `MyPasswordPolicy=strict`, `PasswordExpiryDays=90`, `LastPasswordChange=2026` and `accesskeyid=`
+  (the public half of the AWS pair, an identifier rather than a secret) are not matched.
+
 ## 0.2.2
 
 - **secret profile, `conn-string-password`**: closed three credential leaks. A password containing

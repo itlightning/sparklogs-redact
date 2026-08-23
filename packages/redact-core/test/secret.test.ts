@@ -316,3 +316,70 @@ test("conn-string: the word password in ordinary prose is not an assignment", ()
   const text = "The user password expired for account svc_billing";
   assert.equal(red.redact(text).text, text);
 });
+
+// PREFIXED CREDENTIAL KEYS. `\b` does not fire between a lowercase letter and an uppercase one, so a
+// key alternation anchored on it alone can never start mid-identifier and `SecretAccessKey=` slipped
+// through. That is the SECRET half of an AWS key pair and a common application-log shape, so the gap
+// leaked a live credential. All SYNTHETIC: invented credentials, published key shapes.
+const PREFIXED_CASES: Array<{ name: string; text: string; secret: string; keeps: string[] }> = [
+  {
+    name: "aws secret access key",
+    text: "Upload failed. Region=us-east-1;SecretAccessKey=wJalrXUtnFEMI-K7MDENG-bPxRfiCY;Bucket=contoso-archive",
+    secret: "wJalrXUtnFEMI-K7MDENG-bPxRfiCY",
+    keeps: ["Region=us-east-1", "SecretAccessKey=", ";Bucket=contoso-archive"],
+  },
+  {
+    name: "aws secret access key, vendor-prefixed",
+    text: "Upload failed. Region=us-east-1;AwsSecretAccessKey=wJalrXUtnFEMI-K7MDENG-bPxRfiCY;Bucket=contoso-archive",
+    secret: "wJalrXUtnFEMI-K7MDENG-bPxRfiCY",
+    keeps: ["Region=us-east-1", "AwsSecretAccessKey=", ";Bucket=contoso-archive"],
+  },
+  {
+    name: "unprefixed keys still match",
+    text: "DefaultEndpointsProtocol=https;AccountName=contosologs;AccountKey=Yzk4NmJhZmZlZTAxMjM0NTY3ODlhYmNkZWY=;EndpointSuffix=core.windows.net",
+    secret: "Yzk4NmJhZmZlZTAxMjM0NTY3ODlhYmNkZWY=",
+    keeps: ["AccountName=contosologs", ";EndpointSuffix=core.windows.net"],
+  },
+];
+
+for (const c of PREFIXED_CASES) {
+  test(`conn-string-password prefix: ${c.name}`, () => {
+    const red = r();
+    const out = red.redact(c.text);
+    assert.ok(!out.text.includes(c.secret), `${c.name}: credential removed`);
+    for (const keep of c.keeps) {
+      assert.ok(out.text.includes(keep), `${c.name}: kept ${keep}`);
+    }
+    assert.deepEqual(red.scan(out.text), [], `${c.name}: scan clean`);
+    assert.equal(red.redact(out.text).text, out.text, `${c.name}: idempotent`);
+  });
+}
+
+// The NEGATIVE PROOF for the identifier prefix, and the reason it is bounded to `[A-Za-z_]*`
+// immediately before the `=`. A broad key match is how over-redaction starts, so a key that merely
+// CONTAINS a credential word, but is not a credential key, must survive byte for byte.
+const PREFIX_NEGATIVES: Array<{ name: string; text: string }> = [
+  { name: "policy name", text: "Policy load failed. MyPasswordPolicy=strict;Scope=domain" },
+  { name: "expiry day count", text: "PasswordExpiryDays=90 for account svc_billing" },
+  { name: "change timestamp", text: "Audit: LastPasswordChange=2026-08-01T09:00:00Z;Actor=svc_billing" },
+  { name: "plain user key", text: "Server=sqlsrv01;user=bob;Encrypt=true" },
+];
+
+for (const c of PREFIX_NEGATIVES) {
+  test(`conn-string-password prefix negative: ${c.name}`, () => {
+    const red = r();
+    assert.equal(red.redact(c.text).text, c.text, `${c.name}: untouched`);
+    assert.deepEqual(red.scan(c.text), [], `${c.name}: scan clean`);
+  });
+}
+
+// `accesskeyid` is the PUBLIC half of an AWS key pair, so the connection-string detector must not
+// claim it. The value is still redacted, but by `aws-access-key`, which keeps the AKIA shape; that
+// distinct replacement is what proves which detector fired.
+test("conn-string-password prefix negative: accesskeyid is not a credential key", () => {
+  const red = r();
+  const out = red.redact("Upload failed. accesskeyid=AKIAIOSFODNN7EXAMPLE;Region=us-east-1;Bucket=contoso-archive");
+  assert.match(out.text, /accesskeyid=AKIAREDACTED\d{8};Region=us-east-1;Bucket=contoso-archive$/);
+  assert.deepEqual(red.scan(out.text), []);
+  assert.equal(red.redact(out.text).text, out.text);
+});
