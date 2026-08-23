@@ -383,3 +383,78 @@ test("conn-string-password prefix negative: accesskeyid is not a credential key"
   assert.deepEqual(red.scan(out.text), []);
   assert.equal(red.redact(out.text).text, out.text);
 });
+
+// JSON CREDENTIAL VALUES. Both connection-string detectors anchor on `=`, and a JSON body has none,
+// so a REST or RPC result body carrying a session credential passed through untouched. The key must
+// END with the credential word, so the closing quote sits immediately after it and a key that merely
+// CONTAINS one keeps its value. All SYNTHETIC: invented credentials, invented field names.
+const JSON_CRED_CASES: Array<{ name: string; text: string; secret: string; keeps: string[] }> = [
+  {
+    name: "session credential in a remote-assist result body",
+    text: '{"sessionpassword":"{225FD96D-A68C-4F1E-9B22-000000000000}","user":"bob"}',
+    secret: "225FD96D-A68C-4F1E-9B22-000000000000",
+    keeps: ['"sessionpassword":"', '"user":"bob"'],
+  },
+  {
+    name: "bare password key",
+    text: '{"password":"Wint3r!Storm","user":"bob"}',
+    secret: "Wint3r!Storm",
+    keeps: ['"password":"', '"user":"bob"'],
+  },
+  {
+    name: "camel-case key with a space after the colon",
+    text: '{"apiToken": "contoso.abc.def","user":"bob"}',
+    secret: "contoso.abc.def",
+    keeps: ['"apiToken": "', '"user":"bob"'],
+  },
+  {
+    name: "underscore-prefixed key",
+    text: '{"client_secret":"s3cr3tvalue","client_id":"contoso-app"}',
+    secret: "s3cr3tvalue",
+    keeps: ['"client_secret":"', '"client_id":"contoso-app"'],
+  },
+  {
+    name: "several credential members in one body",
+    text: '{"api_key":"k-aaaaaa","accesskey":"k-bbbbbb","passphrase":"open sesame"}',
+    secret: "open sesame",
+    keeps: ['"api_key":"', '"accesskey":"', '"passphrase":"'],
+  },
+  {
+    name: "escaped quote inside the value does not end the match early",
+    text: '{"pwd":"ab\\"cd","user":"bob"}',
+    secret: "ab",
+    keeps: ['"pwd":"', '"user":"bob"'],
+  },
+];
+
+for (const c of JSON_CRED_CASES) {
+  test(`json-credential-value: ${c.name}`, () => {
+    const red = r();
+    const out = red.redact(c.text);
+    assert.ok(!out.text.includes(c.secret), `${c.name}: credential removed`);
+    for (const keep of c.keeps) {
+      assert.ok(out.text.includes(keep), `${c.name}: kept ${keep}`);
+    }
+    assert.doesNotThrow(() => JSON.parse(out.text), `${c.name}: still parseable JSON`);
+    assert.deepEqual(red.scan(out.text), [], `${c.name}: scan clean`);
+    assert.equal(red.redact(out.text).text, out.text, `${c.name}: idempotent`);
+  });
+}
+
+// The NEGATIVE PROOF, and the reason the key must END with the credential word. A key that merely
+// CONTAINS one is a setting name, a counter or a date, and it carries the diagnostic value of the
+// line. `accesskeyid` is the PUBLIC half of an AWS key pair, an identifier rather than a secret.
+const JSON_CRED_NEGATIVES = [
+  '{"passwordExpiryDays":"90"}',
+  '{"passwordPolicy":"strict"}',
+  '{"tokenCount":"5"}',
+  '{"user":"bob"}',
+  '{"lastPasswordChange":"2026-08-22"}',
+  '{"accesskeyid":"contoso-public-id","secretRotationDays":"30"}',
+];
+
+for (const text of JSON_CRED_NEGATIVES) {
+  test(`json-credential-value negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}

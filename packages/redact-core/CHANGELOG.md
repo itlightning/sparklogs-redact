@@ -6,6 +6,23 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
+## 0.2.4
+
+- **secret profile, new `json-credential-value` detector**: a credential in a JSON object member is
+  now redacted (`"sessionpassword":"..."`, `"password":"..."`, `"apiToken": "..."`,
+  `"client_secret":"..."`). A JSON body carries no `=`, so neither connection-string detector could
+  see it, and a REST or RPC result body is exactly where a session credential travels in full. The
+  key must END with the credential word, so a key that merely CONTAINS one keeps its value:
+  `"passwordExpiryDays"`, `"passwordPolicy"`, `"tokenCount"`, `"lastPasswordChange"` and
+  `"accesskeyid"` (the public half of an AWS key pair) are not matched. The key list is wider than
+  the connection-string one (`token`, `secret`, `credential`, `passphrase` added) because a quoted
+  key immediately before a `:` is a field name rather than a word in a sentence. Only the value
+  between the quotes is replaced, so the object stays parseable JSON, and JSON escapes are honoured
+  so a `\"` inside a value cannot end the match early. An unquoted value (a JSON number,
+  `true`/`false`/`null`) is not matched: the engine replaces a matched span with a placeholder and
+  cannot re-quote it, so redacting one would emit invalid JSON. Object and array values are not
+  matched either, since finding their end needs balanced counting.
+
 ## 0.2.3
 
 - **secret profile, `conn-string-password`**: the key alternation now allows an optional
