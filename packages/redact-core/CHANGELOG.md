@@ -8,6 +8,30 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## 0.3.0
 
+- **secret profile, line-terminator agreement (MEDIUM)**: value and neighbour classes now exclude
+  U+2028, U+2029, U+0085, U+000B and U+000C alongside CR and LF, so a value bound agrees with what
+  JavaScript itself treats as a line terminator. Before this, `Password=abc<U+2028>Server=keepme`
+  ran the value past the separator and destroyed the neighbour; 20 of 25 probed shapes across five
+  separators now keep it. `json-credential-value` is deliberately EXCLUDED from the widening: a JSON
+  string may legally contain U+2028, U+2029 and U+0085, so bounding its value at one turned a
+  redaction into a leak.
+- **secret profile, `json-credential-value` key run is Unicode-aware**: the identifier prefix in
+  front of the credential word now accepts any letter or digit rather than ASCII only, matching
+  `conn-string-password`. `{"contraseña_password":"x"}` is redacted; `{"contraseña_passwordExpiry":"90"}`
+  is still not.
+- **Engine, cost is documented honestly**: what a pattern spends is quadratic in the length of an
+  unbroken RUN its value branch can consume, not in the length of the line, and the comment and the
+  performance test now say so. Accepted residual, measured: a single line carrying one unbroken run
+  after a credential anchor costs 91 ms at 8 KB, 1.0 s at 32 KB and 35 s at 192 KB. Ordinary text
+  never reaches it (400 KB of realistic log stays under 100 ms whether it arrives as one line or as
+  thousands); the shape that does is a corrupt or hostile paste, and the remedy belongs in a caller
+  that caps untrusted input.
+- **Known, recorded rather than changed**: raw-library consumers pay BOM and encoding detection
+  latency on every call through the byte-level entry points, which is visible only on very large
+  inputs. A secret that itself contains the substring `REDACTED` is left alone, because that
+  substring is how every detector recognises its own placeholder; this is the documented cost of
+  keyless idempotency and is unchanged. The `jwt` detector's `safe` sentinel gate is what keeps a
+  redacted JWT from being re-redacted into a different fake on a second pass.
 - **secret profile, `env-assignment-credential` separator**: a run of spaces or tabs is now allowed
   on either side of the `=` or `:`, so the `.ini` spelling `token = value` and an aligned config
   column are redacted. A run of spaces and tabs is safe to allow because it cannot reach off the

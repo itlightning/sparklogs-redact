@@ -1095,3 +1095,70 @@ test("syslog process tag: a footnote-shaped prefix also satisfies the rule", () 
     "note[1]: token=REDACTED-SECRET-1",
   );
 });
+
+// --- Line terminators beyond CR and LF. JavaScript treats U+2028 and U+2029 as line terminators,
+// so `$` under the `m` flag stops at one while a `[^\r\n]` class happily eats straight through it.
+// That disagreement is not cosmetic: the value ran past its separator and took the neighbour with
+// it. U+0085, U+000B and U+000C are line breaks in enough other places to be worth the same
+// treatment. They are written as escapes here on purpose, so the cases stay visible in a diff.
+
+const LINE_TERMINATORS: [string, string][] = [
+  ["U+2028", "\u2028"],
+  ["U+2029", "\u2029"],
+  ["U+0085", "\u0085"],
+  ["U+000B", "\u000b"],
+  ["U+000C", "\u000c"],
+];
+
+for (const [name, ch] of LINE_TERMINATORS) {
+  test(`${name} bounds a value the way a line break does`, () => {
+    const red = r();
+    const out = red.redact(`Password=hunter2xyz${ch}Server=keepme`);
+    assert.ok(!out.text.includes("hunter2xyz"), "the credential is gone");
+    assert.ok(out.text.includes("Server=keepme"), "the neighbour survives");
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+
+  test(`${name} bounds an eat-to-end-of-line branch`, () => {
+    const red = r();
+    const out = red.redact(`--password="ab${ch}--site keepme`);
+    assert.ok(!out.text.includes('"ab'), "the credential is gone");
+    assert.ok(out.text.includes("--site keepme"), "the text after the break survives");
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+
+  test(`${name} bounds an installer property value`, () => {
+    const red = r();
+    const out = red.redact(`msiexec /i a.msi /qn TOKEN=hunter2xyz${ch}SITE=keepme`);
+    assert.ok(!out.text.includes("hunter2xyz"));
+    assert.ok(out.text.includes("SITE=keepme"));
+  });
+
+  test(`${name} inside a JSON string is part of the value, not a bound`, () => {
+    // The deliberate exception. A JSON string may legally contain U+2028, U+2029 and U+0085, so
+    // treating one as a bound would end the match early and ship the rest of the credential.
+    const red = r();
+    const out = red.redact(`{"apikey":"hunter2xyz${ch}keepme"}`);
+    assert.ok(!out.text.includes("hunter2xyz"), "no fragment of the value survives");
+    assert.equal(out.text, '{"apikey":"REDACTED-SECRET-1"}');
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+test("json credential key: the identifier prefix is Unicode-aware", () => {
+  const red = r();
+  assert.equal(
+    red.redact('{"contraseña_password":"hunter2xyz"}').text,
+    '{"contraseña_password":"REDACTED-SECRET-1"}',
+  );
+  assert.equal(
+    red.redact('{"パスワード_token":"hunter2xyz"}').text,
+    '{"パスワード_token":"REDACTED-SECRET-1"}',
+  );
+});
+
+test("json credential key: a Unicode prefix does not defeat the ends-with rule", () => {
+  const red = r();
+  const text = '{"contraseña_passwordExpiry":"90"}';
+  assert.equal(red.redact(text).text, text);
+});

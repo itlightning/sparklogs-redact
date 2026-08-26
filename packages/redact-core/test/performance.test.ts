@@ -34,10 +34,13 @@ test("an ordinary large paste stays affordable", () => {
   assert.ok(ms < 400, `redacting ${doc.length} bytes of ordinary log took ${ms.toFixed(1)} ms`);
 });
 
-test("one pathological very long line stays affordable", () => {
-  // A minified dump arrives as a SINGLE line, and nothing about the input can shorten it. This is
-  // the shape that would hang a browser tab, so it gets its own tripwire: a pattern whose anchor or
-  // value branch starts backtracking over a long run fails here long before anyone pastes one in.
+test("a long unbroken run after an anchor stays affordable", () => {
+  // What costs time is an unbroken RUN a value branch can consume, not a long line as such: this
+  // input is one line, but so is the 400 KB of realistic log that costs under 100 ms. The run is
+  // the variable. A pattern that starts backtracking over one fails here long before anyone pastes
+  // it in. The residual this does NOT bound is recorded on collectSpans: a run this size costs
+  // milliseconds, but the same shape at 192 KB costs 35 seconds, and the remedy for that is an
+  // input cap at the caller rather than a pattern rewrite.
   const red = new Redactor(loadProfile("secret"));
   const filler = " ".repeat(8000);
   const oneLine = [

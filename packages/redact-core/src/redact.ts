@@ -51,10 +51,21 @@ function compile(detectors: Detector[]): CompiledDetector[] {
  * Every detector scans the WHOLE document. Scanning line by line was tried and withdrawn: a
  * backtracking regex is quadratic in the length of the run it scans, but every pattern here already
  * refuses to cross a line break, so the whole-document haystack never backtracks across one and
- * splitting it bought nothing while costing the slicing. What actually bounds the cost of a long
- * line is a zero-width test at the head of a pattern, ahead of its unbounded look-behind, so that a
- * long run of spaces is rejected once per position instead of re-scanned. `test/performance.test.ts`
- * is the tripwire for both shapes.
+ * splitting it bought nothing while costing the slicing.
+ *
+ * COST IS DRIVEN BY A RUN, NOT BY A LINE. What each pattern spends is quadratic in the length of an
+ * unbroken run of characters its value branch can consume, not in the length of the document or
+ * even of the line. A zero-width test at the head of each command-line pattern, ahead of its
+ * unbounded look-behind, is what keeps a run of spaces after an anchor from being re-scanned once
+ * per space, and that is the shape `test/performance.test.ts` bounds.
+ *
+ * ACCEPTED RESIDUAL: a single line carrying one very long unbroken run after a credential anchor is
+ * still quadratic. Measured on this detector set: 8 KB of run costs 91 ms, 32 KB costs 1.0 s, 64 KB
+ * costs 3.8 s and 192 KB costs 35 s. Ordinary text never reaches this, because ordinary text has
+ * line breaks and punctuation in it: 400 KB of realistic log costs under 100 ms whether it arrives
+ * as one line or as thousands. The shape that gets there is a corrupt or hostile paste, and the
+ * remedy belongs at the callers that accept untrusted input (a length cap on a line, or a size cap
+ * before redaction), not in a pattern rewrite that would trade the guarantee for the speed.
  */
 function collectSpans(text: string, compiled: CompiledDetector[]): Span[] {
   const spans: Span[] = [];
