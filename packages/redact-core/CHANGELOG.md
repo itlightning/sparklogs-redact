@@ -6,7 +6,7 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
-## Unreleased
+## 0.3.0
 
 - **secret profile, `secret-assignment` retired**: the broad `key = value` detector anchored on a
   bare word with no sigil and a whitespace-tolerant separator, and it was the source of every
