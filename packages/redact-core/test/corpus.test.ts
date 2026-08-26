@@ -25,9 +25,9 @@ const NEIGH = /ZZNEIGHZZ/g;
 // The three direction counters are pinned EXACTLY rather than bounded, so an improvement has to be
 // recorded here and a regression cannot hide inside slack. Leaks and over-redactions are both
 // heading for zero; parity is heading for the full corpus.
-const LEAKS = 166;
+const LEAKS = 111;
 const OVER_REDACTIONS = 1;
-const PARITY = 1424;
+const PARITY = 1537;
 
 const count = (text: string, marker: RegExp) => (text.match(marker) ?? []).length;
 

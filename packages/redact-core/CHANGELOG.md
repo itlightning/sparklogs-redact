@@ -8,6 +8,24 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## Unreleased
 
+- **secret profile, five new command-line detectors**, all anchored on a tool name or a
+  proper-noun grammar rather than on a flag letter:
+  - `msi-property-credential`: a credential passed as an installer public property
+    (`msiexec /i agent.msi /qn TOKEN=...`), which is how an agent receives its tenant secret at
+    install time. Case-sensitive, because only an all-uppercase property can be set from a command
+    line and that is what keeps the detector off the assembly-identity fields.
+  - `http-auth-credential`: the credential in an `Authorization` or `Proxy-Authorization` header,
+    for every scheme that carries one (Bearer, Basic, Digest, Negotiate, NTLM, ApiKey).
+  - `putty-password-flag`: `-pw` on `plink`, `pscp`, `psftp` and `putty`. `-pwfile` names a path
+    and keeps it.
+  - `sql-cli-password-flag`: uppercase `-P` on `sqlcmd`, `osql`, `bcp` and `isql`. Lowercase `-p`
+    on those tools prints statistics and is left alone, so the detector is case-sensitive.
+  - `command-flag-password`: a sigil-prefixed word flag (`--pass=`, `/pwd:`, `-passphrase=`,
+    `-token=`). The sigil and the immediate separator are what make a word list this broad safe.
+- **secret profile, `auth-bearer` and `auth-basic` retired**: they anchored on the scheme word
+  alone, which is an ordinary English word, and were measured firing on prose such as "the
+  Authorization header was missing" and "bearer slk_ is one character short".
+  `http-auth-credential` covers the same credentials with the header name in the anchor.
 - **secret profile, vendor token prefixes**: the GitHub, GitHub fine-grained, GitLab, Google and
   npm rows no longer pin an exact body width and no longer require a word boundary after the body.
   Both were leaks: a vendor mints tokens at whatever width it likes and has changed those widths, so

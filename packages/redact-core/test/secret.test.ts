@@ -44,7 +44,7 @@ test("private-key-block: whole PEM block replaced, armor preserved; scan-clean",
   assert.equal(red.redact(out.text).text, out.text);
 });
 
-test("auth-bearer: opaque token after 'Bearer ' redacted, scheme kept; scan-clean", () => {
+test("http-auth: opaque token after an Authorization Bearer header; scheme kept; scan-clean", () => {
   const red = r();
   const out = red.redact("Authorization: Bearer abc123DEF456ghi789");
   assert.ok(!out.text.includes("abc123DEF456ghi789"));
@@ -53,7 +53,7 @@ test("auth-bearer: opaque token after 'Bearer ' redacted, scheme kept; scan-clea
   assert.equal(red.redact(out.text).text, out.text);
 });
 
-test("auth-basic: base64 credential after 'Basic ' redacted; scan-clean", () => {
+test("http-auth: base64 credential after an Authorization Basic header; scan-clean", () => {
   const red = r();
   const out = red.redact("Authorization: Basic dXNlcjpwYXNzd29yZA==");
   assert.ok(!out.text.includes("dXNlcjpwYXNzd29yZA=="));
@@ -591,6 +591,82 @@ const VENDOR_NEGATIVES = [
 
 for (const text of VENDOR_NEGATIVES) {
   test(`vendor token negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}
+
+// --- Tool-anchored command-line credentials. Each family carries its negatives, because a tool
+// anchor can reach across a command separator, a flag anchor can claim the next argument, and a
+// scheme word can fire inside ordinary prose.
+
+const TOOL_CASES: [string, string, string][] = [
+  [
+    "msi public property",
+    "msiexec /i C:\\pkg\\rmm-agent.msi /qn TOKEN=SYNTHTOKEN0000 SITE=Acme",
+    "msiexec /i C:\\pkg\\rmm-agent.msi /qn TOKEN=REDACTED-SECRET-1 SITE=Acme",
+  ],
+  [
+    "msi property inside a /v wrapper, quotes escaped",
+    'setup.exe /S /v"/qn AUTHKEY=SYNTHAUTH0000"',
+    'setup.exe /S /v"/qn AUTHKEY=REDACTED-SECRET-1"',
+  ],
+  [
+    "proxy-authorization header, NTLM scheme",
+    "Proxy-Authorization: NTLM SYNTHNTLM0000 rejected by proxy",
+    "Proxy-Authorization: NTLM REDACTEDTOKEN1 rejected by proxy",
+  ],
+  [
+    "authorization inside a JSON header object",
+    '{"Authorization":"ApiKey SYNTHKEY0000","Accept":"application/json"}',
+    '{"Authorization":"ApiKey REDACTEDTOKEN1","Accept":"application/json"}',
+  ],
+  [
+    "putty -pw",
+    "plink -l bob -pw SYNTHPW0000 host01 uptime",
+    "plink -l bob -pw REDACTED-SECRET-1 host01 uptime",
+  ],
+  [
+    "sqlcmd uppercase -P",
+    'sqlcmd -S db01 -U sa -P SYNTHSQL0000 -Q "SELECT 1"',
+    'sqlcmd -S db01 -U sa -P REDACTED-SECRET-1 -Q "SELECT 1"',
+  ],
+  [
+    "sigil-prefixed word flag, equals form",
+    "tool --pass=SYNTHPASS000 --site Acme",
+    "tool --pass=REDACTED-SECRET-1 --site Acme",
+  ],
+  [
+    "sigil-prefixed word flag, colon form",
+    "tool /pwd:SYNTHPWD0000 --site Acme",
+    "tool /pwd:REDACTED-SECRET-1 --site Acme",
+  ],
+];
+
+for (const [label, input, expected] of TOOL_CASES) {
+  test(`command-line credential: ${label}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.equal(out.text, expected);
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+// The other half of each family's contract. A path, a statistics flag, a header name in a sentence
+// and a prompt placeholder all carry diagnostic value and none of them is a credential.
+const TOOL_NEGATIVES = [
+  "msiexec /i a.msi /qn TOKENFILE=C:\\cfg\\t.txt CUSTOMERID=41207",
+  "msiexec /i a.msi /qn TransformSecretName=x TENANT=acme",
+  "401 Unauthorized: the Authorization header was missing from req-9",
+  "Access-Control-Allow-Headers: Authorization, Content-Type, X-Request-Id",
+  "Rotation note: bearer slk_abc is one character short",
+  "pscp -pwfile C:\\keys\\ssh.txt src host:/dst",
+  'sqlcmd -S db01 -p -Q "SELECT 1"',
+  "tool -tokenfile=C:\\cfg\\t.txt --site Acme",
+  "net use Z: \\\\fs01\\share /user:acme\\bob *",
+];
+
+for (const text of TOOL_NEGATIVES) {
+  test(`command-line credential negative: ${text}`, () => {
     assert.equal(r().redact(text).text, text);
   });
 }
