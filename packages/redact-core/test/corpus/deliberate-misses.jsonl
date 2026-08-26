@@ -1,0 +1,3 @@
+{"case": "deliberate-miss-mid-line-token-assignment", "input": "Request failed after retry: token=abc123def456 was refused by the gateway", "vrl": "Request failed after retry: token=abc123def456 was refused by the gateway"}
+{"case": "deliberate-miss-mid-line-api-key-assignment", "input": "Starting worker with api_key=abc123def456 and region=us-east-1", "vrl": "Starting worker with api_key=abc123def456 and region=us-east-1"}
+{"case": "deliberate-miss-mid-line-secret-assignment", "input": "cfg loaded (secret=abc123def456, retries=3) from /etc/app.conf", "vrl": "cfg loaded (secret=abc123def456, retries=3) from /etc/app.conf"}

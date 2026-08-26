@@ -8,6 +8,9 @@
 //                 not there is a LEAK, a ZZNEIGHZZ that survives there but not here is an
 //                 OVER-REDACTION, and neither is allowed to appear without a decision.
 //   GOLDEN        the exact output of every case, so a deliberate change is reviewed as a diff.
+//                 This is also where the DELIBERATE MISSES are priced: shapes this library knowingly
+//                 leaves alone sit in the golden as unchanged lines, so a narrowing that costs
+//                 coverage is visible and a widening that reclaims it has to be argued for.
 //
 // See test/corpus/loader.ts for where the cases and the collector golden come from.
 
@@ -31,7 +34,7 @@ const NEIGH = /ZZNEIGHZZ/g;
 // the collector runs on.
 const LEAKS = 0;
 const OVER_REDACTIONS = 0;
-const PARITY = 1738;
+const PARITY = 1741;
 
 const count = (text: string, marker: RegExp) => (text.match(marker) ?? []).length;
 

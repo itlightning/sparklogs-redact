@@ -1006,3 +1006,59 @@ for (const text of CURL_QUOTE_NEGATIVES) {
     assert.equal(r().redact(text).text, text);
   });
 }
+
+// --- The syslog process tag. The same assignment reaches us two ways: read from a config file, and
+// forwarded through a log line with a process tag in front of it. The tag alternative is narrow on
+// purpose: a generic `word: ` prefix is the prose surface that killed the detector this replaces.
+
+const SYSLOG_CASES: [string, string][] = [
+  [
+    "2026-08-25T00:00:00Z host app[1]: api_key=SECRETVALUE",
+    "2026-08-25T00:00:00Z host app[1]: api_key=REDACTED-SECRET-1",
+  ],
+  [
+    "Aug 25 10:00:00 host sshd[1234]: token=abc123def456",
+    "Aug 25 10:00:00 host sshd[1234]: token=REDACTED-SECRET-1",
+  ],
+  [
+    "2026-08-25T00:00:00Z host CRON[999]: client_secret=abc123def456",
+    "2026-08-25T00:00:00Z host CRON[999]: client_secret=REDACTED-SECRET-1",
+  ],
+  ["host my-agent[42]: secret=abc123def456", "host my-agent[42]: secret=REDACTED-SECRET-1"],
+];
+
+for (const [input, expected] of SYSLOG_CASES) {
+  test(`syslog process tag: ${input}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.equal(out.text, expected);
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+// Bracketed text is everywhere in ordinary prose and ordinary logs. A word character immediately
+// before the bracket rejects the first two; digits inside the bracket reject the rest.
+const SYSLOG_NEGATIVES = [
+  "note: token=SYNTHTOK00 was rejected",
+  "The token=X was rejected by the API",
+  "Retry [3]: token=abc123def456 failed again",
+  "step [2]: api_key=abc123def456 was read from the vault",
+  "[2026-08-25 10:00:00]: token=abc123def456",
+  "[ERROR]: token=abc123def456",
+  "[warn]: secret=abc123def456",
+  "config[dev]: token=abc123def456",
+];
+
+for (const text of SYSLOG_NEGATIVES) {
+  test(`syslog process tag negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}
+
+// KNOWN and accepted: a footnote reference has the same shape as a process tag.
+test("syslog process tag: a footnote-shaped prefix also satisfies the rule", () => {
+  assert.equal(
+    r().redact("note[1]: token=abc123def456").text,
+    "note[1]: token=REDACTED-SECRET-1",
+  );
+});

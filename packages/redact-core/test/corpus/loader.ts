@@ -10,6 +10,16 @@
 //                       positionally aligned with corpus.jsonl.
 //   vrl-fixtures.jsonl  the hand-written case files, as {case, input, vrl} triples.
 //
+// One file is local rather than carried:
+//
+//   deliberate-misses.jsonl  credential assignments this library knowingly does NOT redact, in the
+//                            same {case, input, vrl} shape. They exist because a gate made only of
+//                            cases we DO catch cannot price what a narrowing cost: the generated
+//                            sweep is structurally blind to the unsigiled mid-line assignment, so
+//                            retiring the detector that caught it moved nothing and looked free.
+//                            Pinned here, the trade is visible, and widening a detector back over
+//                            one of these shapes shows up as a golden diff rather than as silence.
+//
 // Values are SYNTHETIC. The generated sweep marks every credential position with ZZCREDZZ and every
 // innocent neighbour with ZZNEIGHZZ, which is what lets a grader say which DIRECTION a change moved
 // in rather than only that something moved: a surviving ZZCREDZZ is a leak, a missing ZZNEIGHZZ is
@@ -54,9 +64,14 @@ export function fixtureCases(): Case[] {
   return lines("vrl-fixtures.jsonl").map((l) => JSON.parse(l) as Case);
 }
 
-/** Both corpora, generated first. */
+/** Shapes this library knowingly leaves alone; `vrl` is the input, unchanged. */
+export function deliberateMisses(): Case[] {
+  return lines("deliberate-misses.jsonl").map((l) => JSON.parse(l) as Case);
+}
+
+/** Every corpus, generated first, deliberate misses last. */
 export function allCases(): Case[] {
-  return [...generatedCases(), ...fixtureCases()];
+  return [...generatedCases(), ...fixtureCases(), ...deliberateMisses()];
 }
 
 /**

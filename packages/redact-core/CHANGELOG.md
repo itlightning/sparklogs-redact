@@ -8,6 +8,18 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## 0.3.0
 
+- **secret profile, `env-assignment-credential` reads a syslog process tag**: the same assignment
+  arrives two ways, read from a config file and forwarded through a log line, so the key may now
+  also follow a `tag[pid]: ` prefix (`app[1]: `, `sshd[1234]: `). The alternative is narrow on
+  purpose: a word character immediately before the bracket, digits inside it, `]:` and exactly one
+  space. A generic `word: ` prefix is NOT admitted, because that is the prose surface that killed
+  the detector this replaces, and the narrowing is what keeps `Retry [3]: `, `step [2]: `,
+  `[ERROR]: ` and `[2026-08-25 10:00:00]: ` out. A footnote-shaped `note[1]: ` does satisfy it.
+- **Tests, deliberate misses are now priced**: unsigiled credential assignments MID-LINE with no
+  process tag are not redacted, which is the cost of retiring the bare-word detector. The generated
+  corpus is structurally blind to that shape, so retiring it moved zero cases and looked free. Three
+  such shapes are now pinned in the corpus as unchanged lines, so the trade is visible in the golden
+  and reclaiming it has to be argued for rather than slipped in.
 - **secret profile, `curl-user-password-single-quoted` and a single-quoted value branch**: both curl
   detectors read only double quotes, so `curl -u 'admin:hunter2'`, `curl --user 'admin:hunter2'` and
   `curl -u admin:'hunter 2'` left the whole credential on the line. A POSIX shell quotes with `'` at

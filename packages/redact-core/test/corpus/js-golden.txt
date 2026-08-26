@@ -1751,3 +1751,6 @@
 "bitsadmin /SetCredentials J SERVER NTLM u <redacted> and more text"
 "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM u <redacted>\""
 "bitsadmin /SetCredentials J SERVER NTLM u <redacted>"
+"Request failed after retry: token=abc123def456 was refused by the gateway"
+"Starting worker with api_key=abc123def456 and region=us-east-1"
+"cfg loaded (secret=abc123def456, retries=3) from /etc/app.conf"
