@@ -671,3 +671,91 @@ for (const text of TOOL_NEGATIVES) {
     assert.equal(r().redact(text).text, text);
   });
 }
+
+// --- PowerShell, the registry and curl. These families need real adaptation rather than a
+// transcription: a zero-width anchor cannot absorb the text between an optional hop and its value,
+// and a value whose quoting must survive has to be matched from the inside.
+
+const PS_CASES: [string, string, string][] = [
+  [
+    "securestring positional argument",
+    'ConvertTo-SecureString "SYNTHPW0000" -AsPlainText -Force',
+    "ConvertTo-SecureString REDACTED-SECRET-1 -AsPlainText -Force",
+  ],
+  [
+    "securestring named -String argument",
+    'ConvertTo-SecureString -String "SYNTHPW0001" -AsPlainText -Force',
+    "ConvertTo-SecureString -String REDACTED-SECRET-1 -AsPlainText -Force",
+  ],
+  [
+    "securestring: only the named value, not the word after the cmdlet",
+    'Use ConvertTo-SecureString instead of New-Object -String "SYNTHPW0002"',
+    "Use ConvertTo-SecureString instead of New-Object -String REDACTED-SECRET-1",
+  ],
+  [
+    "securestring by pipe",
+    '"SYNTHPW0003" | ConvertTo-SecureString -AsPlainText -Force',
+    "REDACTED-SECRET-1 | ConvertTo-SecureString -AsPlainText -Force",
+  ],
+  [
+    "named secret parameter keeps its quotes",
+    'Set-Thing -Password "Sy nth Pw" -Site Acme',
+    'Set-Thing -Password "REDACTED-SECRET-1" -Site Acme',
+  ],
+  [
+    "named secret parameter, single-quoted",
+    "Set-Thing -Password 'Sy nth Pw' -Site Acme",
+    "Set-Thing -Password 'REDACTED-SECRET-1' -Site Acme",
+  ],
+  [
+    "named secret parameter, doubled quote inside",
+    'Set-Thing -Password "a""b" -Site Acme',
+    'Set-Thing -Password "REDACTED-SECRET-1" -Site Acme',
+  ],
+  [
+    "reg add, value name ending in a credential word",
+    "reg add HKLM\\SOFTWARE\\Acme /v DefaultPassword /t REG_SZ /d SYNTHREG0000 /f",
+    "reg add HKLM\\SOFTWARE\\Acme /v DefaultPassword /t REG_SZ /d REDACTED-SECRET-1 /f",
+  ],
+  [
+    "curl -u, bare password, username kept",
+    "curl -u alice:SYNTHCURL000 https://api.example.com/v1",
+    "curl -u alice:REDACTED-SECRET-1 https://api.example.com/v1",
+  ],
+  [
+    "curl -u, whole pair quoted, quotes and username kept",
+    'curl -u "alice:SYNTH CURL 1" https://api.example.com/v1',
+    'curl -u "alice:REDACTED-SECRET-1" https://api.example.com/v1',
+  ],
+  [
+    "curl --user long form",
+    "curl --user bob:SYNTHCURL002 -X POST https://api.example.com",
+    "curl --user bob:REDACTED-SECRET-1 -X POST https://api.example.com",
+  ],
+];
+
+for (const [label, input, expected] of PS_CASES) {
+  test(`powershell, registry and curl: ${label}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.equal(out.text, expected);
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+// A variable, an expression, a boolean policy toggle, a port number and a curl with no credential
+// at all. Each is the shape that a slightly greedier version of one of the above would eat.
+const PS_NEGATIVES = [
+  "$sec = ConvertTo-SecureString $env:PW -AsPlainText -Force",
+  "$sec = ConvertTo-SecureString (Get-Content C:\\cfg\\pw.txt) -AsPlainText",
+  "reg add HKLM\\SOFTWARE\\Acme /v DisableChangePassword /t REG_DWORD /d 1 /f",
+  "reg add HKLM\\SOFTWARE\\Acme /v ProxyPort /t REG_DWORD /d 8080 /f",
+  "reg add HKLM\\SOFTWARE\\Acme /v ProxyServer /t REG_SZ /d proxy.acme.example /f",
+  "curl -s https://api.example.com/v1/users -o out.json",
+];
+
+for (const text of PS_NEGATIVES) {
+  test(`powershell, registry and curl negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}

@@ -8,6 +8,20 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## Unreleased
 
+- **secret profile, PowerShell, registry and curl detectors**:
+  - `powershell-securestring-argument` and `powershell-securestring-string-argument`: the plaintext
+    handed to `ConvertTo-SecureString`, positionally or through `-String`. Two detectors, not one
+    with an optional hop: an optional hop in front of a zero-width anchor matches both with and
+    without it and would redact twice.
+  - `powershell-securestring-pipe`: a quoted literal piped into the same cmdlet.
+  - `powershell-secret-parameter` and its single-quoted twin: the literal given to `-Password`,
+    `-ApiKey`, `-ClientSecret`, `-SasToken`, `-Token` and the rest. The match is the content
+    BETWEEN the quotes, so the quoting around the value survives.
+  - `registry-add-credential`: `reg add` with a `/v` value name ending in a credential word and a
+    `/d` value of at least two characters. All three parts are required, which is what makes a
+    suffix rule safe and what keeps `DisableChangePassword /d 1` out.
+  - `curl-user-password` and its quoted form: the password half of `curl -u user:password`. The
+    username is in the anchor rather than the match, so it survives.
 - **secret profile, five new command-line detectors**, all anchored on a tool name or a
   proper-noun grammar rather than on a flag letter:
   - `msi-property-credential`: a credential passed as an installer public property
