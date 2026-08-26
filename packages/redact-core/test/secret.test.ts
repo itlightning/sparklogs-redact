@@ -947,12 +947,45 @@ test("env assignment: a sentence that begins with a credential word loses one wo
   );
 });
 
-test("env assignment: an aligned column is not a separator", () => {
-  // The separator takes at most one space, so a value aligned into a column is NOT matched. That is
-  // the deliberate cost of refusing a whitespace run, which is what let the old detector cross a
-  // line break.
+test("env assignment: a spaced or aligned separator is still a separator", () => {
+  // The `.ini` spelling and an aligned config column both put a run of spaces around the separator.
+  // A run of spaces and tabs is safe to allow because it cannot reach off the line: the detector
+  // this replaces crossed a line break because its separator was `\s*`, and `\s` contains `\n`.
+  // That is a different character class, not a different quantity of whitespace.
   const red = r();
-  const text = "token:      alignedvalue123";
+  assert.equal(red.redact("token = abc123def456").text, "token = REDACTED-SECRET-1");
+  assert.equal(red.redact("api_key   =   abc123def456").text, "api_key   =   REDACTED-SECRET-1");
+  assert.equal(red.redact("token:      alignedvalue123").text, "token:      REDACTED-SECRET-1");
+  assert.equal(red.redact("secret\t=\tabc123def456").text, "secret\t=\tREDACTED-SECRET-1");
+});
+
+test("env assignment: a separator run stops at the end of its line", () => {
+  // The negative half of the rule above, and the one the old detector failed: a key whose value is
+  // on the NEXT line has no value on this one, and must not reach forward to take it.
+  const red = r();
+  for (const text of ["token =\nabc123def456", "token:\nabc123def456"]) {
+    assert.equal(red.redact(text).text, text);
+  }
+});
+
+test("env assignment: an aligned table column is not an assignment", () => {
+  // A pipe-delimited table puts the key at the start of a line with a run of spaces after it, but
+  // the separator is a pipe rather than an `=` or a `:`.
+  const red = r();
+  for (const text of [
+    "| token      | abc123def456 |",
+    "| api_key    | abc123def456 | rotated |",
+    "token       | abc123def456",
+  ]) {
+    assert.equal(red.redact(text).text, text);
+  }
+});
+
+test("syslog process tag: a run of spaces after the tag is not the syslog shape", () => {
+  // The tag takes exactly one space. Real syslog emits one, and admitting a run would let the tag
+  // rule reach across an aligned column into text that is not a value.
+  const red = r();
+  const text = "app[1]:   api_key=abc123def456";
   assert.equal(red.redact(text).text, text);
 });
 

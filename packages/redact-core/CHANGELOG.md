@@ -8,6 +8,12 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## 0.3.0
 
+- **secret profile, `env-assignment-credential` separator**: a run of spaces or tabs is now allowed
+  on either side of the `=` or `:`, so the `.ini` spelling `token = value` and an aligned config
+  column are redacted. A run of spaces and tabs is safe to allow because it cannot reach off the
+  line; the detector this replaces crossed a line break because its separator was `\s*`, and `\s`
+  contains `\n`. That was a different character class, not a different quantity of whitespace.
+  Pipe-delimited table columns are still not assignments.
 - **secret profile, `env-assignment-credential` reads a syslog process tag**: the same assignment
   arrives two ways, read from a config file and forwarded through a log line, so the key may now
   also follow a `tag[pid]: ` prefix (`app[1]: `, `sshd[1234]: `). The alternative is narrow on
