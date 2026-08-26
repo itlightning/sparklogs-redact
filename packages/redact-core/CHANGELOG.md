@@ -8,6 +8,25 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## Unreleased
 
+- **secret profile, `conn-string-url-password`**: the userinfo username run is no longer capped at
+  64 characters. The cap was a leak: past it the whole match failed and the password after the `:`
+  shipped verbatim.
+- **secret profile, `conn-string-password` rewritten**: one detector now covers both the
+  connection-string and the free-prose/command-line forms, with the key vocabulary widened to
+  `passwd`, `client-secret` and the hyphen and underscore spellings of the account, access and
+  shared-access keys.
+  - A doubled quote inside a quoted value no longer ends it early, so `--password="a""b"` is
+    redacted whole instead of leaving `"b"` behind.
+  - A value whose quote never closes (`--password="ab --site Acme`) is redacted to the end of the
+    line instead of being missed entirely, and a value that OPENS with a doubled quote
+    (`Password=""x"""`) no longer matches the empty quote pair and ships the rest.
+  - The plausible-next-key run is unbounded and Unicode-aware. A neighbour key longer than the old
+    30-character cap, or spelt in a non-ASCII script, was not recognised as a key, so the value ate
+    to the end of the line and destroyed the neighbour the detector exists to preserve.
+  - A value on a command line stops before the next flag, so `--account-key=K; --metadata
+    "env=prod;tier=1"` no longer runs across the rest of the command.
+  - A bare value now consumes interior quotes (`password=don't` goes whole) and backs off a
+    trailing quote so the surrounding quoting stays balanced.
 - **Engine, `lineBounded` detectors**: a detector may now declare that no match, lookbehind or
   lookahead of its pattern can cross a line break, and the engine then runs it against one line at a
   time instead of the whole document. JavaScript regexes backtrack, so their cost is quadratic in

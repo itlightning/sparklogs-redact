@@ -458,3 +458,93 @@ for (const text of JSON_CRED_NEGATIVES) {
     assert.equal(r().redact(text).text, text);
   });
 }
+
+// --- The key=value credential, after the rewrite that merged the connection-string and prose forms
+// into one detector. Each positive below states the WHOLE expected line, so an edit that widens the
+// value by one character fails here rather than passing a "the secret is gone" assertion.
+
+test("conn-string url password: an unbounded username still yields its password", () => {
+  // A ceiling on the username is a leak: past it the whole match fails and the password ships.
+  const red = r();
+  const user = "u".repeat(80);
+  const out = red.redact(`dsn postgres://${user}:s3cr3tPass@db.example.com/mydb`);
+  assert.ok(!out.text.includes("s3cr3tPass"));
+  assert.match(out.text, new RegExp(`postgres://${user}:REDACTED-SECRET-\\d+@db\\.example\\.com`));
+  assert.equal(red.redact(out.text).text, out.text);
+});
+
+test("conn-string password: a long neighbour key is still a key", () => {
+  // The neighbour is what the detector exists to preserve; a ceiling on the key run kills it.
+  const red = r();
+  const out = red.redact("Server=db01;Password=Hunter2xyz;ApplicationIntentForReporting=ReadOnly");
+  assert.equal(
+    out.text,
+    "Server=db01;Password=REDACTED-SECRET-1;ApplicationIntentForReporting=ReadOnly",
+  );
+});
+
+test("conn-string password: a non-ASCII neighbour key is still a key", () => {
+  // `\w` is ASCII-only in JavaScript, so this is the case that silently over-redacts without the
+  // Unicode property classes: the neighbour stops looking like a key and the value eats the line.
+  const red = r();
+  const out = red.redact("Password=Hunter2xyz;Kééé=keepme");
+  assert.equal(out.text, "Password=REDACTED-SECRET-1;Kééé=keepme");
+});
+
+test("conn-string password: a doubled quote does not end the value early", () => {
+  const red = r();
+  const out = red.redact('--password="a""b" --site Acme');
+  assert.equal(out.text, "--password=REDACTED-SECRET-1 --site Acme");
+});
+
+test("conn-string password: a value opening with a doubled quote goes whole", () => {
+  // The partial-redaction shape: the empty quote pair is a valid shorter run, so without the
+  // delimiter requirement after the closing quote the placeholder lands and the credential ships.
+  const red = r();
+  const out = red.redact('Password=""Hunter2xyz""";Server=db01');
+  assert.ok(!out.text.includes("Hunter2xyz"));
+  assert.equal(out.text, "Password=REDACTED-SECRET-1;Server=db01");
+});
+
+test("conn-string password: an unterminated quote eats to end of line", () => {
+  const red = r();
+  const out = red.redact('--password="ab --site Acme');
+  assert.ok(!out.text.includes("ab --site"));
+  assert.equal(out.text, "--password=REDACTED-SECRET-1");
+});
+
+test("conn-string password: a bare value keeps its apostrophe and stops at whitespace", () => {
+  const red = r();
+  const out = red.redact("password=don't --site Acme");
+  assert.ok(!out.text.includes("don't"));
+  assert.equal(out.text, "password=REDACTED-SECRET-1 --site Acme");
+});
+
+test("conn-string password: the value stops before the next command-line flag", () => {
+  // `;word=` inside a quoted argument makes the whole line look like a connection string, so
+  // without the flag guard the value would run across the rest of the command.
+  const red = r();
+  const out = red.redact('azcopy --account-key=Hunter2xyz; --metadata "env=prod;tier=1"');
+  assert.equal(out.text, 'azcopy --account-key=REDACTED-SECRET-1 --metadata "env=prod;tier=1"');
+});
+
+test("conn-string password: the AWS secret half is caught, the public half is not", () => {
+  const red = r();
+  const out = red.redact("AwsSecretAccessKey=Hunter2xyz Region=us-east-1");
+  assert.equal(out.text, "AwsSecretAccessKey=REDACTED-SECRET-1 Region=us-east-1");
+});
+
+// The negative half: a key that merely CONTAINS a credential word names a setting, a counter or a
+// date, and `accesskeyid` is the public half of an AWS key pair.
+const CONN_KV_NEGATIVES = [
+  "PasswordExpiryDays=90 and MyPasswordPolicy=strict",
+  "accesskeyid=contoso-public-id is the public half",
+  "The password field was empty for user alice",
+  "LastPasswordChange=2026-08-22",
+];
+
+for (const text of CONN_KV_NEGATIVES) {
+  test(`conn-string password negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}
