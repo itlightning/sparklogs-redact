@@ -955,3 +955,54 @@ test("env assignment: an aligned column is not a separator", () => {
   const text = "token:      alignedvalue123";
   assert.equal(red.redact(text).text, text);
 });
+
+// --- curl in single quotes. A POSIX shell wraps an argument in single quotes at least as often as
+// in double, and every other family here already reads both, so a detector that opened only on `"`
+// left the whole credential on the line.
+
+const CURL_QUOTE_CASES: [string, string][] = [
+  [
+    "whole pair in single quotes",
+    "curl -u 'admin:hunter2xyz' https://api.example.com/v1",
+  ],
+  [
+    "whole pair in single quotes, long flag",
+    "curl --user 'admin:hunter2xyz' https://api.example.com/v1",
+  ],
+  ["bare username, single-quoted value", "curl -u admin:'hunter 2 xyz' https://api.example.com/v1"],
+  ["doubled single quote inside the value", "curl -u 'admin:hun''ter2' https://api.example.com/v1"],
+  [
+    "a colon inside the password does not end it",
+    "curl --user 'svc-acct@corp:p@ss:word' https://api.example.com",
+  ],
+];
+
+for (const [label, input] of CURL_QUOTE_CASES) {
+  test(`curl single quotes: ${label}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.notEqual(out.text, input, "the credential must not survive");
+    assert.ok(!/hunter2xyz|hunter 2 xyz|hun''ter2|p@ss:word/.test(out.text), "no fragment left");
+    assert.ok(out.text.includes("admin") || out.text.includes("svc-acct@corp"), "username kept");
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+test("curl single quotes: the username and the quoting survive", () => {
+  const red = r();
+  assert.equal(
+    red.redact("curl -u 'admin:hunter2xyz' https://api.example.com/v1").text,
+    "curl -u 'admin:REDACTED-SECRET-1' https://api.example.com/v1",
+  );
+});
+
+const CURL_QUOTE_NEGATIVES = [
+  "curl -u 'admin' https://api.example.com/v1",
+  "the curl -u option takes a user:password pair",
+];
+
+for (const text of CURL_QUOTE_NEGATIVES) {
+  test(`curl single quotes negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}

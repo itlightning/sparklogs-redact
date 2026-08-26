@@ -8,6 +8,10 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## 0.3.0
 
+- **secret profile, `curl-user-password-single-quoted` and a single-quoted value branch**: both curl
+  detectors read only double quotes, so `curl -u 'admin:hunter2'`, `curl --user 'admin:hunter2'` and
+  `curl -u admin:'hunter 2'` left the whole credential on the line. A POSIX shell quotes with `'` at
+  least as often as with `"`, and every other family here already reads both.
 - **secret profile, new `env-assignment-credential`**: the narrow replacement for the retired
   bare-word detector. It covers `api_key=`, `token:`, `secret=`, `client_secret=`, `access_key=` and
   the access, auth, refresh and session token spellings, but ONLY where the key begins the line
