@@ -1,0 +1,421 @@
+{"case": "prose-doubled-quote-value-redacted", "input": "agent.exe --password=\"a\"\"b\" --site Acme", "vrl": "agent.exe --password=<redacted> --site Acme"}
+{"case": "prose-word-prefixed-keys-survive", "input": "Group Policy setting MyPasswordPolicy=Strict applied to CORP\\Workstations", "vrl": "Group Policy setting MyPasswordPolicy=Strict applied to CORP\\Workstations"}
+{"case": "prose-word-prefixed-keys-survive", "input": "Account audit: PasswordExpiryDays=90 LastPasswordChange=2026-07-14", "vrl": "Account audit: PasswordExpiryDays=90 LastPasswordChange=2026-07-14"}
+{"case": "prose-word-prefixed-keys-survive", "input": "Public half logged: accesskeyid=AKIASYNTHETIC0000 for profile backup", "vrl": "Public half logged: accesskeyid=AKIASYNTHETIC0000 for profile backup"}
+{"case": "prose-equals-forms-stay-redacted", "input": "set PGPASSWORD=SynthPw1 && psql -h db01 -U rpt -d appdb -c \"SELECT 1\"", "vrl": "set PGPASSWORD=<redacted> && psql -h db01 -U rpt -d appdb -c \"SELECT 1\""}
+{"case": "prose-equals-forms-stay-redacted", "input": "mysql --password=SynthPw2 -u root appdb", "vrl": "mysql --password=<redacted> -u root appdb"}
+{"case": "prose-equals-forms-stay-redacted", "input": "wget --http-password=SynthPw3 --http-user=svc https://dl.example.invalid/f.zip", "vrl": "wget --http-password=<redacted> --http-user=svc https://dl.example.invalid/f.zip"}
+{"case": "prose-equals-forms-stay-redacted", "input": "svn checkout --username svc --password=SynthPw4 https://svn.example.invalid/repo", "vrl": "svn checkout --username svc --password=<redacted> https://svn.example.invalid/repo"}
+{"case": "prose-equals-forms-stay-redacted", "input": "winscp.com /ini=nul /command \"open ftp://svc@host.local -password=SynthPw5\"", "vrl": "winscp.com /ini=nul /command \"open ftp://svc@host.local -password=<redacted>\""}
+{"case": "prose-equals-forms-stay-redacted", "input": "msiexec /i agent.msi /qn SERVICEPASSWORD=SynthPw6 SERVICEACCOUNT=CORP\\svc", "vrl": "msiexec /i agent.msi /qn SERVICEPASSWORD=<redacted> SERVICEACCOUNT=CORP\\svc"}
+{"case": "url-userinfo-stays-redacted", "input": "psql \"postgresql://rpt:SynthPw7@db01.corp.invalid:5432/appdb\"", "vrl": "psql \"postgresql://rpt:<redacted>@db01.corp.invalid:5432/appdb\""}
+{"case": "url-userinfo-stays-redacted", "input": "winscp.com /command \"open sftp://svc:SynthPw8@host.local\" \"put C:\\a.csv\"", "vrl": "winscp.com /command \"open sftp://svc:<redacted>@host.local\" \"put C:\\a.csv\""}
+{"case": "url-userinfo-stays-redacted", "input": "mongosh \"mongodb://svc:SynthPw9@db01.corp.invalid:27017/appdb\"", "vrl": "mongosh \"mongodb://svc:<redacted>@db01.corp.invalid:27017/appdb\""}
+{"case": "hyphenated-cloud-cli-flags-redacted", "input": "az storage blob upload --account-key=SynthAcctKey0000 --account-name acme", "vrl": "az storage blob upload --account-key=<redacted> --account-name acme"}
+{"case": "hyphenated-cloud-cli-flags-redacted", "input": "az login --service-principal -u APPID --client-secret=SynthSecret0000 --tenant acme.onmicrosoft.invalid", "vrl": "az login --service-principal -u APPID --client-secret=<redacted> --tenant acme.onmicrosoft.invalid"}
+{"case": "hyphenated-lookalike-flags-survive", "input": "aws s3 sync --access-keyid=AKIASYNTHETIC0001 --profile backup", "vrl": "aws s3 sync --access-keyid=AKIASYNTHETIC0001 --profile backup"}
+{"case": "hyphenated-lookalike-flags-survive", "input": "az keyvault secret show --client-secret-file=C:\\secrets\\app.json", "vrl": "az keyvault secret show --client-secret-file=C:\\secrets\\app.json"}
+{"case": "hyphenated-lookalike-flags-survive", "input": "docker login -u svc --password-stdin registry.example.invalid", "vrl": "docker login -u svc --password-stdin registry.example.invalid"}
+{"case": "space-separated-value-survives", "input": "aws configure set aws_secret_access_key SynthAwsSecret0000 --profile backup", "vrl": "aws configure set aws_secret_access_key SynthAwsSecret0000 --profile backup"}
+{"case": "conn-string-doubled-quote-value-redacted", "input": "Data Source=db.probe.invalid;UID=svc_probe;Password=\"Sy\"\"nth;Extra=Pw11\";Database=probe", "vrl": "Data Source=db.probe.invalid;UID=svc_probe;Password=<redacted>;Database=probe"}
+{"case": "conn-string-neighbours-survive", "input": "Data Source=db.probe.invalid;UID=svc_probe;Password=SynthPw10;Database=probe", "vrl": "Data Source=db.probe.invalid;UID=svc_probe;Password=<redacted>;Database=probe"}
+{"case": "unterminated-quote-values-redacted", "input": "agent.exe --password=\"ab --site Acme", "vrl": "agent.exe --password=<redacted>"}
+{"case": "unterminated-quote-values-redacted", "input": "backup.exe --password='cd --site Acme", "vrl": "backup.exe --password=<redacted>"}
+{"case": "terminated-quote-values-stop-at-the-quote", "input": "agent.exe --password=\"ab\" --site Acme", "vrl": "agent.exe --password=<redacted> --site Acme"}
+{"case": "terminated-quote-values-stop-at-the-quote", "input": "backup.exe --password='cd' --site Acme", "vrl": "backup.exe --password=<redacted> --site Acme"}
+{"case": "bare-and-doubled-single-quote-values-redacted", "input": "agent.exe --password='Sy''nth' --site Acme", "vrl": "agent.exe --password=<redacted> --site Acme"}
+{"case": "bare-and-doubled-single-quote-values-redacted", "input": "restore.exe --password=P@ss'word --site Acme", "vrl": "restore.exe --password=<redacted> --site Acme"}
+{"case": "bare-and-doubled-single-quote-values-redacted", "input": "backup.exe --password=don't --site Acme", "vrl": "backup.exe --password=<redacted> --site Acme"}
+{"case": "conn-string-doubled-single-quote-value-redacted", "input": "Data Source=db.probe.invalid;UID=svc_probe;Password='Sy''nth;Extra=Pw';Database=probe", "vrl": "Data Source=db.probe.invalid;UID=svc_probe;Password=<redacted>;Database=probe"}
+{"case": "punctuated-key-spellings-redacted", "input": "set AWS_SECRET_ACCESS_KEY=SynthAwsSecret0000 && aws s3 sync", "vrl": "set AWS_SECRET_ACCESS_KEY=<redacted> && aws s3 sync"}
+{"case": "punctuated-key-spellings-redacted", "input": "set AZURE_CLIENT_SECRET=SynthSecret0000 && az login", "vrl": "set AZURE_CLIENT_SECRET=<redacted> && az login"}
+{"case": "punctuated-key-spellings-redacted", "input": "POST body: client_secret=SynthSecret0000&grant_type=client_credentials", "vrl": "POST body: client_secret=<redacted>"}
+{"case": "punctuated-key-spellings-redacted", "input": "az storage blob upload --account_key=SynthAcctKey0000 --account-name acme", "vrl": "az storage blob upload --account_key=<redacted> --account-name acme"}
+{"case": "punctuated-key-spellings-redacted", "input": "aws configure set aws_secret_access_key=SynthAwsSecret0000 --profile backup", "vrl": "aws configure set aws_secret_access_key=<redacted> --profile backup"}
+{"case": "punctuated-key-lookalikes-survive", "input": "Profile backup uses aws_access_key_id=AKIASYNTHETIC0000 for uploads", "vrl": "Profile backup uses aws_access_key_id=AKIASYNTHETIC0000 for uploads"}
+{"case": "punctuated-key-lookalikes-survive", "input": "aws s3 sync --access-key-id=AKIASYNTHETIC0001 --profile backup", "vrl": "aws s3 sync --access-key-id=AKIASYNTHETIC0001 --profile backup"}
+{"case": "punctuated-key-lookalikes-survive", "input": "Rotation policy AccountKeyRotationDays=90 for acme", "vrl": "Rotation policy AccountKeyRotationDays=90 for acme"}
+{"case": "punctuated-key-lookalikes-survive", "input": "App registration client_secret_expiry=2026-07-14 recorded", "vrl": "App registration client_secret_expiry=2026-07-14 recorded"}
+{"case": "punctuated-key-lookalikes-survive", "input": "Report SharedAccessSignatureExpiry=3600 configured for acme", "vrl": "Report SharedAccessSignatureExpiry=3600 configured for acme"}
+{"case": "punctuated-key-lookalikes-survive", "input": "Reset passwd_history=24 on CORP\\svc", "vrl": "Reset passwd_history=24 on CORP\\svc"}
+{"case": "conn-gate-command-line-flags-redacted", "input": "az storage blob upload --account-key=SynthAcctKey0000 --metadata \"env=prod;tier=1\"", "vrl": "az storage blob upload --account-key=<redacted>;tier=1\""}
+{"case": "conn-gate-command-line-flags-redacted", "input": "az login --client-secret=SynthSecret0000; ExitCode = 0", "vrl": "az login --client-secret=<redacted>; ExitCode = 0"}
+{"case": "conn-gate-command-line-flags-redacted", "input": "psql --passwd=SynthPw1 ; Result = 0", "vrl": "psql --passwd=<redacted>; Result = 0"}
+{"case": "conn-string-unterminated-quote-keeps-neighbours", "input": "Data Source=db.probe.invalid;UID=svc_probe;Password=\"Sy;Database=probe", "vrl": "Data Source=db.probe.invalid;UID=svc_probe;Password=<redacted>;Database=probe"}
+{"case": "conn-string-unterminated-quote-keeps-neighbours", "input": "Data Source=db.probe.invalid;UID=svc_probe;AccountKeyRotation=90;Database=probe", "vrl": "Data Source=db.probe.invalid;UID=svc_probe;AccountKeyRotation=90;Database=probe"}
+{"case": "quote-adjacent-lookalikes-survive", "input": "robocopy /log:C:\\logs\\a.txt --password-file=C:\\secrets\\p.txt D:\\share", "vrl": "robocopy /log:C:\\logs\\a.txt --password-file=C:\\secrets\\p.txt D:\\share"}
+{"case": "quote-adjacent-lookalikes-survive", "input": "Report field Data=\"a\"\"b\" exported for acme", "vrl": "Report field Data=\"a\"\"b\" exported for acme"}
+{"case": "known-current-behaviour-tripwires", "input": "agent.exe --password= --site Acme", "vrl": "agent.exe --password= <redacted> Acme"}
+{"case": "known-current-behaviour-tripwires", "input": "Data Source=db.probe.invalid;Password=SynthPw10 ;Database=probe", "vrl": "Data Source=db.probe.invalid;Password=<redacted>;Database=probe"}
+{"case": "widened-key-list-lookalikes-survive", "input": "Config check: passwordless=true and site=Acme", "vrl": "Config check: passwordless=true and site=Acme"}
+{"case": "widened-key-list-lookalikes-survive", "input": "Diagnostics: pwd_hash_algo=sha256;mode=fips", "vrl": "Diagnostics: pwd_hash_algo=sha256;mode=fips"}
+{"case": "widened-key-list-lookalikes-survive", "input": "Backup summary: SharedAccessKeyCount=2;Vault=acme", "vrl": "Backup summary: SharedAccessKeyCount=2;Vault=acme"}
+{"case": "widened-key-list-lookalikes-survive", "input": "Job log: step=1;AccessKeyRotation=30;step=2", "vrl": "Job log: step=1;AccessKeyRotation=30;step=2"}
+{"case": "widened-key-list-lookalikes-survive", "input": "Audit note: Password required = yes for CORP\\svc", "vrl": "Audit note: Password required = yes for CORP\\svc"}
+{"case": "widened-key-list-lookalikes-survive", "input": "Column list: password_hash_algo, access_key_id, client_secret_expiry", "vrl": "Column list: password_hash_algo, access_key_id, client_secret_expiry"}
+{"case": "credential-word-suffix-forms-survive", "input": "az keyvault list --client-secret-id=SYNTHID0001 --output table", "vrl": "az keyvault list --client-secret-id=SYNTHID0001 --output table"}
+{"case": "credential-word-suffix-forms-survive", "input": "az storage blob upload --account-key-name=primary --account-name acme", "vrl": "az storage blob upload --account-key-name=primary --account-name acme"}
+{"case": "credential-word-suffix-forms-survive", "input": "Env dump: AWS_ACCESS_KEY_ID=AKIASYNTHETIC0002 AWS_REGION=us-east-1", "vrl": "Env dump: AWS_ACCESS_KEY_ID=AKIASYNTHETIC0002 AWS_REGION=us-east-1"}
+{"case": "credential-word-suffix-forms-survive", "input": "Policy: shared-access-signature-expiry=3600 applied to acme", "vrl": "Policy: shared-access-signature-expiry=3600 applied to acme"}
+{"case": "credential-word-suffix-forms-survive", "input": "Registry: HKLM\\SOFTWARE\\Acme\\PasswordAgeDays = 42", "vrl": "Registry: HKLM\\SOFTWARE\\Acme\\PasswordAgeDays = 42"}
+{"case": "credential-word-suffix-forms-survive", "input": "Task \"Reset password\" completed for CORP\\svc", "vrl": "Task \"Reset password\" completed for CORP\\svc"}
+{"case": "trailing-quote-is-left-in-place", "input": "sqlcmd.exe --password=P@ss\" --site Acme", "vrl": "sqlcmd.exe --password=<redacted>\" --site Acme"}
+{"case": "trailing-quote-is-left-in-place", "input": "agent.exe --password=x\" --site Acme", "vrl": "agent.exe --password=<redacted>\" --site Acme"}
+{"case": "conn-gate-miss-falls-back-to-prose", "input": "az storage blob list --account-key=SynthA4; --metadata \"env=prod;tier=1\"", "vrl": "az storage blob list --account-key=<redacted> --metadata \"env=prod;tier=1\""}
+{"case": "conn-gate-miss-falls-back-to-prose", "input": "Start-Process app.exe -ArgumentList \"--password=SynthA1; --conn Data Source=db;Database=probe\"", "vrl": "Start-Process app.exe -ArgumentList \"--password=<redacted> --conn Data Source=db;Database=probe\""}
+{"case": "conn-gate-miss-falls-back-to-prose", "input": "runner.exe --password=SynthA6; --flag=1", "vrl": "runner.exe --password=<redacted> --flag=1"}
+{"case": "conn-match-then-second-credential-residual", "input": "Data Source=db;Password=SynthB1;Database=probe --account-key=SynthB2; --metadata \"x=1\"", "vrl": "Data Source=db;Password=<redacted>;Database=probe --account-key=SynthB2; --metadata \"x=1\""}
+{"case": "conn-match-then-second-credential-residual", "input": "Data Source=db;Password=SynthB3;Database=probe and --account-key=SynthB4 --site Acme", "vrl": "Data Source=db;Password=<redacted>;Database=probe and --account-key=<redacted>"}
+{"case": "redaction-is-idempotent-on-both-branches", "input": "Server=sqlsrv01;Uid=svc;Password=<redacted>;Encrypt=true", "vrl": "Server=sqlsrv01;Uid=svc;Password=<redacted>;Encrypt=true"}
+{"case": "redaction-is-idempotent-on-both-branches", "input": "Data Source=db.probe.invalid;UID=svc_probe;Password=<redacted>;Database=probe", "vrl": "Data Source=db.probe.invalid;UID=svc_probe;Password=<redacted>;Database=probe"}
+{"case": "redaction-is-idempotent-on-both-branches", "input": "agent.exe --password=<redacted> --site Acme", "vrl": "agent.exe --password=<redacted> --site Acme"}
+{"case": "fallback-output-reswept-over-redacts", "input": "az storage blob list --account-key=<redacted> --metadata \"env=prod;tier=1\"", "vrl": "az storage blob list --account-key=<redacted>;tier=1\""}
+{"case": "msi-public-property-values-redacted", "input": "msiexec /i C:\\pkg\\rmm-agent.msi /qn TOKEN=SYNTHTOKEN0000 SITE=Acme", "vrl": "msiexec /i C:\\pkg\\rmm-agent.msi /qn TOKEN=<redacted> SITE=Acme"}
+{"case": "msi-public-property-values-redacted", "input": "msiexec /i agent.msi /qn REGISTRATIONTOKEN=SYNTHTOKEN0001 /l*v C:\\log\\a.log", "vrl": "msiexec /i agent.msi /qn REGISTRATIONTOKEN=<redacted> /l*v C:\\log\\a.log"}
+{"case": "msi-public-property-values-redacted", "input": "Installing product with APIKEY=SYNTHAPIKEY0000 CUSTOMERID=41207", "vrl": "Installing product with APIKEY=<redacted> CUSTOMERID=41207"}
+{"case": "msi-public-property-values-redacted", "input": "setup.exe /S /v\"/qn AUTHKEY=SYNTHAUTH0000\"", "vrl": "setup.exe /S /v\"/qn AUTHKEY=<redacted>\""}
+{"case": "msi-public-property-values-redacted", "input": "msiexec /i c.msi /qn SITEKEY=SYNTHSITE0000 TENANT=acme", "vrl": "msiexec /i c.msi /qn SITEKEY=<redacted> TENANT=acme"}
+{"case": "msi-public-property-values-redacted", "input": "msiexec /i d.msi /qn PRIVATE_KEY=SYNTHPRIV0000 SERVER=https://rmm.example.invalid", "vrl": "msiexec /i d.msi /qn PRIVATE_KEY=<redacted> SERVER=https://rmm.example.invalid"}
+{"case": "msi-public-property-lookalikes-survive", "input": "Assembly load failed: MyLib, Version=1.0.0.0, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a", "vrl": "Assembly load failed: MyLib, Version=1.0.0.0, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a"}
+{"case": "msi-public-property-lookalikes-survive", "input": "Assembly load failed: MyLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "vrl": "Assembly load failed: MyLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"}
+{"case": "msi-public-property-lookalikes-survive", "input": "Process exited TID=4120 PID=8804 with code 0", "vrl": "Process exited TID=4120 PID=8804 with code 0"}
+{"case": "msi-public-property-lookalikes-survive", "input": "msiexec /i C:\\pkg\\app.msi /qn TRANSFORMS=C:\\pkg\\app.mst INSTALLDIR=\"C:\\Program Files\\App\"", "vrl": "msiexec /i C:\\pkg\\app.msi /qn TRANSFORMS=C:\\pkg\\app.mst INSTALLDIR=\"C:\\Program Files\\App\""}
+{"case": "msi-public-property-lookalikes-survive", "input": "Property CUSTOMERID=41207 REBOOT=ReallySuppress ALLUSERS=1", "vrl": "Property CUSTOMERID=41207 REBOOT=ReallySuppress ALLUSERS=1"}
+{"case": "msi-public-property-lookalikes-survive", "input": "The MSI property SECRETPOLICY is not a public property", "vrl": "The MSI property SECRETPOLICY is not a public property"}
+{"case": "msi-public-property-cross-cutting-shapes", "input": "msiexec /i a.msi /qn TOKEN=\"a\"\"b\" SITE=Acme", "vrl": "msiexec /i a.msi /qn TOKEN=<redacted> SITE=Acme"}
+{"case": "msi-public-property-cross-cutting-shapes", "input": "msiexec /i b.msi /qn APIKEY='Sy''nth' SITE=Beta", "vrl": "msiexec /i b.msi /qn APIKEY=<redacted> SITE=Beta"}
+{"case": "msi-public-property-cross-cutting-shapes", "input": "msiexec /i c.msi /qn TOKEN=SYNTH0001; msiexec /i d.msi /qn SITE=Gamma", "vrl": "msiexec /i c.msi /qn TOKEN=<redacted> msiexec /i d.msi /qn SITE=Gamma"}
+{"case": "msi-public-property-cross-cutting-shapes", "input": "\"C:\\Program Files\\Acme\\setup.exe\" /qn AUTHKEY=SYNTHAUTH0001", "vrl": "\"C:\\Program Files\\Acme\\setup.exe\" /qn AUTHKEY=<redacted>"}
+{"case": "msi-public-property-cross-cutting-shapes", "input": "msiexec /i e.msi /qn TOKENFILE=C:\\pkg\\t.txt SITE=Delta", "vrl": "msiexec /i e.msi /qn TOKENFILE=C:\\pkg\\t.txt SITE=Delta"}
+{"case": "msi-nested-and-truncated-quoting-redacted", "input": "setup.exe /s /v\"/qn TOKEN=\\\"Sekret 1\\\" SITE=Acme\"", "vrl": "setup.exe /s /v\"/qn TOKEN=<redacted> SITE=Acme\""}
+{"case": "msi-nested-and-truncated-quoting-redacted", "input": "msiexec.exe /i \"C:\\pkg\\a.msi\" /qn TOKEN=\"abc def", "vrl": "msiexec.exe /i \"C:\\pkg\\a.msi\" /qn TOKEN=<redacted>"}
+{"case": "msi-nested-and-truncated-quoting-redacted", "input": "msiexec /i a.msi /qn TOKEN=Sek'ret1 SITE=Acme", "vrl": "msiexec /i a.msi /qn TOKEN=<redacted> SITE=Acme"}
+{"case": "msi-empty-value-does-not-cross-a-line-break", "input": "Installer property dump:\nTOKEN=\nSITEID=41207 recorded for acme", "vrl": "Installer property dump:\nTOKEN=\nSITEID=41207 recorded for acme"}
+{"case": "http-authorization-values-redacted", "input": "curl -H \"Authorization: Bearer SYNTHETICTOKENVALUE0000\" https://api.x.example.invalid/v1", "vrl": "curl -H \"Authorization: Bearer <redacted>\" https://api.x.example.invalid/v1"}
+{"case": "http-authorization-values-redacted", "input": "Invoke-RestMethod -Headers @{Authorization=\"Bearer SYNTHETICTOKENVALUE0001\"} -Uri https://api.x.example.invalid", "vrl": "Invoke-RestMethod -Headers @{Authorization=\"Bearer <redacted>\"} -Uri https://api.x.example.invalid"}
+{"case": "http-authorization-values-redacted", "input": "git -c http.extraHeader=\"Authorization: Basic U1lOVEhFVElD\" clone https://git.corp.invalid/r.git", "vrl": "git -c http.extraHeader=\"Authorization: Basic <redacted>\" clone https://git.corp.invalid/r.git"}
+{"case": "http-authorization-values-redacted", "input": "HTTP request failed. Proxy-Authorization: Negotiate SYNTHSPNEGOBLOB== rejected by proxy", "vrl": "HTTP request failed. Proxy-Authorization: Negotiate <redacted> rejected by proxy"}
+{"case": "http-authorization-values-redacted", "input": "{\"Authorization\":\"Bearer SYNTHETICTOKENVALUE0002\",\"Accept\":\"application/json\"}", "vrl": "{\"Authorization\":\"Bearer <redacted>\",\"Accept\":\"application/json\"}"}
+{"case": "http-authorization-values-redacted", "input": "Invoke-RestMethod -Headers @{Authorization='Bearer SYNTHETICTOKENVALUE0003'} -Uri https://api.y.example.invalid", "vrl": "Invoke-RestMethod -Headers @{Authorization='Bearer <redacted>'} -Uri https://api.y.example.invalid"}
+{"case": "http-authorization-lookalikes-survive", "input": "Access-Control-Allow-Headers: Authorization, Content-Type, Accept", "vrl": "Access-Control-Allow-Headers: Authorization, Content-Type, Accept"}
+{"case": "http-authorization-lookalikes-survive", "input": "401 Unauthorized: the Authorization header was missing from the request", "vrl": "401 Unauthorized: the Authorization header was missing from the request"}
+{"case": "http-authorization-lookalikes-survive", "input": "WWW-Authenticate: Bearer realm=\"https://api.x.example.invalid\", error=\"invalid_token\"", "vrl": "WWW-Authenticate: Bearer realm=\"https://api.x.example.invalid\", error=\"invalid_token\""}
+{"case": "http-authorization-lookalikes-survive", "input": "Authorization succeeded for user CORP\\svc_rep on resource /v1/tickets", "vrl": "Authorization succeeded for user CORP\\svc_rep on resource /v1/tickets"}
+{"case": "http-authorization-lookalikes-survive", "input": "curl -H \"X-Authorization-Mode: Bearer-only\" https://api.x.example.invalid/v1", "vrl": "curl -H \"X-Authorization-Mode: Bearer-only\" https://api.x.example.invalid/v1"}
+{"case": "http-authorization-lookalikes-survive", "input": "Authorization: not required for anonymous endpoints", "vrl": "Authorization: not required for anonymous endpoints"}
+{"case": "http-authorization-lookalikes-survive", "input": "Policy applied: Authorization=disabled for CORP\\svc_rep", "vrl": "Policy applied: Authorization=disabled for CORP\\svc_rep"}
+{"case": "http-authorization-known-over-redaction", "input": "Authorization: Basic authentication is required", "vrl": "Authorization: Basic <redacted> is required"}
+{"case": "http-authorization-known-over-redaction", "input": "Authorization: Negotiate is configured for this endpoint", "vrl": "Authorization: Negotiate <redacted> configured for this endpoint"}
+{"case": "http-authorization-quoted-credential-residual", "input": "curl -H \"Authorization: Bearer a\"\"b\" https://api.x.example.invalid/v1", "vrl": "curl -H \"Authorization: Bearer <redacted>\"\"b\" https://api.x.example.invalid/v1"}
+{"case": "http-authorization-quoted-credential-residual", "input": "curl -H \"Authorization: Bearer \"\"SYNTH\"\"\" https://api.x.example.invalid/v1", "vrl": "curl -H \"Authorization: Bearer <redacted>"}
+{"case": "http-authorization-unterminated-quote-redacted", "input": "curl -H \"Authorization: Bearer \"%TOKEN%", "vrl": "curl -H \"Authorization: Bearer <redacted>"}
+{"case": "http-authorization-unterminated-quote-redacted", "input": "Authorization: Basic \"ZZSECRETZZ", "vrl": "Authorization: Basic <redacted>"}
+{"case": "http-authorization-cross-cutting-shapes", "input": "curl -s https://a.example.invalid & curl -H \"Authorization: Bearer SYNTH0001\" https://b.example.invalid", "vrl": "curl -s https://a.example.invalid & curl -H \"Authorization: Bearer <redacted>\" https://b.example.invalid"}
+{"case": "http-authorization-cross-cutting-shapes", "input": "\"C:\\Program Files\\curl\\curl.exe\" -H \"Authorization: Bearer SYNTH0002\" https://api.x.example.invalid", "vrl": "\"C:\\Program Files\\curl\\curl.exe\" -H \"Authorization: Bearer <redacted>\" https://api.x.example.invalid"}
+{"case": "putty-password-flag-values-redacted", "input": "plink -ssh -l svcacct -pw SynthPw1 host.local \"uptime\"", "vrl": "plink -ssh -l svcacct -pw <redacted> host.local \"uptime\""}
+{"case": "putty-password-flag-values-redacted", "input": "\"C:\\Tools\\pscp.exe\" -pw SynthPw2 C:\\rep\\a.csv svc@host.local:/in/", "vrl": "\"C:\\Tools\\pscp.exe\" -pw <redacted> C:\\rep\\a.csv svc@host.local:/in/"}
+{"case": "putty-password-flag-values-redacted", "input": "psftp -l svc -pw \"Syn th Pw3\" -b batch.txt host.local", "vrl": "psftp -l svc -pw <redacted> -b batch.txt host.local"}
+{"case": "putty-password-flag-values-redacted", "input": "plink.exe -pw SynthPw4 -batch svc@host.local df -h", "vrl": "plink.exe -pw <redacted> -batch svc@host.local df -h"}
+{"case": "putty-password-flag-lookalikes-survive", "input": "plink -ssh -l svc -pwfile C:\\secrets\\p.txt host.local", "vrl": "plink -ssh -l svc -pwfile C:\\secrets\\p.txt host.local"}
+{"case": "putty-password-flag-lookalikes-survive", "input": "plink -ssh -P 2222 -l svc host.local \"uptime\"", "vrl": "plink -ssh -P 2222 -l svc host.local \"uptime\""}
+{"case": "putty-password-flag-lookalikes-survive", "input": "pscp -r C:\\rep\\ svc@host.local:/in/", "vrl": "pscp -r C:\\rep\\ svc@host.local:/in/"}
+{"case": "putty-password-flag-lookalikes-survive", "input": "plink -ssh host.local \"uptime\" | findstr -pw", "vrl": "plink -ssh host.local \"uptime\" | findstr -pw"}
+{"case": "putty-password-flag-lookalikes-survive", "input": "plink -ssh host.local \"date\" & findstr -pw x", "vrl": "plink -ssh host.local \"date\" & findstr -pw x"}
+{"case": "putty-password-flag-lookalikes-survive", "input": "plink -ssh host.local \"df\" ; findstr -pw y", "vrl": "plink -ssh host.local \"df\" ; findstr -pw y"}
+{"case": "putty-prose-known-over-redaction", "input": "The plink session used -pw as documented", "vrl": "The plink session used -pw <redacted> documented"}
+{"case": "putty-password-cross-cutting-shapes", "input": "plink -pw \"a\"\"b\" -batch svc@host.local df -h", "vrl": "plink -pw <redacted> -batch svc@host.local df -h"}
+{"case": "putty-password-cross-cutting-shapes", "input": "putty -pw 'Sy''nth' -load session", "vrl": "putty -pw <redacted> -load session"}
+{"case": "putty-password-cross-cutting-shapes", "input": "plink -ssh -l svc -pw \"ab host.local", "vrl": "plink -ssh -l svc -pw <redacted>"}
+{"case": "putty-password-cross-cutting-shapes", "input": "plink -ssh -l svc -pw don't host.local", "vrl": "plink -ssh -l svc -pw <redacted> host.local"}
+{"case": "putty-password-cross-cutting-shapes", "input": "pscp -pw Pw5\" C:\\a.csv svc@host.local:/in/", "vrl": "pscp -pw <redacted>\" C:\\a.csv svc@host.local:/in/"}
+{"case": "sql-client-password-flag-values-redacted", "input": "sqlcmd -S SRV01 -U svc_rep -P SynthPw1 -Q \"SELECT 1\"", "vrl": "sqlcmd -S SRV01 -U svc_rep -P <redacted> -Q \"SELECT 1\""}
+{"case": "sql-client-password-flag-values-redacted", "input": "\"C:\\Program Files\\SQL\\sqlcmd.exe\" -S SRV01 -U sa -P \"Syn th Pw2\" -i job.sql", "vrl": "\"C:\\Program Files\\SQL\\sqlcmd.exe\" -S SRV01 -U sa -P <redacted> -i job.sql"}
+{"case": "sql-client-password-flag-values-redacted", "input": "bcp DB.dbo.T out c:\\out.dat -S SRV01 -U rpt -PSynthPw3 -n", "vrl": "bcp DB.dbo.T out c:\\out.dat -S SRV01 -U rpt -P<redacted> -n"}
+{"case": "sql-client-password-flag-values-redacted", "input": "osql -S SRV02 -U sa -P SynthPw4 -Q \"SELECT 2\"", "vrl": "osql -S SRV02 -U sa -P <redacted> -Q \"SELECT 2\""}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "sqlcmd -S SRV01 -E -p -Q \"SELECT 1\"", "vrl": "sqlcmd -S SRV01 -E -p -Q \"SELECT 1\""}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "ping -n 1 -P 3 host.local", "vrl": "ping -n 1 -P 3 host.local"}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "robocopy C:\\A C:\\B /MIR /R:1 /W:1", "vrl": "robocopy C:\\A C:\\B /MIR /R:1 /W:1"}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "C:\\Windows\\System32\\svchost.exe -k netsvcs -p", "vrl": "C:\\Windows\\System32\\svchost.exe -k netsvcs -p"}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "C:\\Tools\\sqlcmd.exe -S SRV01 -E -Q \"SELECT 1\" & ping -P 3 host.local", "vrl": "C:\\Tools\\sqlcmd.exe -S SRV01 -E -Q \"SELECT 1\" & ping -P 3 host.local"}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "Service sqlcmd wrapper exited; see C:\\Logs\\-Provisioning\\run.log", "vrl": "Service sqlcmd wrapper exited; see C:\\Logs\\-Provisioning\\run.log"}
+{"case": "sql-client-password-flag-lookalikes-survive", "input": "xcopy D:\\bcp\\*.dat E:\\arch /P /Y", "vrl": "xcopy D:\\bcp\\*.dat E:\\arch /P /Y"}
+{"case": "sql-client-attached-value-known-over-redaction", "input": "sqlcmd -S SRV01 -U sa -Provider mssql -Q \"SELECT 3\"", "vrl": "sqlcmd -S SRV01 -U sa -P<redacted> mssql -Q \"SELECT 3\""}
+{"case": "sql-client-password-cross-cutting-shapes", "input": "sqlcmd -S SRV01 -U sa -P \"a\"\"b\" -Q \"SELECT 4\"", "vrl": "sqlcmd -S SRV01 -U sa -P <redacted> -Q \"SELECT 4\""}
+{"case": "sql-client-password-cross-cutting-shapes", "input": "osql -S SRV01 -U sa -P 'Sy''nth' -Q \"SELECT 5\"", "vrl": "osql -S SRV01 -U sa -P <redacted> -Q \"SELECT 5\""}
+{"case": "sql-client-password-cross-cutting-shapes", "input": "sqlcmd -S SRV01 -U sa -P \"ab -Q oops", "vrl": "sqlcmd -S SRV01 -U sa -P <redacted>"}
+{"case": "sql-client-password-cross-cutting-shapes", "input": "sqlcmd -S SRV01 -U sa -P don't -Q \"SELECT 6\"", "vrl": "sqlcmd -S SRV01 -U sa -P <redacted> -Q \"SELECT 6\""}
+{"case": "sql-client-password-cross-cutting-shapes", "input": "isql -S SRV01 -U sa -Pab\" -Q \"SELECT 7\"", "vrl": "isql -S SRV01 -U sa -P<redacted>\" -Q \"SELECT 7\""}
+{"case": "sql-client-password-cross-cutting-shapes", "input": "sqlcmd -S SRV01 -E -Q \"SELECT 8\" | findstr -P 3", "vrl": "sqlcmd -S SRV01 -E -Q \"SELECT 8\" | findstr -P 3"}
+{"case": "vendor-token-prefixes-redacted", "input": "git clone https://ghp_SYNTHETIC00000000000000000000000000@git.example.invalid/o/r.git", "vrl": "git clone https://<redacted>@git.example.invalid/o/r.git"}
+{"case": "vendor-token-prefixes-redacted", "input": "push failed to origin (auth github_pat_SYNTHETIC0000000000000000000 failed)", "vrl": "push failed to origin (auth <redacted> failed)"}
+{"case": "vendor-token-prefixes-redacted", "input": "Webhook post rejected: token xoxb-0000000000-SYNTHETICSLACKTOKEN", "vrl": "Webhook post rejected: token <redacted>"}
+{"case": "vendor-token-prefixes-redacted", "input": "gitlab-runner register --registration-token glpat-SYNTHETICGITLAB000000", "vrl": "gitlab-runner register --registration-token <redacted>"}
+{"case": "vendor-token-prefixes-redacted", "input": "Maps request failed key=AIzaSYNTHETIC00000000000000000000000000", "vrl": "Maps request failed key=<redacted>"}
+{"case": "vendor-token-lookalikes-survive", "input": "Assembly MyLib, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a", "vrl": "Assembly MyLib, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a"}
+{"case": "vendor-token-lookalikes-survive", "input": "Cloning https://git.example.invalid/o/r.git into C:\\src\\r", "vrl": "Cloning https://git.example.invalid/o/r.git into C:\\src\\r"}
+{"case": "vendor-token-lookalikes-survive", "input": "The ghp_ prefix identifies a GitHub personal access token", "vrl": "The ghp_ prefix identifies a GitHub personal access token"}
+{"case": "vendor-token-lookalikes-survive", "input": "Path C:\\Users\\svc\\AppData\\Local\\npm_cache\\index.json not found", "vrl": "Path C:\\Users\\svc\\AppData\\Local\\npm_cache\\index.json not found"}
+{"case": "vendor-token-lookalikes-survive", "input": "Base64 payload eyJhbGciOiJIUzI1NiJ9 in diagnostic dump", "vrl": "Base64 payload eyJhbGciOiJIUzI1NiJ9 in diagnostic dump"}
+{"case": "vendor-token-lookalikes-survive", "input": "Public half logged: AKIASYNTHETIC0000 for profile backup", "vrl": "Public half logged: AKIASYNTHETIC0000 for profile backup"}
+{"case": "vendor-token-minimum-width-hyphen-body-redacted", "input": "Runner registered with glpat-SYNTHGITLABTOKEN000-", "vrl": "Runner registered with <redacted>"}
+{"case": "vendor-token-minimum-width-hyphen-body-redacted", "input": "Slack post rejected: xoxb-SYNTHSLAK-", "vrl": "Slack post rejected: <redacted>"}
+{"case": "vendor-token-minimum-width-hyphen-body-redacted", "input": "Maps daily quota key=AIzaSYNTH00000000000000000000000000000-", "vrl": "Maps daily quota key=<redacted>"}
+{"case": "vendor-token-minimum-width-hyphen-body-redacted", "input": "Places lookup key=AIzaSYNTH00000000000000000000000000000000000", "vrl": "Places lookup key=<redacted>"}
+{"case": "sparklogs-own-token-redacted", "input": "agent.exe --ingest https://api.sparklogs.example.invalid -t sl_us_S000000000000000000000000000000000000000000", "vrl": "agent.exe --ingest https://api.sparklogs.example.invalid -t <redacted>"}
+{"case": "sparklogs-own-token-redacted", "input": "Ingest rejected for ws_acme: token sl_eu_S000000000000000000000000000000000000000000 expired", "vrl": "Ingest rejected for ws_acme: token <redacted> expired"}
+{"case": "sparklogs-own-token-lookalikes-survive", "input": "Rotation note: token sl_us_S00000000000000000000000000000000000000000 is one character short", "vrl": "Rotation note: token sl_us_S00000000000000000000000000000000000000000 is one character short"}
+{"case": "sparklogs-own-token-lookalikes-survive", "input": "Region prefix sl_us_ marks a SparkLogs token", "vrl": "Region prefix sl_us_ marks a SparkLogs token"}
+{"case": "sparklogs-own-token-lookalikes-survive", "input": "Path C:\\Users\\svc\\sl_us_cache\\index.json not found", "vrl": "Path C:\\Users\\svc\\sl_us_cache\\index.json not found"}
+{"case": "sparklogs-own-token-lookalikes-survive", "input": "Audit note: sl_US_S000000000000000000000000000000000000000000 uses an upper-case region", "vrl": "Audit note: sl_US_S000000000000000000000000000000000000000000 uses an upper-case region"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "\\??\\C:\\Windows\\system32\\conhost.exe 0xffffffff -ForceV1", "vrl": "\\??\\C:\\Windows\\system32\\conhost.exe 0xffffffff -ForceV1"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "\"sc.exe\" query SparkLogsVector7", "vrl": "\"sc.exe\" query SparkLogsVector7"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "\"sc.exe\" query SparkLogsVector1", "vrl": "\"sc.exe\" query SparkLogsVector1"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "\"sc.exe\" query SparkLogsVector", "vrl": "\"sc.exe\" query SparkLogsVector"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "C:\\Windows\\system32\\wbem\\wmiprvse.exe -secured -Embedding", "vrl": "C:\\Windows\\system32\\wbem\\wmiprvse.exe -secured -Embedding"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "C:\\Windows\\system32\\wbem\\wmiprvse.exe -Embedding", "vrl": "C:\\Windows\\system32\\wbem\\wmiprvse.exe -Embedding"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "C:\\Windows\\system32\\sppsvc.exe", "vrl": "C:\\Windows\\system32\\sppsvc.exe"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "auditpol  /get /subcategory:\"Process Creation\"", "vrl": "auditpol  /get /subcategory:\"Process Creation\""}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "\"C:\\Windows\\system32\\wermgr.exe\" -upload", "vrl": "\"C:\\Windows\\system32\\wermgr.exe\" -upload"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "\"C:\\Windows\\system32\\mmc.exe\" \"C:\\Windows\\system32\\eventvwr.msc\" /s", "vrl": "\"C:\\Windows\\system32\\mmc.exe\" \"C:\\Windows\\system32\\eventvwr.msc\" /s"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "C:\\Windows\\system32\\DllHost.exe /Processid:{49F6E667-6658-4BD1-9DE9-6AF87F9FAF85}", "vrl": "C:\\Windows\\system32\\DllHost.exe /Processid:{49F6E667-6658-4BD1-9DE9-6AF87F9FAF85}"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "C:\\Windows\\system32\\DllHost.exe /Processid:{DC4537C3-CA73-4AC7-9E1D-B2CE27C3A7A6}", "vrl": "C:\\Windows\\system32\\DllHost.exe /Processid:{DC4537C3-CA73-4AC7-9E1D-B2CE27C3A7A6}"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "gpupdate  /force", "vrl": "gpupdate  /force"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "ping.exe  -n 1 --probe \"a b c\" --bare xyz 127.0.0.1", "vrl": "ping.exe  -n 1 --probe \"a b c\" --bare xyz 127.0.0.1"}
+{"case": "lab-command-line-corpus-survives-byte-identical", "input": "cmd  /c ping.exe -n 1 --probe \"a b c\" --bare xyz 127.0.0.1", "vrl": "cmd  /c ping.exe -n 1 --probe \"a b c\" --bare xyz 127.0.0.1"}
+{"case": "sparklogs-agent-and-refresh-tokens-redacted", "input": "agent.exe register --bearer slk_a00000000000000000000000000000000000000000000000000000000000000f --endpoint https://ingest.example.invalid", "vrl": "agent.exe register --bearer <redacted> --endpoint https://ingest.example.invalid"}
+{"case": "sparklogs-agent-and-refresh-tokens-redacted", "input": "Auth failed for agent a-17: bearer slk_a00000000000000000000000000000000000000000000000000000000000000f not on the row", "vrl": "Auth failed for agent a-17: bearer <redacted> not on the row"}
+{"case": "sparklogs-agent-and-refresh-tokens-redacted", "input": "POST /token -> refresh_token=slr_S00000000000000000000000000000000000000000z.S00000000000000000000000000000000000000000z for client mcp-cli", "vrl": "POST /token -> refresh_token=<redacted> for client mcp-cli"}
+{"case": "sparklogs-agent-and-refresh-tokens-redacted", "input": "Rotation: old refresh slr_S00000000000000000000000000000000000000000z.S00000000000000000000000000000000000000000z revoked for client mcp-cli", "vrl": "Rotation: old refresh <redacted> revoked for client mcp-cli"}
+{"case": "sparklogs-agent-and-refresh-lookalikes-survive", "input": "Rotation note: bearer slk_a0000000000000000000000000000000000000000000000000000000000000f is one character short", "vrl": "Rotation note: bearer slk_a0000000000000000000000000000000000000000000000000000000000000f is one character short"}
+{"case": "sparklogs-agent-and-refresh-lookalikes-survive", "input": "Rotation note: refresh slr_S0000000000000000000000000000000000000000z.S00000000000000000000000000000000000000000z is one character short", "vrl": "Rotation note: refresh slr_S0000000000000000000000000000000000000000z.S00000000000000000000000000000000000000000z is one character short"}
+{"case": "sparklogs-agent-and-refresh-lookalikes-survive", "input": "Rotation note: refresh slr_S00000000000000000000000000000000000000000z.S0000000000000000000000000000000000000000z is one character short", "vrl": "Rotation note: refresh slr_S00000000000000000000000000000000000000000z.S0000000000000000000000000000000000000000z is one character short"}
+{"case": "sparklogs-agent-and-refresh-lookalikes-survive", "input": "Prefix slk_ marks a managed-agent bearer", "vrl": "Prefix slk_ marks a managed-agent bearer"}
+{"case": "sparklogs-agent-and-refresh-lookalikes-survive", "input": "Prefix slr_ marks an OAuth refresh token", "vrl": "Prefix slr_ marks an OAuth refresh token"}
+{"case": "sparklogs-agent-and-refresh-lookalikes-survive", "input": "Path C:\\Users\\svc\\slk_cache\\index.json not found", "vrl": "Path C:\\Users\\svc\\slk_cache\\index.json not found"}
+{"case": "net-user-second-positional-redacted", "input": "net user svc_probe Sy-nth-Pw-10 /add /passwordreq:yes", "vrl": "net user svc_probe <redacted> /add /passwordreq:yes"}
+{"case": "net-user-second-positional-redacted", "input": "C:\\Windows\\System32\\net.exe user svc_probe \"Sy nth Pw 11\"", "vrl": "C:\\Windows\\System32\\net.exe user svc_probe <redacted>"}
+{"case": "net-user-second-positional-redacted", "input": "NET USER svc_probe Sy-nth-Pw-12 /domain", "vrl": "NET USER svc_probe <redacted> /domain"}
+{"case": "net-user-second-positional-redacted", "input": "net user svc_probe \"a\"\"b\" /add", "vrl": "net user svc_probe <redacted> /add"}
+{"case": "net-user-second-positional-redacted", "input": "\"C:\\Windows\\System32\\net.exe\" user \"svc probe\" Sy-nth-Pw-13", "vrl": "\"C:\\Windows\\System32\\net.exe\" user \"svc probe\" <redacted>"}
+{"case": "net-user-second-positional-redacted", "input": "\\??\\C:\\Windows\\system32\\net.exe user svc Sy-nth-Pw-14", "vrl": "\\??\\C:\\Windows\\system32\\net.exe user svc <redacted>"}
+{"case": "net-user-second-positional-redacted", "input": "net user bob Sy-nth-Pw-15 & net user carol Sy-nth-Pw-16", "vrl": "net user bob <redacted> & net user carol <redacted>"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob /add", "vrl": "net user bob /add"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob *", "vrl": "net user bob *"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob /domain", "vrl": "net user bob /domain"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob", "vrl": "net user bob"}
+{"case": "net-user-documented-variants-survive", "input": "net user", "vrl": "net user"}
+{"case": "net-user-documented-variants-survive", "input": "net user /domain", "vrl": "net user /domain"}
+{"case": "net-user-documented-variants-survive", "input": "net users", "vrl": "net users"}
+{"case": "net-user-documented-variants-survive", "input": "net accounts /minpwlen:14", "vrl": "net accounts /minpwlen:14"}
+{"case": "net-user-documented-variants-survive", "input": "net user [username [password | *] [options]] [/domain]", "vrl": "net user [username [password | *] [options]] [/domain]"}
+{"case": "net-user-documented-variants-survive", "input": "Reloading the .NET user profile cache", "vrl": "Reloading the .NET user profile cache"}
+{"case": "net-user-documented-variants-survive", "input": "The net user command failed with error 5", "vrl": "The net user command failed with error 5"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob /times:M-F,8AM-5PM", "vrl": "net user bob /times:M-F,8AM-5PM"}
+{"case": "net-user-documented-variants-survive", "input": "Internet user session started for bob smith", "vrl": "Internet user session started for bob smith"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob <password>", "vrl": "net user bob <password>"}
+{"case": "net-user-documented-variants-survive", "input": "net user bob is disabled; contact IT", "vrl": "net user bob is disabled; contact IT"}
+{"case": "net-user-documented-variants-survive", "input": "net localgroup Administrators bob /add", "vrl": "net localgroup Administrators bob /add"}
+{"case": "net-use-share-password-redacted", "input": "net use Z: \\\\fs01\\backups Sy-nth-Pw-20 /user:CORP\\svc_backup", "vrl": "net use Z: \\\\fs01\\backups <redacted> /user:CORP\\svc_backup"}
+{"case": "net-use-share-password-redacted", "input": "net use \\\\fs01\\backups \"Sy nth Pw 21\" /user:svc_backup", "vrl": "net use \\\\fs01\\backups <redacted> /user:svc_backup"}
+{"case": "net-use-share-password-redacted", "input": "net use * \\\\fs01\\backups Sy-nth-Pw-22 /persistent:no", "vrl": "net use * \\\\fs01\\backups <redacted> /persistent:no"}
+{"case": "net-use-share-password-redacted", "input": "NET.EXE USE Z: \\\\fs01\\backups \"a\"\"b\"", "vrl": "NET.EXE USE Z: \\\\fs01\\backups <redacted>"}
+{"case": "net-use-share-password-redacted", "input": "\"C:\\Windows\\System32\\net.exe\" use Z: \\\\fs01\\backups Sy-nth-Pw-23", "vrl": "\"C:\\Windows\\System32\\net.exe\" use Z: \\\\fs01\\backups <redacted>"}
+{"case": "net-use-share-password-redacted", "input": "net use Z: \\\\fs01\\backups Sy-nth-Pw-24 | findstr ok", "vrl": "net use Z: \\\\fs01\\backups <redacted> | findstr ok"}
+{"case": "net-use-share-password-redacted", "input": "net use k: \"\\\\financial 2\" \\memos", "vrl": "net use k: \"\\\\financial 2\" <redacted>"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\srv\\share /persistent:yes", "vrl": "net use Z: \\\\srv\\share /persistent:yes"}
+{"case": "net-use-documented-variants-survive", "input": "net use * /delete", "vrl": "net use * /delete"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\fs01\\backups", "vrl": "net use Z: \\\\fs01\\backups"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\fs01\\backups /user:CORP\\bob", "vrl": "net use Z: \\\\fs01\\backups /user:CORP\\bob"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\fs01\\backups *", "vrl": "net use Z: \\\\fs01\\backups *"}
+{"case": "net-use-documented-variants-survive", "input": "net use", "vrl": "net use"}
+{"case": "net-use-documented-variants-survive", "input": "net use /persistent:yes", "vrl": "net use /persistent:yes"}
+{"case": "net-use-documented-variants-survive", "input": "net view \\\\fs01", "vrl": "net view \\\\fs01"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: /delete", "vrl": "net use Z: /delete"}
+{"case": "net-use-documented-variants-survive", "input": "net use [devicename | *] [\\\\computername\\sharename[\\volume] [password | *]]", "vrl": "net use [devicename | *] [\\\\computername\\sharename[\\volume] [password | *]]"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\fs01\\backups /savecred", "vrl": "net use Z: \\\\fs01\\backups /savecred"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\fs01\\backups failed with error 53", "vrl": "net use Z: \\\\fs01\\backups failed with error 53"}
+{"case": "net-use-documented-variants-survive", "input": "net useage report generated", "vrl": "net useage report generated"}
+{"case": "net-use-documented-variants-survive", "input": "net use Z: reconnect pending", "vrl": "net use Z: reconnect pending"}
+{"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "bitsadmin /SetCredentials PatchJob SERVER NTLM CORP\\bitssvc Sy-nth-Pw-18", "vrl": "bitsadmin /SetCredentials PatchJob SERVER NTLM CORP\\bitssvc <redacted>"}
+{"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "bitsadmin /SetCredentials PatchJob PROXY BASIC svc \"Sy nth Pw 19\"", "vrl": "bitsadmin /SetCredentials PatchJob PROXY BASIC svc <redacted>"}
+{"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "bitsadmin /SetCredentials J SERVER NTLM svc \"a\"\"b\"", "vrl": "bitsadmin /SetCredentials J SERVER NTLM svc <redacted>"}
+{"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "\"C:\\Windows\\System32\\bitsadmin.exe\" /SetCredentials J PROXY DIGEST svc Sy-nth-Pw-20", "vrl": "\"C:\\Windows\\System32\\bitsadmin.exe\" /SetCredentials J PROXY DIGEST svc <redacted>"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "bitsadmin /SetCredentials <job> <target> <scheme> <user> <password>", "vrl": "bitsadmin /SetCredentials <job> <target> <scheme> <user> <password>"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "bitsadmin /SetCredentials PatchJob SERVER NTLM CORP\\bitssvc", "vrl": "bitsadmin /SetCredentials PatchJob SERVER NTLM CORP\\bitssvc"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "bitsadmin /GetError PatchJob", "vrl": "bitsadmin /GetError PatchJob"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "bitsadmin /list /allusers /verbose", "vrl": "bitsadmin /list /allusers /verbose"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "bitsadmin /SetCredentialsEx PatchJob SERVER NTLM svc Sy-nth", "vrl": "bitsadmin /SetCredentialsEx PatchJob SERVER NTLM svc Sy-nth"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "bitsadmin /SetCredentials PatchJob SERVER NULL svc Sy-nth", "vrl": "bitsadmin /SetCredentials PatchJob SERVER NULL svc Sy-nth"}
+{"case": "bitsadmin-setcredentials-lookalikes-survive", "input": "Job PatchJob has no credentials set for SERVER NTLM", "vrl": "Job PatchJob has no credentials set for SERVER NTLM"}
+{"case": "rasdial-third-positional-redacted", "input": "rasdial \"Contoso VPN\" CORP\\vpnuser Sy-nth-Pw-16", "vrl": "rasdial \"Contoso VPN\" CORP\\vpnuser <redacted>"}
+{"case": "rasdial-third-positional-redacted", "input": "rasdial ContosoVPN vpnuser \"Sy nth Pw 17\" /domain:contoso", "vrl": "rasdial ContosoVPN vpnuser <redacted> /domain:contoso"}
+{"case": "rasdial-third-positional-redacted", "input": "rasdial ContosoVPN vpnuser \"a\"\"b\"", "vrl": "rasdial ContosoVPN vpnuser <redacted>"}
+{"case": "rasdial-third-positional-redacted", "input": "\"C:\\Windows\\System32\\rasdial.exe\" ContosoVPN vpnuser Sy-nth-Pw-18", "vrl": "\"C:\\Windows\\System32\\rasdial.exe\" ContosoVPN vpnuser <redacted>"}
+{"case": "rasdial-third-positional-redacted", "input": "rasdial HomeVPN homeuser failed", "vrl": "rasdial HomeVPN homeuser <redacted>"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial", "vrl": "rasdial"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial ContosoVPN", "vrl": "rasdial ContosoVPN"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial ContosoVPN vpnuser", "vrl": "rasdial ContosoVPN vpnuser"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial ContosoVPN /disconnect", "vrl": "rasdial ContosoVPN /disconnect"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial ContosoVPN vpnuser *", "vrl": "rasdial ContosoVPN vpnuser *"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial ContosoVPN vpnuser <password>", "vrl": "rasdial ContosoVPN vpnuser <password>"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdial connection ContosoVPN failed with error 691", "vrl": "rasdial connection ContosoVPN failed with error 691"}
+{"case": "rasdial-lookalikes-survive", "input": "rasdialer entry user secret", "vrl": "rasdialer entry user secret"}
+{"case": "securestring-argument-redacted", "input": "$s = ConvertTo-SecureString \"Sy nth Pw 19\" -AsPlainText -Force", "vrl": "$s = ConvertTo-SecureString <redacted> -AsPlainText -Force"}
+{"case": "securestring-argument-redacted", "input": "$s = ConvertTo-SecureString -String 'Sy-nth-Pw-20' -AsPlainText -Force", "vrl": "$s = ConvertTo-SecureString -String <redacted> -AsPlainText -Force"}
+{"case": "securestring-argument-redacted", "input": "$sec = ConvertTo-SecureString Sy-nth-Pw-21 -AsPlainText -Force", "vrl": "$sec = ConvertTo-SecureString <redacted> -AsPlainText -Force"}
+{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"a\"\"b\" -AsPlainText -Force", "vrl": "ConvertTo-SecureString <redacted> -AsPlainText -Force"}
+{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString 'it''s' -AsPlainText", "vrl": "ConvertTo-SecureString <redacted> -AsPlainText"}
+{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"Sy nth", "vrl": "ConvertTo-SecureString <redacted>"}
+{"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString -String $plain -AsPlainText -Force", "vrl": "ConvertTo-SecureString -String $plain -AsPlainText -Force"}
+{"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString $env:PW -AsPlainText", "vrl": "ConvertTo-SecureString $env:PW -AsPlainText"}
+{"case": "securestring-argument-lookalikes-survive", "input": "Get-Help ConvertTo-SecureString -Full", "vrl": "Get-Help ConvertTo-SecureString -Full"}
+{"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString [-String] <String> [-AsPlainText]", "vrl": "ConvertTo-SecureString [-String] <String> [-AsPlainText]"}
+{"case": "securestring-argument-lookalikes-survive", "input": "ConvertFrom-SecureString $s", "vrl": "ConvertFrom-SecureString $s"}
+{"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureStringHelper \"x\"", "vrl": "ConvertTo-SecureStringHelper \"x\""}
+{"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString -AsPlainText -Force -String $p", "vrl": "ConvertTo-SecureString -AsPlainText -Force -String $p"}
+{"case": "securestring-pipeline-redacted", "input": "\"Sy-nth-Pw-22\" | ConvertTo-SecureString -AsPlainText -Force", "vrl": "<redacted> | ConvertTo-SecureString -AsPlainText -Force"}
+{"case": "securestring-pipeline-redacted", "input": "'Sy nth Pw 23' | ConvertTo-SecureString -AsPlainText", "vrl": "<redacted> | ConvertTo-SecureString -AsPlainText"}
+{"case": "securestring-pipeline-redacted", "input": "\"a\"\"b\"|ConvertTo-SecureString -AsPlainText -Force", "vrl": "<redacted>|ConvertTo-SecureString -AsPlainText -Force"}
+{"case": "securestring-pipeline-lookalikes-survive", "input": "$p | ConvertTo-SecureString -AsPlainText -Force", "vrl": "$p | ConvertTo-SecureString -AsPlainText -Force"}
+{"case": "securestring-pipeline-lookalikes-survive", "input": "Get-Content c:\\p.txt | ConvertTo-SecureString -AsPlainText", "vrl": "Get-Content c:\\p.txt | ConvertTo-SecureString -AsPlainText"}
+{"case": "securestring-pipeline-lookalikes-survive", "input": "\"text\" | Out-File c:\\x.txt", "vrl": "\"text\" | Out-File c:\\x.txt"}
+{"case": "securestring-pipeline-lookalikes-survive", "input": "\"a\" | ConvertTo-SecureStringExtra", "vrl": "\"a\" | ConvertTo-SecureStringExtra"}
+{"case": "powershell-named-secret-redacted", "input": "Invoke-Sqlcmd -ServerInstance SQL01 -Username r -Password \"Sy nth Pw 40\" -Query \"SELECT 1\"", "vrl": "Invoke-Sqlcmd -ServerInstance SQL01 -Username r -Password <redacted> -Query \"SELECT 1\""}
+{"case": "powershell-named-secret-redacted", "input": "Connect-Service -ClientId 0000 -ClientSecret 'Sy-nth-Pw-41'", "vrl": "Connect-Service -ClientId 0000 -ClientSecret <redacted>"}
+{"case": "powershell-named-secret-redacted", "input": "Set-Thing -ApiKey \"Sy-nth-Pw-42\"", "vrl": "Set-Thing -ApiKey <redacted>"}
+{"case": "powershell-named-secret-redacted", "input": "Set-Thing -Token \"a\"\"b\"", "vrl": "Set-Thing -Token <redacted>"}
+{"case": "powershell-named-secret-redacted", "input": "Set-Thing -SharedAccessKey \"Sy nth\" -Endpoint https://x.invalid", "vrl": "Set-Thing -SharedAccessKey <redacted> -Endpoint https://x.invalid"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Invoke-Sqlcmd -Password $secure", "vrl": "Invoke-Sqlcmd -Password $secure"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Invoke-Sqlcmd -Password <SecureString>", "vrl": "Invoke-Sqlcmd -Password <SecureString>"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "SYNTAX: Invoke-Sqlcmd [-Password <String>]", "vrl": "SYNTAX: Invoke-Sqlcmd [-Password <String>]"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "the -Password parameter is mandatory", "vrl": "the -Password parameter is mandatory"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Set-LocalUser -PasswordNeverExpires $true", "vrl": "Set-LocalUser -PasswordNeverExpires $true"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Start-Process notepad -Credential $cred", "vrl": "Start-Process notepad -Credential $cred"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Write-Host \"-Password was not supplied\"", "vrl": "Write-Host \"-Password was not supplied\""}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Write-Host \"-Token 'abc' was ignored\"", "vrl": "Write-Host \"-Token 'abc' was ignored\""}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "New-Object System.Management.Automation.PSCredential($u, $s)", "vrl": "New-Object System.Management.Automation.PSCredential($u, $s)"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Get-Content C:\\ops\\-TokenList.txt", "vrl": "Get-Content C:\\ops\\-TokenList.txt"}
+{"case": "powershell-named-secret-lookalikes-survive", "input": "Invoke-Sqlcmd -Password Sy-nth-Pw-43", "vrl": "Invoke-Sqlcmd -Password Sy-nth-Pw-43"}
+{"case": "sigil-credential-flag-redacted", "input": "cmdkey /add:fs01 /user:CORP\\svc_bk /pass:Sy-nth-Pw-1", "vrl": "cmdkey /add:fs01 /user:CORP\\svc_bk /pass:<redacted>"}
+{"case": "sigil-credential-flag-redacted", "input": "cmdkey /generic:fs01 /user:svc /pass:\"Sy nth Pw 2\"", "vrl": "cmdkey /generic:fs01 /user:svc /pass:<redacted>"}
+{"case": "sigil-credential-flag-redacted", "input": "wmic /node:fs01 /user:svc /password:Sy-nth-Pw-3 process list", "vrl": "wmic /node:fs01 /user:svc /password:<redacted> process list"}
+{"case": "sigil-credential-flag-redacted", "input": "netdom join WS01 /domain:c /userd:j /passwordd:Sy-nth-Pw-4", "vrl": "netdom join WS01 /domain:c /userd:j /passwordd:<redacted>"}
+{"case": "sigil-credential-flag-redacted", "input": "mofcomp -user:svc -password:Sy-nth-Pw-6 c:\\x.mof", "vrl": "mofcomp -user:svc -password:<redacted> c:\\x.mof"}
+{"case": "sigil-credential-flag-redacted", "input": "kubectl --token=SYNTHK8S0000 get pods", "vrl": "kubectl --token=<redacted> get pods"}
+{"case": "sigil-credential-flag-redacted", "input": "aws sts assume-role --session-token=SYNTHSESS0000 --profile backup", "vrl": "aws sts assume-role --session-token=<redacted> --profile backup"}
+{"case": "sigil-credential-flag-redacted", "input": "cmdkey /add:fs01 /user:svc /pass:\"a\"\"b\"", "vrl": "cmdkey /add:fs01 /user:svc /pass:<redacted>"}
+{"case": "sigil-credential-flag-redacted", "input": "tool --passphrase:Sy-nth-Pw-7 --in c:\\a.dat", "vrl": "tool --passphrase:<redacted> --in c:\\a.dat"}
+{"case": "sigil-credential-flag-redacted", "input": "The -password: is required", "vrl": "The -password: <redacted> required"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "cmdkey /pass:<password>", "vrl": "cmdkey /pass:<password>"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "Usage: wmic /PASSWORD:<password>", "vrl": "Usage: wmic /PASSWORD:<password>"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "C:\\Program Files\\pwd\\tool.exe --run", "vrl": "C:\\Program Files\\pwd\\tool.exe --run"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "HKLM\\SOFTWARE\\App\\Password", "vrl": "HKLM\\SOFTWARE\\App\\Password"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "PasswordExpiryDays=90", "vrl": "PasswordExpiryDays=90"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "passwd: root", "vrl": "passwd: root"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "cmdkey /list", "vrl": "cmdkey /list"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "Assembly MyLib, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a", "vrl": "Assembly MyLib, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "tool --passes=3 --retry", "vrl": "tool --passes=3 --retry"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "Set-Location /pwd", "vrl": "Set-Location /pwd"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "https://host.invalid/pass:notaflag", "vrl": "https://host.invalid/pass:notaflag"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "tool --token:", "vrl": "tool --token:"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "auditpol  /get /subcategory:\"Process Creation\"", "vrl": "auditpol  /get /subcategory:\"Process Creation\""}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "Report saved to C:\\ops\\pass-rate\\2026.csv", "vrl": "Report saved to C:\\ops\\pass-rate\\2026.csv"}
+{"case": "sigil-credential-flag-lookalikes-survive", "input": "The token=SYNTHTOK00 was rejected by the API", "vrl": "The token=SYNTHTOK00 was rejected by the API"}
+{"case": "reg-add-credential-value-redacted", "input": "reg add HKLM\\SOFTWARE\\Contoso\\Agent /v ServicePassword /t REG_SZ /d Sy-nth-Pw-27 /f", "vrl": "reg add HKLM\\SOFTWARE\\Contoso\\Agent /v ServicePassword /t REG_SZ /d <redacted> /f"}
+{"case": "reg-add-credential-value-redacted", "input": "reg add \"HKCU\\Software\\Contoso\" /v ProxyPassword /t REG_SZ /d \"Sy nth Pw 28\" /f", "vrl": "reg add \"HKCU\\Software\\Contoso\" /v ProxyPassword /t REG_SZ /d <redacted> /f"}
+{"case": "reg-add-credential-value-redacted", "input": "\"C:\\Windows\\System32\\reg.exe\" add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultPassword /t REG_SZ /d Sy-nth-Pw-29 /f", "vrl": "\"C:\\Windows\\System32\\reg.exe\" add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v DefaultPassword /t REG_SZ /d <redacted> /f"}
+{"case": "reg-add-credential-value-redacted", "input": "reg add HKLM\\SOFTWARE\\C /v AgentToken /t REG_SZ /d SYNTHTOK00 /f", "vrl": "reg add HKLM\\SOFTWARE\\C /v AgentToken /t REG_SZ /d <redacted> /f"}
+{"case": "reg-add-credential-value-redacted", "input": "reg add HKLM\\S /v ApiPassword /t REG_SZ /d \"a\"\"b\" /f", "vrl": "reg add HKLM\\S /v ApiPassword /t REG_SZ /d <redacted> /f"}
+{"case": "reg-add-credential-value-redacted", "input": "reg add HKLM\\S /v ProxyPassword /d Sy-nth-Pw-30 /f", "vrl": "reg add HKLM\\S /v ProxyPassword /d <redacted> /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SOFTWARE\\Contoso /v PasswordExpiryDays /t REG_DWORD /d 90 /f", "vrl": "reg add HKLM\\SOFTWARE\\Contoso /v PasswordExpiryDays /t REG_DWORD /d 90 /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SOFTWARE\\Contoso /v LogLevel /t REG_DWORD /d 4 /f", "vrl": "reg add HKLM\\SOFTWARE\\Contoso /v LogLevel /t REG_DWORD /d 4 /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg query HKLM\\SOFTWARE\\Contoso /v ServicePassword", "vrl": "reg query HKLM\\SOFTWARE\\Contoso /v ServicePassword"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SOFTWARE\\Contoso\\Agent /v ServicePassword /t REG_SZ /f", "vrl": "reg add HKLM\\SOFTWARE\\Contoso\\Agent /v ServicePassword /t REG_SZ /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SOFTWARE\\Contoso\\Agent /ve /d Default /f", "vrl": "reg add HKLM\\SOFTWARE\\Contoso\\Agent /ve /d Default /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg delete HKLM\\SOFTWARE\\Contoso\\Agent /v ServicePassword /f", "vrl": "reg delete HKLM\\SOFTWARE\\Contoso\\Agent /v ServicePassword /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SYSTEM\\CCS\\Services\\Netlogon\\Parameters /v DisableChangePassword /t REG_DWORD /d 1 /f", "vrl": "reg add HKLM\\SYSTEM\\CCS\\Services\\Netlogon\\Parameters /v DisableChangePassword /t REG_DWORD /d 1 /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SYSTEM\\CCS\\Services\\Netlogon\\Parameters /v DisablePasswordChange /t REG_DWORD /d 1 /f", "vrl": "reg add HKLM\\SYSTEM\\CCS\\Services\\Netlogon\\Parameters /v DisablePasswordChange /t REG_DWORD /d 1 /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SOFTWARE\\C /v ApiKey /t REG_SZ /d SYNTHKEY00 /f", "vrl": "reg add HKLM\\SOFTWARE\\C /v ApiKey /t REG_SZ /d SYNTHKEY00 /f"}
+{"case": "reg-add-lookalikes-survive", "input": "reg add HKLM\\SOFTWARE\\C /v ServicePassword /t REG_SZ /d <password> /f", "vrl": "reg add HKLM\\SOFTWARE\\C /v ServicePassword /t REG_SZ /d <password> /f"}
+{"case": "reg-add-lookalikes-survive", "input": "The reg add step wrote ServicePassword to the Agent key", "vrl": "The reg add step wrote ServicePassword to the Agent key"}
+{"case": "curl-userinfo-password-redacted", "input": "curl -u svcapi:SynthPw1 https://api.vendor.example/v1/tickets", "vrl": "curl -u svcapi:<redacted> https://api.vendor.example/v1/tickets"}
+{"case": "curl-userinfo-password-redacted", "input": "curl.exe --user svcapi:SynthPw1 -X POST https://api.vendor.example/v1/x", "vrl": "curl.exe --user svcapi:<redacted> -X POST https://api.vendor.example/v1/x"}
+{"case": "curl-userinfo-password-redacted", "input": "curl -u \"svcapi:Syn th Pw1\" https://api.vendor.example/v1/x", "vrl": "curl -u \"svcapi:<redacted>\" https://api.vendor.example/v1/x"}
+{"case": "curl-userinfo-password-redacted", "input": "\"C:\\Windows\\System32\\curl.exe\" -s -u rptbot:SynthPw1 -o C:\\tmp\\r.json https://api.x.example/r", "vrl": "\"C:\\Windows\\System32\\curl.exe\" -s -u rptbot:<redacted> -o C:\\tmp\\r.json https://api.x.example/r"}
+{"case": "curl-userinfo-password-redacted", "input": "curl -u \"svcapi:a\"\"b\" https://api.x.example/v1", "vrl": "curl -u \"svcapi:<redacted>\" https://api.x.example/v1"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl --user-agent \"SparkLogsAgent/1.9\" https://api.vendor.example/v1/x", "vrl": "curl --user-agent \"SparkLogsAgent/1.9\" https://api.vendor.example/v1/x"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl -o C:\\tmp\\f.zip https://dl.vendor.example/f.zip", "vrl": "curl -o C:\\tmp\\f.zip https://dl.vendor.example/f.zip"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl -H \"Accept: application/json\" https://api.vendor.example/v1/x", "vrl": "curl -H \"Accept: application/json\" https://api.vendor.example/v1/x"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl -u svcapi https://api.vendor.example/v1/x", "vrl": "curl -u svcapi https://api.vendor.example/v1/x"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl https://api.x.example/v1 & tool -u a:b", "vrl": "curl https://api.x.example/v1 & tool -u a:b"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl.exe --url https://x.invalid", "vrl": "curl.exe --url https://x.invalid"}
+{"case": "curl-userinfo-lookalikes-survive", "input": "curl --user-agent=svcbot:1.0 https://api.x.example/v1", "vrl": "curl --user-agent=svcbot:1.0 https://api.x.example/v1"}
+{"case": "tool-basename-must-start-a-token", "input": "Invoke-Sqlcmd -ServerInstance SQL02 -Preview -Query \"SELECT 2\"", "vrl": "Invoke-Sqlcmd -ServerInstance SQL02 -Preview -Query \"SELECT 2\""}
+{"case": "tool-basename-must-start-a-token", "input": "Invoke-Sqlcmd -ServerInstance SQL02 -Password \"Sy nth Pw 44\"", "vrl": "Invoke-Sqlcmd -ServerInstance SQL02 -Password <redacted>"}
+{"case": "tool-basename-must-start-a-token", "input": "Start-Plink -Session corp -pw Sy-nth-Pw-46", "vrl": "Start-Plink -Session corp -pw Sy-nth-Pw-46"}
+{"case": "tool-basename-must-start-a-token", "input": "sqlcmd -S SRV02 -U rpt -P Sy-nth-Pw-47 -Q \"SELECT 2\"", "vrl": "sqlcmd -S SRV02 -U rpt -P <redacted> -Q \"SELECT 2\""}
+{"case": "tool-basename-must-start-a-token", "input": "plink -ssh -l svc -pw Sy-nth-Pw-48 host.local", "vrl": "plink -ssh -l svc -pw <redacted> host.local"}
+{"case": "tool-basename-token-start-separators", "input": "&&sqlcmd -S SRV -U sa -P Sy-nth-Pw-60", "vrl": "&&sqlcmd -S SRV -U sa -P <redacted>"}
+{"case": "tool-basename-token-start-separators", "input": "run(plink -pw Sy-nth-Pw-61 host.local)", "vrl": "run(plink -pw <redacted> host.local)"}
+{"case": "tool-basename-token-start-separators", "input": "cmd=plink -pw Sy-nth-Pw-62 host.local", "vrl": "cmd=plink -pw <redacted> host.local"}
+{"case": "tool-basename-token-start-separators", "input": ";sqlcmd -S SRV -U sa -P Sy-nth-Pw-63", "vrl": ";sqlcmd -S SRV -U sa -P <redacted>"}
+{"case": "tool-basename-token-start-separators", "input": ",sqlcmd -S SRV -U sa -P Sy-nth-Pw-64", "vrl": ",sqlcmd -S SRV -U sa -P <redacted>"}
+{"case": "tool-basename-token-start-separators", "input": "[sqlcmd -S SRV -U sa -P Sy-nth-Pw-65", "vrl": "[sqlcmd -S SRV -U sa -P <redacted>"}
+{"case": "tool-basename-token-start-separators", "input": "1>sqlcmd -S SRV -U sa -P Sy-nth-Pw-66", "vrl": "1>sqlcmd -S SRV -U sa -P <redacted>"}
+{"case": "tool-basename-token-start-separators", "input": "&&net user bob Sy-nth-Pw-67 /add", "vrl": "&&net user bob <redacted> /add"}
+{"case": "tool-basename-token-start-separators", "input": "Invoke-Sqlcmd -ServerInstance SQL02 -Preview -Query \\\"SELECT 2\\\"", "vrl": "Invoke-Sqlcmd -ServerInstance SQL02 -Preview -Query \\\"SELECT 2\\\""}
+{"case": "tool-basename-token-start-separators", "input": "Start-Plink -Session corp -pw Sy-nth-Pw-68", "vrl": "Start-Plink -Session corp -pw Sy-nth-Pw-68"}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "cmd /c \"net user bob Sy-nth-Pw-70\"", "vrl": "cmd /c \"net user bob <redacted>\""}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "powershell -Command \"net user bob Sy-nth-Pw-71\"", "vrl": "powershell -Command \"net user bob <redacted>\""}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"net user bob Sy-nth-Pw-72\"}", "vrl": "{\"CommandLine\":\"net user bob <redacted>\"}"}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"net use Z: \\\\\\\\fs01\\backups Sy-nth-Pw-73\"}", "vrl": "{\"CommandLine\":\"net use Z: \\\\\\\\fs01\\backups <redacted>\"}"}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"rasdial ContosoVPN vpnuser Sy-nth-Pw-74\"}", "vrl": "{\"CommandLine\":\"rasdial ContosoVPN vpnuser <redacted>\"}"}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"bitsadmin /SetCredentials J SERVER NTLM svc Sy-nth-Pw-75\"}", "vrl": "{\"CommandLine\":\"bitsadmin /SetCredentials J SERVER NTLM svc <redacted>"}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "cmd /c \"net user bob a\"b\"", "vrl": "cmd /c \"net user bob <redacted>\"b\""}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "powershell -Command 'net user bob Sy-nth-Pw-76'", "vrl": "powershell -Command 'net user bob Sy-nth-Pw-76'"}
+{"case": "net-use-option-first-order", "input": "net use \\\\\\\\srv\\share /user:CORP\\alice Sy-nth-Pw-77", "vrl": "net use \\\\\\\\srv\\share /user:CORP\\alice <redacted>"}
+{"case": "net-use-option-first-order", "input": "net use Z: \\\\\\\\srv\\share /user:CORP\\alice /persistent:no Sy-nth-Pw-78", "vrl": "net use Z: \\\\\\\\srv\\share /user:CORP\\alice /persistent:no <redacted>"}
+{"case": "net-use-option-first-order", "input": "net use \\\\\\\\srv\\share /user:CORP\\alice", "vrl": "net use \\\\\\\\srv\\share /user:CORP\\alice"}
+{"case": "net-use-option-first-order", "input": "net use \\\\\\\\srv\\share /user:CORP\\alice *", "vrl": "net use \\\\\\\\srv\\share /user:CORP\\alice *"}
+{"case": "net-use-option-first-order", "input": "net use \\\\\\\\srv\\share /delete /y", "vrl": "net use \\\\\\\\srv\\share /delete /y"}
+{"case": "securestring-named-parameter-at-any-position", "input": "$s = ConvertTo-SecureString -AsPlainText -Force -String \"Sy-nth-Pw-80\"", "vrl": "$s = ConvertTo-SecureString -AsPlainText -Force -String <redacted>"}
+{"case": "securestring-named-parameter-at-any-position", "input": "ConvertTo-SecureString -AsPlainText -Force -String $plain", "vrl": "ConvertTo-SecureString -AsPlainText -Force -String $plain"}
+{"case": "securestring-named-parameter-at-any-position", "input": "ConvertTo-SecureString (Get-Secret AgentPw) -AsPlainText -Force", "vrl": "ConvertTo-SecureString (Get-Secret AgentPw) -AsPlainText -Force"}
+{"case": "securestring-named-parameter-at-any-position", "input": "ConvertTo-SecureString @{Name=1} -AsPlainText -Force", "vrl": "ConvertTo-SecureString @{Name=1} -AsPlainText -Force"}
+{"case": "session-token-flag-accepted-over-redaction", "input": "DropboxCrashHandler.exe --session-token:{9A2B3C4D-0000-0000-0000-000000000000} --pid 1234", "vrl": "DropboxCrashHandler.exe --session-token:<redacted> --pid 1234"}
+{"case": "reg-add-secret-suffix-and-flag-order", "input": "reg add HKLM\\SOFTWARE\\C /v ClientSecret /t REG_SZ /d Sy-nth-Pw-85 /f", "vrl": "reg add HKLM\\SOFTWARE\\C /v ClientSecret /t REG_SZ /d <redacted> /f"}
+{"case": "reg-add-secret-suffix-and-flag-order", "input": "reg add HKLM\\SOFTWARE\\C /t REG_SZ /v ServicePassword /d Sy-nth-Pw-86 /f", "vrl": "reg add HKLM\\SOFTWARE\\C /t REG_SZ /v ServicePassword /d <redacted> /f"}
+{"case": "reg-add-secret-suffix-and-flag-order", "input": "reg add HKLM\\SOFTWARE\\C /v SecretPolicy /t REG_SZ /d Enabled /f", "vrl": "reg add HKLM\\SOFTWARE\\C /v SecretPolicy /t REG_SZ /d Enabled /f"}
+{"case": "curl-userinfo-empty-halves", "input": "curl -u bob: https://api.x.example/v1", "vrl": "curl -u bob: https://api.x.example/v1"}
+{"case": "curl-userinfo-empty-halves", "input": "curl -u \"bob:\" https://api.x.example/v1", "vrl": "curl -u \"bob:\" https://api.x.example/v1"}
+{"case": "curl-userinfo-empty-halves", "input": "curl -u :Sy-nth-Pw-90 https://api.x.example/v1", "vrl": "curl -u :<redacted> https://api.x.example/v1"}
+{"case": "net-alternate-basename-and-option-first-order", "input": "net1 user bob Sy-nth-Pw-91 /add", "vrl": "net1 user bob <redacted> /add"}
+{"case": "net-alternate-basename-and-option-first-order", "input": "net user /domain bob Sy-nth-Pw-92", "vrl": "net user /domain bob <redacted>"}
+{"case": "sigil-flag-value-ordering-both-directions", "input": "cmdkey /add:fs01 /user:svc /pass:Sy-nth'Pw-93", "vrl": "cmdkey /add:fs01 /user:svc /pass:<redacted>"}
+{"case": "sigil-flag-value-ordering-both-directions", "input": "{\"CommandLine\":\"cmdkey /pass:Sy-nth-Pw-94\"}", "vrl": "{\"CommandLine\":\"cmdkey /pass:<redacted>"}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "cmd /c \"net user bob \\\"P@ss w0rd\\\"\"", "vrl": "cmd /c \"net user bob <redacted>\""}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "cmd /c \"net use Z: \\\\\\\\fs01\\\\backups \\\"P@ss w0rd\\\"\"", "vrl": "cmd /c \"net use Z: \\\\\\\\fs01\\\\backups <redacted>\""}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "cmd /c \"rasdial ContosoVPN vpnuser \\\"P@ss w0rd\\\"\"", "vrl": "cmd /c \"rasdial ContosoVPN vpnuser <redacted>\""}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM svc \\\"P@ss w0rd\\\"\"", "vrl": "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM svc <redacted>\""}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "cmd /c \"net user bob \\\"P@ss w0", "vrl": "cmd /c \"net user bob <redacted>"}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "net user bob \"a\"\"SECRET1\")", "vrl": "net user bob <redacted>"}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "net use Z: \\\\\\\\fs01\\\\backups \"a\"\"SECRET2\")", "vrl": "net use Z: \\\\\\\\fs01\\\\backups <redacted>"}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "bitsadmin /SetCredentials J SERVER NTLM svc \"a\"\"SECRET3\")", "vrl": "bitsadmin /SetCredentials J SERVER NTLM svc <redacted>)"}
+{"case": "positional-value-branches-pair-with-their-own-terminator", "input": "rasdial ContosoVPN vpnuser \"a\"\"SECRET4\")", "vrl": "rasdial ContosoVPN vpnuser <redacted>"}
+{"case": "positional-terminator-redirects", "input": "net user bob Sy-nth-Pw-95 > C:\\\\log.txt", "vrl": "net user bob <redacted> > C:\\\\log.txt"}
+{"case": "positional-terminator-redirects", "input": "net user bob Sy-nth-Pw-96 2>&1", "vrl": "net user bob <redacted> 2>&1"}
+{"case": "positional-terminator-redirects", "input": "net user bob Sy-nth-Pw-97>C:\\log.txt", "vrl": "net user bob <redacted>"}
+{"case": "sql-client-flag-head-claim-accepted", "input": "bcp DB.dbo.T out c:\\\\out.dat -S SRV01 -U rpt -PSy-nth-Pw-98 -n", "vrl": "bcp DB.dbo.T out c:\\\\out.dat -S SRV01 -U rpt -P<redacted> -n"}
+{"case": "sql-client-flag-head-claim-accepted", "input": "bcp DB.dbo.T out c:\\out.dat -S SRV01 -Path c:\\x", "vrl": "bcp DB.dbo.T out c:\\out.dat -S SRV01 -P<redacted> c:\\x"}
+{"case": "sql-client-flag-head-claim-accepted", "input": "Get-ChildItem -Path C:\\bcp -Recurse", "vrl": "Get-ChildItem -Path C:\\bcp -Recurse"}
+{"case": "curl-quoted-password-half", "input": "curl -u svcapi:\"pass with space\" https://api.x.example/v1", "vrl": "curl -u svcapi:<redacted> https://api.x.example/v1"}
+{"case": "curl-quoted-password-half", "input": "curl -u svcapi:\"pass\" -H \"Accept: x\" https://api.x.example/v1", "vrl": "curl -u svcapi:<redacted> -H \"Accept: x\" https://api.x.example/v1"}
+{"case": "securestring-donated-bridge-accepted", "input": "Use ConvertTo-SecureString instead of New-Object -String \"abc\"", "vrl": "Use ConvertTo-SecureString instead of New-Object -String <redacted>"}
+{"case": "apostrophe-value-inside-a-quoted-wrapper", "input": "cmd /c \"net user bob don'tSECRET1\"", "vrl": "cmd /c \"net user bob <redacted>\""}
+{"case": "apostrophe-value-inside-a-quoted-wrapper", "input": "cmd /c \"net use Z: \\\\\\\\fs01\\\\backups don'tSECRET2\"", "vrl": "cmd /c \"net use Z: \\\\\\\\fs01\\\\backups <redacted>\""}
+{"case": "apostrophe-value-inside-a-quoted-wrapper", "input": "cmd /c \"rasdial ContosoVPN vpnuser don'tSECRET3\"", "vrl": "cmd /c \"rasdial ContosoVPN vpnuser <redacted>\""}
+{"case": "apostrophe-value-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"net user bob don'tSECRET4\"}", "vrl": "{\"CommandLine\":\"net user bob <redacted>"}
+{"case": "transfer-credential-verb-takes-no-terminator", "input": "'bitsadmin /SetCredentials J SERVER NTLM u Sy-nth-Pw-99'", "vrl": "'bitsadmin /SetCredentials J SERVER NTLM u <redacted>'"}
+{"case": "transfer-credential-verb-takes-no-terminator", "input": "bitsadmin /SetCredentials J SERVER NTLM u Sy-nth-Pw-100 and more text", "vrl": "bitsadmin /SetCredentials J SERVER NTLM u <redacted> and more text"}
+{"case": "transfer-credential-verb-apostrophe-values", "input": "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM u don'tSy-nth-Pw-101\"", "vrl": "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM u <redacted>\""}
+{"case": "transfer-credential-verb-apostrophe-values", "input": "bitsadmin /SetCredentials J SERVER NTLM u don'tSy-nth-Pw-102", "vrl": "bitsadmin /SetCredentials J SERVER NTLM u <redacted>"}

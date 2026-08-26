@@ -45,7 +45,28 @@ function compile(detectors: Detector[]): CompiledDetector[] {
   });
 }
 
-/** Collect every match across detectors as a token span. Already-redacted (safe) tokens are skipped. */
+/**
+ * Collect every match across detectors as a token span. Already-redacted (safe) tokens are skipped.
+ *
+ * Every detector scans the WHOLE document. Scanning line by line was tried and withdrawn: a
+ * backtracking regex is quadratic in the length of the run it scans, but every pattern here already
+ * refuses to cross a line break, so the whole-document haystack never backtracks across one and
+ * splitting it bought nothing while costing the slicing.
+ *
+ * COST IS DRIVEN BY A RUN, NOT BY A LINE. What each pattern spends is quadratic in the length of an
+ * unbroken run of characters its value branch can consume, not in the length of the document or
+ * even of the line. A zero-width test at the head of each command-line pattern, ahead of its
+ * unbounded look-behind, is what keeps a run of spaces after an anchor from being re-scanned once
+ * per space, and that is the shape `test/performance.test.ts` bounds.
+ *
+ * ACCEPTED RESIDUAL: a single line carrying one very long unbroken run after a credential anchor is
+ * still quadratic. Measured on this detector set: 8 KB of run costs 91 ms, 32 KB costs 1.0 s, 64 KB
+ * costs 3.8 s and 192 KB costs 35 s. Ordinary text never reaches this, because ordinary text has
+ * line breaks and punctuation in it: 400 KB of realistic log costs under 100 ms whether it arrives
+ * as one line or as thousands. The shape that gets there is a corrupt or hostile paste, and the
+ * remedy belongs at the callers that accept untrusted input (a length cap on a line, or a size cap
+ * before redaction), not in a pattern rewrite that would trade the guarantee for the speed.
+ */
 function collectSpans(text: string, compiled: CompiledDetector[]): Span[] {
   const spans: Span[] = [];
   for (const d of compiled) {
@@ -72,13 +93,19 @@ function collectSpans(text: string, compiled: CompiledDetector[]): Span[] {
 }
 
 /**
- * Resolve overlaps deterministically: sort by start (then longer-first), then greedily accept spans
- * that do not overlap an already-accepted one. Keeps replacement unambiguous.
+ * Resolve overlaps deterministically: sort by start (then longer-first, then detector name), then
+ * greedily accept spans that do not overlap an already-accepted one. Keeps replacement unambiguous.
+ * The name is the final tiebreak because two detectors CAN claim the identical span, and which one
+ * wins picks the fake's category; without it the winner would depend on the order the spans were
+ * collected in, which is an implementation detail.
  */
 function resolveOverlaps(spans: Span[]): Span[] {
-  const sorted = spans.slice().sort((a, b) =>
-    a.start !== b.start ? a.start - b.start : b.end - b.start - (a.end - a.start),
-  );
+  const sorted = spans.slice().sort((a, b) => {
+    if (a.start !== b.start) return a.start - b.start;
+    const byLength = b.end - b.start - (a.end - a.start);
+    if (byLength !== 0) return byLength;
+    return a.detector < b.detector ? -1 : a.detector > b.detector ? 1 : 0;
+  });
   const accepted: Span[] = [];
   let lastEnd = -1;
   for (const s of sorted) {
@@ -173,7 +200,12 @@ export class Redactor {
         masked: mask(s.original),
       });
     }
-    hits.sort((a, b) => (a.line !== b.line ? a.line - b.line : a.column - b.column));
+    hits.sort((a, b) => {
+      if (a.line !== b.line) return a.line - b.line;
+      if (a.column !== b.column) return a.column - b.column;
+      if (a.end !== b.end) return a.end - b.end;
+      return a.detector < b.detector ? -1 : a.detector > b.detector ? 1 : 0;
+    });
     return hits;
   }
 }
