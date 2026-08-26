@@ -850,3 +850,108 @@ for (const text of POSITIONAL_NEGATIVES) {
     assert.equal(r().redact(text).text, text);
   });
 }
+
+// --- The environment / config assignment. This is the narrow replacement for the bare-word
+// detector that was retired: the same credential words, but only where they BEGIN a line, which is
+// what separates a field name from the same word inside a sentence.
+
+const ENV_CASES: [string, string][] = [
+  ["api_key=abc123def456", "api_key=REDACTED-SECRET-1"],
+  ["export API_KEY=abc123def456", "export API_KEY=REDACTED-SECRET-1"],
+  ["  token: abc123def456", "  token: REDACTED-SECRET-1"],
+  ["token:abc123def456", "token:REDACTED-SECRET-1"],
+  ["access_token=abc123def456", "access_token=REDACTED-SECRET-1"],
+  ["refresh_token=abc123def456", "refresh_token=REDACTED-SECRET-1"],
+  ["api-key=abc123def456", "api-key=REDACTED-SECRET-1"],
+  ["secret=abc123def456", "secret=REDACTED-SECRET-1"],
+  ['api_key="abc 123 def 456"', "api_key=REDACTED-SECRET-1"],
+];
+
+for (const [input, expected] of ENV_CASES) {
+  test(`env assignment: ${input}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.equal(out.text, expected);
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+test("env assignment: a config paste keeps everything that is not a credential", () => {
+  const red = r();
+  const paste = [
+    "# production config, do not commit",
+    "api_key=sk_live_abc123def456ghi",
+    "  token: abc123def456ghi789",
+    "log_level=debug",
+    "retries=3",
+    "secret_name: contoso-prod",
+  ].join("\n");
+  const out = red.redact(paste);
+  assert.equal(
+    out.text,
+    [
+      "# production config, do not commit",
+      "api_key=REDACTED-SECRET-1",
+      "  token: REDACTED-SECRET-2",
+      "log_level=debug",
+      "retries=3",
+      "secret_name: contoso-prod",
+    ].join("\n"),
+  );
+  assert.equal(red.redact(out.text).text, out.text);
+});
+
+// The negatives ARE the point: every one of these is a shape that killed the detector this one
+// replaces, or a config line whose value is not a secret.
+const ENV_NEGATIVES = [
+  "401 Unauthorized: the Authorization header was missing from req-9",
+  "Rotation note: bearer slk_abc is one character short",
+  "The token=SYNTHTOK00 was rejected by the API",
+  "Assembly MyLib, Culture=neutral, publicKeyToken=b03f5f7f11d50a3a",
+  "the secret: it was never rotated at all",
+  "Retrying with token: after the refresh completed",
+  "token: see docs",
+  "secret: false",
+  "token: true",
+  "token=null",
+  "api_key: ~",
+  "secret: null",
+  "secret_name: contoso-prod",
+  "token_count: 15",
+  "tokens: 4096",
+  "clientSecretExpiry: 2026-12-01",
+  "api_key: not configured",
+  "secret: rotated ok",
+  "token: expired yesterday",
+];
+
+for (const text of ENV_NEGATIVES) {
+  test(`env assignment negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}
+
+// KNOWN over-redaction, asserted exactly rather than left as "close enough". A sentence that begins
+// with one of these words and a colon loses its first word when that word is long enough to look
+// like a value. One word of prose is the price of catching the config shape, and pinning it here
+// makes it a decision on the record: an edit that changes it fails at this line first.
+test("env assignment: a sentence that begins with a credential word loses one word", () => {
+  const red = r();
+  assert.equal(
+    red.redact("secret: successfully rotated at 10:00").text,
+    "secret: REDACTED-SECRET-1 rotated at 10:00",
+  );
+  assert.equal(
+    red.redact("token: invalid_grant returned by the IdP").text,
+    "token: REDACTED-SECRET-1 returned by the IdP",
+  );
+});
+
+test("env assignment: an aligned column is not a separator", () => {
+  // The separator takes at most one space, so a value aligned into a column is NOT matched. That is
+  // the deliberate cost of refusing a whitespace run, which is what let the old detector cross a
+  // line break.
+  const red = r();
+  const text = "token:      alignedvalue123";
+  assert.equal(red.redact(text).text, text);
+});

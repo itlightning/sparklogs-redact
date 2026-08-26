@@ -8,6 +8,18 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## 0.3.0
 
+- **secret profile, new `env-assignment-credential`**: the narrow replacement for the retired
+  bare-word detector. It covers `api_key=`, `token:`, `secret=`, `client_secret=`, `access_key=` and
+  the access, auth, refresh and session token spellings, but ONLY where the key begins the line
+  (indentation and an `export` or `set` prefix allowed), which is the `.env`, `.ini` and YAML shape.
+  The line-start anchor is what separates a field name from the same word inside a sentence, and it
+  is what the retired detector lacked. Three further rules narrow it: the key ends at the separator,
+  the separator carries no whitespace run (`=` takes none, `:` takes at most one space, so nothing
+  reaches across a line break), and the value is at least eight characters so a boolean or a
+  placeholder is not a credential. An unquoted value stops at a `;` so the connection-string
+  grammar and its neighbouring keys survive. Known and accepted: a sentence that BEGINS with one of
+  these words and a colon loses its first word when that word is eight characters or longer; the
+  cases are pinned in the tests.
 - **secret profile, `secret-assignment` retired**: the broad `key = value` detector anchored on a
   bare word with no sigil and a whitespace-tolerant separator, and it was the source of every
   remaining false positive the corpus finds. It redacted `publicKeyToken=`, it redacted `token=`
