@@ -15,6 +15,20 @@ export interface Detector {
   /** Extra regex flags, e.g. "i". */
   flags?: string;
   /**
+   * Declares that NO match, lookbehind or lookahead of this pattern can cross a line break, so the
+   * engine may run it against one line at a time instead of the whole document. That is a pure
+   * speed contract: JavaScript's backtracking engine is quadratic in the length of the text a
+   * pattern scans, so a single very long line (a minified JSON dump) costs seconds when the whole
+   * document is one haystack and milliseconds when it is not.
+   *
+   * Opting IN is deliberate. Leaving it off is always correct and merely slower; setting it on a
+   * pattern that CAN cross a line break silently changes what that pattern matches. Set it only
+   * when every quantifier, class and look-around excludes `\r` and `\n`, and `^`/`$` (if used) are
+   * line anchors under the `m` flag. `test/line-feeding.test.ts` proves every declaration by
+   * comparing whole-document and line-at-a-time detection over the full corpus.
+   */
+  lineBounded?: boolean;
+  /**
    * Regex source matched against a token to decide it is ALREADY a redacted placeholder. Tokens
    * that match are skipped by both redact (idempotency) and scan (so the gate flags only
    * un-redacted, real-looking PII). Matched case-insensitively.

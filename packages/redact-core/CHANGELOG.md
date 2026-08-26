@@ -6,6 +6,20 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
+## Unreleased
+
+- **Engine, `lineBounded` detectors**: a detector may now declare that no match, lookbehind or
+  lookahead of its pattern can cross a line break, and the engine then runs it against one line at a
+  time instead of the whole document. JavaScript regexes backtrack, so their cost is quadratic in
+  the length of the haystack they scan; bounding that haystack to a line bounds the worst case a
+  pasted document can produce. Detection is unchanged: `test/line-feeding.test.ts` proves every
+  declaration by comparing line-at-a-time and whole-document detection over both corpora, and by
+  showing that a pattern WITHOUT the declaration still spans lines.
+- **Engine, deterministic tie-breaks**: when two detectors claim the identical span, the winner (and
+  therefore the fake's category) is now decided by detector name rather than by the order the spans
+  happened to be collected in. `scan()` results are ordered by line, column, end and detector name
+  for the same reason.
+
 ## 0.2.4
 
 - **secret profile, new `json-credential-value` detector**: a credential in a JSON object member is

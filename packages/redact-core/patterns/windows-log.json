@@ -13,6 +13,7 @@
       "category": "username",
       "pattern": "(?<=\\\\[Uu]sers\\\\|/[Uu]sers/|/home/)[^\\\\/\\s,;\"'()\\[\\]<>|:*?]+",
       "flags": "",
+      "lineBounded": true,
       "safe": "^(?:User\\d+|Default|Public|Shared|Guest|Administrator|WDAGUtilityAccount|defaultuser\\d*|All)$",
       "description": "Local account name in a home-directory path: Windows \\Users\\<name>, macOS /Users/<name>, or Linux /home/<name>. The Unix forms are slightly looser (a URL path like .../home/<x> can match), but the category is opt-in; for support logs (CBS/DISM) the Windows form is the common case. Well-known OS profile folder names (Default, Public, Shared, Guest, Administrator, WDAGUtilityAccount, defaultuser0, …) and All (first segment of \\Users\\All Users\\) are treated as safe — they are public Microsoft/Windows identifiers, not customer identities."
     },
@@ -21,6 +22,7 @@
       "category": "sid",
       "pattern": "S-1-5-21-\\d+-\\d+-\\d+-\\d+",
       "flags": "",
+      "lineBounded": true,
       "safe": "^S-1-5-21-0-0-0-\\d+$",
       "description": "User or domain account SID: S-1-5-21-<machine-or-domain>-<RID>. The S-1-5-21 prefix marks the account domain (unique per local SAM or AD forest); the trailing RID identifies the account within that domain. Well-known NT Authority SIDs outside this shape (S-1-5-18 LocalSystem, S-1-5-19 Local Service, S-1-5-20 Network Service, S-1-5-32-* built-in groups, S-1-5-80-* services, S-1-15-* app packages, …) are fixed Microsoft identifiers and are not matched. After redaction, fakes use a zeroed domain triplet (S-1-5-21-0-0-0-<RID>)."
     },
@@ -29,6 +31,7 @@
       "category": "email",
       "pattern": "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
       "flags": "",
+      "lineBounded": true,
       "safe": "@example\\.(invalid|com)$",
       "description": "Email address."
     },
@@ -37,6 +40,7 @@
       "category": "host",
       "pattern": "(?<=\\\\\\\\)[A-Za-z][A-Za-z0-9_-]{0,62}(?=\\\\(?!\\\\))",
       "flags": "",
+      "lineBounded": true,
       "safe": "^HOST\\d+$",
       "description": "Hostname in a UNC path \\\\HOST\\share. The lookahead requires a single, NON-doubled trailing backslash so JSON-escaped paths (where every separator is doubled, e.g. C:\\\\Windows\\\\CBS) don't match each path segment as a host. Device paths \\\\?\\ and \\\\.\\ are excluded by the leading-letter rule. (host is broad and not strong PII — keep it off by default.)"
     },
@@ -45,6 +49,7 @@
       "category": "host",
       "pattern": "\\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+(?:home\\.arpa|local|lan|corp|internal|intranet|intra|localdomain|localnet|private|home)\\b(?![.@-])",
       "flags": "i",
+      "lineBounded": true,
       "safe": "^HOST\\d+$",
       "description": "An FQDN ending in a KNOWN-internal suffix (db01.corp.local, host.intranet, printer.home.arpa). This deliberately matches ONLY a small allow-list of non-routable/internal suffixes — local, lan, corp, internal, intranet, intra, localdomain, localnet, private, home(.arpa) — so it can't mistake ordinary dotted filenames (config.json, x.amd64.mfl) or public FQDNs (api.example.com) for hosts. It therefore MISSES internal hosts that use a custom/brand suffix; that under-redaction is the safe trade-off. Not strong PII — keep off by default."
     },
@@ -53,6 +58,7 @@
       "category": "mac",
       "pattern": "\\b(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\\b",
       "flags": "",
+      "lineBounded": true,
       "safe": "^00:00:5E:00:53:",
       "description": "MAC/EUI-48 hardware address."
     }

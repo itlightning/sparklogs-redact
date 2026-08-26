@@ -11,6 +11,7 @@ interface CompiledDetector {
   re: RegExp; // always global
   safe?: RegExp; // case-insensitive
   validate?: Validator; // candidate must pass to count as a detection
+  lineBounded: boolean; // may be scanned one line at a time (see Detector.lineBounded)
 }
 
 interface Span {
@@ -41,44 +42,79 @@ function compile(detectors: Detector[]): CompiledDetector[] {
       re: new RegExp(d.pattern, flags),
       safe: d.safe ? new RegExp(d.safe, "i") : undefined,
       validate,
+      lineBounded: d.lineBounded === true,
     };
   });
 }
 
-/** Collect every match across detectors as a token span. Already-redacted (safe) tokens are skipped. */
+/** Run one detector over `haystack`, recording spans at `offset + match index`. */
+function matchInto(spans: Span[], haystack: string, d: CompiledDetector, offset: number): void {
+  d.re.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = d.re.exec(haystack)) !== null) {
+    const original = m[0];
+    if (original.length === 0) {
+      d.re.lastIndex++; // guard against zero-width loops
+      continue;
+    }
+    if (d.safe && d.safe.test(original)) continue; // already a placeholder
+    if (d.validate && !d.validate(original)) continue; // failed the structural check (e.g. Luhn)
+    spans.push({
+      start: offset + m.index,
+      end: offset + m.index + original.length,
+      detector: d.name,
+      category: d.category,
+      original,
+    });
+  }
+}
+
+/**
+ * Collect every match across detectors as a token span. Already-redacted (safe) tokens are skipped.
+ *
+ * Detectors that declare `lineBounded` are run one line at a time rather than over the whole
+ * document. The result is identical by construction (such a pattern can neither match nor look
+ * across a line break) but the cost is not: a backtracking regex is quadratic in the length of the
+ * haystack it scans, so on a document whose lines are ordinary length this is the difference
+ * between milliseconds and seconds. Lines are split on `\n` only, and a `\r` stays at the end of
+ * its line, so `$` under the `m` flag lands exactly where it lands on the whole document.
+ */
 function collectSpans(text: string, compiled: CompiledDetector[]): Span[] {
   const spans: Span[] = [];
+  const perLine: CompiledDetector[] = [];
   for (const d of compiled) {
-    d.re.lastIndex = 0;
-    let m: RegExpExecArray | null;
-    while ((m = d.re.exec(text)) !== null) {
-      const original = m[0];
-      if (original.length === 0) {
-        d.re.lastIndex++; // guard against zero-width loops
-        continue;
+    if (d.lineBounded) perLine.push(d);
+    else matchInto(spans, text, d, 0);
+  }
+  if (perLine.length > 0) {
+    let pos = 0;
+    for (;;) {
+      const nl = text.indexOf("\n", pos);
+      const line = text.slice(pos, nl === -1 ? text.length : nl);
+      if (line.length > 0) {
+        for (const d of perLine) matchInto(spans, line, d, pos);
       }
-      if (d.safe && d.safe.test(original)) continue; // already a placeholder
-      if (d.validate && !d.validate(original)) continue; // failed the structural check (e.g. Luhn)
-      spans.push({
-        start: m.index,
-        end: m.index + original.length,
-        detector: d.name,
-        category: d.category,
-        original,
-      });
+      if (nl === -1) break;
+      pos = nl + 1;
     }
   }
   return spans;
 }
 
 /**
- * Resolve overlaps deterministically: sort by start (then longer-first), then greedily accept spans
- * that do not overlap an already-accepted one. Keeps replacement unambiguous.
+ * Resolve overlaps deterministically: sort by start (then longer-first, then detector name), then
+ * greedily accept spans that do not overlap an already-accepted one. Keeps replacement unambiguous.
+ * The name is the final tiebreak because two detectors CAN claim the identical span, and which one
+ * wins picks the fake's category; without it the winner would depend on the order the spans were
+ * collected in, which is an implementation detail.
  */
 function resolveOverlaps(spans: Span[]): Span[] {
-  const sorted = spans.slice().sort((a, b) =>
-    a.start !== b.start ? a.start - b.start : b.end - b.start - (a.end - a.start),
-  );
+  const sorted = spans.slice().sort((a, b) => {
+    if (a.start !== b.start) return a.start - b.start;
+    const byLength = b.end - b.start - (a.end - a.start);
+    if (byLength !== 0) return byLength;
+    return a.detector < b.detector ? -1 : a.detector > b.detector ? 1 : 0;
+  });
   const accepted: Span[] = [];
   let lastEnd = -1;
   for (const s of sorted) {
@@ -173,7 +209,12 @@ export class Redactor {
         masked: mask(s.original),
       });
     }
-    hits.sort((a, b) => (a.line !== b.line ? a.line - b.line : a.column - b.column));
+    hits.sort((a, b) => {
+      if (a.line !== b.line) return a.line - b.line;
+      if (a.column !== b.column) return a.column - b.column;
+      if (a.end !== b.end) return a.end - b.end;
+      return a.detector < b.detector ? -1 : a.detector > b.detector ? 1 : 0;
+    });
     return hits;
   }
 }
