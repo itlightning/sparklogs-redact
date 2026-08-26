@@ -8,7 +8,7 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## 0.3.0
 
-- **secret profile, line-terminator agreement (MEDIUM)**: value and neighbour classes now exclude
+- **secret profile, line-terminator agreement**: value and neighbour classes now exclude
   U+2028, U+2029, U+0085, U+000B and U+000C alongside CR and LF, so a value bound agrees with what
   JavaScript itself treats as a line terminator. Before this, `Password=abc<U+2028>Server=keepme`
   ran the value past the separator and destroyed the neighbour; 20 of 25 probed shapes across five
