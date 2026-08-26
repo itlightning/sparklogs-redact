@@ -1127,6 +1127,15 @@ for (const [name, ch] of LINE_TERMINATORS) {
     assert.equal(red.redact(out.text).text, out.text);
   });
 
+  test(`${name} bounds a sigil-flag value`, () => {
+    // A second detector family, so the class widening is proved in more than one place.
+    const red = r();
+    const out = red.redact(`tool --pass=hunter2xyz${ch}--site keepme`);
+    assert.ok(!out.text.includes("hunter2xyz"));
+    assert.ok(out.text.includes("--site keepme"), "the text after the break survives");
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+
   test(`${name} bounds an installer property value`, () => {
     const red = r();
     const out = red.redact(`msiexec /i a.msi /qn TOKEN=hunter2xyz${ch}SITE=keepme`);
