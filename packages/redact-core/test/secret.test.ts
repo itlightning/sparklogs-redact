@@ -656,6 +656,7 @@ for (const [label, input, expected] of TOOL_CASES) {
 const TOOL_NEGATIVES = [
   "msiexec /i a.msi /qn TOKENFILE=C:\\cfg\\t.txt CUSTOMERID=41207",
   "msiexec /i a.msi /qn TransformSecretName=x TENANT=acme",
+  "msiexec /i a.msi /qn SiteKey=quietvalue TENANT=acme",
   "401 Unauthorized: the Authorization header was missing from req-9",
   "Access-Control-Allow-Headers: Authorization, Content-Type, X-Request-Id",
   "Rotation note: bearer slk_abc is one character short",
