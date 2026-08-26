@@ -8,7 +8,9 @@ looks like real PII, useful as a CI gate before you share fixtures or upload sam
 
 Three npm packages share one version: a **browser-safe library**, a **CLI**, and a **React upload
 wizard** (demo above). Built-in detectors cover usernames, SIDs, emails, hostnames, IPs, MACs, phones,
-SSNs, credit cards, and API tokens/secrets. Extend via portable JSON detector specs.
+SSNs, credit cards, API tokens/secrets, and the credentials that end up on a command line (installer
+properties, `Authorization` headers, `net user`, PowerShell, `reg add`, `curl -u`). Extend via
+portable JSON detector specs.
 
 ## Install
 

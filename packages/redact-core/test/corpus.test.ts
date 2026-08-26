@@ -23,11 +23,15 @@ const CRED = /ZZCREDZZ/g;
 const NEIGH = /ZZNEIGHZZ/g;
 
 // The three direction counters are pinned EXACTLY rather than bounded, so an improvement has to be
-// recorded here and a regression cannot hide inside slack. Leaks and over-redactions are both
-// heading for zero; parity is heading for the full corpus.
+// recorded here and a regression cannot hide inside slack. Leaks and over-redactions are both at
+// zero and belong there: against the collector golden, nothing here ships a credential the
+// collector removed and nothing here eats a neighbour the collector kept. Parity is short of the
+// full corpus on purpose, and every remaining case is a deliberate divergence: a value whose
+// surrounding quotes this implementation keeps, or a line where the flag guard stops a value that
+// the collector runs on.
 const LEAKS = 0;
-const OVER_REDACTIONS = 1;
-const PARITY = 1730;
+const OVER_REDACTIONS = 0;
+const PARITY = 1738;
 
 const count = (text: string, marker: RegExp) => (text.match(marker) ?? []).length;
 

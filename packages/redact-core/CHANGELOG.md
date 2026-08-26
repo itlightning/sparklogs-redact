@@ -8,6 +8,15 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## Unreleased
 
+- **secret profile, `secret-assignment` retired**: the broad `key = value` detector anchored on a
+  bare word with no sigil and a whitespace-tolerant separator, and it was the source of every
+  remaining false positive the corpus finds. It redacted `publicKeyToken=`, it redacted `token=`
+  inside the sentence "The token=X was rejected by the API", and its separator crossed a LINE BREAK
+  and ate the first token of the following line. The precise detectors added above cover the same
+  credentials from a real signal. One consequence is deliberate and worth knowing: the LOWERCASE
+  unsigiled spellings `api_key=`, `token=` and `secret=` are no longer matched, while their
+  uppercase environment-variable spellings, their sigil-prefixed flag forms, their JSON forms and
+  the connection-string vocabulary all are.
 - **secret profile, the positional command-line families**: `net-user-password`,
   `net-use-password`, `bitsadmin-credential` and `rasdial-password`. No flag names the credential in
   any of these, so the anchor is the tool name plus the arguments in front of the value, and the

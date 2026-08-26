@@ -81,13 +81,31 @@ test("conn-string key=value password (Password=…;) redacted; scan-clean", () =
   assert.equal(red.redact(out.text).text, out.text);
 });
 
-test("secret-assignment: generic api_key=\"…\" value redacted; scan-clean", () => {
+// The broad `key = value` detector that used to sit here is gone. It anchored on a bare word with
+// no sigil and a whitespace-tolerant separator, which made it the source of every remaining false
+// positive in the corpus: it redacted `publicKeyToken=`, it redacted `token=` inside the sentence
+// "The token=X was rejected by the API", and its `\s*` separator crossed a LINE BREAK and ate the
+// first token of the next line. The precise detectors above cover the same credentials.
+test("an uppercase environment-style assignment is still redacted", () => {
   const red = r();
-  const out = red.redact('api_key="sk-livedeadbeef12345"');
-  assert.ok(!out.text.includes("sk-livedeadbeef12345"));
-  assert.match(out.text, /api_key="REDACTED-SECRET-\d+"/);
+  const out = red.redact("export API_KEY=abc123def456");
+  assert.equal(out.text, "export API_KEY=REDACTED-SECRET-1");
   assert.deepEqual(red.scan(out.text), []);
   assert.equal(red.redact(out.text).text, out.text);
+});
+
+test("a credential word in a sentence is not an assignment", () => {
+  const red = r();
+  assert.equal(
+    red.redact("The token=SYNTHTOK00 was rejected by the API").text,
+    "The token=SYNTHTOK00 was rejected by the API",
+  );
+});
+
+test("no detector separator crosses a line break", () => {
+  const red = r();
+  const text = "Installer property dump:\nTOKEN=\nSITEID=41207 recorded for acme";
+  assert.equal(red.redact(text).text, text);
 });
 
 // Each vendor token: a shape-valid sample, plus a regex proving the redacted output keeps the
