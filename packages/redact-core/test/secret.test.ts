@@ -759,3 +759,76 @@ for (const text of PS_NEGATIVES) {
     assert.equal(r().redact(text).text, text);
   });
 }
+
+// --- The positional families. No flag names the credential, so the anchor is the tool plus the
+// argument order in front of it, and every value branch carries its own terminator: sharing one
+// lets a quoted run that cannot close shorten itself and leave half the password on the line.
+
+const POSITIONAL_CASES: [string, string, string][] = [
+  ["net user", "net user bob SYNTHNET0000", "net user bob REDACTED-SECRET-1"],
+  [
+    "net user with switches after the password",
+    "net user bob SYNTHNET0001 /add /domain",
+    "net user bob REDACTED-SECRET-1 /add /domain",
+  ],
+  [
+    "net user, quoted password with spaces",
+    'net user bob "Sy nth Net 2" /add',
+    "net user bob REDACTED-SECRET-1 /add",
+  ],
+  [
+    "net user, command chained after the password",
+    "net user bob SYNTHNET0003 && echo done",
+    "net user bob REDACTED-SECRET-1 && echo done",
+  ],
+  [
+    "net user, output redirected after the password",
+    "net user bob SYNTHNET0004 > C:\\log.txt",
+    "net user bob REDACTED-SECRET-1 > C:\\log.txt",
+  ],
+  [
+    "net use, UNC share and /user option kept",
+    "net use Z: \\\\fs01\\backups SYNTHUSE0000 /user:acme\\bob",
+    "net use Z: \\\\fs01\\backups REDACTED-SECRET-1 /user:acme\\bob",
+  ],
+  [
+    "bitsadmin, job target scheme and user kept",
+    "bitsadmin /SetCredentials Job SERVER NTLM CORP\\svc SYNTHBITS000",
+    "bitsadmin /SetCredentials Job SERVER NTLM CORP\\svc REDACTED-SECRET-1",
+  ],
+  [
+    "rasdial, entry and user kept",
+    "rasdial ContosoVPN vpnuser SYNTHRAS0000",
+    "rasdial ContosoVPN vpnuser REDACTED-SECRET-1",
+  ],
+];
+
+for (const [label, input, expected] of POSITIONAL_CASES) {
+  test(`positional credential: ${label}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.equal(out.text, expected);
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+// The documented innocent variants. Every one of these is a real administrative command line that
+// carries no credential, and each is the shape a slightly greedier anchor would eat.
+const POSITIONAL_NEGATIVES = [
+  "net user bob * /add",
+  "net user bob /delete",
+  "net user /domain",
+  "net user",
+  "net use Z: \\\\fs01\\backups /persistent:yes",
+  "net use * /delete",
+  "net use",
+  "rasdial ContosoVPN /disconnect",
+  "rasdial",
+  "bitsadmin /list /allusers",
+];
+
+for (const text of POSITIONAL_NEGATIVES) {
+  test(`positional credential negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}

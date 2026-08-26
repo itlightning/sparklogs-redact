@@ -8,6 +8,14 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## Unreleased
 
+- **secret profile, the positional command-line families**: `net-user-password`,
+  `net-use-password`, `bitsadmin-credential` and `rasdial-password`. No flag names the credential in
+  any of these, so the anchor is the tool name plus the arguments in front of the value, and the
+  documented innocent variants (`/add`, the `*` prompt, `/domain`, the query form, `/persistent:`,
+  `/delete`, `/user:`, `/disconnect`) keep their text. Each value branch carries its OWN terminator
+  rather than sharing one: a quoted run that cannot close can always shorten itself to a shorter
+  valid run, and a shared terminator lets the engine back off into exactly that, leaving a
+  placeholder with the rest of the password after it.
 - **secret profile, PowerShell, registry and curl detectors**:
   - `powershell-securestring-argument` and `powershell-securestring-string-argument`: the plaintext
     handed to `ConvertTo-SecureString`, positionally or through `-String`. Two detectors, not one
