@@ -11,7 +11,6 @@ interface CompiledDetector {
   re: RegExp; // always global
   safe?: RegExp; // case-insensitive
   validate?: Validator; // candidate must pass to count as a detection
-  lineBounded: boolean; // may be scanned one line at a time (see Detector.lineBounded)
 }
 
 interface Span {
@@ -42,60 +41,41 @@ function compile(detectors: Detector[]): CompiledDetector[] {
       re: new RegExp(d.pattern, flags),
       safe: d.safe ? new RegExp(d.safe, "i") : undefined,
       validate,
-      lineBounded: d.lineBounded === true,
     };
   });
-}
-
-/** Run one detector over `haystack`, recording spans at `offset + match index`. */
-function matchInto(spans: Span[], haystack: string, d: CompiledDetector, offset: number): void {
-  d.re.lastIndex = 0;
-  let m: RegExpExecArray | null;
-  while ((m = d.re.exec(haystack)) !== null) {
-    const original = m[0];
-    if (original.length === 0) {
-      d.re.lastIndex++; // guard against zero-width loops
-      continue;
-    }
-    if (d.safe && d.safe.test(original)) continue; // already a placeholder
-    if (d.validate && !d.validate(original)) continue; // failed the structural check (e.g. Luhn)
-    spans.push({
-      start: offset + m.index,
-      end: offset + m.index + original.length,
-      detector: d.name,
-      category: d.category,
-      original,
-    });
-  }
 }
 
 /**
  * Collect every match across detectors as a token span. Already-redacted (safe) tokens are skipped.
  *
- * Detectors that declare `lineBounded` are run one line at a time rather than over the whole
- * document. The result is identical by construction (such a pattern can neither match nor look
- * across a line break) but the cost is not: a backtracking regex is quadratic in the length of the
- * haystack it scans, so on a document whose lines are ordinary length this is the difference
- * between milliseconds and seconds. Lines are split on `\n` only, and a `\r` stays at the end of
- * its line, so `$` under the `m` flag lands exactly where it lands on the whole document.
+ * Every detector scans the WHOLE document. Scanning line by line was tried and withdrawn: a
+ * backtracking regex is quadratic in the length of the run it scans, but every pattern here already
+ * refuses to cross a line break, so the whole-document haystack never backtracks across one and
+ * splitting it bought nothing while costing the slicing. What actually bounds the cost of a long
+ * line is a zero-width test at the head of a pattern, ahead of its unbounded look-behind, so that a
+ * long run of spaces is rejected once per position instead of re-scanned. `test/performance.test.ts`
+ * is the tripwire for both shapes.
  */
 function collectSpans(text: string, compiled: CompiledDetector[]): Span[] {
   const spans: Span[] = [];
-  const perLine: CompiledDetector[] = [];
   for (const d of compiled) {
-    if (d.lineBounded) perLine.push(d);
-    else matchInto(spans, text, d, 0);
-  }
-  if (perLine.length > 0) {
-    let pos = 0;
-    for (;;) {
-      const nl = text.indexOf("\n", pos);
-      const line = text.slice(pos, nl === -1 ? text.length : nl);
-      if (line.length > 0) {
-        for (const d of perLine) matchInto(spans, line, d, pos);
+    d.re.lastIndex = 0;
+    let m: RegExpExecArray | null;
+    while ((m = d.re.exec(text)) !== null) {
+      const original = m[0];
+      if (original.length === 0) {
+        d.re.lastIndex++; // guard against zero-width loops
+        continue;
       }
-      if (nl === -1) break;
-      pos = nl + 1;
+      if (d.safe && d.safe.test(original)) continue; // already a placeholder
+      if (d.validate && !d.validate(original)) continue; // failed the structural check (e.g. Luhn)
+      spans.push({
+        start: m.index,
+        end: m.index + original.length,
+        detector: d.name,
+        category: d.category,
+        original,
+      });
     }
   }
   return spans;
