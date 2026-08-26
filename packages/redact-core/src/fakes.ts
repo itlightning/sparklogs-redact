@@ -129,8 +129,8 @@ function fakeToken(n: number, original: string): string {
   if (/^AIza/.test(original)) {
     return "AIza" + redTail(35, n);
   }
-  if (/^xox[baprs]-/.test(original)) {
-    return original.slice(0, 5) + redTail(24, n); // keep xoxb-/xoxp-/xoxa-/xoxr-/xoxs-
+  if (/^xox[baprse]-/.test(original)) {
+    return original.slice(0, 5) + redTail(24, n); // keep xoxb-/xoxp-/xoxa-/xoxr-/xoxs-/xoxe-
   }
   const stripe = original.match(/^[sr]k_(?:live|test)_/);
   if (stripe) {
@@ -147,6 +147,18 @@ function fakeToken(n: number, original: string): string {
   }
   if (/^npm_/.test(original)) {
     return "npm_" + redTail(36, n);
+  }
+  // SparkLogs' own credentials. The region label survives because it names a data residency
+  // boundary, which is diagnostic, and it is not part of the secret.
+  const slRegion = original.match(/^sl_([a-z0-9]+)_/);
+  if (slRegion) {
+    return `sl_${slRegion[1]}_` + redTail(43, n);
+  }
+  if (/^slk_/.test(original)) {
+    return "slk_" + redTail(64, n);
+  }
+  if (/^slr_/.test(original)) {
+    return "slr_" + redTail(43, n) + "." + redTail(43, n);
   }
   return "REDACTEDTOKEN" + n;
 }

@@ -8,6 +8,16 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ## Unreleased
 
+- **secret profile, vendor token prefixes**: the GitHub, GitHub fine-grained, GitLab, Google and
+  npm rows no longer pin an exact body width and no longer require a word boundary after the body.
+  Both were leaks: a vendor mints tokens at whatever width it likes and has changed those widths, so
+  an exact width misses every other size, and a base64url body ending in `-` or `_` has no word
+  boundary after it at all, which dropped the token entirely. Each row now takes the smallest minted
+  width as a floor.
+- **secret profile, new SparkLogs token rows**: `sl_<region>_` ingest keys, `slk_` managed-agent
+  keys and `slr_` refresh tokens are redacted, with the region label kept because it names a data
+  residency boundary rather than part of the secret.
+- **secret profile, `slack-token`**: the `xoxe-` app-configuration prefix is recognised.
 - **secret profile, `conn-string-url-password`**: the userinfo username run is no longer capped at
   64 characters. The cap was a leak: past it the whole match failed and the password after the `:`
   shipped verbatim.

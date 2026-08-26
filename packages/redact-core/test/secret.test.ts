@@ -548,3 +548,49 @@ for (const text of CONN_KV_NEGATIVES) {
     assert.equal(r().redact(text).text, text);
   });
 }
+
+// --- Vendor token prefixes. The body length is a floor, not a width: a vendor mints at whatever
+// size it likes, and an exact width plus a trailing word boundary drops every other size and every
+// base64url body ending in a character that has no boundary after it.
+
+const VENDOR_POSITIVES: [string, string, RegExp][] = [
+  ["gitlab-pat, wider than the classic 20", "glpat-" + "A".repeat(28), /^glpat-REDACTED\d+0*$/],
+  ["gitlab-pat, body ending in a dash", "glpat-" + "A".repeat(19) + "-", /^glpat-REDACTED\d+0*$/],
+  ["github-token, wider than the classic 36", "ghp_" + "B".repeat(40), /^ghp_REDACTED\d+0*$/],
+  ["google-api-key, wider than 35", "AIza" + "C".repeat(40), /^AIzaREDACTED\d+0*$/],
+  ["npm-token, narrower than 36", "npm_" + "D".repeat(30), /^npm_REDACTED\d+0*$/],
+  ["slack app-configuration token", "xoxe-" + "E".repeat(20), /^xoxe-REDACTED\d+0*$/],
+  ["sparklogs ingest key", "sl_us_" + "F".repeat(43), /^sl_us_REDACTED\d+0*$/],
+  ["sparklogs agent key", "slk_" + "a".repeat(64), /^slk_REDACTED\d+0*$/],
+  [
+    "sparklogs refresh token",
+    "slr_" + "G".repeat(43) + "." + "H".repeat(43),
+    /^slr_REDACTED\d+0*\.REDACTED\d+0*$/,
+  ],
+];
+
+for (const [label, token, fake] of VENDOR_POSITIVES) {
+  test(`vendor token: ${label}`, () => {
+    const red = r();
+    const out = red.redact(`Webhook rejected: token ${token} for client acme`);
+    assert.ok(!out.text.includes(token), "raw token removed");
+    const replaced = out.text.slice("Webhook rejected: token ".length).split(" ")[0];
+    assert.match(replaced, fake, "fake keeps the vendor prefix");
+    assert.ok(out.text.endsWith(" for client acme"), "the neighbour survives");
+    assert.equal(red.redact(out.text).text, out.text);
+  });
+}
+
+// The prefix ALONE is a word people write in prose and in paths, and none of these carries a body.
+const VENDOR_NEGATIVES = [
+  "The ghp_ prefix identifies a GitHub personal access token for acme",
+  "Path C:\\Users\\bob\\AppData\\Local\\npm_cache\\index.json not found",
+  "Region sl_us_east was selected for the workspace",
+  "glpat-short is not a token",
+];
+
+for (const text of VENDOR_NEGATIVES) {
+  test(`vendor token negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}
