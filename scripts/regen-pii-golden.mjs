@@ -12,10 +12,11 @@
 // stand-ins would still be wrong. Folding both into one script would mean one flag deciding which
 // of two unrelated outputs gets written.
 //
-// ONE FILE, ONE ROW PER CASE, ONE COLUMN PER PROFILE. Per-profile files would have to be kept
-// positionally aligned with each other and with the corpus by hand; a row keyed by profile name
-// cannot drift, and a reader comparing what `generic` and `windows-log` do to the same line reads
-// across rather than across files.
+// ONE FILE, ONE ROW PER CASE, ONE COLUMN PER CONFIGURATION. Separate files would have to be kept
+// positionally aligned with each other and with the corpus by hand; a row keyed by column name
+// cannot drift, and a reader comparing what `generic`, `windows-log` and the `union` do to the same
+// line reads across rather than across files. The columns are defined in the loader; `union` is the
+// all-three-profiles pass a server runs over free-form text.
 //
 // Each line is redacted with a FRESH mapping, so the fake counters restart per line. That is the
 // contract a server-side port can actually meet: it sees one message at a time and has no way to
@@ -24,19 +25,18 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Redactor } from "../packages/redact-core/src/redact.ts";
-import { loadProfile } from "../packages/redact-core/src/detectors.ts";
-import { PII_PROFILES, piiCases } from "../packages/redact-core/test/corpus/loader.ts";
+import { PII_COLUMNS, piiCases, piiDetectors } from "../packages/redact-core/test/corpus/loader.ts";
 
 const OUT = path.join(import.meta.dirname, "../packages/redact-core/test/corpus/pii-golden.jsonl");
 
-const redactors = new Map(PII_PROFILES.map((p) => [p, new Redactor(loadProfile(p))]));
+const redactors = new Map(PII_COLUMNS.map((c) => [c, new Redactor(piiDetectors(c))]));
 const cases = piiCases();
 if (cases.length === 0) throw new Error("pii-corpus.jsonl is empty; run npm run regen-pii-corpus");
 
 const body = cases
   .map((c) => {
     const row = { case: c.case };
-    for (const p of PII_PROFILES) row[p] = redactors.get(p).redact(c.input).text;
+    for (const col of PII_COLUMNS) row[col] = redactors.get(col).redact(c.input).text;
     return JSON.stringify(row) + "\n";
   })
   .join("");

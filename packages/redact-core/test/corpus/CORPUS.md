@@ -25,7 +25,7 @@ No line came from a real log.
 | `deliberate-misses.jsonl` | Credential assignments this library knowingly does not redact. Local, not copied. |
 | `js-golden.txt` | This library's output for every credential case, with spans normalised to `<redacted>`. |
 | `pii-corpus.jsonl` | Generated PII corpus, one `{"case", "message", "keep"?}` object per line. Local. |
-| `pii-golden.jsonl` | This library's PII output, one row per case, one column per pinned profile. Local. |
+| `pii-golden.jsonl` | This library's output for the PII corpus, one row per case, one column per pinned configuration (`generic`, `windows-log`, `union`). Local. |
 
 ## Provenance of the credential corpus
 
@@ -73,10 +73,32 @@ never-routed space: RFC 2544 benchmarking (`198.18.0.0/15`), RFC 6598 shared add
 `example.net` / `example.org` domains.
 Card numbers are the vendors' published test numbers.
 
-A case carrying `"keep": true` must survive redaction **byte-identical under every profile**.
+### Columns
+
+`generic` and `windows-log` are the two named profiles run on their own.
+
+`union` is one pass over `secret` + `generic` + `windows-log` concatenated into a single detector
+list, which is the configuration a server runs over free-form text.
+It is not the same as redacting three times in a row: run separately, a credential detector and a
+PII detector that claim overlapping text both fire, the second rewrites the first one's stand-in,
+and the output depends on an ordering nobody wrote down.
+Run together, one span resolution decides every overlap and the longer span wins once.
+The concatenation repeats two detector names (`email` and `mac-address` are in both PII profiles);
+duplicates produce identical spans, the first is accepted, the rest drop out as overlaps, and the
+category is the same either way.
+
+### Keep and credential
+
+A case carrying `"keep": true` carries no personal data and must survive redaction
+**byte-identical**.
 That is where the corpus prices restraint: the validators (a 16-digit number that fails Luhn is an
 order id), never-assigned shapes (SSN area 000, NANP area 000), placeholders a client wrote before
 sending (`<host-1>`, `<user-2>`, `<client-A>`, `<ip-3>`), and this engine's own output.
+
+A case carrying `"credential": true` carries a synthetic secret and no personal data.
+The PII columns must leave it alone; the `union` column must take the secret out.
+That pair is what proves the credential detectors are loaded in the union and nowhere else, so a
+union assembled from the wrong list fails the gate instead of shipping a secret quietly.
 
 Some cases exist to expose **regex dialect** differences, because the same patterns are ported to
 engines whose `\d`, `\b` and end-of-line semantics are wider than JavaScript's:

@@ -30,7 +30,8 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import type { RedactionResult } from "../../src/types.ts";
+import type { Detector, RedactionResult } from "../../src/types.ts";
+import { loadProfile } from "../../src/detectors.ts";
 
 const DIR = import.meta.dirname;
 
@@ -95,24 +96,65 @@ export function normalize(text: string, result: RedactionResult): string {
 // carry a golden from. Its golden is this engine's own output, per profile, and it is the contract
 // a server-side port is held to. See CORPUS.md next to these files.
 
-/** The name of every profile the PII golden pins. */
-export const PII_PROFILES = ["generic", "windows-log"] as const;
-export type PiiProfile = (typeof PII_PROFILES)[number];
+/**
+ * The columns the PII golden pins: the two named profiles, and the UNION a server ships.
+ *
+ * `union` is one Redactor over `secret` + `generic` + `windows-log` CONCATENATED into a single
+ * detector list, so all three run in one pass and one span resolution decides every overlap. That
+ * is not the same as redacting three times in a row: run separately, a credential detector and a
+ * PII detector that claim overlapping text both fire and the second one rewrites the first one's
+ * fake, and which of them ran first decides the output. Run together, the longer span wins once and
+ * the result does not depend on an ordering nobody wrote down. It gets its own golden because it is
+ * the configuration that will run over free-form text, and neither single-profile column predicts
+ * it.
+ *
+ * The concatenation carries two detector names twice (`email` and `mac-address` are in both PII
+ * profiles). Duplicates produce identical spans, the first is accepted and the rest are dropped as
+ * overlaps, and the category is the same either way, so the duplication costs a scan and changes
+ * nothing. Deduplicating by name is left alone deliberately: it would be a behaviour decision made
+ * in a test loader.
+ */
+export const PII_COLUMNS = ["generic", "windows-log", "union"] as const;
+export type PiiColumn = (typeof PII_COLUMNS)[number];
+
+/** The detector list behind a golden column. */
+export function piiDetectors(column: PiiColumn): Detector[] {
+  if (column === "union") {
+    return [...loadProfile("secret"), ...loadProfile("generic"), ...loadProfile("windows-log")];
+  }
+  return loadProfile(column);
+}
 
 export interface PiiCase {
   case: string;
   input: string;
-  /** True when the line must survive redaction byte-identical under every profile. */
+  /**
+   * True when the line carries no personal data, so the PII columns must leave it byte-identical.
+   * The `union` column also loads the credential detectors, so it is held to this everywhere except
+   * on the `credential` lines below.
+   */
   keep: boolean;
+  /** True when the line carries a synthetic secret that the `union` column is required to remove. */
+  credential: boolean;
 }
 
-/** One golden row per corpus case: the redacted text under each pinned profile. */
-export type PiiGoldenRow = { case: string } & Record<PiiProfile, string>;
+/** One golden row per corpus case: the redacted text under each pinned column. */
+export type PiiGoldenRow = { case: string } & Record<PiiColumn, string>;
 
 export function piiCases(): PiiCase[] {
   return lines("pii-corpus.jsonl").map((l) => {
-    const row = JSON.parse(l) as { case: string; message: string; keep?: boolean };
-    return { case: row.case, input: row.message, keep: row.keep === true };
+    const row = JSON.parse(l) as {
+      case: string;
+      message: string;
+      keep?: boolean;
+      credential?: boolean;
+    };
+    return {
+      case: row.case,
+      input: row.message,
+      keep: row.keep === true,
+      credential: row.credential === true,
+    };
   });
 }
 

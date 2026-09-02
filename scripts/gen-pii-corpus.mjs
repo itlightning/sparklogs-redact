@@ -251,6 +251,7 @@ const GROUPS = [
     // credential engines have no graded case for the family at all; see CORPUS.md.
     group: "credential-json-key",
     keep: true,
+    credential: true,
     values: [
       '{"password": "aGVsbG8td29ybGQ"}',
       '{"pwd": "aGVsbG8td29ybGQ"}',
@@ -341,23 +342,28 @@ const LITERALS = [
 const out = [];
 const seen = new Set();
 
-function emit(caseName, message, keep) {
+function emit(caseName, message, keep, credential) {
   if (seen.has(message)) return; // a duplicate line grades nothing twice
   seen.add(message);
-  const row = keep ? { case: caseName, message, keep: true } : { case: caseName, message };
+  const row = { case: caseName, message };
+  // `keep` is a claim about the PII profiles: there is no personal data on this line. `credential`
+  // narrows it, because a line can be free of PII and still carry a secret, and the union pass that
+  // loads the credential detectors is REQUIRED to take that secret out.
+  if (keep) row.keep = true;
+  if (credential) row.credential = true;
   out.push(JSON.stringify(row));
 }
 
 for (const g of GROUPS) {
   for (const [vi, value] of g.values.entries()) {
     for (const [ti, tpl] of TEMPLATES.entries()) {
-      emit(`${g.group}-${vi + 1}-t${ti + 1}`, tpl(value), g.keep === true);
+      emit(`${g.group}-${vi + 1}-t${ti + 1}`, tpl(value), g.keep === true, g.credential === true);
     }
   }
 }
 for (const g of LITERALS) {
   for (const [vi, value] of g.values.entries()) {
-    emit(`${g.group}-${vi + 1}`, value, g.keep === true);
+    emit(`${g.group}-${vi + 1}`, value, g.keep === true, g.credential === true);
   }
 }
 

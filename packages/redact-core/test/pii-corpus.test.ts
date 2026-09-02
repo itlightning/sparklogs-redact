@@ -21,13 +21,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { Redactor } from "../src/redact.ts";
-import { loadProfile } from "../src/detectors.ts";
-import { PII_PROFILES, piiCases, piiGolden } from "./corpus/loader.ts";
+import { PII_COLUMNS, piiCases, piiDetectors, piiGolden } from "./corpus/loader.ts";
 
 /** Floors, not counts: raising one is free, lowering one is a decision someone has to make. */
 const MIN_CASES = 400;
 const MIN_KEEP_CASES = 100;
 const MIN_CHANGED_LINES = 100;
+const MIN_UNION_CREDENTIALS_REMOVED = 100;
 
 const PLACEHOLDERS = ["<host-1>", "<user-2>", "<client-A>", "<ip-3>"];
 
@@ -48,9 +48,9 @@ test("pii: corpus and golden are present, aligned, and large enough to grade any
   );
 });
 
-for (const profile of PII_PROFILES) {
+for (const profile of PII_COLUMNS) {
   test(`pii/${profile}: output matches the committed golden, case for case`, () => {
-    const red = new Redactor(loadProfile(profile));
+    const red = new Redactor(piiDetectors(profile));
     const cases = piiCases();
     const golden = piiGolden();
     for (const [i, c] of cases.entries()) {
@@ -69,10 +69,13 @@ for (const profile of PII_PROFILES) {
   });
 
   test(`pii/${profile}: lines marked keep survive byte-identical`, () => {
-    const red = new Redactor(loadProfile(profile));
+    const red = new Redactor(piiDetectors(profile));
     const eaten: string[] = [];
     for (const c of piiCases()) {
       if (!c.keep) continue;
+      // The union loads the credential detectors, and removing those secrets is its job, not an
+      // over-redaction. Every other keep line is held to the same standard on every column.
+      if (c.credential && profile === "union") continue;
       const out = red.redact(c.input).text;
       if (out !== c.input) eaten.push(`${c.case}: ${JSON.stringify(c.input)} -> ${JSON.stringify(out)}`);
     }
@@ -80,7 +83,7 @@ for (const profile of PII_PROFILES) {
   });
 
   test(`pii/${profile}: client-written placeholders reach the reader intact`, () => {
-    const red = new Redactor(loadProfile(profile));
+    const red = new Redactor(piiDetectors(profile));
     for (const c of piiCases()) {
       const out = red.redact(c.input).text;
       for (const p of PLACEHOLDERS) {
@@ -94,9 +97,32 @@ for (const profile of PII_PROFILES) {
   });
 
   test(`pii/${profile}: redacting the golden reproduces the golden`, () => {
-    const red = new Redactor(loadProfile(profile));
+    const red = new Redactor(piiDetectors(profile));
     for (const row of piiGolden()) {
       assert.equal(red.redact(row[profile]).text, row[profile], `${row.case}`);
     }
   });
 }
+
+// The union is the pass a server runs over free-form text, and the only reason to run it instead of
+// a PII profile is that it also removes credentials. These two say so in both directions: the
+// credential detectors are loaded there and nowhere else, so a union built from the wrong list
+// fails here rather than shipping a secret quietly.
+test("pii/union: the credential detectors are actually loaded", () => {
+  const red = new Redactor(piiDetectors("union"));
+  const removed = piiCases().filter((c) => c.credential && red.redact(c.input).text !== c.input);
+  assert.ok(
+    removed.length >= MIN_UNION_CREDENTIALS_REMOVED,
+    `union removed a secret from only ${removed.length} credential lines`,
+  );
+});
+
+test("pii: the PII profiles leave credential lines alone", () => {
+  for (const profile of PII_COLUMNS.filter((c) => c !== "union")) {
+    const red = new Redactor(piiDetectors(profile));
+    for (const c of piiCases()) {
+      if (!c.credential) continue;
+      assert.equal(red.redact(c.input).text, c.input, `${profile} ${c.case}`);
+    }
+  }
+});
