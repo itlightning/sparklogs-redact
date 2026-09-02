@@ -1486,6 +1486,59 @@
 {"case":"placeholder-only-2","message":"\\\\<host-1>\\share\\a.txt","keep":true}
 {"case":"placeholder-only-3","message":"C:\\Users\\<user-2>\\AppData\\Local\\a.log","keep":true}
 {"case":"placeholder-only-4","message":"<client-A> reported <ip-3> unreachable from <host-1>\n","keep":true}
+{"case":"credential-multiline-anchor-1","message":"\rtoken=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-2","message":"\rapi_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-3","message":"\rsecret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-4","message":"\rexport access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-5","message":"\rset auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-6","message":"\rtoken=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-7","message":"\rapi_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-8","message":"\r\ntoken=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-9","message":"\r\napi_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-10","message":"\r\nsecret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-11","message":"\r\nexport access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-12","message":"\r\nset auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-13","message":"\r\ntoken=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-14","message":"\r\napi_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-15","message":" token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-16","message":" api_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-17","message":" secret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-18","message":" export access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-19","message":" set auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-20","message":" token=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-21","message":" api_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-22","message":" token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-23","message":" api_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-24","message":" secret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-25","message":" export access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-26","message":" set auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-27","message":" token=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-28","message":" api_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-29","message":"Server=db01;Password=ZZCREDZZ;\r","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-30","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-31","message":"Server=db01;Password=ZZCREDZZ;\r\n","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-32","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r\n","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-33","message":"Server=db01;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-34","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-35","message":"Server=db01;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-36","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-case-folding-1","message":"token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-2","message":"toKen=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-3","message":"PASSWORD=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-4","message":"PAſSWORD=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-5","message":"{\"password\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"credential-case-folding-6","message":"{\"paſsword\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"credential-case-folding-7","message":"api_Key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-8","message":"ſecret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-9","message":"{\"toKen\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"credential-case-folding-10","message":"{\"ſecret\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"overlap-tiebreak-1","message":"https://ZZNEIGHZZ:ZZCREDZZ@h😀st.corp.local/abcdefgh"}
+{"case":"overlap-tiebreak-2","message":"https://ZZNEIGHZZ:ZZCREDZZ@[fd12:3456::10.0.1.50]/p"}
+{"case":"overlap-tiebreak-3","message":"https://ZZNEIGHZZ:ZZCREDZZ@db01.corp.local/ali😀ce@example.net"}
+{"case":"overlap-tiebreak-4","message":"user ali😀ce@example.net at fd12:3456::10.0.1.50"}
+{"case":"overlap-tiebreak-5","message":"😀10.0.0.0/8 and 😀192.168.1.0/24"}
+{"case":"overlap-tiebreak-6","message":"route 😀198.18.0.0/15 via ::ffff:10.0.1.50"}
+{"case":"overlap-tiebreak-7","message":"😀::ffff:10.0.1.50 mailed ali😀ce@example.net"}
 {"case":"empty-ish-1","message":"","keep":true}
 {"case":"empty-ish-2","message":" ","keep":true}
 {"case":"empty-ish-3","message":"\n","keep":true}

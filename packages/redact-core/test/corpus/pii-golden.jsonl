@@ -1486,6 +1486,59 @@
 {"case":"placeholder-only-2","generic":"\\\\<host-1>\\share\\a.txt","windows-log":"\\\\<host-1>\\share\\a.txt","union":"\\\\<host-1>\\share\\a.txt"}
 {"case":"placeholder-only-3","generic":"C:\\Users\\<user-2>\\AppData\\Local\\a.log","windows-log":"C:\\Users\\<user-2>\\AppData\\Local\\a.log","union":"C:\\Users\\<user-2>\\AppData\\Local\\a.log"}
 {"case":"placeholder-only-4","generic":"<client-A> reported <ip-3> unreachable from <host-1>\n","windows-log":"<client-A> reported <ip-3> unreachable from <host-1>\n","union":"<client-A> reported <ip-3> unreachable from <host-1>\n"}
+{"case":"credential-multiline-anchor-1","generic":"\rtoken=ZZCREDZZ","windows-log":"\rtoken=ZZCREDZZ","union":"\rtoken=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-2","generic":"\rapi_key=ZZCREDZZ","windows-log":"\rapi_key=ZZCREDZZ","union":"\rapi_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-3","generic":"\rsecret=ZZCREDZZ","windows-log":"\rsecret=ZZCREDZZ","union":"\rsecret=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-4","generic":"\rexport access_token=ZZCREDZZ","windows-log":"\rexport access_token=ZZCREDZZ","union":"\rexport access_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-5","generic":"\rset auth_token=ZZCREDZZ","windows-log":"\rset auth_token=ZZCREDZZ","union":"\rset auth_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-6","generic":"\rtoken=\"ZZCREDZZ\"","windows-log":"\rtoken=\"ZZCREDZZ\"","union":"\rtoken=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-7","generic":"\rapi_key='ZZCREDZZ'","windows-log":"\rapi_key='ZZCREDZZ'","union":"\rapi_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-8","generic":"\r\ntoken=ZZCREDZZ","windows-log":"\r\ntoken=ZZCREDZZ","union":"\r\ntoken=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-9","generic":"\r\napi_key=ZZCREDZZ","windows-log":"\r\napi_key=ZZCREDZZ","union":"\r\napi_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-10","generic":"\r\nsecret=ZZCREDZZ","windows-log":"\r\nsecret=ZZCREDZZ","union":"\r\nsecret=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-11","generic":"\r\nexport access_token=ZZCREDZZ","windows-log":"\r\nexport access_token=ZZCREDZZ","union":"\r\nexport access_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-12","generic":"\r\nset auth_token=ZZCREDZZ","windows-log":"\r\nset auth_token=ZZCREDZZ","union":"\r\nset auth_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-13","generic":"\r\ntoken=\"ZZCREDZZ\"","windows-log":"\r\ntoken=\"ZZCREDZZ\"","union":"\r\ntoken=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-14","generic":"\r\napi_key='ZZCREDZZ'","windows-log":"\r\napi_key='ZZCREDZZ'","union":"\r\napi_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-15","generic":" token=ZZCREDZZ","windows-log":" token=ZZCREDZZ","union":" token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-16","generic":" api_key=ZZCREDZZ","windows-log":" api_key=ZZCREDZZ","union":" api_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-17","generic":" secret=ZZCREDZZ","windows-log":" secret=ZZCREDZZ","union":" secret=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-18","generic":" export access_token=ZZCREDZZ","windows-log":" export access_token=ZZCREDZZ","union":" export access_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-19","generic":" set auth_token=ZZCREDZZ","windows-log":" set auth_token=ZZCREDZZ","union":" set auth_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-20","generic":" token=\"ZZCREDZZ\"","windows-log":" token=\"ZZCREDZZ\"","union":" token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-21","generic":" api_key='ZZCREDZZ'","windows-log":" api_key='ZZCREDZZ'","union":" api_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-22","generic":" token=ZZCREDZZ","windows-log":" token=ZZCREDZZ","union":" token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-23","generic":" api_key=ZZCREDZZ","windows-log":" api_key=ZZCREDZZ","union":" api_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-24","generic":" secret=ZZCREDZZ","windows-log":" secret=ZZCREDZZ","union":" secret=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-25","generic":" export access_token=ZZCREDZZ","windows-log":" export access_token=ZZCREDZZ","union":" export access_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-26","generic":" set auth_token=ZZCREDZZ","windows-log":" set auth_token=ZZCREDZZ","union":" set auth_token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-27","generic":" token=\"ZZCREDZZ\"","windows-log":" token=\"ZZCREDZZ\"","union":" token=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-28","generic":" api_key='ZZCREDZZ'","windows-log":" api_key='ZZCREDZZ'","union":" api_key=REDACTED-SECRET-1"}
+{"case":"credential-multiline-anchor-29","generic":"Server=db01;Password=ZZCREDZZ;\r","windows-log":"Server=db01;Password=ZZCREDZZ;\r","union":"Server=db01;Password=REDACTED-SECRET-1;\r"}
+{"case":"credential-multiline-anchor-30","generic":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r","windows-log":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r","union":"Data Source=db01;User ID=ZZNEIGHZZ;Password=REDACTED-SECRET-1;\r"}
+{"case":"credential-multiline-anchor-31","generic":"Server=db01;Password=ZZCREDZZ;\r\n","windows-log":"Server=db01;Password=ZZCREDZZ;\r\n","union":"Server=db01;Password=REDACTED-SECRET-1;\r\n"}
+{"case":"credential-multiline-anchor-32","generic":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r\n","windows-log":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r\n","union":"Data Source=db01;User ID=ZZNEIGHZZ;Password=REDACTED-SECRET-1;\r\n"}
+{"case":"credential-multiline-anchor-33","generic":"Server=db01;Password=ZZCREDZZ; ","windows-log":"Server=db01;Password=ZZCREDZZ; ","union":"Server=db01;Password=REDACTED-SECRET-1; "}
+{"case":"credential-multiline-anchor-34","generic":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","windows-log":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","union":"Data Source=db01;User ID=ZZNEIGHZZ;Password=REDACTED-SECRET-1; "}
+{"case":"credential-multiline-anchor-35","generic":"Server=db01;Password=ZZCREDZZ; ","windows-log":"Server=db01;Password=ZZCREDZZ; ","union":"Server=db01;Password=REDACTED-SECRET-1; "}
+{"case":"credential-multiline-anchor-36","generic":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","windows-log":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","union":"Data Source=db01;User ID=ZZNEIGHZZ;Password=REDACTED-SECRET-1; "}
+{"case":"credential-case-folding-1","generic":"token=ZZCREDZZ","windows-log":"token=ZZCREDZZ","union":"token=REDACTED-SECRET-1"}
+{"case":"credential-case-folding-2","generic":"toKen=ZZCREDZZ","windows-log":"toKen=ZZCREDZZ","union":"toKen=ZZCREDZZ"}
+{"case":"credential-case-folding-3","generic":"PASSWORD=ZZCREDZZ","windows-log":"PASSWORD=ZZCREDZZ","union":"PASSWORD=REDACTED-SECRET-1"}
+{"case":"credential-case-folding-4","generic":"PAſSWORD=ZZCREDZZ","windows-log":"PAſSWORD=ZZCREDZZ","union":"PAſSWORD=REDACTED-SECRET-1"}
+{"case":"credential-case-folding-5","generic":"{\"password\":\"ZZCREDZZ\"}","windows-log":"{\"password\":\"ZZCREDZZ\"}","union":"{\"password\":\"REDACTED-SECRET-1\"}"}
+{"case":"credential-case-folding-6","generic":"{\"paſsword\":\"ZZCREDZZ\"}","windows-log":"{\"paſsword\":\"ZZCREDZZ\"}","union":"{\"paſsword\":\"REDACTED-SECRET-1\"}"}
+{"case":"credential-case-folding-7","generic":"api_Key=ZZCREDZZ","windows-log":"api_Key=ZZCREDZZ","union":"api_Key=ZZCREDZZ"}
+{"case":"credential-case-folding-8","generic":"ſecret=ZZCREDZZ","windows-log":"ſecret=ZZCREDZZ","union":"ſecret=ZZCREDZZ"}
+{"case":"credential-case-folding-9","generic":"{\"toKen\":\"ZZCREDZZ\"}","windows-log":"{\"toKen\":\"ZZCREDZZ\"}","union":"{\"toKen\":\"REDACTED-SECRET-1\"}"}
+{"case":"credential-case-folding-10","generic":"{\"ſecret\":\"ZZCREDZZ\"}","windows-log":"{\"ſecret\":\"ZZCREDZZ\"}","union":"{\"ſecret\":\"REDACTED-SECRET-1\"}"}
+{"case":"overlap-tiebreak-1","generic":"https://ZZNEIGHZZ:ZZCREDZZ@h😀st.corp.local/abcdefgh","windows-log":"https://ZZNEIGHZZ:ZZCREDZZ@h😀HOST0001/abcdefgh","union":"https://ZZNEIGHZZ:REDACTED-SECRET-1@h😀HOST0001/abcdefgh"}
+{"case":"overlap-tiebreak-2","generic":"https://ZZNEIGHZZ:ZZCREDZZ@[2001:db8::192.0.2.1]/p","windows-log":"https://ZZNEIGHZZ:ZZCREDZZ@[fd12:3456::10.0.1.50]/p","union":"https://ZZNEIGHZZ:REDACTED-SECRET-1@[2001:db8::192.0.2.1]/p"}
+{"case":"overlap-tiebreak-3","generic":"https://ZZNEIGHZZ:redacted1@example.invalid/ali😀redacted2@example.invalid","windows-log":"https://ZZNEIGHZZ:redacted1@example.invalid/ali😀redacted2@example.invalid","union":"https://ZZNEIGHZZ:redacted1@example.invalid/ali😀redacted2@example.invalid"}
+{"case":"overlap-tiebreak-4","generic":"user ali😀redacted1@example.invalid at 2001:db8::192.0.2.1","windows-log":"user ali😀redacted1@example.invalid at fd12:3456::10.0.1.50","union":"user ali😀redacted1@example.invalid at 2001:db8::192.0.2.1"}
+{"case":"overlap-tiebreak-5","generic":"😀198.51.100.1/8 and 😀198.51.100.2/24","windows-log":"😀10.0.0.0/8 and 😀192.168.1.0/24","union":"😀198.51.100.1/8 and 😀198.51.100.2/24"}
+{"case":"overlap-tiebreak-6","generic":"route 😀192.0.2.1/15 via ::ffff:192.0.2.1","windows-log":"route 😀198.18.0.0/15 via ::ffff:10.0.1.50","union":"route 😀192.0.2.1/15 via ::ffff:192.0.2.1"}
+{"case":"overlap-tiebreak-7","generic":"😀::ffff:192.0.2.1 mailed ali😀redacted1@example.invalid","windows-log":"😀::ffff:10.0.1.50 mailed ali😀redacted1@example.invalid","union":"😀::ffff:192.0.2.1 mailed ali😀redacted1@example.invalid"}
 {"case":"empty-ish-1","generic":"","windows-log":"","union":""}
 {"case":"empty-ish-2","generic":" ","windows-log":" ","union":" "}
 {"case":"empty-ish-3","generic":"\n","windows-log":"\n","union":"\n"}

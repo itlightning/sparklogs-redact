@@ -123,8 +123,42 @@ engines whose `\d`, `\b` and end-of-line semantics are wider than JavaScript's:
   recomputing them cuts a token in half. Some of these lines put an IPv4 address inside an IPv6 one,
   where two detectors claim overlapping spans and the longer has to win.
 
-A port that reads those differently produces a different golden line, which is what committing a
-golden is for.
+Three more sections grade the `union` column specifically, since the credential corpus is a copy and
+is refreshed upstream rather than extended here:
+
+- **Line anchors.** An anchored assignment (`token=`, `api_key=`, `export access_token=`, quoted
+  forms) immediately after each terminator, and a connection-string password immediately before one.
+  A line-anchored pattern is only as good as the engine's idea of where a line starts and ends.
+- **Case folding.** Keywords carrying U+212A KELVIN SIGN and U+017F LATIN SMALL LETTER LONG S, with
+  their plain-ASCII twins as controls.
+- **Overlap resolution.** Lines where two detectors start at the same offset with different lengths,
+  and lines where two differently-named detectors claim the identical span, with astral characters
+  inside the longer span so the tiebreak is decided on offsets that do not survive a change of
+  string representation.
+
+### How this engine folds case
+
+Measured, not assumed, because it is not uniform across the profile and a port has to reproduce the
+mixture rather than pick one answer.
+
+JavaScript's `i` flag on its own does **not** fold either character: `/password/i` does not match
+`paſsword`, and `/token/i` does not match `toKen` spelt with the Kelvin sign. Adding the `u` flag
+turns on full Unicode case folding and both match.
+
+The detectors are not compiled with the same flags, so both behaviours are live at once:
+
+| Detector | Flags | U+017F and U+212A in a keyword |
+|---|---|---|
+| `json-credential-value` | `iu` | folded onto ASCII, so the keyword matches |
+| `conn-string-password` | `imu` | folded onto ASCII, so the keyword matches |
+| `env-assignment-credential` | `im` | not folded |
+
+The corpus pins both sides: `{"toKen":"…"}` and `{"ſecret":"…"}` are redacted, while the bare
+`toKen=` and `ſecret=` assignments are not. Those bare cases are also blocked earlier, by an
+ASCII-only key charset, so they do not isolate folding on their own; the JSON pair does.
+
+A port that reads any of this differently produces a different golden line, which is what committing
+a golden is for.
 
 ## Regenerating
 

@@ -306,6 +306,31 @@ const GROUPS = [
 ];
 
 /** Whole lines, emitted as written: several values at once, and mixtures with placeholders. */
+/** Line terminators an anchored pattern has to survive, in the order the golden reads them. */
+const TERMINATORS = [
+  ["cr", "\r"],
+  ["crlf", "\r\n"],
+  ["ls", "\u2028"],
+  ["ps", "\u2029"],
+];
+
+/** Assignments the credential detectors anchor to the START of a line. */
+const ANCHORED_ASSIGNMENTS = [
+  "token=ZZCREDZZ",
+  "api_key=ZZCREDZZ",
+  "secret=ZZCREDZZ",
+  "export access_token=ZZCREDZZ",
+  "set auth_token=ZZCREDZZ",
+  'token="ZZCREDZZ"',
+  "api_key='ZZCREDZZ'",
+];
+
+/** Connection strings whose value branch has to stop AT the end of the line, not run past it. */
+const TRAILING_CONNECTION_STRINGS = [
+  "Server=db01;Password=ZZCREDZZ;",
+  "Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;",
+];
+
 const LITERALS = [
   {
     group: "mixed",
@@ -330,6 +355,65 @@ const LITERALS = [
       "\\\\<host-1>\\share\\a.txt",
       "C:\\Users\\<user-2>\\AppData\\Local\\a.log",
       "<client-A> reported <ip-3> unreachable from <host-1>\n",
+    ],
+  },
+  {
+    // MULTILINE ANCHORS. A line-anchored credential pattern is only as good as the engine's idea of
+    // where a line starts and ends, and the four terminators below are ranked differently by every
+    // dialect these patterns are ported to. The first set puts an anchored assignment immediately
+    // AFTER a terminator (the `^` side); the second puts a connection-string password immediately
+    // BEFORE one (the `$` side), where the value branch has to stop rather than run on.
+    //
+    // They live in this corpus rather than the credential one because the credential corpus is a
+    // copy of a generated sweep that has no such case, and copies are refreshed upstream, not
+    // extended here. The `union` column is what grades them.
+    group: "credential-multiline-anchor",
+    keep: true,
+    credential: true,
+    values: [
+      ...TERMINATORS.flatMap(([, t]) => ANCHORED_ASSIGNMENTS.map((a) => t + a)),
+      ...TERMINATORS.flatMap(([, t]) => TRAILING_CONNECTION_STRINGS.map((c) => c + t)),
+    ],
+  },
+  {
+    // CASE FOLDING. U+212A KELVIN SIGN and U+017F LATIN SMALL LETTER LONG S fold onto ASCII `k` and
+    // `s` under full Unicode case folding, and onto nothing under the simple ASCII folding a `i`
+    // flag gives in JavaScript. A keyword carrying one is therefore a credential keyword to an
+    // engine that folds fully and an ordinary word to one that does not. The plain-ASCII twins are
+    // here as controls: if a control stops matching, the difference is not about folding.
+    group: "credential-case-folding",
+    keep: true,
+    credential: true,
+    values: [
+      "token=ZZCREDZZ",
+      "to\u212Aen=ZZCREDZZ",
+      "PASSWORD=ZZCREDZZ",
+      "PA\u017FSWORD=ZZCREDZZ",
+      '{"password":"ZZCREDZZ"}',
+      '{"pa\u017Fsword":"ZZCREDZZ"}',
+      "api_\u212Aey=ZZCREDZZ",
+      "\u017Fecret=ZZCREDZZ",
+      // The keyword itself carries the character, inside a detector whose keyword list contains the
+      // word, so the folding question is not answered earlier by an ASCII-only key charset.
+      '{"to\u212Aen":"ZZCREDZZ"}',
+      '{"\u017Fecret":"ZZCREDZZ"}',
+    ],
+  },
+  {
+    // OVERLAP RESOLUTION. Two detectors claiming text that starts at the same offset are settled by
+    // length first and by detector name second, and a port that orders them differently produces a
+    // different line here rather than a different line in production. Astral characters sit inside
+    // the longer span on purpose: the tiebreak is decided on offsets, and those offsets are the
+    // thing that stops agreeing between UTF-16, UTF-8 and runes.
+    group: "overlap-tiebreak",
+    values: [
+      "https://ZZNEIGHZZ:ZZCREDZZ@h\u{1F600}st.corp.local/abcdefgh",
+      "https://ZZNEIGHZZ:ZZCREDZZ@[fd12:3456::10.0.1.50]/p",
+      "https://ZZNEIGHZZ:ZZCREDZZ@db01.corp.local/ali\u{1F600}ce@example.net",
+      "user ali\u{1F600}ce@example.net at fd12:3456::10.0.1.50",
+      "\u{1F600}10.0.0.0/8 and \u{1F600}192.168.1.0/24",
+      "route \u{1F600}198.18.0.0/15 via ::ffff:10.0.1.50",
+      "\u{1F600}::ffff:10.0.1.50 mailed ali\u{1F600}ce@example.net",
     ],
   },
   {
