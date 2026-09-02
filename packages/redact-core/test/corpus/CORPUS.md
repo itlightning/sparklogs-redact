@@ -34,7 +34,7 @@ library (private) by `tools/redaction-corpus.py` and `tools/test-redaction-corpu
 --update-golden`, and carried here verbatim so both implementations answer to one standard.
 
 `corpus.jsonl` and `vrl-golden.txt` are current as of source library commit
-`9970c8b52cd81cb8978801253f834991c504a382` (1393 cases).
+`1f06a04e4158946de60aca7ecc54fd82b29751d6` (1466 cases).
 Record the commit whenever they are refreshed: without it, a difference between the two
 implementations cannot be told apart from a difference in when the copy was taken.
 
@@ -54,15 +54,26 @@ The shapes are carried in `pii-corpus.jsonl` (group `credential-json-key`) meanw
 assert only that the PII profiles leave configuration alone.
 Closing the gap properly means extending the generator upstream.
 
-Two credential shapes are worth knowing about before porting the patterns, because the redacted span
-is wider than the value:
+One credential shape is worth knowing about before porting the patterns, because the redacted span is
+wider than the value: `Use ConvertTo-SecureString instead of New-Object -String "X"`, where the span
+takes the quotes with it.
 
-- `--account-key=X; --metadata "env=Y;tier=1"` - the span runs through the trailing `;`.
-- `Use ConvertTo-SecureString instead of New-Object -String "X"` - the span takes the quotes with it.
+Both engines that produced a golden here reach a fixed point on it after one pass.
+A port reported needing a third pass on it and on the `--account-key=X; --metadata "env=Y;tier=1"`
+line (in the over-redaction direction), so a port should verify convergence rather than assume one
+pass settles.
+The collector closed both at the pin above, by keeping the trailing `;` outside the connection-string
+value and by requiring `-AsPlainText` before a bare positional counts as a secret.
 
-Both reach a fixed point after one pass in this engine.
-A port reported needing a third pass on them (in the over-redaction direction), so a port should
-verify convergence rather than assume one pass settles.
+That second change is a NARROWING, and the pin carries it: `ConvertTo-SecureString X` with no
+`-AsPlainText` anywhere in the command is no longer a redaction upstream, because the cmdlet itself
+rejects a plaintext argument without that flag.
+The refresh to this pin also brought five collector literals this library has no detector for (a
+PowerShell credential constructor, an `-ArgumentList` credential pair, an encoded-command body, a
+quoted key name before `=`, and unquoted values after compound secret flags).
+Until those are ported, the leak and over-redaction counters in `corpus.test.ts` describe real
+divergence rather than an empty set, and they are pinned at zero on purpose so the gap cannot be
+absorbed silently.
 
 ## The PII corpus
 

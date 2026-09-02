@@ -61,9 +61,9 @@
 {"case": "credential-word-suffix-forms-survive", "input": "Task \"Reset password\" completed for CORP\\svc", "vrl": "Task \"Reset password\" completed for CORP\\svc"}
 {"case": "trailing-quote-is-left-in-place", "input": "sqlcmd.exe --password=P@ss\" --site Acme", "vrl": "sqlcmd.exe --password=<redacted>\" --site Acme"}
 {"case": "trailing-quote-is-left-in-place", "input": "agent.exe --password=x\" --site Acme", "vrl": "agent.exe --password=<redacted>\" --site Acme"}
-{"case": "conn-gate-miss-falls-back-to-prose", "input": "az storage blob list --account-key=SynthA4; --metadata \"env=prod;tier=1\"", "vrl": "az storage blob list --account-key=<redacted> --metadata \"env=prod;tier=1\""}
-{"case": "conn-gate-miss-falls-back-to-prose", "input": "Start-Process app.exe -ArgumentList \"--password=SynthA1; --conn Data Source=db;Database=probe\"", "vrl": "Start-Process app.exe -ArgumentList \"--password=<redacted> --conn Data Source=db;Database=probe\""}
-{"case": "conn-gate-miss-falls-back-to-prose", "input": "runner.exe --password=SynthA6; --flag=1", "vrl": "runner.exe --password=<redacted> --flag=1"}
+{"case": "conn-gate-miss-falls-back-to-prose", "input": "az storage blob list --account-key=SynthA4; --metadata \"env=prod;tier=1\"", "vrl": "az storage blob list --account-key=<redacted>; --metadata \"env=prod;tier=1\""}
+{"case": "conn-gate-miss-falls-back-to-prose", "input": "Start-Process app.exe -ArgumentList \"--password=SynthA1; --conn Data Source=db;Database=probe\"", "vrl": "Start-Process app.exe -ArgumentList \"--password=<redacted>; --conn Data Source=db;Database=probe\""}
+{"case": "conn-gate-miss-falls-back-to-prose", "input": "runner.exe --password=SynthA6; --flag=1", "vrl": "runner.exe --password=<redacted>; --flag=1"}
 {"case": "conn-match-then-second-credential-residual", "input": "Data Source=db;Password=SynthB1;Database=probe --account-key=SynthB2; --metadata \"x=1\"", "vrl": "Data Source=db;Password=<redacted>;Database=probe --account-key=SynthB2; --metadata \"x=1\""}
 {"case": "conn-match-then-second-credential-residual", "input": "Data Source=db;Password=SynthB3;Database=probe and --account-key=SynthB4 --site Acme", "vrl": "Data Source=db;Password=<redacted>;Database=probe and --account-key=<redacted>"}
 {"case": "redaction-is-idempotent-on-both-branches", "input": "Server=sqlsrv01;Uid=svc;Password=<redacted>;Encrypt=true", "vrl": "Server=sqlsrv01;Uid=svc;Password=<redacted>;Encrypt=true"}
@@ -265,7 +265,7 @@
 {"case": "securestring-argument-redacted", "input": "$sec = ConvertTo-SecureString Sy-nth-Pw-21 -AsPlainText -Force", "vrl": "$sec = ConvertTo-SecureString <redacted> -AsPlainText -Force"}
 {"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"a\"\"b\" -AsPlainText -Force", "vrl": "ConvertTo-SecureString <redacted> -AsPlainText -Force"}
 {"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString 'it''s' -AsPlainText", "vrl": "ConvertTo-SecureString <redacted> -AsPlainText"}
-{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"Sy nth", "vrl": "ConvertTo-SecureString <redacted>"}
+{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"Sy nth", "vrl": "ConvertTo-SecureString \"Sy nth"}
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString -String $plain -AsPlainText -Force", "vrl": "ConvertTo-SecureString -String $plain -AsPlainText -Force"}
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString $env:PW -AsPlainText", "vrl": "ConvertTo-SecureString $env:PW -AsPlainText"}
 {"case": "securestring-argument-lookalikes-survive", "input": "Get-Help ConvertTo-SecureString -Full", "vrl": "Get-Help ConvertTo-SecureString -Full"}
