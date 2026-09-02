@@ -33,11 +33,18 @@ No line came from a real log.
 library (private) by `tools/redaction-corpus.py` and `tools/test-redaction-corpus.py
 --update-golden`, and carried here verbatim so both implementations answer to one standard.
 
+`corpus.jsonl` and `vrl-golden.txt` are current as of source library commit
+`9970c8b52cd81cb8978801253f834991c504a382` (1393 cases).
+Record the commit whenever they are refreshed: without it, a difference between the two
+implementations cannot be told apart from a difference in when the copy was taken.
+
 The copy here can lag that library.
 Refreshing it is a deliberate change, not housekeeping: new cases move the credential golden and the
 parity counts pinned in `corpus.test.ts`, and each moved line has to be read as a semantic diff (a
 line that gained the credential marker is a leak; a line that lost the neighbour marker is new
 over-redaction).
+Refreshing `corpus.jsonl` without `vrl-golden.txt`, or the reverse, is what the loader's
+length check exists to stop.
 
 The credential corpus has one known gap.
 It contains no JSON object whose **key** names a credential (`"password"`, `"pwd"`, `"secret"`,

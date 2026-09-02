@@ -34,7 +34,7 @@ const NEIGH = /ZZNEIGHZZ/g;
 // the collector runs on.
 const LEAKS = 0;
 const OVER_REDACTIONS = 0;
-const PARITY = 1741;
+const PARITY = 1758;
 
 const count = (text: string, marker: RegExp) => (text.match(marker) ?? []).length;
 
