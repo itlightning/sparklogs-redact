@@ -15,7 +15,9 @@
     "test": "npm run test --workspaces --if-present",
     "typecheck": "tsc -p packages/redact-core && tsc -p packages/redact-cli && tsc -p packages/redact-react",
     "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo",
-    "regen-corpus-golden": "node scripts/regen-corpus-golden.mjs"
+    "regen-corpus-golden": "node scripts/regen-corpus-golden.mjs",
+    "regen-pii-corpus": "node scripts/gen-pii-corpus.mjs",
+    "regen-pii-golden": "node scripts/regen-pii-golden.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.19.19",

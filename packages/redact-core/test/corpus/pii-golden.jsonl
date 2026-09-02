@@ -1,0 +1,700 @@
+{"case":"ipv4-public-1-t1","generic":"192.0.2.1","windows-log":"198.18.0.15"}
+{"case":"ipv4-public-1-t2","generic":"value: 192.0.2.1","windows-log":"value: 198.18.0.15"}
+{"case":"ipv4-public-1-t3","generic":"\"192.0.2.1\"","windows-log":"\"198.18.0.15\""}
+{"case":"ipv4-public-1-t4","generic":"[info] connect from 192.0.2.1 ok","windows-log":"[info] connect from 198.18.0.15 ok"}
+{"case":"ipv4-public-1-t5","generic":"field=192.0.2.1;next=plain","windows-log":"field=198.18.0.15;next=plain"}
+{"case":"ipv4-public-1-t6","generic":"trailing 192.0.2.1\n","windows-log":"trailing 198.18.0.15\n"}
+{"case":"ipv4-public-2-t1","generic":"192.0.2.1","windows-log":"198.19.200.7"}
+{"case":"ipv4-public-2-t2","generic":"value: 192.0.2.1","windows-log":"value: 198.19.200.7"}
+{"case":"ipv4-public-2-t3","generic":"\"192.0.2.1\"","windows-log":"\"198.19.200.7\""}
+{"case":"ipv4-public-2-t4","generic":"[info] connect from 192.0.2.1 ok","windows-log":"[info] connect from 198.19.200.7 ok"}
+{"case":"ipv4-public-2-t5","generic":"field=192.0.2.1;next=plain","windows-log":"field=198.19.200.7;next=plain"}
+{"case":"ipv4-public-2-t6","generic":"trailing 192.0.2.1\n","windows-log":"trailing 198.19.200.7\n"}
+{"case":"ipv4-public-3-t1","generic":"192.0.2.1","windows-log":"100.64.12.9"}
+{"case":"ipv4-public-3-t2","generic":"value: 192.0.2.1","windows-log":"value: 100.64.12.9"}
+{"case":"ipv4-public-3-t3","generic":"\"192.0.2.1\"","windows-log":"\"100.64.12.9\""}
+{"case":"ipv4-public-3-t4","generic":"[info] connect from 192.0.2.1 ok","windows-log":"[info] connect from 100.64.12.9 ok"}
+{"case":"ipv4-public-3-t5","generic":"field=192.0.2.1;next=plain","windows-log":"field=100.64.12.9;next=plain"}
+{"case":"ipv4-public-3-t6","generic":"trailing 192.0.2.1\n","windows-log":"trailing 100.64.12.9\n"}
+{"case":"ipv4-private-1-t1","generic":"198.51.100.1","windows-log":"10.0.1.50"}
+{"case":"ipv4-private-1-t2","generic":"value: 198.51.100.1","windows-log":"value: 10.0.1.50"}
+{"case":"ipv4-private-1-t3","generic":"\"198.51.100.1\"","windows-log":"\"10.0.1.50\""}
+{"case":"ipv4-private-1-t4","generic":"[info] connect from 198.51.100.1 ok","windows-log":"[info] connect from 10.0.1.50 ok"}
+{"case":"ipv4-private-1-t5","generic":"field=198.51.100.1;next=plain","windows-log":"field=10.0.1.50;next=plain"}
+{"case":"ipv4-private-1-t6","generic":"trailing 198.51.100.1\n","windows-log":"trailing 10.0.1.50\n"}
+{"case":"ipv4-private-2-t1","generic":"198.51.100.1","windows-log":"192.168.1.10"}
+{"case":"ipv4-private-2-t2","generic":"value: 198.51.100.1","windows-log":"value: 192.168.1.10"}
+{"case":"ipv4-private-2-t3","generic":"\"198.51.100.1\"","windows-log":"\"192.168.1.10\""}
+{"case":"ipv4-private-2-t4","generic":"[info] connect from 198.51.100.1 ok","windows-log":"[info] connect from 192.168.1.10 ok"}
+{"case":"ipv4-private-2-t5","generic":"field=198.51.100.1;next=plain","windows-log":"field=192.168.1.10;next=plain"}
+{"case":"ipv4-private-2-t6","generic":"trailing 198.51.100.1\n","windows-log":"trailing 192.168.1.10\n"}
+{"case":"ipv4-private-3-t1","generic":"198.51.100.1","windows-log":"172.16.5.4"}
+{"case":"ipv4-private-3-t2","generic":"value: 198.51.100.1","windows-log":"value: 172.16.5.4"}
+{"case":"ipv4-private-3-t3","generic":"\"198.51.100.1\"","windows-log":"\"172.16.5.4\""}
+{"case":"ipv4-private-3-t4","generic":"[info] connect from 198.51.100.1 ok","windows-log":"[info] connect from 172.16.5.4 ok"}
+{"case":"ipv4-private-3-t5","generic":"field=198.51.100.1;next=plain","windows-log":"field=172.16.5.4;next=plain"}
+{"case":"ipv4-private-3-t6","generic":"trailing 198.51.100.1\n","windows-log":"trailing 172.16.5.4\n"}
+{"case":"ipv4-private-4-t1","generic":"198.51.100.1","windows-log":"127.0.0.1"}
+{"case":"ipv4-private-4-t2","generic":"value: 198.51.100.1","windows-log":"value: 127.0.0.1"}
+{"case":"ipv4-private-4-t3","generic":"\"198.51.100.1\"","windows-log":"\"127.0.0.1\""}
+{"case":"ipv4-private-4-t4","generic":"[info] connect from 198.51.100.1 ok","windows-log":"[info] connect from 127.0.0.1 ok"}
+{"case":"ipv4-private-4-t5","generic":"field=198.51.100.1;next=plain","windows-log":"field=127.0.0.1;next=plain"}
+{"case":"ipv4-private-4-t6","generic":"trailing 198.51.100.1\n","windows-log":"trailing 127.0.0.1\n"}
+{"case":"ipv4-cidr-1-t1","generic":"198.51.100.1/8","windows-log":"10.0.0.0/8"}
+{"case":"ipv4-cidr-1-t2","generic":"value: 198.51.100.1/8","windows-log":"value: 10.0.0.0/8"}
+{"case":"ipv4-cidr-1-t3","generic":"\"198.51.100.1/8\"","windows-log":"\"10.0.0.0/8\""}
+{"case":"ipv4-cidr-1-t4","generic":"[info] connect from 198.51.100.1/8 ok","windows-log":"[info] connect from 10.0.0.0/8 ok"}
+{"case":"ipv4-cidr-1-t5","generic":"field=198.51.100.1/8;next=plain","windows-log":"field=10.0.0.0/8;next=plain"}
+{"case":"ipv4-cidr-1-t6","generic":"trailing 198.51.100.1/8\n","windows-log":"trailing 10.0.0.0/8\n"}
+{"case":"ipv4-cidr-2-t1","generic":"198.51.100.1/24","windows-log":"192.168.1.0/24"}
+{"case":"ipv4-cidr-2-t2","generic":"value: 198.51.100.1/24","windows-log":"value: 192.168.1.0/24"}
+{"case":"ipv4-cidr-2-t3","generic":"\"198.51.100.1/24\"","windows-log":"\"192.168.1.0/24\""}
+{"case":"ipv4-cidr-2-t4","generic":"[info] connect from 198.51.100.1/24 ok","windows-log":"[info] connect from 192.168.1.0/24 ok"}
+{"case":"ipv4-cidr-2-t5","generic":"field=198.51.100.1/24;next=plain","windows-log":"field=192.168.1.0/24;next=plain"}
+{"case":"ipv4-cidr-2-t6","generic":"trailing 198.51.100.1/24\n","windows-log":"trailing 192.168.1.0/24\n"}
+{"case":"ipv4-cidr-3-t1","generic":"192.0.2.1/15","windows-log":"198.18.0.0/15"}
+{"case":"ipv4-cidr-3-t2","generic":"value: 192.0.2.1/15","windows-log":"value: 198.18.0.0/15"}
+{"case":"ipv4-cidr-3-t3","generic":"\"192.0.2.1/15\"","windows-log":"\"198.18.0.0/15\""}
+{"case":"ipv4-cidr-3-t4","generic":"[info] connect from 192.0.2.1/15 ok","windows-log":"[info] connect from 198.18.0.0/15 ok"}
+{"case":"ipv4-cidr-3-t5","generic":"field=192.0.2.1/15;next=plain","windows-log":"field=198.18.0.0/15;next=plain"}
+{"case":"ipv4-cidr-3-t6","generic":"trailing 192.0.2.1/15\n","windows-log":"trailing 198.18.0.0/15\n"}
+{"case":"ipv4-cidr-4-t1","generic":"198.51.100.1/12","windows-log":"172.16.0.0/12"}
+{"case":"ipv4-cidr-4-t2","generic":"value: 198.51.100.1/12","windows-log":"value: 172.16.0.0/12"}
+{"case":"ipv4-cidr-4-t3","generic":"\"198.51.100.1/12\"","windows-log":"\"172.16.0.0/12\""}
+{"case":"ipv4-cidr-4-t4","generic":"[info] connect from 198.51.100.1/12 ok","windows-log":"[info] connect from 172.16.0.0/12 ok"}
+{"case":"ipv4-cidr-4-t5","generic":"field=198.51.100.1/12;next=plain","windows-log":"field=172.16.0.0/12;next=plain"}
+{"case":"ipv4-cidr-4-t6","generic":"trailing 198.51.100.1/12\n","windows-log":"trailing 172.16.0.0/12\n"}
+{"case":"ipv4-range-1-t1","generic":"198.51.100.1-198.51.100.2","windows-log":"10.0.1.50-10.0.1.60"}
+{"case":"ipv4-range-1-t2","generic":"value: 198.51.100.1-198.51.100.2","windows-log":"value: 10.0.1.50-10.0.1.60"}
+{"case":"ipv4-range-1-t3","generic":"\"198.51.100.1-198.51.100.2\"","windows-log":"\"10.0.1.50-10.0.1.60\""}
+{"case":"ipv4-range-1-t4","generic":"[info] connect from 198.51.100.1-198.51.100.2 ok","windows-log":"[info] connect from 10.0.1.50-10.0.1.60 ok"}
+{"case":"ipv4-range-1-t5","generic":"field=198.51.100.1-198.51.100.2;next=plain","windows-log":"field=10.0.1.50-10.0.1.60;next=plain"}
+{"case":"ipv4-range-1-t6","generic":"trailing 198.51.100.1-198.51.100.2\n","windows-log":"trailing 10.0.1.50-10.0.1.60\n"}
+{"case":"ipv4-range-2-t1","generic":"192.0.2.1-192.0.2.2","windows-log":"198.18.0.15-198.18.0.31"}
+{"case":"ipv4-range-2-t2","generic":"value: 192.0.2.1-192.0.2.2","windows-log":"value: 198.18.0.15-198.18.0.31"}
+{"case":"ipv4-range-2-t3","generic":"\"192.0.2.1-192.0.2.2\"","windows-log":"\"198.18.0.15-198.18.0.31\""}
+{"case":"ipv4-range-2-t4","generic":"[info] connect from 192.0.2.1-192.0.2.2 ok","windows-log":"[info] connect from 198.18.0.15-198.18.0.31 ok"}
+{"case":"ipv4-range-2-t5","generic":"field=192.0.2.1-192.0.2.2;next=plain","windows-log":"field=198.18.0.15-198.18.0.31;next=plain"}
+{"case":"ipv4-range-2-t6","generic":"trailing 192.0.2.1-192.0.2.2\n","windows-log":"trailing 198.18.0.15-198.18.0.31\n"}
+{"case":"ipv6-1-t1","generic":"2001:db8:0:0:0:0:0:1","windows-log":"fd12:3456:789a:0001:0000:0000:0000:0001"}
+{"case":"ipv6-1-t2","generic":"value: 2001:db8:0:0:0:0:0:1","windows-log":"value: fd12:3456:789a:0001:0000:0000:0000:0001"}
+{"case":"ipv6-1-t3","generic":"\"2001:db8:0:0:0:0:0:1\"","windows-log":"\"fd12:3456:789a:0001:0000:0000:0000:0001\""}
+{"case":"ipv6-1-t4","generic":"[info] connect from 2001:db8:0:0:0:0:0:1 ok","windows-log":"[info] connect from fd12:3456:789a:0001:0000:0000:0000:0001 ok"}
+{"case":"ipv6-1-t5","generic":"field=2001:db8:0:0:0:0:0:1;next=plain","windows-log":"field=fd12:3456:789a:0001:0000:0000:0000:0001;next=plain"}
+{"case":"ipv6-1-t6","generic":"trailing 2001:db8:0:0:0:0:0:1\n","windows-log":"trailing fd12:3456:789a:0001:0000:0000:0000:0001\n"}
+{"case":"ipv6-2-t1","generic":"2001:db8::1","windows-log":"fd12:3456::1"}
+{"case":"ipv6-2-t2","generic":"value: 2001:db8::1","windows-log":"value: fd12:3456::1"}
+{"case":"ipv6-2-t3","generic":"\"2001:db8::1\"","windows-log":"\"fd12:3456::1\""}
+{"case":"ipv6-2-t4","generic":"[info] connect from 2001:db8::1 ok","windows-log":"[info] connect from fd12:3456::1 ok"}
+{"case":"ipv6-2-t5","generic":"field=2001:db8::1;next=plain","windows-log":"field=fd12:3456::1;next=plain"}
+{"case":"ipv6-2-t6","generic":"trailing 2001:db8::1\n","windows-log":"trailing fd12:3456::1\n"}
+{"case":"ipv6-3-t1","generic":"2001:db8::1","windows-log":"fd12:3456:789a:1::abcd"}
+{"case":"ipv6-3-t2","generic":"value: 2001:db8::1","windows-log":"value: fd12:3456:789a:1::abcd"}
+{"case":"ipv6-3-t3","generic":"\"2001:db8::1\"","windows-log":"\"fd12:3456:789a:1::abcd\""}
+{"case":"ipv6-3-t4","generic":"[info] connect from 2001:db8::1 ok","windows-log":"[info] connect from fd12:3456:789a:1::abcd ok"}
+{"case":"ipv6-3-t5","generic":"field=2001:db8::1;next=plain","windows-log":"field=fd12:3456:789a:1::abcd;next=plain"}
+{"case":"ipv6-3-t6","generic":"trailing 2001:db8::1\n","windows-log":"trailing fd12:3456:789a:1::abcd\n"}
+{"case":"ipv6-4-t1","generic":"2001:db8::1","windows-log":"fd00::dead:beef"}
+{"case":"ipv6-4-t2","generic":"value: 2001:db8::1","windows-log":"value: fd00::dead:beef"}
+{"case":"ipv6-4-t3","generic":"\"2001:db8::1\"","windows-log":"\"fd00::dead:beef\""}
+{"case":"ipv6-4-t4","generic":"[info] connect from 2001:db8::1 ok","windows-log":"[info] connect from fd00::dead:beef ok"}
+{"case":"ipv6-4-t5","generic":"field=2001:db8::1;next=plain","windows-log":"field=fd00::dead:beef;next=plain"}
+{"case":"ipv6-4-t6","generic":"trailing 2001:db8::1\n","windows-log":"trailing fd00::dead:beef\n"}
+{"case":"ipv6-5-t1","generic":"2001:db8::1%eth0","windows-log":"fe80::1%eth0"}
+{"case":"ipv6-5-t2","generic":"value: 2001:db8::1%eth0","windows-log":"value: fe80::1%eth0"}
+{"case":"ipv6-5-t3","generic":"\"2001:db8::1%eth0\"","windows-log":"\"fe80::1%eth0\""}
+{"case":"ipv6-5-t4","generic":"[info] connect from 2001:db8::1%eth0 ok","windows-log":"[info] connect from fe80::1%eth0 ok"}
+{"case":"ipv6-5-t5","generic":"field=2001:db8::1%eth0;next=plain","windows-log":"field=fe80::1%eth0;next=plain"}
+{"case":"ipv6-5-t6","generic":"trailing 2001:db8::1%eth0\n","windows-log":"trailing fe80::1%eth0\n"}
+{"case":"ipv6-6-t1","generic":"::ffff:192.0.2.1","windows-log":"::ffff:10.0.1.50"}
+{"case":"ipv6-6-t2","generic":"value: ::ffff:192.0.2.1","windows-log":"value: ::ffff:10.0.1.50"}
+{"case":"ipv6-6-t3","generic":"\"::ffff:192.0.2.1\"","windows-log":"\"::ffff:10.0.1.50\""}
+{"case":"ipv6-6-t4","generic":"[info] connect from ::ffff:192.0.2.1 ok","windows-log":"[info] connect from ::ffff:10.0.1.50 ok"}
+{"case":"ipv6-6-t5","generic":"field=::ffff:192.0.2.1;next=plain","windows-log":"field=::ffff:10.0.1.50;next=plain"}
+{"case":"ipv6-6-t6","generic":"trailing ::ffff:192.0.2.1\n","windows-log":"trailing ::ffff:10.0.1.50\n"}
+{"case":"ipv6-7-t1","generic":"fd12:3456:789a:1:0:0:198.51.100.1","windows-log":"fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"ipv6-7-t2","generic":"value: fd12:3456:789a:1:0:0:198.51.100.1","windows-log":"value: fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"ipv6-7-t3","generic":"\"fd12:3456:789a:1:0:0:198.51.100.1\"","windows-log":"\"fd12:3456:789a:1:0:0:10.0.1.50\""}
+{"case":"ipv6-7-t4","generic":"[info] connect from fd12:3456:789a:1:0:0:198.51.100.1 ok","windows-log":"[info] connect from fd12:3456:789a:1:0:0:10.0.1.50 ok"}
+{"case":"ipv6-7-t5","generic":"field=fd12:3456:789a:1:0:0:198.51.100.1;next=plain","windows-log":"field=fd12:3456:789a:1:0:0:10.0.1.50;next=plain"}
+{"case":"ipv6-7-t6","generic":"trailing fd12:3456:789a:1:0:0:198.51.100.1\n","windows-log":"trailing fd12:3456:789a:1:0:0:10.0.1.50\n"}
+{"case":"email-1-t1","generic":"redacted1@example.invalid","windows-log":"redacted1@example.invalid"}
+{"case":"email-1-t2","generic":"value: redacted1@example.invalid","windows-log":"value: redacted1@example.invalid"}
+{"case":"email-1-t3","generic":"\"redacted1@example.invalid\"","windows-log":"\"redacted1@example.invalid\""}
+{"case":"email-1-t4","generic":"[info] connect from redacted1@example.invalid ok","windows-log":"[info] connect from redacted1@example.invalid ok"}
+{"case":"email-1-t5","generic":"field=redacted1@example.invalid;next=plain","windows-log":"field=redacted1@example.invalid;next=plain"}
+{"case":"email-1-t6","generic":"trailing redacted1@example.invalid\n","windows-log":"trailing redacted1@example.invalid\n"}
+{"case":"email-2-t1","generic":"redacted1@example.invalid","windows-log":"redacted1@example.invalid"}
+{"case":"email-2-t2","generic":"value: redacted1@example.invalid","windows-log":"value: redacted1@example.invalid"}
+{"case":"email-2-t3","generic":"\"redacted1@example.invalid\"","windows-log":"\"redacted1@example.invalid\""}
+{"case":"email-2-t4","generic":"[info] connect from redacted1@example.invalid ok","windows-log":"[info] connect from redacted1@example.invalid ok"}
+{"case":"email-2-t5","generic":"field=redacted1@example.invalid;next=plain","windows-log":"field=redacted1@example.invalid;next=plain"}
+{"case":"email-2-t6","generic":"trailing redacted1@example.invalid\n","windows-log":"trailing redacted1@example.invalid\n"}
+{"case":"email-3-t1","generic":"redacted1@example.invalid","windows-log":"redacted1@example.invalid"}
+{"case":"email-3-t2","generic":"value: redacted1@example.invalid","windows-log":"value: redacted1@example.invalid"}
+{"case":"email-3-t3","generic":"\"redacted1@example.invalid\"","windows-log":"\"redacted1@example.invalid\""}
+{"case":"email-3-t4","generic":"[info] connect from redacted1@example.invalid ok","windows-log":"[info] connect from redacted1@example.invalid ok"}
+{"case":"email-3-t5","generic":"field=redacted1@example.invalid;next=plain","windows-log":"field=redacted1@example.invalid;next=plain"}
+{"case":"email-3-t6","generic":"trailing redacted1@example.invalid\n","windows-log":"trailing redacted1@example.invalid\n"}
+{"case":"mac-1-t1","generic":"00:00:5E:00:53:00","windows-log":"00:00:5E:00:53:00"}
+{"case":"mac-1-t2","generic":"value: 00:00:5E:00:53:00","windows-log":"value: 00:00:5E:00:53:00"}
+{"case":"mac-1-t3","generic":"\"00:00:5E:00:53:00\"","windows-log":"\"00:00:5E:00:53:00\""}
+{"case":"mac-1-t4","generic":"[info] connect from 00:00:5E:00:53:00 ok","windows-log":"[info] connect from 00:00:5E:00:53:00 ok"}
+{"case":"mac-1-t5","generic":"field=00:00:5E:00:53:00;next=plain","windows-log":"field=00:00:5E:00:53:00;next=plain"}
+{"case":"mac-1-t6","generic":"trailing 00:00:5E:00:53:00\n","windows-log":"trailing 00:00:5E:00:53:00\n"}
+{"case":"mac-2-t1","generic":"00:00:5E:00:53:00","windows-log":"00:00:5E:00:53:00"}
+{"case":"mac-2-t2","generic":"value: 00:00:5E:00:53:00","windows-log":"value: 00:00:5E:00:53:00"}
+{"case":"mac-2-t3","generic":"\"00:00:5E:00:53:00\"","windows-log":"\"00:00:5E:00:53:00\""}
+{"case":"mac-2-t4","generic":"[info] connect from 00:00:5E:00:53:00 ok","windows-log":"[info] connect from 00:00:5E:00:53:00 ok"}
+{"case":"mac-2-t5","generic":"field=00:00:5E:00:53:00;next=plain","windows-log":"field=00:00:5E:00:53:00;next=plain"}
+{"case":"mac-2-t6","generic":"trailing 00:00:5E:00:53:00\n","windows-log":"trailing 00:00:5E:00:53:00\n"}
+{"case":"mac-3-t1","generic":"00:00:5E:00:53:00","windows-log":"00:00:5E:00:53:00"}
+{"case":"mac-3-t2","generic":"value: 00:00:5E:00:53:00","windows-log":"value: 00:00:5E:00:53:00"}
+{"case":"mac-3-t3","generic":"\"00:00:5E:00:53:00\"","windows-log":"\"00:00:5E:00:53:00\""}
+{"case":"mac-3-t4","generic":"[info] connect from 00:00:5E:00:53:00 ok","windows-log":"[info] connect from 00:00:5E:00:53:00 ok"}
+{"case":"mac-3-t5","generic":"field=00:00:5E:00:53:00;next=plain","windows-log":"field=00:00:5E:00:53:00;next=plain"}
+{"case":"mac-3-t6","generic":"trailing 00:00:5E:00:53:00\n","windows-log":"trailing 00:00:5E:00:53:00\n"}
+{"case":"card-luhn-valid-1-t1","generic":"4000100000000001","windows-log":"4111111111111111"}
+{"case":"card-luhn-valid-1-t2","generic":"value: 4000100000000001","windows-log":"value: 4111111111111111"}
+{"case":"card-luhn-valid-1-t3","generic":"\"4000100000000001\"","windows-log":"\"4111111111111111\""}
+{"case":"card-luhn-valid-1-t4","generic":"[info] connect from 4000100000000001 ok","windows-log":"[info] connect from 4111111111111111 ok"}
+{"case":"card-luhn-valid-1-t5","generic":"field=4000100000000001;next=plain","windows-log":"field=4111111111111111;next=plain"}
+{"case":"card-luhn-valid-1-t6","generic":"trailing 4000100000000001\n","windows-log":"trailing 4111111111111111\n"}
+{"case":"card-luhn-valid-2-t1","generic":"4000 1000 0000 0001","windows-log":"4111 1111 1111 1111"}
+{"case":"card-luhn-valid-2-t2","generic":"value: 4000 1000 0000 0001","windows-log":"value: 4111 1111 1111 1111"}
+{"case":"card-luhn-valid-2-t3","generic":"\"4000 1000 0000 0001\"","windows-log":"\"4111 1111 1111 1111\""}
+{"case":"card-luhn-valid-2-t4","generic":"[info] connect from 4000 1000 0000 0001 ok","windows-log":"[info] connect from 4111 1111 1111 1111 ok"}
+{"case":"card-luhn-valid-2-t5","generic":"field=4000 1000 0000 0001;next=plain","windows-log":"field=4111 1111 1111 1111;next=plain"}
+{"case":"card-luhn-valid-2-t6","generic":"trailing 4000 1000 0000 0001\n","windows-log":"trailing 4111 1111 1111 1111\n"}
+{"case":"card-luhn-valid-3-t1","generic":"4000-1000-0000-0001","windows-log":"4111-1111-1111-1111"}
+{"case":"card-luhn-valid-3-t2","generic":"value: 4000-1000-0000-0001","windows-log":"value: 4111-1111-1111-1111"}
+{"case":"card-luhn-valid-3-t3","generic":"\"4000-1000-0000-0001\"","windows-log":"\"4111-1111-1111-1111\""}
+{"case":"card-luhn-valid-3-t4","generic":"[info] connect from 4000-1000-0000-0001 ok","windows-log":"[info] connect from 4111-1111-1111-1111 ok"}
+{"case":"card-luhn-valid-3-t5","generic":"field=4000-1000-0000-0001;next=plain","windows-log":"field=4111-1111-1111-1111;next=plain"}
+{"case":"card-luhn-valid-3-t6","generic":"trailing 4000-1000-0000-0001\n","windows-log":"trailing 4111-1111-1111-1111\n"}
+{"case":"card-luhn-valid-4-t1","generic":"4000100000000001","windows-log":"5555555555554444"}
+{"case":"card-luhn-valid-4-t2","generic":"value: 4000100000000001","windows-log":"value: 5555555555554444"}
+{"case":"card-luhn-valid-4-t3","generic":"\"4000100000000001\"","windows-log":"\"5555555555554444\""}
+{"case":"card-luhn-valid-4-t4","generic":"[info] connect from 4000100000000001 ok","windows-log":"[info] connect from 5555555555554444 ok"}
+{"case":"card-luhn-valid-4-t5","generic":"field=4000100000000001;next=plain","windows-log":"field=5555555555554444;next=plain"}
+{"case":"card-luhn-valid-4-t6","generic":"trailing 4000100000000001\n","windows-log":"trailing 5555555555554444\n"}
+{"case":"card-luhn-valid-5-t1","generic":"400010000000000","windows-log":"378282246310005"}
+{"case":"card-luhn-valid-5-t2","generic":"value: 400010000000000","windows-log":"value: 378282246310005"}
+{"case":"card-luhn-valid-5-t3","generic":"\"400010000000000\"","windows-log":"\"378282246310005\""}
+{"case":"card-luhn-valid-5-t4","generic":"[info] connect from 400010000000000 ok","windows-log":"[info] connect from 378282246310005 ok"}
+{"case":"card-luhn-valid-5-t5","generic":"field=400010000000000;next=plain","windows-log":"field=378282246310005;next=plain"}
+{"case":"card-luhn-valid-5-t6","generic":"trailing 400010000000000\n","windows-log":"trailing 378282246310005\n"}
+{"case":"card-luhn-valid-6-t1","generic":"4000100000000001","windows-log":"6011111111111117"}
+{"case":"card-luhn-valid-6-t2","generic":"value: 4000100000000001","windows-log":"value: 6011111111111117"}
+{"case":"card-luhn-valid-6-t3","generic":"\"4000100000000001\"","windows-log":"\"6011111111111117\""}
+{"case":"card-luhn-valid-6-t4","generic":"[info] connect from 4000100000000001 ok","windows-log":"[info] connect from 6011111111111117 ok"}
+{"case":"card-luhn-valid-6-t5","generic":"field=4000100000000001;next=plain","windows-log":"field=6011111111111117;next=plain"}
+{"case":"card-luhn-valid-6-t6","generic":"trailing 4000100000000001\n","windows-log":"trailing 6011111111111117\n"}
+{"case":"card-luhn-invalid-1-t1","generic":"4111111111111112","windows-log":"4111111111111112"}
+{"case":"card-luhn-invalid-1-t2","generic":"value: 4111111111111112","windows-log":"value: 4111111111111112"}
+{"case":"card-luhn-invalid-1-t3","generic":"\"4111111111111112\"","windows-log":"\"4111111111111112\""}
+{"case":"card-luhn-invalid-1-t4","generic":"[info] connect from 4111111111111112 ok","windows-log":"[info] connect from 4111111111111112 ok"}
+{"case":"card-luhn-invalid-1-t5","generic":"field=4111111111111112;next=plain","windows-log":"field=4111111111111112;next=plain"}
+{"case":"card-luhn-invalid-1-t6","generic":"trailing 4111111111111112\n","windows-log":"trailing 4111111111111112\n"}
+{"case":"card-luhn-invalid-2-t1","generic":"1234567890123456","windows-log":"1234567890123456"}
+{"case":"card-luhn-invalid-2-t2","generic":"value: 1234567890123456","windows-log":"value: 1234567890123456"}
+{"case":"card-luhn-invalid-2-t3","generic":"\"1234567890123456\"","windows-log":"\"1234567890123456\""}
+{"case":"card-luhn-invalid-2-t4","generic":"[info] connect from 1234567890123456 ok","windows-log":"[info] connect from 1234567890123456 ok"}
+{"case":"card-luhn-invalid-2-t5","generic":"field=1234567890123456;next=plain","windows-log":"field=1234567890123456;next=plain"}
+{"case":"card-luhn-invalid-2-t6","generic":"trailing 1234567890123456\n","windows-log":"trailing 1234567890123456\n"}
+{"case":"card-luhn-invalid-3-t1","generic":"9999888877776666","windows-log":"9999888877776666"}
+{"case":"card-luhn-invalid-3-t2","generic":"value: 9999888877776666","windows-log":"value: 9999888877776666"}
+{"case":"card-luhn-invalid-3-t3","generic":"\"9999888877776666\"","windows-log":"\"9999888877776666\""}
+{"case":"card-luhn-invalid-3-t4","generic":"[info] connect from 9999888877776666 ok","windows-log":"[info] connect from 9999888877776666 ok"}
+{"case":"card-luhn-invalid-3-t5","generic":"field=9999888877776666;next=plain","windows-log":"field=9999888877776666;next=plain"}
+{"case":"card-luhn-invalid-3-t6","generic":"trailing 9999888877776666\n","windows-log":"trailing 9999888877776666\n"}
+{"case":"card-luhn-invalid-4-t1","generic":"1234 5678 9012 3456","windows-log":"1234 5678 9012 3456"}
+{"case":"card-luhn-invalid-4-t2","generic":"value: 1234 5678 9012 3456","windows-log":"value: 1234 5678 9012 3456"}
+{"case":"card-luhn-invalid-4-t3","generic":"\"1234 5678 9012 3456\"","windows-log":"\"1234 5678 9012 3456\""}
+{"case":"card-luhn-invalid-4-t4","generic":"[info] connect from 1234 5678 9012 3456 ok","windows-log":"[info] connect from 1234 5678 9012 3456 ok"}
+{"case":"card-luhn-invalid-4-t5","generic":"field=1234 5678 9012 3456;next=plain","windows-log":"field=1234 5678 9012 3456;next=plain"}
+{"case":"card-luhn-invalid-4-t6","generic":"trailing 1234 5678 9012 3456\n","windows-log":"trailing 1234 5678 9012 3456\n"}
+{"case":"ssn-1-t1","generic":"000-02-0002","windows-log":"123-45-6789"}
+{"case":"ssn-1-t2","generic":"value: 000-02-0002","windows-log":"value: 123-45-6789"}
+{"case":"ssn-1-t3","generic":"\"000-02-0002\"","windows-log":"\"123-45-6789\""}
+{"case":"ssn-1-t4","generic":"[info] connect from 000-02-0002 ok","windows-log":"[info] connect from 123-45-6789 ok"}
+{"case":"ssn-1-t5","generic":"field=000-02-0002;next=plain","windows-log":"field=123-45-6789;next=plain"}
+{"case":"ssn-1-t6","generic":"trailing 000-02-0002\n","windows-log":"trailing 123-45-6789\n"}
+{"case":"ssn-2-t1","generic":"000-02-0002","windows-log":"078-05-1120"}
+{"case":"ssn-2-t2","generic":"value: 000-02-0002","windows-log":"value: 078-05-1120"}
+{"case":"ssn-2-t3","generic":"\"000-02-0002\"","windows-log":"\"078-05-1120\""}
+{"case":"ssn-2-t4","generic":"[info] connect from 000-02-0002 ok","windows-log":"[info] connect from 078-05-1120 ok"}
+{"case":"ssn-2-t5","generic":"field=000-02-0002;next=plain","windows-log":"field=078-05-1120;next=plain"}
+{"case":"ssn-2-t6","generic":"trailing 000-02-0002\n","windows-log":"trailing 078-05-1120\n"}
+{"case":"ssn-3-t1","generic":"000-02-0002","windows-log":"219-09-9999"}
+{"case":"ssn-3-t2","generic":"value: 000-02-0002","windows-log":"value: 219-09-9999"}
+{"case":"ssn-3-t3","generic":"\"000-02-0002\"","windows-log":"\"219-09-9999\""}
+{"case":"ssn-3-t4","generic":"[info] connect from 000-02-0002 ok","windows-log":"[info] connect from 219-09-9999 ok"}
+{"case":"ssn-3-t5","generic":"field=000-02-0002;next=plain","windows-log":"field=219-09-9999;next=plain"}
+{"case":"ssn-3-t6","generic":"trailing 000-02-0002\n","windows-log":"trailing 219-09-9999\n"}
+{"case":"ssn-never-assigned-1-t1","generic":"000-12-3456","windows-log":"000-12-3456"}
+{"case":"ssn-never-assigned-1-t2","generic":"value: 000-12-3456","windows-log":"value: 000-12-3456"}
+{"case":"ssn-never-assigned-1-t3","generic":"\"000-12-3456\"","windows-log":"\"000-12-3456\""}
+{"case":"ssn-never-assigned-1-t4","generic":"[info] connect from 000-12-3456 ok","windows-log":"[info] connect from 000-12-3456 ok"}
+{"case":"ssn-never-assigned-1-t5","generic":"field=000-12-3456;next=plain","windows-log":"field=000-12-3456;next=plain"}
+{"case":"ssn-never-assigned-1-t6","generic":"trailing 000-12-3456\n","windows-log":"trailing 000-12-3456\n"}
+{"case":"ssn-never-assigned-2-t1","generic":"666-12-3456","windows-log":"666-12-3456"}
+{"case":"ssn-never-assigned-2-t2","generic":"value: 666-12-3456","windows-log":"value: 666-12-3456"}
+{"case":"ssn-never-assigned-2-t3","generic":"\"666-12-3456\"","windows-log":"\"666-12-3456\""}
+{"case":"ssn-never-assigned-2-t4","generic":"[info] connect from 666-12-3456 ok","windows-log":"[info] connect from 666-12-3456 ok"}
+{"case":"ssn-never-assigned-2-t5","generic":"field=666-12-3456;next=plain","windows-log":"field=666-12-3456;next=plain"}
+{"case":"ssn-never-assigned-2-t6","generic":"trailing 666-12-3456\n","windows-log":"trailing 666-12-3456\n"}
+{"case":"ssn-never-assigned-3-t1","generic":"900-12-3456","windows-log":"900-12-3456"}
+{"case":"ssn-never-assigned-3-t2","generic":"value: 900-12-3456","windows-log":"value: 900-12-3456"}
+{"case":"ssn-never-assigned-3-t3","generic":"\"900-12-3456\"","windows-log":"\"900-12-3456\""}
+{"case":"ssn-never-assigned-3-t4","generic":"[info] connect from 900-12-3456 ok","windows-log":"[info] connect from 900-12-3456 ok"}
+{"case":"ssn-never-assigned-3-t5","generic":"field=900-12-3456;next=plain","windows-log":"field=900-12-3456;next=plain"}
+{"case":"ssn-never-assigned-3-t6","generic":"trailing 900-12-3456\n","windows-log":"trailing 900-12-3456\n"}
+{"case":"ssn-never-assigned-4-t1","generic":"123-00-6789","windows-log":"123-00-6789"}
+{"case":"ssn-never-assigned-4-t2","generic":"value: 123-00-6789","windows-log":"value: 123-00-6789"}
+{"case":"ssn-never-assigned-4-t3","generic":"\"123-00-6789\"","windows-log":"\"123-00-6789\""}
+{"case":"ssn-never-assigned-4-t4","generic":"[info] connect from 123-00-6789 ok","windows-log":"[info] connect from 123-00-6789 ok"}
+{"case":"ssn-never-assigned-4-t5","generic":"field=123-00-6789;next=plain","windows-log":"field=123-00-6789;next=plain"}
+{"case":"ssn-never-assigned-4-t6","generic":"trailing 123-00-6789\n","windows-log":"trailing 123-00-6789\n"}
+{"case":"ssn-never-assigned-5-t1","generic":"123-45-0000","windows-log":"123-45-0000"}
+{"case":"ssn-never-assigned-5-t2","generic":"value: 123-45-0000","windows-log":"value: 123-45-0000"}
+{"case":"ssn-never-assigned-5-t3","generic":"\"123-45-0000\"","windows-log":"\"123-45-0000\""}
+{"case":"ssn-never-assigned-5-t4","generic":"[info] connect from 123-45-0000 ok","windows-log":"[info] connect from 123-45-0000 ok"}
+{"case":"ssn-never-assigned-5-t5","generic":"field=123-45-0000;next=plain","windows-log":"field=123-45-0000;next=plain"}
+{"case":"ssn-never-assigned-5-t6","generic":"trailing 123-45-0000\n","windows-log":"trailing 123-45-0000\n"}
+{"case":"phone-e164-1-t1","generic":"+99900000001","windows-log":"+12025550147"}
+{"case":"phone-e164-1-t2","generic":"value: +99900000001","windows-log":"value: +12025550147"}
+{"case":"phone-e164-1-t3","generic":"\"+99900000001\"","windows-log":"\"+12025550147\""}
+{"case":"phone-e164-1-t4","generic":"[info] connect from +99900000001 ok","windows-log":"[info] connect from +12025550147 ok"}
+{"case":"phone-e164-1-t5","generic":"field=+99900000001;next=plain","windows-log":"field=+12025550147;next=plain"}
+{"case":"phone-e164-1-t6","generic":"trailing +99900000001\n","windows-log":"trailing +12025550147\n"}
+{"case":"phone-e164-2-t1","generic":"+99900000001","windows-log":"+442071838750"}
+{"case":"phone-e164-2-t2","generic":"value: +99900000001","windows-log":"value: +442071838750"}
+{"case":"phone-e164-2-t3","generic":"\"+99900000001\"","windows-log":"\"+442071838750\""}
+{"case":"phone-e164-2-t4","generic":"[info] connect from +99900000001 ok","windows-log":"[info] connect from +442071838750 ok"}
+{"case":"phone-e164-2-t5","generic":"field=+99900000001;next=plain","windows-log":"field=+442071838750;next=plain"}
+{"case":"phone-e164-2-t6","generic":"trailing +99900000001\n","windows-log":"trailing +442071838750\n"}
+{"case":"phone-nanp-1-t1","generic":"(000) 555-0101","windows-log":"(202) 555-0147"}
+{"case":"phone-nanp-1-t2","generic":"value: (000) 555-0101","windows-log":"value: (202) 555-0147"}
+{"case":"phone-nanp-1-t3","generic":"\"(000) 555-0101\"","windows-log":"\"(202) 555-0147\""}
+{"case":"phone-nanp-1-t4","generic":"[info] connect from (000) 555-0101 ok","windows-log":"[info] connect from (202) 555-0147 ok"}
+{"case":"phone-nanp-1-t5","generic":"field=(000) 555-0101;next=plain","windows-log":"field=(202) 555-0147;next=plain"}
+{"case":"phone-nanp-1-t6","generic":"trailing (000) 555-0101\n","windows-log":"trailing (202) 555-0147\n"}
+{"case":"phone-nanp-2-t1","generic":"000-555-0101","windows-log":"202-555-0147"}
+{"case":"phone-nanp-2-t2","generic":"value: 000-555-0101","windows-log":"value: 202-555-0147"}
+{"case":"phone-nanp-2-t3","generic":"\"000-555-0101\"","windows-log":"\"202-555-0147\""}
+{"case":"phone-nanp-2-t4","generic":"[info] connect from 000-555-0101 ok","windows-log":"[info] connect from 202-555-0147 ok"}
+{"case":"phone-nanp-2-t5","generic":"field=000-555-0101;next=plain","windows-log":"field=202-555-0147;next=plain"}
+{"case":"phone-nanp-2-t6","generic":"trailing 000-555-0101\n","windows-log":"trailing 202-555-0147\n"}
+{"case":"phone-nanp-3-t1","generic":"(000) 555-0101","windows-log":"(415)555-0198"}
+{"case":"phone-nanp-3-t2","generic":"value: (000) 555-0101","windows-log":"value: (415)555-0198"}
+{"case":"phone-nanp-3-t3","generic":"\"(000) 555-0101\"","windows-log":"\"(415)555-0198\""}
+{"case":"phone-nanp-3-t4","generic":"[info] connect from (000) 555-0101 ok","windows-log":"[info] connect from (415)555-0198 ok"}
+{"case":"phone-nanp-3-t5","generic":"field=(000) 555-0101;next=plain","windows-log":"field=(415)555-0198;next=plain"}
+{"case":"phone-nanp-3-t6","generic":"trailing (000) 555-0101\n","windows-log":"trailing (415)555-0198\n"}
+{"case":"phone-reserved-1-t1","generic":"+99900000001","windows-log":"+99900000001"}
+{"case":"phone-reserved-1-t2","generic":"value: +99900000001","windows-log":"value: +99900000001"}
+{"case":"phone-reserved-1-t3","generic":"\"+99900000001\"","windows-log":"\"+99900000001\""}
+{"case":"phone-reserved-1-t4","generic":"[info] connect from +99900000001 ok","windows-log":"[info] connect from +99900000001 ok"}
+{"case":"phone-reserved-1-t5","generic":"field=+99900000001;next=plain","windows-log":"field=+99900000001;next=plain"}
+{"case":"phone-reserved-1-t6","generic":"trailing +99900000001\n","windows-log":"trailing +99900000001\n"}
+{"case":"phone-reserved-2-t1","generic":"000-555-0101","windows-log":"000-555-0101"}
+{"case":"phone-reserved-2-t2","generic":"value: 000-555-0101","windows-log":"value: 000-555-0101"}
+{"case":"phone-reserved-2-t3","generic":"\"000-555-0101\"","windows-log":"\"000-555-0101\""}
+{"case":"phone-reserved-2-t4","generic":"[info] connect from 000-555-0101 ok","windows-log":"[info] connect from 000-555-0101 ok"}
+{"case":"phone-reserved-2-t5","generic":"field=000-555-0101;next=plain","windows-log":"field=000-555-0101;next=plain"}
+{"case":"phone-reserved-2-t6","generic":"trailing 000-555-0101\n","windows-log":"trailing 000-555-0101\n"}
+{"case":"phone-reserved-3-t1","generic":"(000) 555-0102","windows-log":"(000) 555-0102"}
+{"case":"phone-reserved-3-t2","generic":"value: (000) 555-0102","windows-log":"value: (000) 555-0102"}
+{"case":"phone-reserved-3-t3","generic":"\"(000) 555-0102\"","windows-log":"\"(000) 555-0102\""}
+{"case":"phone-reserved-3-t4","generic":"[info] connect from (000) 555-0102 ok","windows-log":"[info] connect from (000) 555-0102 ok"}
+{"case":"phone-reserved-3-t5","generic":"field=(000) 555-0102;next=plain","windows-log":"field=(000) 555-0102;next=plain"}
+{"case":"phone-reserved-3-t6","generic":"trailing (000) 555-0102\n","windows-log":"trailing (000) 555-0102\n"}
+{"case":"username-path-1-t1","generic":"C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log","windows-log":"C:\\Users\\User00001\\AppData\\Local\\Temp\\a.log"}
+{"case":"username-path-1-t2","generic":"value: C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log","windows-log":"value: C:\\Users\\User00001\\AppData\\Local\\Temp\\a.log"}
+{"case":"username-path-1-t3","generic":"\"C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log\"","windows-log":"\"C:\\Users\\User00001\\AppData\\Local\\Temp\\a.log\""}
+{"case":"username-path-1-t4","generic":"[info] connect from C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log ok","windows-log":"[info] connect from C:\\Users\\User00001\\AppData\\Local\\Temp\\a.log ok"}
+{"case":"username-path-1-t5","generic":"field=C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log;next=plain","windows-log":"field=C:\\Users\\User00001\\AppData\\Local\\Temp\\a.log;next=plain"}
+{"case":"username-path-1-t6","generic":"trailing C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log\n","windows-log":"trailing C:\\Users\\User00001\\AppData\\Local\\Temp\\a.log\n"}
+{"case":"username-path-2-t1","generic":"\\Users\\a.bhatt\\Desktop","windows-log":"\\Users\\User00001\\Desktop"}
+{"case":"username-path-2-t2","generic":"value: \\Users\\a.bhatt\\Desktop","windows-log":"value: \\Users\\User00001\\Desktop"}
+{"case":"username-path-2-t3","generic":"\"\\Users\\a.bhatt\\Desktop\"","windows-log":"\"\\Users\\User00001\\Desktop\""}
+{"case":"username-path-2-t4","generic":"[info] connect from \\Users\\a.bhatt\\Desktop ok","windows-log":"[info] connect from \\Users\\User00001\\Desktop ok"}
+{"case":"username-path-2-t5","generic":"field=\\Users\\a.bhatt\\Desktop;next=plain","windows-log":"field=\\Users\\User00001\\Desktop;next=plain"}
+{"case":"username-path-2-t6","generic":"trailing \\Users\\a.bhatt\\Desktop\n","windows-log":"trailing \\Users\\User00001\\Desktop\n"}
+{"case":"username-path-3-t1","generic":"/home/jsmith/app.log","windows-log":"/home/User00001/app.log"}
+{"case":"username-path-3-t2","generic":"value: /home/jsmith/app.log","windows-log":"value: /home/User00001/app.log"}
+{"case":"username-path-3-t3","generic":"\"/home/jsmith/app.log\"","windows-log":"\"/home/User00001/app.log\""}
+{"case":"username-path-3-t4","generic":"[info] connect from /home/jsmith/app.log ok","windows-log":"[info] connect from /home/User00001/app.log ok"}
+{"case":"username-path-3-t5","generic":"field=/home/jsmith/app.log;next=plain","windows-log":"field=/home/User00001/app.log;next=plain"}
+{"case":"username-path-3-t6","generic":"trailing /home/jsmith/app.log\n","windows-log":"trailing /home/User00001/app.log\n"}
+{"case":"username-path-4-t1","generic":"/Users/jsmith/Library/Logs/app.log","windows-log":"/Users/User00001/Library/Logs/app.log"}
+{"case":"username-path-4-t2","generic":"value: /Users/jsmith/Library/Logs/app.log","windows-log":"value: /Users/User00001/Library/Logs/app.log"}
+{"case":"username-path-4-t3","generic":"\"/Users/jsmith/Library/Logs/app.log\"","windows-log":"\"/Users/User00001/Library/Logs/app.log\""}
+{"case":"username-path-4-t4","generic":"[info] connect from /Users/jsmith/Library/Logs/app.log ok","windows-log":"[info] connect from /Users/User00001/Library/Logs/app.log ok"}
+{"case":"username-path-4-t5","generic":"field=/Users/jsmith/Library/Logs/app.log;next=plain","windows-log":"field=/Users/User00001/Library/Logs/app.log;next=plain"}
+{"case":"username-path-4-t6","generic":"trailing /Users/jsmith/Library/Logs/app.log\n","windows-log":"trailing /Users/User00001/Library/Logs/app.log\n"}
+{"case":"username-builtin-1-t1","generic":"C:\\Users\\Default\\NTUSER.DAT","windows-log":"C:\\Users\\Default\\NTUSER.DAT"}
+{"case":"username-builtin-1-t2","generic":"value: C:\\Users\\Default\\NTUSER.DAT","windows-log":"value: C:\\Users\\Default\\NTUSER.DAT"}
+{"case":"username-builtin-1-t3","generic":"\"C:\\Users\\Default\\NTUSER.DAT\"","windows-log":"\"C:\\Users\\Default\\NTUSER.DAT\""}
+{"case":"username-builtin-1-t4","generic":"[info] connect from C:\\Users\\Default\\NTUSER.DAT ok","windows-log":"[info] connect from C:\\Users\\Default\\NTUSER.DAT ok"}
+{"case":"username-builtin-1-t5","generic":"field=C:\\Users\\Default\\NTUSER.DAT;next=plain","windows-log":"field=C:\\Users\\Default\\NTUSER.DAT;next=plain"}
+{"case":"username-builtin-1-t6","generic":"trailing C:\\Users\\Default\\NTUSER.DAT\n","windows-log":"trailing C:\\Users\\Default\\NTUSER.DAT\n"}
+{"case":"username-builtin-2-t1","generic":"C:\\Users\\Public\\Documents\\a.txt","windows-log":"C:\\Users\\Public\\Documents\\a.txt"}
+{"case":"username-builtin-2-t2","generic":"value: C:\\Users\\Public\\Documents\\a.txt","windows-log":"value: C:\\Users\\Public\\Documents\\a.txt"}
+{"case":"username-builtin-2-t3","generic":"\"C:\\Users\\Public\\Documents\\a.txt\"","windows-log":"\"C:\\Users\\Public\\Documents\\a.txt\""}
+{"case":"username-builtin-2-t4","generic":"[info] connect from C:\\Users\\Public\\Documents\\a.txt ok","windows-log":"[info] connect from C:\\Users\\Public\\Documents\\a.txt ok"}
+{"case":"username-builtin-2-t5","generic":"field=C:\\Users\\Public\\Documents\\a.txt;next=plain","windows-log":"field=C:\\Users\\Public\\Documents\\a.txt;next=plain"}
+{"case":"username-builtin-2-t6","generic":"trailing C:\\Users\\Public\\Documents\\a.txt\n","windows-log":"trailing C:\\Users\\Public\\Documents\\a.txt\n"}
+{"case":"username-builtin-3-t1","generic":"C:\\Users\\Administrator\\a.log","windows-log":"C:\\Users\\Administrator\\a.log"}
+{"case":"username-builtin-3-t2","generic":"value: C:\\Users\\Administrator\\a.log","windows-log":"value: C:\\Users\\Administrator\\a.log"}
+{"case":"username-builtin-3-t3","generic":"\"C:\\Users\\Administrator\\a.log\"","windows-log":"\"C:\\Users\\Administrator\\a.log\""}
+{"case":"username-builtin-3-t4","generic":"[info] connect from C:\\Users\\Administrator\\a.log ok","windows-log":"[info] connect from C:\\Users\\Administrator\\a.log ok"}
+{"case":"username-builtin-3-t5","generic":"field=C:\\Users\\Administrator\\a.log;next=plain","windows-log":"field=C:\\Users\\Administrator\\a.log;next=plain"}
+{"case":"username-builtin-3-t6","generic":"trailing C:\\Users\\Administrator\\a.log\n","windows-log":"trailing C:\\Users\\Administrator\\a.log\n"}
+{"case":"username-builtin-4-t1","generic":"C:\\Users\\User00001\\AppData\\a.log","windows-log":"C:\\Users\\User00001\\AppData\\a.log"}
+{"case":"username-builtin-4-t2","generic":"value: C:\\Users\\User00001\\AppData\\a.log","windows-log":"value: C:\\Users\\User00001\\AppData\\a.log"}
+{"case":"username-builtin-4-t3","generic":"\"C:\\Users\\User00001\\AppData\\a.log\"","windows-log":"\"C:\\Users\\User00001\\AppData\\a.log\""}
+{"case":"username-builtin-4-t4","generic":"[info] connect from C:\\Users\\User00001\\AppData\\a.log ok","windows-log":"[info] connect from C:\\Users\\User00001\\AppData\\a.log ok"}
+{"case":"username-builtin-4-t5","generic":"field=C:\\Users\\User00001\\AppData\\a.log;next=plain","windows-log":"field=C:\\Users\\User00001\\AppData\\a.log;next=plain"}
+{"case":"username-builtin-4-t6","generic":"trailing C:\\Users\\User00001\\AppData\\a.log\n","windows-log":"trailing C:\\Users\\User00001\\AppData\\a.log\n"}
+{"case":"sid-1-t1","generic":"S-1-5-21-1234567890-987654321-1122334455-1001","windows-log":"S-1-5-21-0-0-0-1001"}
+{"case":"sid-1-t2","generic":"value: S-1-5-21-1234567890-987654321-1122334455-1001","windows-log":"value: S-1-5-21-0-0-0-1001"}
+{"case":"sid-1-t3","generic":"\"S-1-5-21-1234567890-987654321-1122334455-1001\"","windows-log":"\"S-1-5-21-0-0-0-1001\""}
+{"case":"sid-1-t4","generic":"[info] connect from S-1-5-21-1234567890-987654321-1122334455-1001 ok","windows-log":"[info] connect from S-1-5-21-0-0-0-1001 ok"}
+{"case":"sid-1-t5","generic":"field=S-1-5-21-1234567890-987654321-1122334455-1001;next=plain","windows-log":"field=S-1-5-21-0-0-0-1001;next=plain"}
+{"case":"sid-1-t6","generic":"trailing S-1-5-21-1234567890-987654321-1122334455-1001\n","windows-log":"trailing S-1-5-21-0-0-0-1001\n"}
+{"case":"sid-well-known-1-t1","generic":"S-1-5-18","windows-log":"S-1-5-18"}
+{"case":"sid-well-known-1-t2","generic":"value: S-1-5-18","windows-log":"value: S-1-5-18"}
+{"case":"sid-well-known-1-t3","generic":"\"S-1-5-18\"","windows-log":"\"S-1-5-18\""}
+{"case":"sid-well-known-1-t4","generic":"[info] connect from S-1-5-18 ok","windows-log":"[info] connect from S-1-5-18 ok"}
+{"case":"sid-well-known-1-t5","generic":"field=S-1-5-18;next=plain","windows-log":"field=S-1-5-18;next=plain"}
+{"case":"sid-well-known-1-t6","generic":"trailing S-1-5-18\n","windows-log":"trailing S-1-5-18\n"}
+{"case":"sid-well-known-2-t1","generic":"S-1-5-32-544","windows-log":"S-1-5-32-544"}
+{"case":"sid-well-known-2-t2","generic":"value: S-1-5-32-544","windows-log":"value: S-1-5-32-544"}
+{"case":"sid-well-known-2-t3","generic":"\"S-1-5-32-544\"","windows-log":"\"S-1-5-32-544\""}
+{"case":"sid-well-known-2-t4","generic":"[info] connect from S-1-5-32-544 ok","windows-log":"[info] connect from S-1-5-32-544 ok"}
+{"case":"sid-well-known-2-t5","generic":"field=S-1-5-32-544;next=plain","windows-log":"field=S-1-5-32-544;next=plain"}
+{"case":"sid-well-known-2-t6","generic":"trailing S-1-5-32-544\n","windows-log":"trailing S-1-5-32-544\n"}
+{"case":"sid-well-known-3-t1","generic":"S-1-5-21-0-0-0-1001","windows-log":"S-1-5-21-0-0-0-1001"}
+{"case":"sid-well-known-3-t2","generic":"value: S-1-5-21-0-0-0-1001","windows-log":"value: S-1-5-21-0-0-0-1001"}
+{"case":"sid-well-known-3-t3","generic":"\"S-1-5-21-0-0-0-1001\"","windows-log":"\"S-1-5-21-0-0-0-1001\""}
+{"case":"sid-well-known-3-t4","generic":"[info] connect from S-1-5-21-0-0-0-1001 ok","windows-log":"[info] connect from S-1-5-21-0-0-0-1001 ok"}
+{"case":"sid-well-known-3-t5","generic":"field=S-1-5-21-0-0-0-1001;next=plain","windows-log":"field=S-1-5-21-0-0-0-1001;next=plain"}
+{"case":"sid-well-known-3-t6","generic":"trailing S-1-5-21-0-0-0-1001\n","windows-log":"trailing S-1-5-21-0-0-0-1001\n"}
+{"case":"unc-host-1-t1","generic":"\\\\FILESRV01\\share\\report.txt","windows-log":"\\\\HOST0001\\share\\report.txt"}
+{"case":"unc-host-1-t2","generic":"value: \\\\FILESRV01\\share\\report.txt","windows-log":"value: \\\\HOST0001\\share\\report.txt"}
+{"case":"unc-host-1-t3","generic":"\"\\\\FILESRV01\\share\\report.txt\"","windows-log":"\"\\\\HOST0001\\share\\report.txt\""}
+{"case":"unc-host-1-t4","generic":"[info] connect from \\\\FILESRV01\\share\\report.txt ok","windows-log":"[info] connect from \\\\HOST0001\\share\\report.txt ok"}
+{"case":"unc-host-1-t5","generic":"field=\\\\FILESRV01\\share\\report.txt;next=plain","windows-log":"field=\\\\HOST0001\\share\\report.txt;next=plain"}
+{"case":"unc-host-1-t6","generic":"trailing \\\\FILESRV01\\share\\report.txt\n","windows-log":"trailing \\\\HOST0001\\share\\report.txt\n"}
+{"case":"unc-host-2-t1","generic":"\\\\db01\\logs\\a.log","windows-log":"\\\\HOST0001\\logs\\a.log"}
+{"case":"unc-host-2-t2","generic":"value: \\\\db01\\logs\\a.log","windows-log":"value: \\\\HOST0001\\logs\\a.log"}
+{"case":"unc-host-2-t3","generic":"\"\\\\db01\\logs\\a.log\"","windows-log":"\"\\\\HOST0001\\logs\\a.log\""}
+{"case":"unc-host-2-t4","generic":"[info] connect from \\\\db01\\logs\\a.log ok","windows-log":"[info] connect from \\\\HOST0001\\logs\\a.log ok"}
+{"case":"unc-host-2-t5","generic":"field=\\\\db01\\logs\\a.log;next=plain","windows-log":"field=\\\\HOST0001\\logs\\a.log;next=plain"}
+{"case":"unc-host-2-t6","generic":"trailing \\\\db01\\logs\\a.log\n","windows-log":"trailing \\\\HOST0001\\logs\\a.log\n"}
+{"case":"unc-not-a-host-1-t1","generic":"\\\\HOST0001\\share\\a.txt","windows-log":"\\\\HOST0001\\share\\a.txt"}
+{"case":"unc-not-a-host-1-t2","generic":"value: \\\\HOST0001\\share\\a.txt","windows-log":"value: \\\\HOST0001\\share\\a.txt"}
+{"case":"unc-not-a-host-1-t3","generic":"\"\\\\HOST0001\\share\\a.txt\"","windows-log":"\"\\\\HOST0001\\share\\a.txt\""}
+{"case":"unc-not-a-host-1-t4","generic":"[info] connect from \\\\HOST0001\\share\\a.txt ok","windows-log":"[info] connect from \\\\HOST0001\\share\\a.txt ok"}
+{"case":"unc-not-a-host-1-t5","generic":"field=\\\\HOST0001\\share\\a.txt;next=plain","windows-log":"field=\\\\HOST0001\\share\\a.txt;next=plain"}
+{"case":"unc-not-a-host-1-t6","generic":"trailing \\\\HOST0001\\share\\a.txt\n","windows-log":"trailing \\\\HOST0001\\share\\a.txt\n"}
+{"case":"unc-not-a-host-2-t1","generic":"C:\\\\Windows\\\\CBS\\\\CBS.log","windows-log":"C:\\\\Windows\\\\CBS\\\\CBS.log"}
+{"case":"unc-not-a-host-2-t2","generic":"value: C:\\\\Windows\\\\CBS\\\\CBS.log","windows-log":"value: C:\\\\Windows\\\\CBS\\\\CBS.log"}
+{"case":"unc-not-a-host-2-t3","generic":"\"C:\\\\Windows\\\\CBS\\\\CBS.log\"","windows-log":"\"C:\\\\Windows\\\\CBS\\\\CBS.log\""}
+{"case":"unc-not-a-host-2-t4","generic":"[info] connect from C:\\\\Windows\\\\CBS\\\\CBS.log ok","windows-log":"[info] connect from C:\\\\Windows\\\\CBS\\\\CBS.log ok"}
+{"case":"unc-not-a-host-2-t5","generic":"field=C:\\\\Windows\\\\CBS\\\\CBS.log;next=plain","windows-log":"field=C:\\\\Windows\\\\CBS\\\\CBS.log;next=plain"}
+{"case":"unc-not-a-host-2-t6","generic":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log\n","windows-log":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log\n"}
+{"case":"unc-not-a-host-3-t1","generic":"\\\\?\\C:\\Windows","windows-log":"\\\\?\\C:\\Windows"}
+{"case":"unc-not-a-host-3-t2","generic":"value: \\\\?\\C:\\Windows","windows-log":"value: \\\\?\\C:\\Windows"}
+{"case":"unc-not-a-host-3-t3","generic":"\"\\\\?\\C:\\Windows\"","windows-log":"\"\\\\?\\C:\\Windows\""}
+{"case":"unc-not-a-host-3-t4","generic":"[info] connect from \\\\?\\C:\\Windows ok","windows-log":"[info] connect from \\\\?\\C:\\Windows ok"}
+{"case":"unc-not-a-host-3-t5","generic":"field=\\\\?\\C:\\Windows;next=plain","windows-log":"field=\\\\?\\C:\\Windows;next=plain"}
+{"case":"unc-not-a-host-3-t6","generic":"trailing \\\\?\\C:\\Windows\n","windows-log":"trailing \\\\?\\C:\\Windows\n"}
+{"case":"fqdn-internal-1-t1","generic":"db01.corp.local","windows-log":"HOST0001"}
+{"case":"fqdn-internal-1-t2","generic":"value: db01.corp.local","windows-log":"value: HOST0001"}
+{"case":"fqdn-internal-1-t3","generic":"\"db01.corp.local\"","windows-log":"\"HOST0001\""}
+{"case":"fqdn-internal-1-t4","generic":"[info] connect from db01.corp.local ok","windows-log":"[info] connect from HOST0001 ok"}
+{"case":"fqdn-internal-1-t5","generic":"field=db01.corp.local;next=plain","windows-log":"field=HOST0001;next=plain"}
+{"case":"fqdn-internal-1-t6","generic":"trailing db01.corp.local\n","windows-log":"trailing HOST0001\n"}
+{"case":"fqdn-internal-2-t1","generic":"printer.home.arpa","windows-log":"HOST0001"}
+{"case":"fqdn-internal-2-t2","generic":"value: printer.home.arpa","windows-log":"value: HOST0001"}
+{"case":"fqdn-internal-2-t3","generic":"\"printer.home.arpa\"","windows-log":"\"HOST0001\""}
+{"case":"fqdn-internal-2-t4","generic":"[info] connect from printer.home.arpa ok","windows-log":"[info] connect from HOST0001 ok"}
+{"case":"fqdn-internal-2-t5","generic":"field=printer.home.arpa;next=plain","windows-log":"field=HOST0001;next=plain"}
+{"case":"fqdn-internal-2-t6","generic":"trailing printer.home.arpa\n","windows-log":"trailing HOST0001\n"}
+{"case":"fqdn-internal-3-t1","generic":"wsus.example.lan","windows-log":"HOST0001"}
+{"case":"fqdn-internal-3-t2","generic":"value: wsus.example.lan","windows-log":"value: HOST0001"}
+{"case":"fqdn-internal-3-t3","generic":"\"wsus.example.lan\"","windows-log":"\"HOST0001\""}
+{"case":"fqdn-internal-3-t4","generic":"[info] connect from wsus.example.lan ok","windows-log":"[info] connect from HOST0001 ok"}
+{"case":"fqdn-internal-3-t5","generic":"field=wsus.example.lan;next=plain","windows-log":"field=HOST0001;next=plain"}
+{"case":"fqdn-internal-3-t6","generic":"trailing wsus.example.lan\n","windows-log":"trailing HOST0001\n"}
+{"case":"fqdn-internal-4-t1","generic":"mail.example.intranet","windows-log":"HOST0001"}
+{"case":"fqdn-internal-4-t2","generic":"value: mail.example.intranet","windows-log":"value: HOST0001"}
+{"case":"fqdn-internal-4-t3","generic":"\"mail.example.intranet\"","windows-log":"\"HOST0001\""}
+{"case":"fqdn-internal-4-t4","generic":"[info] connect from mail.example.intranet ok","windows-log":"[info] connect from HOST0001 ok"}
+{"case":"fqdn-internal-4-t5","generic":"field=mail.example.intranet;next=plain","windows-log":"field=HOST0001;next=plain"}
+{"case":"fqdn-internal-4-t6","generic":"trailing mail.example.intranet\n","windows-log":"trailing HOST0001\n"}
+{"case":"fqdn-public-1-t1","generic":"www.example.com","windows-log":"www.example.com"}
+{"case":"fqdn-public-1-t2","generic":"value: www.example.com","windows-log":"value: www.example.com"}
+{"case":"fqdn-public-1-t3","generic":"\"www.example.com\"","windows-log":"\"www.example.com\""}
+{"case":"fqdn-public-1-t4","generic":"[info] connect from www.example.com ok","windows-log":"[info] connect from www.example.com ok"}
+{"case":"fqdn-public-1-t5","generic":"field=www.example.com;next=plain","windows-log":"field=www.example.com;next=plain"}
+{"case":"fqdn-public-1-t6","generic":"trailing www.example.com\n","windows-log":"trailing www.example.com\n"}
+{"case":"fqdn-public-2-t1","generic":"api.example.net","windows-log":"api.example.net"}
+{"case":"fqdn-public-2-t2","generic":"value: api.example.net","windows-log":"value: api.example.net"}
+{"case":"fqdn-public-2-t3","generic":"\"api.example.net\"","windows-log":"\"api.example.net\""}
+{"case":"fqdn-public-2-t4","generic":"[info] connect from api.example.net ok","windows-log":"[info] connect from api.example.net ok"}
+{"case":"fqdn-public-2-t5","generic":"field=api.example.net;next=plain","windows-log":"field=api.example.net;next=plain"}
+{"case":"fqdn-public-2-t6","generic":"trailing api.example.net\n","windows-log":"trailing api.example.net\n"}
+{"case":"non-ascii-digits-1-t1","generic":"１２３-４５-６７８９","windows-log":"１２３-４５-６７８９"}
+{"case":"non-ascii-digits-1-t2","generic":"value: １２３-４５-６７８９","windows-log":"value: １２３-４５-６７８９"}
+{"case":"non-ascii-digits-1-t3","generic":"\"１２３-４５-６７８９\"","windows-log":"\"１２３-４５-６７８９\""}
+{"case":"non-ascii-digits-1-t4","generic":"[info] connect from １２３-４５-６７８９ ok","windows-log":"[info] connect from １２３-４５-６７８９ ok"}
+{"case":"non-ascii-digits-1-t5","generic":"field=１２３-４５-６７８９;next=plain","windows-log":"field=１２３-４５-６７８９;next=plain"}
+{"case":"non-ascii-digits-1-t6","generic":"trailing １２３-４５-６７８９\n","windows-log":"trailing １２３-４５-６７８９\n"}
+{"case":"non-ascii-digits-2-t1","generic":"١٢٣-٤٥-٦٧٨٩","windows-log":"١٢٣-٤٥-٦٧٨٩"}
+{"case":"non-ascii-digits-2-t2","generic":"value: ١٢٣-٤٥-٦٧٨٩","windows-log":"value: ١٢٣-٤٥-٦٧٨٩"}
+{"case":"non-ascii-digits-2-t3","generic":"\"١٢٣-٤٥-٦٧٨٩\"","windows-log":"\"١٢٣-٤٥-٦٧٨٩\""}
+{"case":"non-ascii-digits-2-t4","generic":"[info] connect from ١٢٣-٤٥-٦٧٨٩ ok","windows-log":"[info] connect from ١٢٣-٤٥-٦٧٨٩ ok"}
+{"case":"non-ascii-digits-2-t5","generic":"field=١٢٣-٤٥-٦٧٨٩;next=plain","windows-log":"field=١٢٣-٤٥-٦٧٨٩;next=plain"}
+{"case":"non-ascii-digits-2-t6","generic":"trailing ١٢٣-٤٥-٦٧٨٩\n","windows-log":"trailing ١٢٣-٤٥-٦٧٨٩\n"}
+{"case":"non-ascii-digits-3-t1","generic":"４１１１１１１１１１１１１１１１","windows-log":"４１１１１１１１１１１１１１１１"}
+{"case":"non-ascii-digits-3-t2","generic":"value: ４１１１１１１１１１１１１１１１","windows-log":"value: ４１１１１１１１１１１１１１１１"}
+{"case":"non-ascii-digits-3-t3","generic":"\"４１１１１１１１１１１１１１１１\"","windows-log":"\"４１１１１１１１１１１１１１１１\""}
+{"case":"non-ascii-digits-3-t4","generic":"[info] connect from ４１１１１１１１１１１１１１１１ ok","windows-log":"[info] connect from ４１１１１１１１１１１１１１１１ ok"}
+{"case":"non-ascii-digits-3-t5","generic":"field=４１１１１１１１１１１１１１１１;next=plain","windows-log":"field=４１１１１１１１１１１１１１１１;next=plain"}
+{"case":"non-ascii-digits-3-t6","generic":"trailing ４１１１１１１１１１１１１１１１\n","windows-log":"trailing ４１１１１１１１１１１１１１１１\n"}
+{"case":"non-ascii-digits-4-t1","generic":"１０.０.１.５０","windows-log":"１０.０.１.５０"}
+{"case":"non-ascii-digits-4-t2","generic":"value: １０.０.１.５０","windows-log":"value: １０.０.１.５０"}
+{"case":"non-ascii-digits-4-t3","generic":"\"１０.０.１.５０\"","windows-log":"\"１０.０.１.５０\""}
+{"case":"non-ascii-digits-4-t4","generic":"[info] connect from １０.０.１.５０ ok","windows-log":"[info] connect from １０.０.１.５０ ok"}
+{"case":"non-ascii-digits-4-t5","generic":"field=１０.０.１.５０;next=plain","windows-log":"field=１０.０.１.５０;next=plain"}
+{"case":"non-ascii-digits-4-t6","generic":"trailing １０.０.１.５０\n","windows-log":"trailing １０.０.１.５０\n"}
+{"case":"non-ascii-adjacent-1-t1","generic":"café00:00:5E:00:53:00","windows-log":"café00:00:5E:00:53:00"}
+{"case":"non-ascii-adjacent-1-t2","generic":"value: café00:00:5E:00:53:00","windows-log":"value: café00:00:5E:00:53:00"}
+{"case":"non-ascii-adjacent-1-t3","generic":"\"café00:00:5E:00:53:00\"","windows-log":"\"café00:00:5E:00:53:00\""}
+{"case":"non-ascii-adjacent-1-t4","generic":"[info] connect from café00:00:5E:00:53:00 ok","windows-log":"[info] connect from café00:00:5E:00:53:00 ok"}
+{"case":"non-ascii-adjacent-1-t5","generic":"field=café00:00:5E:00:53:00;next=plain","windows-log":"field=café00:00:5E:00:53:00;next=plain"}
+{"case":"non-ascii-adjacent-1-t6","generic":"trailing café00:00:5E:00:53:00\n","windows-log":"trailing café00:00:5E:00:53:00\n"}
+{"case":"non-ascii-adjacent-2-t1","generic":"café 00:00:5E:00:53:00","windows-log":"café 00:00:5E:00:53:00"}
+{"case":"non-ascii-adjacent-2-t2","generic":"value: café 00:00:5E:00:53:00","windows-log":"value: café 00:00:5E:00:53:00"}
+{"case":"non-ascii-adjacent-2-t3","generic":"\"café 00:00:5E:00:53:00\"","windows-log":"\"café 00:00:5E:00:53:00\""}
+{"case":"non-ascii-adjacent-2-t4","generic":"[info] connect from café 00:00:5E:00:53:00 ok","windows-log":"[info] connect from café 00:00:5E:00:53:00 ok"}
+{"case":"non-ascii-adjacent-2-t5","generic":"field=café 00:00:5E:00:53:00;next=plain","windows-log":"field=café 00:00:5E:00:53:00;next=plain"}
+{"case":"non-ascii-adjacent-2-t6","generic":"trailing café 00:00:5E:00:53:00\n","windows-log":"trailing café 00:00:5E:00:53:00\n"}
+{"case":"non-ascii-adjacent-3-t1","generic":"müredacted1@example.invalid","windows-log":"müredacted1@example.invalid"}
+{"case":"non-ascii-adjacent-3-t2","generic":"value: müredacted1@example.invalid","windows-log":"value: müredacted1@example.invalid"}
+{"case":"non-ascii-adjacent-3-t3","generic":"\"müredacted1@example.invalid\"","windows-log":"\"müredacted1@example.invalid\""}
+{"case":"non-ascii-adjacent-3-t4","generic":"[info] connect from müredacted1@example.invalid ok","windows-log":"[info] connect from müredacted1@example.invalid ok"}
+{"case":"non-ascii-adjacent-3-t5","generic":"field=müredacted1@example.invalid;next=plain","windows-log":"field=müredacted1@example.invalid;next=plain"}
+{"case":"non-ascii-adjacent-3-t6","generic":"trailing müredacted1@example.invalid\n","windows-log":"trailing müredacted1@example.invalid\n"}
+{"case":"non-ascii-adjacent-4-t1","generic":"naïve 198.51.100.1 ok","windows-log":"naïve 10.0.1.50 ok"}
+{"case":"non-ascii-adjacent-4-t2","generic":"value: naïve 198.51.100.1 ok","windows-log":"value: naïve 10.0.1.50 ok"}
+{"case":"non-ascii-adjacent-4-t3","generic":"\"naïve 198.51.100.1 ok\"","windows-log":"\"naïve 10.0.1.50 ok\""}
+{"case":"non-ascii-adjacent-4-t4","generic":"[info] connect from naïve 198.51.100.1 ok ok","windows-log":"[info] connect from naïve 10.0.1.50 ok ok"}
+{"case":"non-ascii-adjacent-4-t5","generic":"field=naïve 198.51.100.1 ok;next=plain","windows-log":"field=naïve 10.0.1.50 ok;next=plain"}
+{"case":"non-ascii-adjacent-4-t6","generic":"trailing naïve 198.51.100.1 ok\n","windows-log":"trailing naïve 10.0.1.50 ok\n"}
+{"case":"non-ascii-adjacent-5-t1","generic":"用户 \\\\FILESRV01\\share","windows-log":"用户 \\\\HOST0001\\share"}
+{"case":"non-ascii-adjacent-5-t2","generic":"value: 用户 \\\\FILESRV01\\share","windows-log":"value: 用户 \\\\HOST0001\\share"}
+{"case":"non-ascii-adjacent-5-t3","generic":"\"用户 \\\\FILESRV01\\share\"","windows-log":"\"用户 \\\\HOST0001\\share\""}
+{"case":"non-ascii-adjacent-5-t4","generic":"[info] connect from 用户 \\\\FILESRV01\\share ok","windows-log":"[info] connect from 用户 \\\\HOST0001\\share ok"}
+{"case":"non-ascii-adjacent-5-t5","generic":"field=用户 \\\\FILESRV01\\share;next=plain","windows-log":"field=用户 \\\\HOST0001\\share;next=plain"}
+{"case":"non-ascii-adjacent-5-t6","generic":"trailing 用户 \\\\FILESRV01\\share\n","windows-log":"trailing 用户 \\\\HOST0001\\share\n"}
+{"case":"placeholder-1-t1","generic":"<host-1>","windows-log":"<host-1>"}
+{"case":"placeholder-1-t2","generic":"value: <host-1>","windows-log":"value: <host-1>"}
+{"case":"placeholder-1-t3","generic":"\"<host-1>\"","windows-log":"\"<host-1>\""}
+{"case":"placeholder-1-t4","generic":"[info] connect from <host-1> ok","windows-log":"[info] connect from <host-1> ok"}
+{"case":"placeholder-1-t5","generic":"field=<host-1>;next=plain","windows-log":"field=<host-1>;next=plain"}
+{"case":"placeholder-1-t6","generic":"trailing <host-1>\n","windows-log":"trailing <host-1>\n"}
+{"case":"placeholder-2-t1","generic":"<user-2>","windows-log":"<user-2>"}
+{"case":"placeholder-2-t2","generic":"value: <user-2>","windows-log":"value: <user-2>"}
+{"case":"placeholder-2-t3","generic":"\"<user-2>\"","windows-log":"\"<user-2>\""}
+{"case":"placeholder-2-t4","generic":"[info] connect from <user-2> ok","windows-log":"[info] connect from <user-2> ok"}
+{"case":"placeholder-2-t5","generic":"field=<user-2>;next=plain","windows-log":"field=<user-2>;next=plain"}
+{"case":"placeholder-2-t6","generic":"trailing <user-2>\n","windows-log":"trailing <user-2>\n"}
+{"case":"placeholder-3-t1","generic":"<client-A>","windows-log":"<client-A>"}
+{"case":"placeholder-3-t2","generic":"value: <client-A>","windows-log":"value: <client-A>"}
+{"case":"placeholder-3-t3","generic":"\"<client-A>\"","windows-log":"\"<client-A>\""}
+{"case":"placeholder-3-t4","generic":"[info] connect from <client-A> ok","windows-log":"[info] connect from <client-A> ok"}
+{"case":"placeholder-3-t5","generic":"field=<client-A>;next=plain","windows-log":"field=<client-A>;next=plain"}
+{"case":"placeholder-3-t6","generic":"trailing <client-A>\n","windows-log":"trailing <client-A>\n"}
+{"case":"placeholder-4-t1","generic":"<ip-3>","windows-log":"<ip-3>"}
+{"case":"placeholder-4-t2","generic":"value: <ip-3>","windows-log":"value: <ip-3>"}
+{"case":"placeholder-4-t3","generic":"\"<ip-3>\"","windows-log":"\"<ip-3>\""}
+{"case":"placeholder-4-t4","generic":"[info] connect from <ip-3> ok","windows-log":"[info] connect from <ip-3> ok"}
+{"case":"placeholder-4-t5","generic":"field=<ip-3>;next=plain","windows-log":"field=<ip-3>;next=plain"}
+{"case":"placeholder-4-t6","generic":"trailing <ip-3>\n","windows-log":"trailing <ip-3>\n"}
+{"case":"placeholder-5-t1","generic":"<ip-3>/24","windows-log":"<ip-3>/24"}
+{"case":"placeholder-5-t2","generic":"value: <ip-3>/24","windows-log":"value: <ip-3>/24"}
+{"case":"placeholder-5-t3","generic":"\"<ip-3>/24\"","windows-log":"\"<ip-3>/24\""}
+{"case":"placeholder-5-t4","generic":"[info] connect from <ip-3>/24 ok","windows-log":"[info] connect from <ip-3>/24 ok"}
+{"case":"placeholder-5-t5","generic":"field=<ip-3>/24;next=plain","windows-log":"field=<ip-3>/24;next=plain"}
+{"case":"placeholder-5-t6","generic":"trailing <ip-3>/24\n","windows-log":"trailing <ip-3>/24\n"}
+{"case":"placeholder-6-t1","generic":"<user-2>@<host-1>","windows-log":"<user-2>@<host-1>"}
+{"case":"placeholder-6-t2","generic":"value: <user-2>@<host-1>","windows-log":"value: <user-2>@<host-1>"}
+{"case":"placeholder-6-t3","generic":"\"<user-2>@<host-1>\"","windows-log":"\"<user-2>@<host-1>\""}
+{"case":"placeholder-6-t4","generic":"[info] connect from <user-2>@<host-1> ok","windows-log":"[info] connect from <user-2>@<host-1> ok"}
+{"case":"placeholder-6-t5","generic":"field=<user-2>@<host-1>;next=plain","windows-log":"field=<user-2>@<host-1>;next=plain"}
+{"case":"placeholder-6-t6","generic":"trailing <user-2>@<host-1>\n","windows-log":"trailing <user-2>@<host-1>\n"}
+{"case":"already-redacted-1-t1","generic":"redacted1@example.invalid","windows-log":"redacted1@example.invalid"}
+{"case":"already-redacted-1-t2","generic":"value: redacted1@example.invalid","windows-log":"value: redacted1@example.invalid"}
+{"case":"already-redacted-1-t3","generic":"\"redacted1@example.invalid\"","windows-log":"\"redacted1@example.invalid\""}
+{"case":"already-redacted-1-t4","generic":"[info] connect from redacted1@example.invalid ok","windows-log":"[info] connect from redacted1@example.invalid ok"}
+{"case":"already-redacted-1-t5","generic":"field=redacted1@example.invalid;next=plain","windows-log":"field=redacted1@example.invalid;next=plain"}
+{"case":"already-redacted-1-t6","generic":"trailing redacted1@example.invalid\n","windows-log":"trailing redacted1@example.invalid\n"}
+{"case":"already-redacted-2-t1","generic":"192.0.2.5","windows-log":"192.0.2.5"}
+{"case":"already-redacted-2-t2","generic":"value: 192.0.2.5","windows-log":"value: 192.0.2.5"}
+{"case":"already-redacted-2-t3","generic":"\"192.0.2.5\"","windows-log":"\"192.0.2.5\""}
+{"case":"already-redacted-2-t4","generic":"[info] connect from 192.0.2.5 ok","windows-log":"[info] connect from 192.0.2.5 ok"}
+{"case":"already-redacted-2-t5","generic":"field=192.0.2.5;next=plain","windows-log":"field=192.0.2.5;next=plain"}
+{"case":"already-redacted-2-t6","generic":"trailing 192.0.2.5\n","windows-log":"trailing 192.0.2.5\n"}
+{"case":"already-redacted-3-t1","generic":"198.51.100.7","windows-log":"198.51.100.7"}
+{"case":"already-redacted-3-t2","generic":"value: 198.51.100.7","windows-log":"value: 198.51.100.7"}
+{"case":"already-redacted-3-t3","generic":"\"198.51.100.7\"","windows-log":"\"198.51.100.7\""}
+{"case":"already-redacted-3-t4","generic":"[info] connect from 198.51.100.7 ok","windows-log":"[info] connect from 198.51.100.7 ok"}
+{"case":"already-redacted-3-t5","generic":"field=198.51.100.7;next=plain","windows-log":"field=198.51.100.7;next=plain"}
+{"case":"already-redacted-3-t6","generic":"trailing 198.51.100.7\n","windows-log":"trailing 198.51.100.7\n"}
+{"case":"already-redacted-4-t1","generic":"2001:db8::1","windows-log":"2001:db8::1"}
+{"case":"already-redacted-4-t2","generic":"value: 2001:db8::1","windows-log":"value: 2001:db8::1"}
+{"case":"already-redacted-4-t3","generic":"\"2001:db8::1\"","windows-log":"\"2001:db8::1\""}
+{"case":"already-redacted-4-t4","generic":"[info] connect from 2001:db8::1 ok","windows-log":"[info] connect from 2001:db8::1 ok"}
+{"case":"already-redacted-4-t5","generic":"field=2001:db8::1;next=plain","windows-log":"field=2001:db8::1;next=plain"}
+{"case":"already-redacted-4-t6","generic":"trailing 2001:db8::1\n","windows-log":"trailing 2001:db8::1\n"}
+{"case":"already-redacted-5-t1","generic":"2001:db8:0:0:0:0:0:1","windows-log":"2001:db8:0:0:0:0:0:1"}
+{"case":"already-redacted-5-t2","generic":"value: 2001:db8:0:0:0:0:0:1","windows-log":"value: 2001:db8:0:0:0:0:0:1"}
+{"case":"already-redacted-5-t3","generic":"\"2001:db8:0:0:0:0:0:1\"","windows-log":"\"2001:db8:0:0:0:0:0:1\""}
+{"case":"already-redacted-5-t4","generic":"[info] connect from 2001:db8:0:0:0:0:0:1 ok","windows-log":"[info] connect from 2001:db8:0:0:0:0:0:1 ok"}
+{"case":"already-redacted-5-t5","generic":"field=2001:db8:0:0:0:0:0:1;next=plain","windows-log":"field=2001:db8:0:0:0:0:0:1;next=plain"}
+{"case":"already-redacted-5-t6","generic":"trailing 2001:db8:0:0:0:0:0:1\n","windows-log":"trailing 2001:db8:0:0:0:0:0:1\n"}
+{"case":"already-redacted-6-t1","generic":"::ffff:192.0.2.5","windows-log":"::ffff:192.0.2.5"}
+{"case":"already-redacted-6-t2","generic":"value: ::ffff:192.0.2.5","windows-log":"value: ::ffff:192.0.2.5"}
+{"case":"already-redacted-6-t3","generic":"\"::ffff:192.0.2.5\"","windows-log":"\"::ffff:192.0.2.5\""}
+{"case":"already-redacted-6-t4","generic":"[info] connect from ::ffff:192.0.2.5 ok","windows-log":"[info] connect from ::ffff:192.0.2.5 ok"}
+{"case":"already-redacted-6-t5","generic":"field=::ffff:192.0.2.5;next=plain","windows-log":"field=::ffff:192.0.2.5;next=plain"}
+{"case":"already-redacted-6-t6","generic":"trailing ::ffff:192.0.2.5\n","windows-log":"trailing ::ffff:192.0.2.5\n"}
+{"case":"already-redacted-7-t1","generic":"00:00:5E:00:53:AA","windows-log":"00:00:5E:00:53:AA"}
+{"case":"already-redacted-7-t2","generic":"value: 00:00:5E:00:53:AA","windows-log":"value: 00:00:5E:00:53:AA"}
+{"case":"already-redacted-7-t3","generic":"\"00:00:5E:00:53:AA\"","windows-log":"\"00:00:5E:00:53:AA\""}
+{"case":"already-redacted-7-t4","generic":"[info] connect from 00:00:5E:00:53:AA ok","windows-log":"[info] connect from 00:00:5E:00:53:AA ok"}
+{"case":"already-redacted-7-t5","generic":"field=00:00:5E:00:53:AA;next=plain","windows-log":"field=00:00:5E:00:53:AA;next=plain"}
+{"case":"already-redacted-7-t6","generic":"trailing 00:00:5E:00:53:AA\n","windows-log":"trailing 00:00:5E:00:53:AA\n"}
+{"case":"already-redacted-8-t1","generic":"000-01-0001","windows-log":"000-01-0001"}
+{"case":"already-redacted-8-t2","generic":"value: 000-01-0001","windows-log":"value: 000-01-0001"}
+{"case":"already-redacted-8-t3","generic":"\"000-01-0001\"","windows-log":"\"000-01-0001\""}
+{"case":"already-redacted-8-t4","generic":"[info] connect from 000-01-0001 ok","windows-log":"[info] connect from 000-01-0001 ok"}
+{"case":"already-redacted-8-t5","generic":"field=000-01-0001;next=plain","windows-log":"field=000-01-0001;next=plain"}
+{"case":"already-redacted-8-t6","generic":"trailing 000-01-0001\n","windows-log":"trailing 000-01-0001\n"}
+{"case":"already-redacted-10-t1","generic":"4000000000000000","windows-log":"4000000000000000"}
+{"case":"already-redacted-10-t2","generic":"value: 4000000000000000","windows-log":"value: 4000000000000000"}
+{"case":"already-redacted-10-t3","generic":"\"4000000000000000\"","windows-log":"\"4000000000000000\""}
+{"case":"already-redacted-10-t4","generic":"[info] connect from 4000000000000000 ok","windows-log":"[info] connect from 4000000000000000 ok"}
+{"case":"already-redacted-10-t5","generic":"field=4000000000000000;next=plain","windows-log":"field=4000000000000000;next=plain"}
+{"case":"already-redacted-10-t6","generic":"trailing 4000000000000000\n","windows-log":"trailing 4000000000000000\n"}
+{"case":"already-redacted-12-t1","generic":"HOST0001","windows-log":"HOST0001"}
+{"case":"already-redacted-12-t2","generic":"value: HOST0001","windows-log":"value: HOST0001"}
+{"case":"already-redacted-12-t3","generic":"\"HOST0001\"","windows-log":"\"HOST0001\""}
+{"case":"already-redacted-12-t4","generic":"[info] connect from HOST0001 ok","windows-log":"[info] connect from HOST0001 ok"}
+{"case":"already-redacted-12-t5","generic":"field=HOST0001;next=plain","windows-log":"field=HOST0001;next=plain"}
+{"case":"already-redacted-12-t6","generic":"trailing HOST0001\n","windows-log":"trailing HOST0001\n"}
+{"case":"already-redacted-13-t1","generic":"C:\\Users\\User00001\\a.log","windows-log":"C:\\Users\\User00001\\a.log"}
+{"case":"already-redacted-13-t2","generic":"value: C:\\Users\\User00001\\a.log","windows-log":"value: C:\\Users\\User00001\\a.log"}
+{"case":"already-redacted-13-t3","generic":"\"C:\\Users\\User00001\\a.log\"","windows-log":"\"C:\\Users\\User00001\\a.log\""}
+{"case":"already-redacted-13-t4","generic":"[info] connect from C:\\Users\\User00001\\a.log ok","windows-log":"[info] connect from C:\\Users\\User00001\\a.log ok"}
+{"case":"already-redacted-13-t5","generic":"field=C:\\Users\\User00001\\a.log;next=plain","windows-log":"field=C:\\Users\\User00001\\a.log;next=plain"}
+{"case":"already-redacted-13-t6","generic":"trailing C:\\Users\\User00001\\a.log\n","windows-log":"trailing C:\\Users\\User00001\\a.log\n"}
+{"case":"already-redacted-14-t1","generic":"\\\\HOST0001\\share","windows-log":"\\\\HOST0001\\share"}
+{"case":"already-redacted-14-t2","generic":"value: \\\\HOST0001\\share","windows-log":"value: \\\\HOST0001\\share"}
+{"case":"already-redacted-14-t3","generic":"\"\\\\HOST0001\\share\"","windows-log":"\"\\\\HOST0001\\share\""}
+{"case":"already-redacted-14-t4","generic":"[info] connect from \\\\HOST0001\\share ok","windows-log":"[info] connect from \\\\HOST0001\\share ok"}
+{"case":"already-redacted-14-t5","generic":"field=\\\\HOST0001\\share;next=plain","windows-log":"field=\\\\HOST0001\\share;next=plain"}
+{"case":"already-redacted-14-t6","generic":"trailing \\\\HOST0001\\share\n","windows-log":"trailing \\\\HOST0001\\share\n"}
+{"case":"credential-json-key-1-t1","generic":"{\"password\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"password\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-1-t2","generic":"value: {\"password\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"password\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-1-t3","generic":"\"{\"password\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"password\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-1-t4","generic":"[info] connect from {\"password\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"password\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-1-t5","generic":"field={\"password\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"password\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-1-t6","generic":"trailing {\"password\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"password\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-2-t1","generic":"{\"pwd\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"pwd\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-2-t2","generic":"value: {\"pwd\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"pwd\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-2-t3","generic":"\"{\"pwd\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"pwd\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-2-t4","generic":"[info] connect from {\"pwd\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"pwd\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-2-t5","generic":"field={\"pwd\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"pwd\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-2-t6","generic":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-3-t1","generic":"{\"secret\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"secret\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-3-t2","generic":"value: {\"secret\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"secret\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-3-t3","generic":"\"{\"secret\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"secret\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-3-t4","generic":"[info] connect from {\"secret\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"secret\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-3-t5","generic":"field={\"secret\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"secret\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-3-t6","generic":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-4-t1","generic":"{\"token\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"token\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-4-t2","generic":"value: {\"token\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"token\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-4-t3","generic":"\"{\"token\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"token\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-4-t4","generic":"[info] connect from {\"token\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"token\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-4-t5","generic":"field={\"token\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"token\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-4-t6","generic":"trailing {\"token\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"token\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-5-t1","generic":"{\"apikey\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"apikey\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-5-t2","generic":"value: {\"apikey\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"apikey\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-5-t3","generic":"\"{\"apikey\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"apikey\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-5-t4","generic":"[info] connect from {\"apikey\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"apikey\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-5-t5","generic":"field={\"apikey\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"apikey\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-5-t6","generic":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-6-t1","generic":"{\"api_key\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"api_key\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-6-t2","generic":"value: {\"api_key\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"api_key\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-6-t3","generic":"\"{\"api_key\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"api_key\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-6-t4","generic":"[info] connect from {\"api_key\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"api_key\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-6-t5","generic":"field={\"api_key\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"api_key\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-6-t6","generic":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-7-t1","generic":"{\"accountkey\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"accountkey\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-7-t2","generic":"value: {\"accountkey\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"accountkey\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-7-t3","generic":"\"{\"accountkey\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"accountkey\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-7-t4","generic":"[info] connect from {\"accountkey\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"accountkey\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-7-t5","generic":"field={\"accountkey\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"accountkey\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-7-t6","generic":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-8-t1","generic":"{\"accesskey\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"accesskey\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-8-t2","generic":"value: {\"accesskey\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"accesskey\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-8-t3","generic":"\"{\"accesskey\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"accesskey\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-8-t4","generic":"[info] connect from {\"accesskey\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"accesskey\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-8-t5","generic":"field={\"accesskey\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"accesskey\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-8-t6","generic":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-9-t1","generic":"{\"credential\": \"aGVsbG8td29ybGQ\"}","windows-log":"{\"credential\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-9-t2","generic":"value: {\"credential\": \"aGVsbG8td29ybGQ\"}","windows-log":"value: {\"credential\": \"aGVsbG8td29ybGQ\"}"}
+{"case":"credential-json-key-9-t3","generic":"\"{\"credential\": \"aGVsbG8td29ybGQ\"}\"","windows-log":"\"{\"credential\": \"aGVsbG8td29ybGQ\"}\""}
+{"case":"credential-json-key-9-t4","generic":"[info] connect from {\"credential\": \"aGVsbG8td29ybGQ\"} ok","windows-log":"[info] connect from {\"credential\": \"aGVsbG8td29ybGQ\"} ok"}
+{"case":"credential-json-key-9-t5","generic":"field={\"credential\": \"aGVsbG8td29ybGQ\"};next=plain","windows-log":"field={\"credential\": \"aGVsbG8td29ybGQ\"};next=plain"}
+{"case":"credential-json-key-9-t6","generic":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"}\n","windows-log":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"}\n"}
+{"case":"credential-json-key-10-t1","generic":"{\"passphrase\": \"correct horse battery staple\"}","windows-log":"{\"passphrase\": \"correct horse battery staple\"}"}
+{"case":"credential-json-key-10-t2","generic":"value: {\"passphrase\": \"correct horse battery staple\"}","windows-log":"value: {\"passphrase\": \"correct horse battery staple\"}"}
+{"case":"credential-json-key-10-t3","generic":"\"{\"passphrase\": \"correct horse battery staple\"}\"","windows-log":"\"{\"passphrase\": \"correct horse battery staple\"}\""}
+{"case":"credential-json-key-10-t4","generic":"[info] connect from {\"passphrase\": \"correct horse battery staple\"} ok","windows-log":"[info] connect from {\"passphrase\": \"correct horse battery staple\"} ok"}
+{"case":"credential-json-key-10-t5","generic":"field={\"passphrase\": \"correct horse battery staple\"};next=plain","windows-log":"field={\"passphrase\": \"correct horse battery staple\"};next=plain"}
+{"case":"credential-json-key-10-t6","generic":"trailing {\"passphrase\": \"correct horse battery staple\"}\n","windows-log":"trailing {\"passphrase\": \"correct horse battery staple\"}\n"}
+{"case":"credential-json-key-11-t1","generic":"{\"password\": 1234}","windows-log":"{\"password\": 1234}"}
+{"case":"credential-json-key-11-t2","generic":"value: {\"password\": 1234}","windows-log":"value: {\"password\": 1234}"}
+{"case":"credential-json-key-11-t3","generic":"\"{\"password\": 1234}\"","windows-log":"\"{\"password\": 1234}\""}
+{"case":"credential-json-key-11-t4","generic":"[info] connect from {\"password\": 1234} ok","windows-log":"[info] connect from {\"password\": 1234} ok"}
+{"case":"credential-json-key-11-t5","generic":"field={\"password\": 1234};next=plain","windows-log":"field={\"password\": 1234};next=plain"}
+{"case":"credential-json-key-11-t6","generic":"trailing {\"password\": 1234}\n","windows-log":"trailing {\"password\": 1234}\n"}
+{"case":"credential-json-key-12-t1","generic":"{\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}","windows-log":"{\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}"}
+{"case":"credential-json-key-12-t2","generic":"value: {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}","windows-log":"value: {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}"}
+{"case":"credential-json-key-12-t3","generic":"\"{\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\"","windows-log":"\"{\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\""}
+{"case":"credential-json-key-12-t4","generic":"[info] connect from {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"} ok","windows-log":"[info] connect from {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"} ok"}
+{"case":"credential-json-key-12-t5","generic":"field={\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"};next=plain","windows-log":"field={\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"};next=plain"}
+{"case":"credential-json-key-12-t6","generic":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\n","windows-log":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\n"}
+{"case":"mixed-1","generic":"user jsmith at 198.51.100.1 mailed redacted1@example.invalid from db01.corp.local","windows-log":"user jsmith at 10.0.1.50 mailed redacted1@example.invalid from HOST0001"}
+{"case":"mixed-2","generic":"C:\\Users\\jsmith\\a.log copied to \\\\FILESRV01\\share by S-1-5-21-1234567890-987654321-1122334455-1001","windows-log":"C:\\Users\\User00001\\a.log copied to \\\\HOST0001\\share by S-1-5-21-0-0-0-1001"}
+{"case":"mixed-3","generic":"NIC 00:00:5E:00:53:00 leased 192.0.2.1 in 198.51.100.2/8 gateway 2001:db8::1","windows-log":"NIC 00:00:5E:00:53:00 leased 198.18.0.15 in 10.0.0.0/8 gateway fd12:3456::1"}
+{"case":"mixed-4","generic":"order 1234567890123456 paid with 4000100000000001 by +99900000001","windows-log":"order 1234567890123456 paid with 4111111111111111 by +12025550147"}
+{"case":"mixed-5","generic":"session for <user-2> on <host-1> resolved to 198.51.100.1 (client <client-A>)","windows-log":"session for <user-2> on <host-1> resolved to 10.0.1.50 (client <client-A>)"}
+{"case":"mixed-6","generic":"backup of \\\\FILESRV01\\share to <host-1> failed for <user-2>\n","windows-log":"backup of \\\\HOST0001\\share to <host-1> failed for <user-2>\n"}
+{"case":"mixed-7","generic":"ticket 000-12-3456 raised by redacted1@example.invalid about 192.0.2.1\n","windows-log":"ticket 000-12-3456 raised by redacted1@example.invalid about 198.18.0.15\n"}
+{"case":"mixed-8","generic":"audit: 000-02-0002 and 123-45-0000 and 4000100000000001 and 4111111111111112","windows-log":"audit: 123-45-6789 and 123-45-0000 and 4111111111111111 and 4111111111111112"}
+{"case":"placeholder-only-1","generic":"connection from <host-1> by <user-2> for <client-A> at <ip-3>","windows-log":"connection from <host-1> by <user-2> for <client-A> at <ip-3>"}
+{"case":"placeholder-only-2","generic":"\\\\<host-1>\\share\\a.txt","windows-log":"\\\\<host-1>\\share\\a.txt"}
+{"case":"placeholder-only-3","generic":"C:\\Users\\<user-2>\\AppData\\Local\\a.log","windows-log":"C:\\Users\\<user-2>\\AppData\\Local\\a.log"}
+{"case":"placeholder-only-4","generic":"<client-A> reported <ip-3> unreachable from <host-1>\n","windows-log":"<client-A> reported <ip-3> unreachable from <host-1>\n"}
+{"case":"empty-ish-1","generic":"","windows-log":""}
+{"case":"empty-ish-2","generic":" ","windows-log":" "}
+{"case":"empty-ish-3","generic":"\n","windows-log":"\n"}
+{"case":"empty-ish-4","generic":"no personal data on this line at all","windows-log":"no personal data on this line at all"}
