@@ -19,10 +19,11 @@
 // DIALECT. The same patterns run here on JavaScript regex, on the collector in Rust, and in Go
 // ports. Those dialects disagree about what `\d` and `\b` mean outside ASCII and about where a line
 // ends, so the corpus carries lines that can WITNESS the disagreement: non-ASCII digits in an
-// SSN-shaped and a card-shaped run, an accented letter glued to a MAC address, and a token followed
-// by each of the terminators the engines rank differently (\n, bare \r, \r\n, U+2028, U+2029). A
-// port whose dialect differs produces a different golden line, which is the whole point of
-// committing one.
+// SSN-shaped and a card-shaped run, an accented letter glued to a MAC address, a token followed by
+// each of the terminators the engines rank differently (\n, bare \r, \r\n, U+2028, U+2029), and
+// characters above U+FFFF beside and inside tokens, where UTF-16, UTF-8 and rune offsets stop
+// agreeing on where a span starts. A port whose dialect differs produces a different golden line,
+// which is the whole point of committing one.
 //
 // EVERY VALUE IS SYNTHETIC and drawn from a documentation or reserved range. Addresses that this
 // engine treats as ALREADY redacted (RFC 5737 TEST-NET, RFC 3849 2001:db8::/32, example.com) cannot
@@ -265,6 +266,42 @@ const GROUPS = [
       '{"user": "jsmith", "password": "aGVsbG8td29ybGQ", "host": "<host-1>"}',
     ],
   },
+  {
+    // ASTRAL CHARACTERS, next to a token and inside one. Everything above U+FFFF is two UTF-16 code
+    // units here, four UTF-8 bytes in Go, and one rune in Rust, so a span this engine reports at
+    // offset 12 is not at offset 12 anywhere else. A port that carries the offsets rather than
+    // recomputing them cuts a token in half, and the damage lands on the longer-first tiebreak in
+    // particular, where two detectors claim overlapping spans and the wrong one has to lose.
+    //
+    // Adjacency also grades \b: an emoji and a supplementary-plane LETTER are both non-word to
+    // JavaScript, so \b holds against either, and an engine that reads U+10400 as the letter it is
+    // stops matching. The letter cases exist to separate that from the emoji case.
+    group: "astral",
+    values: [
+      "\u{1F600}10.0.1.50",
+      "10.0.1.50\u{1F600}",
+      "\u{1F600} alice@example.net",
+      "ali\u{1F600}ce@example.net",
+      "\u{10400}00:1A:2B:3C:4D:5E",
+      "00:1A:2B:3C:4D:5\u{1F600}E",
+      "C:\\Users\\js\u{1F600}mith\\a.log",
+      "C:\\Users\\\u{10400}mith\\a.log",
+      "4111111111111\u{1F600}111",
+      "\u{1F600}4111111111111111",
+      "\u{1F600}123-45-6789",
+      "\u{10400}db01.corp.local",
+      "\\\\FILESRV01\u{1F600}\\share",
+      "\u{1F600}\\\\FILESRV01\\share",
+      // Overlapping claims: the IPv6 span contains the IPv4 span, so longer-first decides, and the
+      // astral prefix moves every offset that decision is made on.
+      "\u{1F600}::ffff:10.0.1.50",
+      "\u{1F600}fd12:3456::10.0.1.50",
+      "\u{1F600}fd12:3456:789a:1:0:0:10.0.1.50",
+      "\u{1F600}fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60",
+      "\u{1F600}10.0.1.50-10.0.1.60",
+      "\u{1F600}10.0.0.0/8",
+    ],
+  },
 ];
 
 /** Whole lines, emitted as written: several values at once, and mixtures with placeholders. */
@@ -280,6 +317,8 @@ const LITERALS = [
       "backup of \\\\FILESRV01\\share to <host-1> failed for <user-2>\n",
       "ticket 000-12-3456 raised by alice@example.net about 198.18.0.15\n",
       "audit: 123-45-6789 and 123-45-0000 and 4111111111111111 and 4111111111111112",
+      "\u{1F600} user js\u{1F600}mith at 10.0.1.50 mailed ali\u{1F600}ce@example.net \u{1F600}",
+      "\u{10400} <host-1> \u{1F600} 10.0.1.50 <user-2> \u{10400} alice@example.net\n",
     ],
   },
   {

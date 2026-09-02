@@ -88,6 +88,11 @@ engines whose `\d`, `\b` and end-of-line semantics are wider than JavaScript's:
   and its `$` means end of input; .NET-derived engines exclude only `\n` from `.` and let `$` match
   before a trailing one; RE2 draws the line elsewhere again. One case per terminator also puts a
   second copy of the token after U+2028, so both sides of the break are graded.
+- Characters above U+FFFF beside a token and inside one (an emoji and a supplementary-plane letter).
+  They are two UTF-16 code units here, four UTF-8 bytes in Go and one rune in Rust, so an offset
+  this engine reports is not that offset anywhere else, and a port that carries offsets rather than
+  recomputing them cuts a token in half. Some of these lines put an IPv4 address inside an IPv6 one,
+  where two detectors claim overlapping spans and the longer has to win.
 
 A port that reads those differently produces a different golden line, which is what committing a
 golden is for.
