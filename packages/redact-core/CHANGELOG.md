@@ -6,6 +6,12 @@ All notable changes to `@sparklogs/redact-core` are documented here. This projec
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-cli` and
 `@sparklogs/redact-react` (same version number; see repo root README).
 
+## Unreleased
+
+### Added
+
+- Command-line: `psexec-password-flag` (`psexec` / `psexec64` `-p`, attached or spaced), `mysql-password-flag` (`mysql` / `mysqldump` `-p<value>`, attached only), `schtasks-runas-password` (`/RP value` and `/RP:value`). 42 secret-profile detectors.
+
 ## 0.3.0
 
 `secret` profile covers command-line and connection-string credentials (same family as the SparkLogs collector). 39 secret-profile detectors.
