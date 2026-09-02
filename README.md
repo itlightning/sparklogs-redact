@@ -105,6 +105,17 @@ On pull requests, the workflow posts a sticky summary comment (see
 under [`test/fixtures/clean/`](test/fixtures/clean/) (`*.fixture` synthetic logs; never commit raw
 customer `*.log` files; see that directory's README).
 
+### Corpora
+
+Two golden corpora pin behaviour case by case: a credential sweep graded against a second
+implementation of the same families, and a PII corpus with a golden per profile. All values are
+synthetic. See [`packages/redact-core/test/corpus/CORPUS.md`](packages/redact-core/test/corpus/CORPUS.md)
+for what each file is, where it came from, and how to regenerate it.
+
+They are also the parity contract for implementations in other languages. Nothing here is published
+to npm for that purpose: consumers check this repo out at a **pinned commit SHA** and run their own
+parity tests against `packages/redact-core/test/corpus/*`.
+
 ## License
 
 [MIT](LICENSE)

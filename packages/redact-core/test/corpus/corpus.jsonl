@@ -1330,3 +1330,64 @@
 {"message": "The ghp_ prefix identifies a GitHub personal access token for ZZNEIGHZZ"}
 {"message": "Path C:\\Users\\ZZNEIGHZZ\\AppData\\Local\\npm_cache\\index.json not found"}
 {"message": "Base64 payload eyJhbGciOiJIUzI1NiJ9 in diagnostic dump for ZZNEIGHZZ"}
+{"message": "curl -u 'ZZNEIGHZZ:ZZCREDZZ' https://api.example.com/v1"}
+{"message": "curl -u ZZNEIGHZZ:'ZZCREDZZ with space' https://api.example.com/v1"}
+{"message": "curl -u 'ZZNEIGHZZ:it''sZZCREDZZ' https://api.example.com/v1"}
+{"message": "curl -u ':ZZCREDZZ' https://api.example.com/v1"}
+{"message": "curl --user 'ZZNEIGHZZ:ZZCREDZZ' https://api.example.com/v1"}
+{"message": "curl --user ZZNEIGHZZ:'ZZCREDZZ with space' https://api.example.com/v1"}
+{"message": "curl --user 'ZZNEIGHZZ:it''sZZCREDZZ' https://api.example.com/v1"}
+{"message": "curl --user ':ZZCREDZZ' https://api.example.com/v1"}
+{"message": "curl --user-agent 'ZZNEIGHZZ/1.9' https://api.example.com/v1"}
+{"message": "curl -u 'ZZNEIGHZZ' https://api.example.com/v1"}
+{"message": "curl -u 'ZZNEIGHZZ:' https://api.example.com/v1"}
+{"message": "psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": "psexec64 -p ZZCREDZZ"}
+{"message": "schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": "mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": "mysqldump -pZZCREDZZ appdb"}
+{"message": "&&psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": "&&psexec64 -p ZZCREDZZ"}
+{"message": "&&schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": "&&mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": "&&mysqldump -pZZCREDZZ appdb"}
+{"message": ";psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": ";psexec64 -p ZZCREDZZ"}
+{"message": ";schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": ";mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": ";mysqldump -pZZCREDZZ appdb"}
+{"message": ",psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": ",psexec64 -p ZZCREDZZ"}
+{"message": ",schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": ",mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": ",mysqldump -pZZCREDZZ appdb"}
+{"message": "[psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": "[psexec64 -p ZZCREDZZ"}
+{"message": "[schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": "[mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": "[mysqldump -pZZCREDZZ appdb"}
+{"message": "1>psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": "1>psexec64 -p ZZCREDZZ"}
+{"message": "1>schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": "1>mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": "1>mysqldump -pZZCREDZZ appdb"}
+{"message": "cmd=psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": "cmd=psexec64 -p ZZCREDZZ"}
+{"message": "cmd=schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": "cmd=mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": "cmd=mysqldump -pZZCREDZZ appdb"}
+{"message": "run(psexec.exe \\\\h -u ZZNEIGHZZ -p ZZCREDZZ cmd"}
+{"message": "run(psexec64 -p ZZCREDZZ"}
+{"message": "run(schtasks /create /tn T /tr app.exe /ru ZZNEIGHZZ /RP ZZCREDZZ"}
+{"message": "run(mysql.exe -u ZZNEIGHZZ -pZZCREDZZ"}
+{"message": "run(mysqldump -pZZCREDZZ appdb"}
+{"message": "psexec.exe \\\\h -u ZZNEIGHZZ -p \"ZZCREDZZ\" cmd"}
+{"message": "schtasks.exe /create /RP:ZZCREDZZ"}
+{"message": "cmd /c \"psexec -u ZZNEIGHZZ -p ZZCREDZZ cmd\""}
+{"message": "{\"CommandLine\":\"mysql -pZZCREDZZ\"}"}
+{"message": "xcopy D:\\psexec\\*.dat E:\\arch /P /Y ZZNEIGHZZ"}
+{"message": "nc.exe -p 8080 ZZNEIGHZZ"}
+{"message": "mysql.exe -u ZZNEIGHZZ -p ZZNEIGHZZdb"}
+{"message": "mysql.exe -u ZZNEIGHZZ -P 3306"}
+{"message": "psexec.exe \\\\h -u ZZNEIGHZZ /p ZZNEIGHZZ"}
+{"message": "schtasks /query /tn ZZNEIGHZZ"}

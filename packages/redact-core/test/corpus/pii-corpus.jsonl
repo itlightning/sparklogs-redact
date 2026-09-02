@@ -1,0 +1,1545 @@
+{"case":"ipv4-public-1-t1","message":"198.18.0.15"}
+{"case":"ipv4-public-1-t2","message":"value: 198.18.0.15"}
+{"case":"ipv4-public-1-t3","message":"\"198.18.0.15\""}
+{"case":"ipv4-public-1-t4","message":"[info] connect from 198.18.0.15 ok"}
+{"case":"ipv4-public-1-t5","message":"field=198.18.0.15;next=plain"}
+{"case":"ipv4-public-1-t6","message":"trailing 198.18.0.15\n"}
+{"case":"ipv4-public-1-t7","message":"trailing 198.18.0.15\r"}
+{"case":"ipv4-public-1-t8","message":"trailing 198.18.0.15\r\n"}
+{"case":"ipv4-public-1-t9","message":"trailing 198.18.0.15 "}
+{"case":"ipv4-public-1-t10","message":"trailing 198.18.0.15 "}
+{"case":"ipv4-public-1-t11","message":"split 198.18.0.15 second half 198.18.0.15"}
+{"case":"ipv4-public-2-t1","message":"198.19.200.7"}
+{"case":"ipv4-public-2-t2","message":"value: 198.19.200.7"}
+{"case":"ipv4-public-2-t3","message":"\"198.19.200.7\""}
+{"case":"ipv4-public-2-t4","message":"[info] connect from 198.19.200.7 ok"}
+{"case":"ipv4-public-2-t5","message":"field=198.19.200.7;next=plain"}
+{"case":"ipv4-public-2-t6","message":"trailing 198.19.200.7\n"}
+{"case":"ipv4-public-2-t7","message":"trailing 198.19.200.7\r"}
+{"case":"ipv4-public-2-t8","message":"trailing 198.19.200.7\r\n"}
+{"case":"ipv4-public-2-t9","message":"trailing 198.19.200.7 "}
+{"case":"ipv4-public-2-t10","message":"trailing 198.19.200.7 "}
+{"case":"ipv4-public-2-t11","message":"split 198.19.200.7 second half 198.19.200.7"}
+{"case":"ipv4-public-3-t1","message":"100.64.12.9"}
+{"case":"ipv4-public-3-t2","message":"value: 100.64.12.9"}
+{"case":"ipv4-public-3-t3","message":"\"100.64.12.9\""}
+{"case":"ipv4-public-3-t4","message":"[info] connect from 100.64.12.9 ok"}
+{"case":"ipv4-public-3-t5","message":"field=100.64.12.9;next=plain"}
+{"case":"ipv4-public-3-t6","message":"trailing 100.64.12.9\n"}
+{"case":"ipv4-public-3-t7","message":"trailing 100.64.12.9\r"}
+{"case":"ipv4-public-3-t8","message":"trailing 100.64.12.9\r\n"}
+{"case":"ipv4-public-3-t9","message":"trailing 100.64.12.9 "}
+{"case":"ipv4-public-3-t10","message":"trailing 100.64.12.9 "}
+{"case":"ipv4-public-3-t11","message":"split 100.64.12.9 second half 100.64.12.9"}
+{"case":"ipv4-private-1-t1","message":"10.0.1.50"}
+{"case":"ipv4-private-1-t2","message":"value: 10.0.1.50"}
+{"case":"ipv4-private-1-t3","message":"\"10.0.1.50\""}
+{"case":"ipv4-private-1-t4","message":"[info] connect from 10.0.1.50 ok"}
+{"case":"ipv4-private-1-t5","message":"field=10.0.1.50;next=plain"}
+{"case":"ipv4-private-1-t6","message":"trailing 10.0.1.50\n"}
+{"case":"ipv4-private-1-t7","message":"trailing 10.0.1.50\r"}
+{"case":"ipv4-private-1-t8","message":"trailing 10.0.1.50\r\n"}
+{"case":"ipv4-private-1-t9","message":"trailing 10.0.1.50 "}
+{"case":"ipv4-private-1-t10","message":"trailing 10.0.1.50 "}
+{"case":"ipv4-private-1-t11","message":"split 10.0.1.50 second half 10.0.1.50"}
+{"case":"ipv4-private-2-t1","message":"192.168.1.10"}
+{"case":"ipv4-private-2-t2","message":"value: 192.168.1.10"}
+{"case":"ipv4-private-2-t3","message":"\"192.168.1.10\""}
+{"case":"ipv4-private-2-t4","message":"[info] connect from 192.168.1.10 ok"}
+{"case":"ipv4-private-2-t5","message":"field=192.168.1.10;next=plain"}
+{"case":"ipv4-private-2-t6","message":"trailing 192.168.1.10\n"}
+{"case":"ipv4-private-2-t7","message":"trailing 192.168.1.10\r"}
+{"case":"ipv4-private-2-t8","message":"trailing 192.168.1.10\r\n"}
+{"case":"ipv4-private-2-t9","message":"trailing 192.168.1.10 "}
+{"case":"ipv4-private-2-t10","message":"trailing 192.168.1.10 "}
+{"case":"ipv4-private-2-t11","message":"split 192.168.1.10 second half 192.168.1.10"}
+{"case":"ipv4-private-3-t1","message":"172.16.5.4"}
+{"case":"ipv4-private-3-t2","message":"value: 172.16.5.4"}
+{"case":"ipv4-private-3-t3","message":"\"172.16.5.4\""}
+{"case":"ipv4-private-3-t4","message":"[info] connect from 172.16.5.4 ok"}
+{"case":"ipv4-private-3-t5","message":"field=172.16.5.4;next=plain"}
+{"case":"ipv4-private-3-t6","message":"trailing 172.16.5.4\n"}
+{"case":"ipv4-private-3-t7","message":"trailing 172.16.5.4\r"}
+{"case":"ipv4-private-3-t8","message":"trailing 172.16.5.4\r\n"}
+{"case":"ipv4-private-3-t9","message":"trailing 172.16.5.4 "}
+{"case":"ipv4-private-3-t10","message":"trailing 172.16.5.4 "}
+{"case":"ipv4-private-3-t11","message":"split 172.16.5.4 second half 172.16.5.4"}
+{"case":"ipv4-private-4-t1","message":"127.0.0.1"}
+{"case":"ipv4-private-4-t2","message":"value: 127.0.0.1"}
+{"case":"ipv4-private-4-t3","message":"\"127.0.0.1\""}
+{"case":"ipv4-private-4-t4","message":"[info] connect from 127.0.0.1 ok"}
+{"case":"ipv4-private-4-t5","message":"field=127.0.0.1;next=plain"}
+{"case":"ipv4-private-4-t6","message":"trailing 127.0.0.1\n"}
+{"case":"ipv4-private-4-t7","message":"trailing 127.0.0.1\r"}
+{"case":"ipv4-private-4-t8","message":"trailing 127.0.0.1\r\n"}
+{"case":"ipv4-private-4-t9","message":"trailing 127.0.0.1 "}
+{"case":"ipv4-private-4-t10","message":"trailing 127.0.0.1 "}
+{"case":"ipv4-private-4-t11","message":"split 127.0.0.1 second half 127.0.0.1"}
+{"case":"ipv4-cidr-1-t1","message":"10.0.0.0/8"}
+{"case":"ipv4-cidr-1-t2","message":"value: 10.0.0.0/8"}
+{"case":"ipv4-cidr-1-t3","message":"\"10.0.0.0/8\""}
+{"case":"ipv4-cidr-1-t4","message":"[info] connect from 10.0.0.0/8 ok"}
+{"case":"ipv4-cidr-1-t5","message":"field=10.0.0.0/8;next=plain"}
+{"case":"ipv4-cidr-1-t6","message":"trailing 10.0.0.0/8\n"}
+{"case":"ipv4-cidr-1-t7","message":"trailing 10.0.0.0/8\r"}
+{"case":"ipv4-cidr-1-t8","message":"trailing 10.0.0.0/8\r\n"}
+{"case":"ipv4-cidr-1-t9","message":"trailing 10.0.0.0/8 "}
+{"case":"ipv4-cidr-1-t10","message":"trailing 10.0.0.0/8 "}
+{"case":"ipv4-cidr-1-t11","message":"split 10.0.0.0/8 second half 10.0.0.0/8"}
+{"case":"ipv4-cidr-2-t1","message":"192.168.1.0/24"}
+{"case":"ipv4-cidr-2-t2","message":"value: 192.168.1.0/24"}
+{"case":"ipv4-cidr-2-t3","message":"\"192.168.1.0/24\""}
+{"case":"ipv4-cidr-2-t4","message":"[info] connect from 192.168.1.0/24 ok"}
+{"case":"ipv4-cidr-2-t5","message":"field=192.168.1.0/24;next=plain"}
+{"case":"ipv4-cidr-2-t6","message":"trailing 192.168.1.0/24\n"}
+{"case":"ipv4-cidr-2-t7","message":"trailing 192.168.1.0/24\r"}
+{"case":"ipv4-cidr-2-t8","message":"trailing 192.168.1.0/24\r\n"}
+{"case":"ipv4-cidr-2-t9","message":"trailing 192.168.1.0/24 "}
+{"case":"ipv4-cidr-2-t10","message":"trailing 192.168.1.0/24 "}
+{"case":"ipv4-cidr-2-t11","message":"split 192.168.1.0/24 second half 192.168.1.0/24"}
+{"case":"ipv4-cidr-3-t1","message":"198.18.0.0/15"}
+{"case":"ipv4-cidr-3-t2","message":"value: 198.18.0.0/15"}
+{"case":"ipv4-cidr-3-t3","message":"\"198.18.0.0/15\""}
+{"case":"ipv4-cidr-3-t4","message":"[info] connect from 198.18.0.0/15 ok"}
+{"case":"ipv4-cidr-3-t5","message":"field=198.18.0.0/15;next=plain"}
+{"case":"ipv4-cidr-3-t6","message":"trailing 198.18.0.0/15\n"}
+{"case":"ipv4-cidr-3-t7","message":"trailing 198.18.0.0/15\r"}
+{"case":"ipv4-cidr-3-t8","message":"trailing 198.18.0.0/15\r\n"}
+{"case":"ipv4-cidr-3-t9","message":"trailing 198.18.0.0/15 "}
+{"case":"ipv4-cidr-3-t10","message":"trailing 198.18.0.0/15 "}
+{"case":"ipv4-cidr-3-t11","message":"split 198.18.0.0/15 second half 198.18.0.0/15"}
+{"case":"ipv4-cidr-4-t1","message":"172.16.0.0/12"}
+{"case":"ipv4-cidr-4-t2","message":"value: 172.16.0.0/12"}
+{"case":"ipv4-cidr-4-t3","message":"\"172.16.0.0/12\""}
+{"case":"ipv4-cidr-4-t4","message":"[info] connect from 172.16.0.0/12 ok"}
+{"case":"ipv4-cidr-4-t5","message":"field=172.16.0.0/12;next=plain"}
+{"case":"ipv4-cidr-4-t6","message":"trailing 172.16.0.0/12\n"}
+{"case":"ipv4-cidr-4-t7","message":"trailing 172.16.0.0/12\r"}
+{"case":"ipv4-cidr-4-t8","message":"trailing 172.16.0.0/12\r\n"}
+{"case":"ipv4-cidr-4-t9","message":"trailing 172.16.0.0/12 "}
+{"case":"ipv4-cidr-4-t10","message":"trailing 172.16.0.0/12 "}
+{"case":"ipv4-cidr-4-t11","message":"split 172.16.0.0/12 second half 172.16.0.0/12"}
+{"case":"ipv4-range-1-t1","message":"10.0.1.50-10.0.1.60"}
+{"case":"ipv4-range-1-t2","message":"value: 10.0.1.50-10.0.1.60"}
+{"case":"ipv4-range-1-t3","message":"\"10.0.1.50-10.0.1.60\""}
+{"case":"ipv4-range-1-t4","message":"[info] connect from 10.0.1.50-10.0.1.60 ok"}
+{"case":"ipv4-range-1-t5","message":"field=10.0.1.50-10.0.1.60;next=plain"}
+{"case":"ipv4-range-1-t6","message":"trailing 10.0.1.50-10.0.1.60\n"}
+{"case":"ipv4-range-1-t7","message":"trailing 10.0.1.50-10.0.1.60\r"}
+{"case":"ipv4-range-1-t8","message":"trailing 10.0.1.50-10.0.1.60\r\n"}
+{"case":"ipv4-range-1-t9","message":"trailing 10.0.1.50-10.0.1.60 "}
+{"case":"ipv4-range-1-t10","message":"trailing 10.0.1.50-10.0.1.60 "}
+{"case":"ipv4-range-1-t11","message":"split 10.0.1.50-10.0.1.60 second half 10.0.1.50-10.0.1.60"}
+{"case":"ipv4-range-2-t1","message":"198.18.0.15-198.18.0.31"}
+{"case":"ipv4-range-2-t2","message":"value: 198.18.0.15-198.18.0.31"}
+{"case":"ipv4-range-2-t3","message":"\"198.18.0.15-198.18.0.31\""}
+{"case":"ipv4-range-2-t4","message":"[info] connect from 198.18.0.15-198.18.0.31 ok"}
+{"case":"ipv4-range-2-t5","message":"field=198.18.0.15-198.18.0.31;next=plain"}
+{"case":"ipv4-range-2-t6","message":"trailing 198.18.0.15-198.18.0.31\n"}
+{"case":"ipv4-range-2-t7","message":"trailing 198.18.0.15-198.18.0.31\r"}
+{"case":"ipv4-range-2-t8","message":"trailing 198.18.0.15-198.18.0.31\r\n"}
+{"case":"ipv4-range-2-t9","message":"trailing 198.18.0.15-198.18.0.31 "}
+{"case":"ipv4-range-2-t10","message":"trailing 198.18.0.15-198.18.0.31 "}
+{"case":"ipv4-range-2-t11","message":"split 198.18.0.15-198.18.0.31 second half 198.18.0.15-198.18.0.31"}
+{"case":"ipv6-1-t1","message":"fd12:3456:789a:0001:0000:0000:0000:0001"}
+{"case":"ipv6-1-t2","message":"value: fd12:3456:789a:0001:0000:0000:0000:0001"}
+{"case":"ipv6-1-t3","message":"\"fd12:3456:789a:0001:0000:0000:0000:0001\""}
+{"case":"ipv6-1-t4","message":"[info] connect from fd12:3456:789a:0001:0000:0000:0000:0001 ok"}
+{"case":"ipv6-1-t5","message":"field=fd12:3456:789a:0001:0000:0000:0000:0001;next=plain"}
+{"case":"ipv6-1-t6","message":"trailing fd12:3456:789a:0001:0000:0000:0000:0001\n"}
+{"case":"ipv6-1-t7","message":"trailing fd12:3456:789a:0001:0000:0000:0000:0001\r"}
+{"case":"ipv6-1-t8","message":"trailing fd12:3456:789a:0001:0000:0000:0000:0001\r\n"}
+{"case":"ipv6-1-t9","message":"trailing fd12:3456:789a:0001:0000:0000:0000:0001 "}
+{"case":"ipv6-1-t10","message":"trailing fd12:3456:789a:0001:0000:0000:0000:0001 "}
+{"case":"ipv6-1-t11","message":"split fd12:3456:789a:0001:0000:0000:0000:0001 second half fd12:3456:789a:0001:0000:0000:0000:0001"}
+{"case":"ipv6-2-t1","message":"fd12:3456::1"}
+{"case":"ipv6-2-t2","message":"value: fd12:3456::1"}
+{"case":"ipv6-2-t3","message":"\"fd12:3456::1\""}
+{"case":"ipv6-2-t4","message":"[info] connect from fd12:3456::1 ok"}
+{"case":"ipv6-2-t5","message":"field=fd12:3456::1;next=plain"}
+{"case":"ipv6-2-t6","message":"trailing fd12:3456::1\n"}
+{"case":"ipv6-2-t7","message":"trailing fd12:3456::1\r"}
+{"case":"ipv6-2-t8","message":"trailing fd12:3456::1\r\n"}
+{"case":"ipv6-2-t9","message":"trailing fd12:3456::1 "}
+{"case":"ipv6-2-t10","message":"trailing fd12:3456::1 "}
+{"case":"ipv6-2-t11","message":"split fd12:3456::1 second half fd12:3456::1"}
+{"case":"ipv6-3-t1","message":"fd12:3456:789a:1::abcd"}
+{"case":"ipv6-3-t2","message":"value: fd12:3456:789a:1::abcd"}
+{"case":"ipv6-3-t3","message":"\"fd12:3456:789a:1::abcd\""}
+{"case":"ipv6-3-t4","message":"[info] connect from fd12:3456:789a:1::abcd ok"}
+{"case":"ipv6-3-t5","message":"field=fd12:3456:789a:1::abcd;next=plain"}
+{"case":"ipv6-3-t6","message":"trailing fd12:3456:789a:1::abcd\n"}
+{"case":"ipv6-3-t7","message":"trailing fd12:3456:789a:1::abcd\r"}
+{"case":"ipv6-3-t8","message":"trailing fd12:3456:789a:1::abcd\r\n"}
+{"case":"ipv6-3-t9","message":"trailing fd12:3456:789a:1::abcd "}
+{"case":"ipv6-3-t10","message":"trailing fd12:3456:789a:1::abcd "}
+{"case":"ipv6-3-t11","message":"split fd12:3456:789a:1::abcd second half fd12:3456:789a:1::abcd"}
+{"case":"ipv6-4-t1","message":"fd00::dead:beef"}
+{"case":"ipv6-4-t2","message":"value: fd00::dead:beef"}
+{"case":"ipv6-4-t3","message":"\"fd00::dead:beef\""}
+{"case":"ipv6-4-t4","message":"[info] connect from fd00::dead:beef ok"}
+{"case":"ipv6-4-t5","message":"field=fd00::dead:beef;next=plain"}
+{"case":"ipv6-4-t6","message":"trailing fd00::dead:beef\n"}
+{"case":"ipv6-4-t7","message":"trailing fd00::dead:beef\r"}
+{"case":"ipv6-4-t8","message":"trailing fd00::dead:beef\r\n"}
+{"case":"ipv6-4-t9","message":"trailing fd00::dead:beef "}
+{"case":"ipv6-4-t10","message":"trailing fd00::dead:beef "}
+{"case":"ipv6-4-t11","message":"split fd00::dead:beef second half fd00::dead:beef"}
+{"case":"ipv6-5-t1","message":"fe80::1%eth0"}
+{"case":"ipv6-5-t2","message":"value: fe80::1%eth0"}
+{"case":"ipv6-5-t3","message":"\"fe80::1%eth0\""}
+{"case":"ipv6-5-t4","message":"[info] connect from fe80::1%eth0 ok"}
+{"case":"ipv6-5-t5","message":"field=fe80::1%eth0;next=plain"}
+{"case":"ipv6-5-t6","message":"trailing fe80::1%eth0\n"}
+{"case":"ipv6-5-t7","message":"trailing fe80::1%eth0\r"}
+{"case":"ipv6-5-t8","message":"trailing fe80::1%eth0\r\n"}
+{"case":"ipv6-5-t9","message":"trailing fe80::1%eth0 "}
+{"case":"ipv6-5-t10","message":"trailing fe80::1%eth0 "}
+{"case":"ipv6-5-t11","message":"split fe80::1%eth0 second half fe80::1%eth0"}
+{"case":"ipv6-6-t1","message":"::ffff:10.0.1.50"}
+{"case":"ipv6-6-t2","message":"value: ::ffff:10.0.1.50"}
+{"case":"ipv6-6-t3","message":"\"::ffff:10.0.1.50\""}
+{"case":"ipv6-6-t4","message":"[info] connect from ::ffff:10.0.1.50 ok"}
+{"case":"ipv6-6-t5","message":"field=::ffff:10.0.1.50;next=plain"}
+{"case":"ipv6-6-t6","message":"trailing ::ffff:10.0.1.50\n"}
+{"case":"ipv6-6-t7","message":"trailing ::ffff:10.0.1.50\r"}
+{"case":"ipv6-6-t8","message":"trailing ::ffff:10.0.1.50\r\n"}
+{"case":"ipv6-6-t9","message":"trailing ::ffff:10.0.1.50 "}
+{"case":"ipv6-6-t10","message":"trailing ::ffff:10.0.1.50 "}
+{"case":"ipv6-6-t11","message":"split ::ffff:10.0.1.50 second half ::ffff:10.0.1.50"}
+{"case":"ipv6-7-t1","message":"fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"ipv6-7-t2","message":"value: fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"ipv6-7-t3","message":"\"fd12:3456:789a:1:0:0:10.0.1.50\""}
+{"case":"ipv6-7-t4","message":"[info] connect from fd12:3456:789a:1:0:0:10.0.1.50 ok"}
+{"case":"ipv6-7-t5","message":"field=fd12:3456:789a:1:0:0:10.0.1.50;next=plain"}
+{"case":"ipv6-7-t6","message":"trailing fd12:3456:789a:1:0:0:10.0.1.50\n"}
+{"case":"ipv6-7-t7","message":"trailing fd12:3456:789a:1:0:0:10.0.1.50\r"}
+{"case":"ipv6-7-t8","message":"trailing fd12:3456:789a:1:0:0:10.0.1.50\r\n"}
+{"case":"ipv6-7-t9","message":"trailing fd12:3456:789a:1:0:0:10.0.1.50 "}
+{"case":"ipv6-7-t10","message":"trailing fd12:3456:789a:1:0:0:10.0.1.50 "}
+{"case":"ipv6-7-t11","message":"split fd12:3456:789a:1:0:0:10.0.1.50 second half fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"email-1-t1","message":"alice@example.net"}
+{"case":"email-1-t2","message":"value: alice@example.net"}
+{"case":"email-1-t3","message":"\"alice@example.net\""}
+{"case":"email-1-t4","message":"[info] connect from alice@example.net ok"}
+{"case":"email-1-t5","message":"field=alice@example.net;next=plain"}
+{"case":"email-1-t6","message":"trailing alice@example.net\n"}
+{"case":"email-1-t7","message":"trailing alice@example.net\r"}
+{"case":"email-1-t8","message":"trailing alice@example.net\r\n"}
+{"case":"email-1-t9","message":"trailing alice@example.net "}
+{"case":"email-1-t10","message":"trailing alice@example.net "}
+{"case":"email-1-t11","message":"split alice@example.net second half alice@example.net"}
+{"case":"email-2-t1","message":"bob.smith+tag@example.org"}
+{"case":"email-2-t2","message":"value: bob.smith+tag@example.org"}
+{"case":"email-2-t3","message":"\"bob.smith+tag@example.org\""}
+{"case":"email-2-t4","message":"[info] connect from bob.smith+tag@example.org ok"}
+{"case":"email-2-t5","message":"field=bob.smith+tag@example.org;next=plain"}
+{"case":"email-2-t6","message":"trailing bob.smith+tag@example.org\n"}
+{"case":"email-2-t7","message":"trailing bob.smith+tag@example.org\r"}
+{"case":"email-2-t8","message":"trailing bob.smith+tag@example.org\r\n"}
+{"case":"email-2-t9","message":"trailing bob.smith+tag@example.org "}
+{"case":"email-2-t10","message":"trailing bob.smith+tag@example.org "}
+{"case":"email-2-t11","message":"split bob.smith+tag@example.org second half bob.smith+tag@example.org"}
+{"case":"email-3-t1","message":"svc_account@mail.example.net"}
+{"case":"email-3-t2","message":"value: svc_account@mail.example.net"}
+{"case":"email-3-t3","message":"\"svc_account@mail.example.net\""}
+{"case":"email-3-t4","message":"[info] connect from svc_account@mail.example.net ok"}
+{"case":"email-3-t5","message":"field=svc_account@mail.example.net;next=plain"}
+{"case":"email-3-t6","message":"trailing svc_account@mail.example.net\n"}
+{"case":"email-3-t7","message":"trailing svc_account@mail.example.net\r"}
+{"case":"email-3-t8","message":"trailing svc_account@mail.example.net\r\n"}
+{"case":"email-3-t9","message":"trailing svc_account@mail.example.net "}
+{"case":"email-3-t10","message":"trailing svc_account@mail.example.net "}
+{"case":"email-3-t11","message":"split svc_account@mail.example.net second half svc_account@mail.example.net"}
+{"case":"mac-1-t1","message":"00:1A:2B:3C:4D:5E"}
+{"case":"mac-1-t2","message":"value: 00:1A:2B:3C:4D:5E"}
+{"case":"mac-1-t3","message":"\"00:1A:2B:3C:4D:5E\""}
+{"case":"mac-1-t4","message":"[info] connect from 00:1A:2B:3C:4D:5E ok"}
+{"case":"mac-1-t5","message":"field=00:1A:2B:3C:4D:5E;next=plain"}
+{"case":"mac-1-t6","message":"trailing 00:1A:2B:3C:4D:5E\n"}
+{"case":"mac-1-t7","message":"trailing 00:1A:2B:3C:4D:5E\r"}
+{"case":"mac-1-t8","message":"trailing 00:1A:2B:3C:4D:5E\r\n"}
+{"case":"mac-1-t9","message":"trailing 00:1A:2B:3C:4D:5E "}
+{"case":"mac-1-t10","message":"trailing 00:1A:2B:3C:4D:5E "}
+{"case":"mac-1-t11","message":"split 00:1A:2B:3C:4D:5E second half 00:1A:2B:3C:4D:5E"}
+{"case":"mac-2-t1","message":"00-1a-2b-3c-4d-5e"}
+{"case":"mac-2-t2","message":"value: 00-1a-2b-3c-4d-5e"}
+{"case":"mac-2-t3","message":"\"00-1a-2b-3c-4d-5e\""}
+{"case":"mac-2-t4","message":"[info] connect from 00-1a-2b-3c-4d-5e ok"}
+{"case":"mac-2-t5","message":"field=00-1a-2b-3c-4d-5e;next=plain"}
+{"case":"mac-2-t6","message":"trailing 00-1a-2b-3c-4d-5e\n"}
+{"case":"mac-2-t7","message":"trailing 00-1a-2b-3c-4d-5e\r"}
+{"case":"mac-2-t8","message":"trailing 00-1a-2b-3c-4d-5e\r\n"}
+{"case":"mac-2-t9","message":"trailing 00-1a-2b-3c-4d-5e "}
+{"case":"mac-2-t10","message":"trailing 00-1a-2b-3c-4d-5e "}
+{"case":"mac-2-t11","message":"split 00-1a-2b-3c-4d-5e second half 00-1a-2b-3c-4d-5e"}
+{"case":"mac-3-t1","message":"A0:B1:C2:D3:E4:F5"}
+{"case":"mac-3-t2","message":"value: A0:B1:C2:D3:E4:F5"}
+{"case":"mac-3-t3","message":"\"A0:B1:C2:D3:E4:F5\""}
+{"case":"mac-3-t4","message":"[info] connect from A0:B1:C2:D3:E4:F5 ok"}
+{"case":"mac-3-t5","message":"field=A0:B1:C2:D3:E4:F5;next=plain"}
+{"case":"mac-3-t6","message":"trailing A0:B1:C2:D3:E4:F5\n"}
+{"case":"mac-3-t7","message":"trailing A0:B1:C2:D3:E4:F5\r"}
+{"case":"mac-3-t8","message":"trailing A0:B1:C2:D3:E4:F5\r\n"}
+{"case":"mac-3-t9","message":"trailing A0:B1:C2:D3:E4:F5 "}
+{"case":"mac-3-t10","message":"trailing A0:B1:C2:D3:E4:F5 "}
+{"case":"mac-3-t11","message":"split A0:B1:C2:D3:E4:F5 second half A0:B1:C2:D3:E4:F5"}
+{"case":"card-luhn-valid-1-t1","message":"4111111111111111"}
+{"case":"card-luhn-valid-1-t2","message":"value: 4111111111111111"}
+{"case":"card-luhn-valid-1-t3","message":"\"4111111111111111\""}
+{"case":"card-luhn-valid-1-t4","message":"[info] connect from 4111111111111111 ok"}
+{"case":"card-luhn-valid-1-t5","message":"field=4111111111111111;next=plain"}
+{"case":"card-luhn-valid-1-t6","message":"trailing 4111111111111111\n"}
+{"case":"card-luhn-valid-1-t7","message":"trailing 4111111111111111\r"}
+{"case":"card-luhn-valid-1-t8","message":"trailing 4111111111111111\r\n"}
+{"case":"card-luhn-valid-1-t9","message":"trailing 4111111111111111 "}
+{"case":"card-luhn-valid-1-t10","message":"trailing 4111111111111111 "}
+{"case":"card-luhn-valid-1-t11","message":"split 4111111111111111 second half 4111111111111111"}
+{"case":"card-luhn-valid-2-t1","message":"4111 1111 1111 1111"}
+{"case":"card-luhn-valid-2-t2","message":"value: 4111 1111 1111 1111"}
+{"case":"card-luhn-valid-2-t3","message":"\"4111 1111 1111 1111\""}
+{"case":"card-luhn-valid-2-t4","message":"[info] connect from 4111 1111 1111 1111 ok"}
+{"case":"card-luhn-valid-2-t5","message":"field=4111 1111 1111 1111;next=plain"}
+{"case":"card-luhn-valid-2-t6","message":"trailing 4111 1111 1111 1111\n"}
+{"case":"card-luhn-valid-2-t7","message":"trailing 4111 1111 1111 1111\r"}
+{"case":"card-luhn-valid-2-t8","message":"trailing 4111 1111 1111 1111\r\n"}
+{"case":"card-luhn-valid-2-t9","message":"trailing 4111 1111 1111 1111 "}
+{"case":"card-luhn-valid-2-t10","message":"trailing 4111 1111 1111 1111 "}
+{"case":"card-luhn-valid-2-t11","message":"split 4111 1111 1111 1111 second half 4111 1111 1111 1111"}
+{"case":"card-luhn-valid-3-t1","message":"4111-1111-1111-1111"}
+{"case":"card-luhn-valid-3-t2","message":"value: 4111-1111-1111-1111"}
+{"case":"card-luhn-valid-3-t3","message":"\"4111-1111-1111-1111\""}
+{"case":"card-luhn-valid-3-t4","message":"[info] connect from 4111-1111-1111-1111 ok"}
+{"case":"card-luhn-valid-3-t5","message":"field=4111-1111-1111-1111;next=plain"}
+{"case":"card-luhn-valid-3-t6","message":"trailing 4111-1111-1111-1111\n"}
+{"case":"card-luhn-valid-3-t7","message":"trailing 4111-1111-1111-1111\r"}
+{"case":"card-luhn-valid-3-t8","message":"trailing 4111-1111-1111-1111\r\n"}
+{"case":"card-luhn-valid-3-t9","message":"trailing 4111-1111-1111-1111 "}
+{"case":"card-luhn-valid-3-t10","message":"trailing 4111-1111-1111-1111 "}
+{"case":"card-luhn-valid-3-t11","message":"split 4111-1111-1111-1111 second half 4111-1111-1111-1111"}
+{"case":"card-luhn-valid-4-t1","message":"5555555555554444"}
+{"case":"card-luhn-valid-4-t2","message":"value: 5555555555554444"}
+{"case":"card-luhn-valid-4-t3","message":"\"5555555555554444\""}
+{"case":"card-luhn-valid-4-t4","message":"[info] connect from 5555555555554444 ok"}
+{"case":"card-luhn-valid-4-t5","message":"field=5555555555554444;next=plain"}
+{"case":"card-luhn-valid-4-t6","message":"trailing 5555555555554444\n"}
+{"case":"card-luhn-valid-4-t7","message":"trailing 5555555555554444\r"}
+{"case":"card-luhn-valid-4-t8","message":"trailing 5555555555554444\r\n"}
+{"case":"card-luhn-valid-4-t9","message":"trailing 5555555555554444 "}
+{"case":"card-luhn-valid-4-t10","message":"trailing 5555555555554444 "}
+{"case":"card-luhn-valid-4-t11","message":"split 5555555555554444 second half 5555555555554444"}
+{"case":"card-luhn-valid-5-t1","message":"378282246310005"}
+{"case":"card-luhn-valid-5-t2","message":"value: 378282246310005"}
+{"case":"card-luhn-valid-5-t3","message":"\"378282246310005\""}
+{"case":"card-luhn-valid-5-t4","message":"[info] connect from 378282246310005 ok"}
+{"case":"card-luhn-valid-5-t5","message":"field=378282246310005;next=plain"}
+{"case":"card-luhn-valid-5-t6","message":"trailing 378282246310005\n"}
+{"case":"card-luhn-valid-5-t7","message":"trailing 378282246310005\r"}
+{"case":"card-luhn-valid-5-t8","message":"trailing 378282246310005\r\n"}
+{"case":"card-luhn-valid-5-t9","message":"trailing 378282246310005 "}
+{"case":"card-luhn-valid-5-t10","message":"trailing 378282246310005 "}
+{"case":"card-luhn-valid-5-t11","message":"split 378282246310005 second half 378282246310005"}
+{"case":"card-luhn-valid-6-t1","message":"6011111111111117"}
+{"case":"card-luhn-valid-6-t2","message":"value: 6011111111111117"}
+{"case":"card-luhn-valid-6-t3","message":"\"6011111111111117\""}
+{"case":"card-luhn-valid-6-t4","message":"[info] connect from 6011111111111117 ok"}
+{"case":"card-luhn-valid-6-t5","message":"field=6011111111111117;next=plain"}
+{"case":"card-luhn-valid-6-t6","message":"trailing 6011111111111117\n"}
+{"case":"card-luhn-valid-6-t7","message":"trailing 6011111111111117\r"}
+{"case":"card-luhn-valid-6-t8","message":"trailing 6011111111111117\r\n"}
+{"case":"card-luhn-valid-6-t9","message":"trailing 6011111111111117 "}
+{"case":"card-luhn-valid-6-t10","message":"trailing 6011111111111117 "}
+{"case":"card-luhn-valid-6-t11","message":"split 6011111111111117 second half 6011111111111117"}
+{"case":"card-luhn-invalid-1-t1","message":"4111111111111112","keep":true}
+{"case":"card-luhn-invalid-1-t2","message":"value: 4111111111111112","keep":true}
+{"case":"card-luhn-invalid-1-t3","message":"\"4111111111111112\"","keep":true}
+{"case":"card-luhn-invalid-1-t4","message":"[info] connect from 4111111111111112 ok","keep":true}
+{"case":"card-luhn-invalid-1-t5","message":"field=4111111111111112;next=plain","keep":true}
+{"case":"card-luhn-invalid-1-t6","message":"trailing 4111111111111112\n","keep":true}
+{"case":"card-luhn-invalid-1-t7","message":"trailing 4111111111111112\r","keep":true}
+{"case":"card-luhn-invalid-1-t8","message":"trailing 4111111111111112\r\n","keep":true}
+{"case":"card-luhn-invalid-1-t9","message":"trailing 4111111111111112 ","keep":true}
+{"case":"card-luhn-invalid-1-t10","message":"trailing 4111111111111112 ","keep":true}
+{"case":"card-luhn-invalid-1-t11","message":"split 4111111111111112 second half 4111111111111112","keep":true}
+{"case":"card-luhn-invalid-2-t1","message":"1234567890123456","keep":true}
+{"case":"card-luhn-invalid-2-t2","message":"value: 1234567890123456","keep":true}
+{"case":"card-luhn-invalid-2-t3","message":"\"1234567890123456\"","keep":true}
+{"case":"card-luhn-invalid-2-t4","message":"[info] connect from 1234567890123456 ok","keep":true}
+{"case":"card-luhn-invalid-2-t5","message":"field=1234567890123456;next=plain","keep":true}
+{"case":"card-luhn-invalid-2-t6","message":"trailing 1234567890123456\n","keep":true}
+{"case":"card-luhn-invalid-2-t7","message":"trailing 1234567890123456\r","keep":true}
+{"case":"card-luhn-invalid-2-t8","message":"trailing 1234567890123456\r\n","keep":true}
+{"case":"card-luhn-invalid-2-t9","message":"trailing 1234567890123456 ","keep":true}
+{"case":"card-luhn-invalid-2-t10","message":"trailing 1234567890123456 ","keep":true}
+{"case":"card-luhn-invalid-2-t11","message":"split 1234567890123456 second half 1234567890123456","keep":true}
+{"case":"card-luhn-invalid-3-t1","message":"9999888877776666","keep":true}
+{"case":"card-luhn-invalid-3-t2","message":"value: 9999888877776666","keep":true}
+{"case":"card-luhn-invalid-3-t3","message":"\"9999888877776666\"","keep":true}
+{"case":"card-luhn-invalid-3-t4","message":"[info] connect from 9999888877776666 ok","keep":true}
+{"case":"card-luhn-invalid-3-t5","message":"field=9999888877776666;next=plain","keep":true}
+{"case":"card-luhn-invalid-3-t6","message":"trailing 9999888877776666\n","keep":true}
+{"case":"card-luhn-invalid-3-t7","message":"trailing 9999888877776666\r","keep":true}
+{"case":"card-luhn-invalid-3-t8","message":"trailing 9999888877776666\r\n","keep":true}
+{"case":"card-luhn-invalid-3-t9","message":"trailing 9999888877776666 ","keep":true}
+{"case":"card-luhn-invalid-3-t10","message":"trailing 9999888877776666 ","keep":true}
+{"case":"card-luhn-invalid-3-t11","message":"split 9999888877776666 second half 9999888877776666","keep":true}
+{"case":"card-luhn-invalid-4-t1","message":"1234 5678 9012 3456","keep":true}
+{"case":"card-luhn-invalid-4-t2","message":"value: 1234 5678 9012 3456","keep":true}
+{"case":"card-luhn-invalid-4-t3","message":"\"1234 5678 9012 3456\"","keep":true}
+{"case":"card-luhn-invalid-4-t4","message":"[info] connect from 1234 5678 9012 3456 ok","keep":true}
+{"case":"card-luhn-invalid-4-t5","message":"field=1234 5678 9012 3456;next=plain","keep":true}
+{"case":"card-luhn-invalid-4-t6","message":"trailing 1234 5678 9012 3456\n","keep":true}
+{"case":"card-luhn-invalid-4-t7","message":"trailing 1234 5678 9012 3456\r","keep":true}
+{"case":"card-luhn-invalid-4-t8","message":"trailing 1234 5678 9012 3456\r\n","keep":true}
+{"case":"card-luhn-invalid-4-t9","message":"trailing 1234 5678 9012 3456 ","keep":true}
+{"case":"card-luhn-invalid-4-t10","message":"trailing 1234 5678 9012 3456 ","keep":true}
+{"case":"card-luhn-invalid-4-t11","message":"split 1234 5678 9012 3456 second half 1234 5678 9012 3456","keep":true}
+{"case":"ssn-1-t1","message":"123-45-6789"}
+{"case":"ssn-1-t2","message":"value: 123-45-6789"}
+{"case":"ssn-1-t3","message":"\"123-45-6789\""}
+{"case":"ssn-1-t4","message":"[info] connect from 123-45-6789 ok"}
+{"case":"ssn-1-t5","message":"field=123-45-6789;next=plain"}
+{"case":"ssn-1-t6","message":"trailing 123-45-6789\n"}
+{"case":"ssn-1-t7","message":"trailing 123-45-6789\r"}
+{"case":"ssn-1-t8","message":"trailing 123-45-6789\r\n"}
+{"case":"ssn-1-t9","message":"trailing 123-45-6789 "}
+{"case":"ssn-1-t10","message":"trailing 123-45-6789 "}
+{"case":"ssn-1-t11","message":"split 123-45-6789 second half 123-45-6789"}
+{"case":"ssn-2-t1","message":"078-05-1120"}
+{"case":"ssn-2-t2","message":"value: 078-05-1120"}
+{"case":"ssn-2-t3","message":"\"078-05-1120\""}
+{"case":"ssn-2-t4","message":"[info] connect from 078-05-1120 ok"}
+{"case":"ssn-2-t5","message":"field=078-05-1120;next=plain"}
+{"case":"ssn-2-t6","message":"trailing 078-05-1120\n"}
+{"case":"ssn-2-t7","message":"trailing 078-05-1120\r"}
+{"case":"ssn-2-t8","message":"trailing 078-05-1120\r\n"}
+{"case":"ssn-2-t9","message":"trailing 078-05-1120 "}
+{"case":"ssn-2-t10","message":"trailing 078-05-1120 "}
+{"case":"ssn-2-t11","message":"split 078-05-1120 second half 078-05-1120"}
+{"case":"ssn-3-t1","message":"219-09-9999"}
+{"case":"ssn-3-t2","message":"value: 219-09-9999"}
+{"case":"ssn-3-t3","message":"\"219-09-9999\""}
+{"case":"ssn-3-t4","message":"[info] connect from 219-09-9999 ok"}
+{"case":"ssn-3-t5","message":"field=219-09-9999;next=plain"}
+{"case":"ssn-3-t6","message":"trailing 219-09-9999\n"}
+{"case":"ssn-3-t7","message":"trailing 219-09-9999\r"}
+{"case":"ssn-3-t8","message":"trailing 219-09-9999\r\n"}
+{"case":"ssn-3-t9","message":"trailing 219-09-9999 "}
+{"case":"ssn-3-t10","message":"trailing 219-09-9999 "}
+{"case":"ssn-3-t11","message":"split 219-09-9999 second half 219-09-9999"}
+{"case":"ssn-never-assigned-1-t1","message":"000-12-3456","keep":true}
+{"case":"ssn-never-assigned-1-t2","message":"value: 000-12-3456","keep":true}
+{"case":"ssn-never-assigned-1-t3","message":"\"000-12-3456\"","keep":true}
+{"case":"ssn-never-assigned-1-t4","message":"[info] connect from 000-12-3456 ok","keep":true}
+{"case":"ssn-never-assigned-1-t5","message":"field=000-12-3456;next=plain","keep":true}
+{"case":"ssn-never-assigned-1-t6","message":"trailing 000-12-3456\n","keep":true}
+{"case":"ssn-never-assigned-1-t7","message":"trailing 000-12-3456\r","keep":true}
+{"case":"ssn-never-assigned-1-t8","message":"trailing 000-12-3456\r\n","keep":true}
+{"case":"ssn-never-assigned-1-t9","message":"trailing 000-12-3456 ","keep":true}
+{"case":"ssn-never-assigned-1-t10","message":"trailing 000-12-3456 ","keep":true}
+{"case":"ssn-never-assigned-1-t11","message":"split 000-12-3456 second half 000-12-3456","keep":true}
+{"case":"ssn-never-assigned-2-t1","message":"666-12-3456","keep":true}
+{"case":"ssn-never-assigned-2-t2","message":"value: 666-12-3456","keep":true}
+{"case":"ssn-never-assigned-2-t3","message":"\"666-12-3456\"","keep":true}
+{"case":"ssn-never-assigned-2-t4","message":"[info] connect from 666-12-3456 ok","keep":true}
+{"case":"ssn-never-assigned-2-t5","message":"field=666-12-3456;next=plain","keep":true}
+{"case":"ssn-never-assigned-2-t6","message":"trailing 666-12-3456\n","keep":true}
+{"case":"ssn-never-assigned-2-t7","message":"trailing 666-12-3456\r","keep":true}
+{"case":"ssn-never-assigned-2-t8","message":"trailing 666-12-3456\r\n","keep":true}
+{"case":"ssn-never-assigned-2-t9","message":"trailing 666-12-3456 ","keep":true}
+{"case":"ssn-never-assigned-2-t10","message":"trailing 666-12-3456 ","keep":true}
+{"case":"ssn-never-assigned-2-t11","message":"split 666-12-3456 second half 666-12-3456","keep":true}
+{"case":"ssn-never-assigned-3-t1","message":"900-12-3456","keep":true}
+{"case":"ssn-never-assigned-3-t2","message":"value: 900-12-3456","keep":true}
+{"case":"ssn-never-assigned-3-t3","message":"\"900-12-3456\"","keep":true}
+{"case":"ssn-never-assigned-3-t4","message":"[info] connect from 900-12-3456 ok","keep":true}
+{"case":"ssn-never-assigned-3-t5","message":"field=900-12-3456;next=plain","keep":true}
+{"case":"ssn-never-assigned-3-t6","message":"trailing 900-12-3456\n","keep":true}
+{"case":"ssn-never-assigned-3-t7","message":"trailing 900-12-3456\r","keep":true}
+{"case":"ssn-never-assigned-3-t8","message":"trailing 900-12-3456\r\n","keep":true}
+{"case":"ssn-never-assigned-3-t9","message":"trailing 900-12-3456 ","keep":true}
+{"case":"ssn-never-assigned-3-t10","message":"trailing 900-12-3456 ","keep":true}
+{"case":"ssn-never-assigned-3-t11","message":"split 900-12-3456 second half 900-12-3456","keep":true}
+{"case":"ssn-never-assigned-4-t1","message":"123-00-6789","keep":true}
+{"case":"ssn-never-assigned-4-t2","message":"value: 123-00-6789","keep":true}
+{"case":"ssn-never-assigned-4-t3","message":"\"123-00-6789\"","keep":true}
+{"case":"ssn-never-assigned-4-t4","message":"[info] connect from 123-00-6789 ok","keep":true}
+{"case":"ssn-never-assigned-4-t5","message":"field=123-00-6789;next=plain","keep":true}
+{"case":"ssn-never-assigned-4-t6","message":"trailing 123-00-6789\n","keep":true}
+{"case":"ssn-never-assigned-4-t7","message":"trailing 123-00-6789\r","keep":true}
+{"case":"ssn-never-assigned-4-t8","message":"trailing 123-00-6789\r\n","keep":true}
+{"case":"ssn-never-assigned-4-t9","message":"trailing 123-00-6789 ","keep":true}
+{"case":"ssn-never-assigned-4-t10","message":"trailing 123-00-6789 ","keep":true}
+{"case":"ssn-never-assigned-4-t11","message":"split 123-00-6789 second half 123-00-6789","keep":true}
+{"case":"ssn-never-assigned-5-t1","message":"123-45-0000","keep":true}
+{"case":"ssn-never-assigned-5-t2","message":"value: 123-45-0000","keep":true}
+{"case":"ssn-never-assigned-5-t3","message":"\"123-45-0000\"","keep":true}
+{"case":"ssn-never-assigned-5-t4","message":"[info] connect from 123-45-0000 ok","keep":true}
+{"case":"ssn-never-assigned-5-t5","message":"field=123-45-0000;next=plain","keep":true}
+{"case":"ssn-never-assigned-5-t6","message":"trailing 123-45-0000\n","keep":true}
+{"case":"ssn-never-assigned-5-t7","message":"trailing 123-45-0000\r","keep":true}
+{"case":"ssn-never-assigned-5-t8","message":"trailing 123-45-0000\r\n","keep":true}
+{"case":"ssn-never-assigned-5-t9","message":"trailing 123-45-0000 ","keep":true}
+{"case":"ssn-never-assigned-5-t10","message":"trailing 123-45-0000 ","keep":true}
+{"case":"ssn-never-assigned-5-t11","message":"split 123-45-0000 second half 123-45-0000","keep":true}
+{"case":"phone-e164-1-t1","message":"+12025550147"}
+{"case":"phone-e164-1-t2","message":"value: +12025550147"}
+{"case":"phone-e164-1-t3","message":"\"+12025550147\""}
+{"case":"phone-e164-1-t4","message":"[info] connect from +12025550147 ok"}
+{"case":"phone-e164-1-t5","message":"field=+12025550147;next=plain"}
+{"case":"phone-e164-1-t6","message":"trailing +12025550147\n"}
+{"case":"phone-e164-1-t7","message":"trailing +12025550147\r"}
+{"case":"phone-e164-1-t8","message":"trailing +12025550147\r\n"}
+{"case":"phone-e164-1-t9","message":"trailing +12025550147 "}
+{"case":"phone-e164-1-t10","message":"trailing +12025550147 "}
+{"case":"phone-e164-1-t11","message":"split +12025550147 second half +12025550147"}
+{"case":"phone-e164-2-t1","message":"+442071838750"}
+{"case":"phone-e164-2-t2","message":"value: +442071838750"}
+{"case":"phone-e164-2-t3","message":"\"+442071838750\""}
+{"case":"phone-e164-2-t4","message":"[info] connect from +442071838750 ok"}
+{"case":"phone-e164-2-t5","message":"field=+442071838750;next=plain"}
+{"case":"phone-e164-2-t6","message":"trailing +442071838750\n"}
+{"case":"phone-e164-2-t7","message":"trailing +442071838750\r"}
+{"case":"phone-e164-2-t8","message":"trailing +442071838750\r\n"}
+{"case":"phone-e164-2-t9","message":"trailing +442071838750 "}
+{"case":"phone-e164-2-t10","message":"trailing +442071838750 "}
+{"case":"phone-e164-2-t11","message":"split +442071838750 second half +442071838750"}
+{"case":"phone-nanp-1-t1","message":"(202) 555-0147"}
+{"case":"phone-nanp-1-t2","message":"value: (202) 555-0147"}
+{"case":"phone-nanp-1-t3","message":"\"(202) 555-0147\""}
+{"case":"phone-nanp-1-t4","message":"[info] connect from (202) 555-0147 ok"}
+{"case":"phone-nanp-1-t5","message":"field=(202) 555-0147;next=plain"}
+{"case":"phone-nanp-1-t6","message":"trailing (202) 555-0147\n"}
+{"case":"phone-nanp-1-t7","message":"trailing (202) 555-0147\r"}
+{"case":"phone-nanp-1-t8","message":"trailing (202) 555-0147\r\n"}
+{"case":"phone-nanp-1-t9","message":"trailing (202) 555-0147 "}
+{"case":"phone-nanp-1-t10","message":"trailing (202) 555-0147 "}
+{"case":"phone-nanp-1-t11","message":"split (202) 555-0147 second half (202) 555-0147"}
+{"case":"phone-nanp-2-t1","message":"202-555-0147"}
+{"case":"phone-nanp-2-t2","message":"value: 202-555-0147"}
+{"case":"phone-nanp-2-t3","message":"\"202-555-0147\""}
+{"case":"phone-nanp-2-t4","message":"[info] connect from 202-555-0147 ok"}
+{"case":"phone-nanp-2-t5","message":"field=202-555-0147;next=plain"}
+{"case":"phone-nanp-2-t6","message":"trailing 202-555-0147\n"}
+{"case":"phone-nanp-2-t7","message":"trailing 202-555-0147\r"}
+{"case":"phone-nanp-2-t8","message":"trailing 202-555-0147\r\n"}
+{"case":"phone-nanp-2-t9","message":"trailing 202-555-0147 "}
+{"case":"phone-nanp-2-t10","message":"trailing 202-555-0147 "}
+{"case":"phone-nanp-2-t11","message":"split 202-555-0147 second half 202-555-0147"}
+{"case":"phone-nanp-3-t1","message":"(415)555-0198"}
+{"case":"phone-nanp-3-t2","message":"value: (415)555-0198"}
+{"case":"phone-nanp-3-t3","message":"\"(415)555-0198\""}
+{"case":"phone-nanp-3-t4","message":"[info] connect from (415)555-0198 ok"}
+{"case":"phone-nanp-3-t5","message":"field=(415)555-0198;next=plain"}
+{"case":"phone-nanp-3-t6","message":"trailing (415)555-0198\n"}
+{"case":"phone-nanp-3-t7","message":"trailing (415)555-0198\r"}
+{"case":"phone-nanp-3-t8","message":"trailing (415)555-0198\r\n"}
+{"case":"phone-nanp-3-t9","message":"trailing (415)555-0198 "}
+{"case":"phone-nanp-3-t10","message":"trailing (415)555-0198 "}
+{"case":"phone-nanp-3-t11","message":"split (415)555-0198 second half (415)555-0198"}
+{"case":"phone-reserved-1-t1","message":"+99900000001","keep":true}
+{"case":"phone-reserved-1-t2","message":"value: +99900000001","keep":true}
+{"case":"phone-reserved-1-t3","message":"\"+99900000001\"","keep":true}
+{"case":"phone-reserved-1-t4","message":"[info] connect from +99900000001 ok","keep":true}
+{"case":"phone-reserved-1-t5","message":"field=+99900000001;next=plain","keep":true}
+{"case":"phone-reserved-1-t6","message":"trailing +99900000001\n","keep":true}
+{"case":"phone-reserved-1-t7","message":"trailing +99900000001\r","keep":true}
+{"case":"phone-reserved-1-t8","message":"trailing +99900000001\r\n","keep":true}
+{"case":"phone-reserved-1-t9","message":"trailing +99900000001 ","keep":true}
+{"case":"phone-reserved-1-t10","message":"trailing +99900000001 ","keep":true}
+{"case":"phone-reserved-1-t11","message":"split +99900000001 second half +99900000001","keep":true}
+{"case":"phone-reserved-2-t1","message":"000-555-0101","keep":true}
+{"case":"phone-reserved-2-t2","message":"value: 000-555-0101","keep":true}
+{"case":"phone-reserved-2-t3","message":"\"000-555-0101\"","keep":true}
+{"case":"phone-reserved-2-t4","message":"[info] connect from 000-555-0101 ok","keep":true}
+{"case":"phone-reserved-2-t5","message":"field=000-555-0101;next=plain","keep":true}
+{"case":"phone-reserved-2-t6","message":"trailing 000-555-0101\n","keep":true}
+{"case":"phone-reserved-2-t7","message":"trailing 000-555-0101\r","keep":true}
+{"case":"phone-reserved-2-t8","message":"trailing 000-555-0101\r\n","keep":true}
+{"case":"phone-reserved-2-t9","message":"trailing 000-555-0101 ","keep":true}
+{"case":"phone-reserved-2-t10","message":"trailing 000-555-0101 ","keep":true}
+{"case":"phone-reserved-2-t11","message":"split 000-555-0101 second half 000-555-0101","keep":true}
+{"case":"phone-reserved-3-t1","message":"(000) 555-0102","keep":true}
+{"case":"phone-reserved-3-t2","message":"value: (000) 555-0102","keep":true}
+{"case":"phone-reserved-3-t3","message":"\"(000) 555-0102\"","keep":true}
+{"case":"phone-reserved-3-t4","message":"[info] connect from (000) 555-0102 ok","keep":true}
+{"case":"phone-reserved-3-t5","message":"field=(000) 555-0102;next=plain","keep":true}
+{"case":"phone-reserved-3-t6","message":"trailing (000) 555-0102\n","keep":true}
+{"case":"phone-reserved-3-t7","message":"trailing (000) 555-0102\r","keep":true}
+{"case":"phone-reserved-3-t8","message":"trailing (000) 555-0102\r\n","keep":true}
+{"case":"phone-reserved-3-t9","message":"trailing (000) 555-0102 ","keep":true}
+{"case":"phone-reserved-3-t10","message":"trailing (000) 555-0102 ","keep":true}
+{"case":"phone-reserved-3-t11","message":"split (000) 555-0102 second half (000) 555-0102","keep":true}
+{"case":"username-path-1-t1","message":"C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log"}
+{"case":"username-path-1-t2","message":"value: C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log"}
+{"case":"username-path-1-t3","message":"\"C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log\""}
+{"case":"username-path-1-t4","message":"[info] connect from C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log ok"}
+{"case":"username-path-1-t5","message":"field=C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log;next=plain"}
+{"case":"username-path-1-t6","message":"trailing C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log\n"}
+{"case":"username-path-1-t7","message":"trailing C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log\r"}
+{"case":"username-path-1-t8","message":"trailing C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log\r\n"}
+{"case":"username-path-1-t9","message":"trailing C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log "}
+{"case":"username-path-1-t10","message":"trailing C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log "}
+{"case":"username-path-1-t11","message":"split C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log second half C:\\Users\\jsmith\\AppData\\Local\\Temp\\a.log"}
+{"case":"username-path-2-t1","message":"\\Users\\a.bhatt\\Desktop"}
+{"case":"username-path-2-t2","message":"value: \\Users\\a.bhatt\\Desktop"}
+{"case":"username-path-2-t3","message":"\"\\Users\\a.bhatt\\Desktop\""}
+{"case":"username-path-2-t4","message":"[info] connect from \\Users\\a.bhatt\\Desktop ok"}
+{"case":"username-path-2-t5","message":"field=\\Users\\a.bhatt\\Desktop;next=plain"}
+{"case":"username-path-2-t6","message":"trailing \\Users\\a.bhatt\\Desktop\n"}
+{"case":"username-path-2-t7","message":"trailing \\Users\\a.bhatt\\Desktop\r"}
+{"case":"username-path-2-t8","message":"trailing \\Users\\a.bhatt\\Desktop\r\n"}
+{"case":"username-path-2-t9","message":"trailing \\Users\\a.bhatt\\Desktop "}
+{"case":"username-path-2-t10","message":"trailing \\Users\\a.bhatt\\Desktop "}
+{"case":"username-path-2-t11","message":"split \\Users\\a.bhatt\\Desktop second half \\Users\\a.bhatt\\Desktop"}
+{"case":"username-path-3-t1","message":"/home/jsmith/app.log"}
+{"case":"username-path-3-t2","message":"value: /home/jsmith/app.log"}
+{"case":"username-path-3-t3","message":"\"/home/jsmith/app.log\""}
+{"case":"username-path-3-t4","message":"[info] connect from /home/jsmith/app.log ok"}
+{"case":"username-path-3-t5","message":"field=/home/jsmith/app.log;next=plain"}
+{"case":"username-path-3-t6","message":"trailing /home/jsmith/app.log\n"}
+{"case":"username-path-3-t7","message":"trailing /home/jsmith/app.log\r"}
+{"case":"username-path-3-t8","message":"trailing /home/jsmith/app.log\r\n"}
+{"case":"username-path-3-t9","message":"trailing /home/jsmith/app.log "}
+{"case":"username-path-3-t10","message":"trailing /home/jsmith/app.log "}
+{"case":"username-path-3-t11","message":"split /home/jsmith/app.log second half /home/jsmith/app.log"}
+{"case":"username-path-4-t1","message":"/Users/jsmith/Library/Logs/app.log"}
+{"case":"username-path-4-t2","message":"value: /Users/jsmith/Library/Logs/app.log"}
+{"case":"username-path-4-t3","message":"\"/Users/jsmith/Library/Logs/app.log\""}
+{"case":"username-path-4-t4","message":"[info] connect from /Users/jsmith/Library/Logs/app.log ok"}
+{"case":"username-path-4-t5","message":"field=/Users/jsmith/Library/Logs/app.log;next=plain"}
+{"case":"username-path-4-t6","message":"trailing /Users/jsmith/Library/Logs/app.log\n"}
+{"case":"username-path-4-t7","message":"trailing /Users/jsmith/Library/Logs/app.log\r"}
+{"case":"username-path-4-t8","message":"trailing /Users/jsmith/Library/Logs/app.log\r\n"}
+{"case":"username-path-4-t9","message":"trailing /Users/jsmith/Library/Logs/app.log "}
+{"case":"username-path-4-t10","message":"trailing /Users/jsmith/Library/Logs/app.log "}
+{"case":"username-path-4-t11","message":"split /Users/jsmith/Library/Logs/app.log second half /Users/jsmith/Library/Logs/app.log"}
+{"case":"username-builtin-1-t1","message":"C:\\Users\\Default\\NTUSER.DAT","keep":true}
+{"case":"username-builtin-1-t2","message":"value: C:\\Users\\Default\\NTUSER.DAT","keep":true}
+{"case":"username-builtin-1-t3","message":"\"C:\\Users\\Default\\NTUSER.DAT\"","keep":true}
+{"case":"username-builtin-1-t4","message":"[info] connect from C:\\Users\\Default\\NTUSER.DAT ok","keep":true}
+{"case":"username-builtin-1-t5","message":"field=C:\\Users\\Default\\NTUSER.DAT;next=plain","keep":true}
+{"case":"username-builtin-1-t6","message":"trailing C:\\Users\\Default\\NTUSER.DAT\n","keep":true}
+{"case":"username-builtin-1-t7","message":"trailing C:\\Users\\Default\\NTUSER.DAT\r","keep":true}
+{"case":"username-builtin-1-t8","message":"trailing C:\\Users\\Default\\NTUSER.DAT\r\n","keep":true}
+{"case":"username-builtin-1-t9","message":"trailing C:\\Users\\Default\\NTUSER.DAT ","keep":true}
+{"case":"username-builtin-1-t10","message":"trailing C:\\Users\\Default\\NTUSER.DAT ","keep":true}
+{"case":"username-builtin-1-t11","message":"split C:\\Users\\Default\\NTUSER.DAT second half C:\\Users\\Default\\NTUSER.DAT","keep":true}
+{"case":"username-builtin-2-t1","message":"C:\\Users\\Public\\Documents\\a.txt","keep":true}
+{"case":"username-builtin-2-t2","message":"value: C:\\Users\\Public\\Documents\\a.txt","keep":true}
+{"case":"username-builtin-2-t3","message":"\"C:\\Users\\Public\\Documents\\a.txt\"","keep":true}
+{"case":"username-builtin-2-t4","message":"[info] connect from C:\\Users\\Public\\Documents\\a.txt ok","keep":true}
+{"case":"username-builtin-2-t5","message":"field=C:\\Users\\Public\\Documents\\a.txt;next=plain","keep":true}
+{"case":"username-builtin-2-t6","message":"trailing C:\\Users\\Public\\Documents\\a.txt\n","keep":true}
+{"case":"username-builtin-2-t7","message":"trailing C:\\Users\\Public\\Documents\\a.txt\r","keep":true}
+{"case":"username-builtin-2-t8","message":"trailing C:\\Users\\Public\\Documents\\a.txt\r\n","keep":true}
+{"case":"username-builtin-2-t9","message":"trailing C:\\Users\\Public\\Documents\\a.txt ","keep":true}
+{"case":"username-builtin-2-t10","message":"trailing C:\\Users\\Public\\Documents\\a.txt ","keep":true}
+{"case":"username-builtin-2-t11","message":"split C:\\Users\\Public\\Documents\\a.txt second half C:\\Users\\Public\\Documents\\a.txt","keep":true}
+{"case":"username-builtin-3-t1","message":"C:\\Users\\Administrator\\a.log","keep":true}
+{"case":"username-builtin-3-t2","message":"value: C:\\Users\\Administrator\\a.log","keep":true}
+{"case":"username-builtin-3-t3","message":"\"C:\\Users\\Administrator\\a.log\"","keep":true}
+{"case":"username-builtin-3-t4","message":"[info] connect from C:\\Users\\Administrator\\a.log ok","keep":true}
+{"case":"username-builtin-3-t5","message":"field=C:\\Users\\Administrator\\a.log;next=plain","keep":true}
+{"case":"username-builtin-3-t6","message":"trailing C:\\Users\\Administrator\\a.log\n","keep":true}
+{"case":"username-builtin-3-t7","message":"trailing C:\\Users\\Administrator\\a.log\r","keep":true}
+{"case":"username-builtin-3-t8","message":"trailing C:\\Users\\Administrator\\a.log\r\n","keep":true}
+{"case":"username-builtin-3-t9","message":"trailing C:\\Users\\Administrator\\a.log ","keep":true}
+{"case":"username-builtin-3-t10","message":"trailing C:\\Users\\Administrator\\a.log ","keep":true}
+{"case":"username-builtin-3-t11","message":"split C:\\Users\\Administrator\\a.log second half C:\\Users\\Administrator\\a.log","keep":true}
+{"case":"username-builtin-4-t1","message":"C:\\Users\\User00001\\AppData\\a.log","keep":true}
+{"case":"username-builtin-4-t2","message":"value: C:\\Users\\User00001\\AppData\\a.log","keep":true}
+{"case":"username-builtin-4-t3","message":"\"C:\\Users\\User00001\\AppData\\a.log\"","keep":true}
+{"case":"username-builtin-4-t4","message":"[info] connect from C:\\Users\\User00001\\AppData\\a.log ok","keep":true}
+{"case":"username-builtin-4-t5","message":"field=C:\\Users\\User00001\\AppData\\a.log;next=plain","keep":true}
+{"case":"username-builtin-4-t6","message":"trailing C:\\Users\\User00001\\AppData\\a.log\n","keep":true}
+{"case":"username-builtin-4-t7","message":"trailing C:\\Users\\User00001\\AppData\\a.log\r","keep":true}
+{"case":"username-builtin-4-t8","message":"trailing C:\\Users\\User00001\\AppData\\a.log\r\n","keep":true}
+{"case":"username-builtin-4-t9","message":"trailing C:\\Users\\User00001\\AppData\\a.log ","keep":true}
+{"case":"username-builtin-4-t10","message":"trailing C:\\Users\\User00001\\AppData\\a.log ","keep":true}
+{"case":"username-builtin-4-t11","message":"split C:\\Users\\User00001\\AppData\\a.log second half C:\\Users\\User00001\\AppData\\a.log","keep":true}
+{"case":"sid-1-t1","message":"S-1-5-21-1234567890-987654321-1122334455-1001"}
+{"case":"sid-1-t2","message":"value: S-1-5-21-1234567890-987654321-1122334455-1001"}
+{"case":"sid-1-t3","message":"\"S-1-5-21-1234567890-987654321-1122334455-1001\""}
+{"case":"sid-1-t4","message":"[info] connect from S-1-5-21-1234567890-987654321-1122334455-1001 ok"}
+{"case":"sid-1-t5","message":"field=S-1-5-21-1234567890-987654321-1122334455-1001;next=plain"}
+{"case":"sid-1-t6","message":"trailing S-1-5-21-1234567890-987654321-1122334455-1001\n"}
+{"case":"sid-1-t7","message":"trailing S-1-5-21-1234567890-987654321-1122334455-1001\r"}
+{"case":"sid-1-t8","message":"trailing S-1-5-21-1234567890-987654321-1122334455-1001\r\n"}
+{"case":"sid-1-t9","message":"trailing S-1-5-21-1234567890-987654321-1122334455-1001 "}
+{"case":"sid-1-t10","message":"trailing S-1-5-21-1234567890-987654321-1122334455-1001 "}
+{"case":"sid-1-t11","message":"split S-1-5-21-1234567890-987654321-1122334455-1001 second half S-1-5-21-1234567890-987654321-1122334455-1001"}
+{"case":"sid-well-known-1-t1","message":"S-1-5-18","keep":true}
+{"case":"sid-well-known-1-t2","message":"value: S-1-5-18","keep":true}
+{"case":"sid-well-known-1-t3","message":"\"S-1-5-18\"","keep":true}
+{"case":"sid-well-known-1-t4","message":"[info] connect from S-1-5-18 ok","keep":true}
+{"case":"sid-well-known-1-t5","message":"field=S-1-5-18;next=plain","keep":true}
+{"case":"sid-well-known-1-t6","message":"trailing S-1-5-18\n","keep":true}
+{"case":"sid-well-known-1-t7","message":"trailing S-1-5-18\r","keep":true}
+{"case":"sid-well-known-1-t8","message":"trailing S-1-5-18\r\n","keep":true}
+{"case":"sid-well-known-1-t9","message":"trailing S-1-5-18 ","keep":true}
+{"case":"sid-well-known-1-t10","message":"trailing S-1-5-18 ","keep":true}
+{"case":"sid-well-known-1-t11","message":"split S-1-5-18 second half S-1-5-18","keep":true}
+{"case":"sid-well-known-2-t1","message":"S-1-5-32-544","keep":true}
+{"case":"sid-well-known-2-t2","message":"value: S-1-5-32-544","keep":true}
+{"case":"sid-well-known-2-t3","message":"\"S-1-5-32-544\"","keep":true}
+{"case":"sid-well-known-2-t4","message":"[info] connect from S-1-5-32-544 ok","keep":true}
+{"case":"sid-well-known-2-t5","message":"field=S-1-5-32-544;next=plain","keep":true}
+{"case":"sid-well-known-2-t6","message":"trailing S-1-5-32-544\n","keep":true}
+{"case":"sid-well-known-2-t7","message":"trailing S-1-5-32-544\r","keep":true}
+{"case":"sid-well-known-2-t8","message":"trailing S-1-5-32-544\r\n","keep":true}
+{"case":"sid-well-known-2-t9","message":"trailing S-1-5-32-544 ","keep":true}
+{"case":"sid-well-known-2-t10","message":"trailing S-1-5-32-544 ","keep":true}
+{"case":"sid-well-known-2-t11","message":"split S-1-5-32-544 second half S-1-5-32-544","keep":true}
+{"case":"sid-well-known-3-t1","message":"S-1-5-21-0-0-0-1001","keep":true}
+{"case":"sid-well-known-3-t2","message":"value: S-1-5-21-0-0-0-1001","keep":true}
+{"case":"sid-well-known-3-t3","message":"\"S-1-5-21-0-0-0-1001\"","keep":true}
+{"case":"sid-well-known-3-t4","message":"[info] connect from S-1-5-21-0-0-0-1001 ok","keep":true}
+{"case":"sid-well-known-3-t5","message":"field=S-1-5-21-0-0-0-1001;next=plain","keep":true}
+{"case":"sid-well-known-3-t6","message":"trailing S-1-5-21-0-0-0-1001\n","keep":true}
+{"case":"sid-well-known-3-t7","message":"trailing S-1-5-21-0-0-0-1001\r","keep":true}
+{"case":"sid-well-known-3-t8","message":"trailing S-1-5-21-0-0-0-1001\r\n","keep":true}
+{"case":"sid-well-known-3-t9","message":"trailing S-1-5-21-0-0-0-1001 ","keep":true}
+{"case":"sid-well-known-3-t10","message":"trailing S-1-5-21-0-0-0-1001 ","keep":true}
+{"case":"sid-well-known-3-t11","message":"split S-1-5-21-0-0-0-1001 second half S-1-5-21-0-0-0-1001","keep":true}
+{"case":"unc-host-1-t1","message":"\\\\FILESRV01\\share\\report.txt"}
+{"case":"unc-host-1-t2","message":"value: \\\\FILESRV01\\share\\report.txt"}
+{"case":"unc-host-1-t3","message":"\"\\\\FILESRV01\\share\\report.txt\""}
+{"case":"unc-host-1-t4","message":"[info] connect from \\\\FILESRV01\\share\\report.txt ok"}
+{"case":"unc-host-1-t5","message":"field=\\\\FILESRV01\\share\\report.txt;next=plain"}
+{"case":"unc-host-1-t6","message":"trailing \\\\FILESRV01\\share\\report.txt\n"}
+{"case":"unc-host-1-t7","message":"trailing \\\\FILESRV01\\share\\report.txt\r"}
+{"case":"unc-host-1-t8","message":"trailing \\\\FILESRV01\\share\\report.txt\r\n"}
+{"case":"unc-host-1-t9","message":"trailing \\\\FILESRV01\\share\\report.txt "}
+{"case":"unc-host-1-t10","message":"trailing \\\\FILESRV01\\share\\report.txt "}
+{"case":"unc-host-1-t11","message":"split \\\\FILESRV01\\share\\report.txt second half \\\\FILESRV01\\share\\report.txt"}
+{"case":"unc-host-2-t1","message":"\\\\db01\\logs\\a.log"}
+{"case":"unc-host-2-t2","message":"value: \\\\db01\\logs\\a.log"}
+{"case":"unc-host-2-t3","message":"\"\\\\db01\\logs\\a.log\""}
+{"case":"unc-host-2-t4","message":"[info] connect from \\\\db01\\logs\\a.log ok"}
+{"case":"unc-host-2-t5","message":"field=\\\\db01\\logs\\a.log;next=plain"}
+{"case":"unc-host-2-t6","message":"trailing \\\\db01\\logs\\a.log\n"}
+{"case":"unc-host-2-t7","message":"trailing \\\\db01\\logs\\a.log\r"}
+{"case":"unc-host-2-t8","message":"trailing \\\\db01\\logs\\a.log\r\n"}
+{"case":"unc-host-2-t9","message":"trailing \\\\db01\\logs\\a.log "}
+{"case":"unc-host-2-t10","message":"trailing \\\\db01\\logs\\a.log "}
+{"case":"unc-host-2-t11","message":"split \\\\db01\\logs\\a.log second half \\\\db01\\logs\\a.log"}
+{"case":"unc-not-a-host-1-t1","message":"\\\\HOST0001\\share\\a.txt","keep":true}
+{"case":"unc-not-a-host-1-t2","message":"value: \\\\HOST0001\\share\\a.txt","keep":true}
+{"case":"unc-not-a-host-1-t3","message":"\"\\\\HOST0001\\share\\a.txt\"","keep":true}
+{"case":"unc-not-a-host-1-t4","message":"[info] connect from \\\\HOST0001\\share\\a.txt ok","keep":true}
+{"case":"unc-not-a-host-1-t5","message":"field=\\\\HOST0001\\share\\a.txt;next=plain","keep":true}
+{"case":"unc-not-a-host-1-t6","message":"trailing \\\\HOST0001\\share\\a.txt\n","keep":true}
+{"case":"unc-not-a-host-1-t7","message":"trailing \\\\HOST0001\\share\\a.txt\r","keep":true}
+{"case":"unc-not-a-host-1-t8","message":"trailing \\\\HOST0001\\share\\a.txt\r\n","keep":true}
+{"case":"unc-not-a-host-1-t9","message":"trailing \\\\HOST0001\\share\\a.txt ","keep":true}
+{"case":"unc-not-a-host-1-t10","message":"trailing \\\\HOST0001\\share\\a.txt ","keep":true}
+{"case":"unc-not-a-host-1-t11","message":"split \\\\HOST0001\\share\\a.txt second half \\\\HOST0001\\share\\a.txt","keep":true}
+{"case":"unc-not-a-host-2-t1","message":"C:\\\\Windows\\\\CBS\\\\CBS.log","keep":true}
+{"case":"unc-not-a-host-2-t2","message":"value: C:\\\\Windows\\\\CBS\\\\CBS.log","keep":true}
+{"case":"unc-not-a-host-2-t3","message":"\"C:\\\\Windows\\\\CBS\\\\CBS.log\"","keep":true}
+{"case":"unc-not-a-host-2-t4","message":"[info] connect from C:\\\\Windows\\\\CBS\\\\CBS.log ok","keep":true}
+{"case":"unc-not-a-host-2-t5","message":"field=C:\\\\Windows\\\\CBS\\\\CBS.log;next=plain","keep":true}
+{"case":"unc-not-a-host-2-t6","message":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log\n","keep":true}
+{"case":"unc-not-a-host-2-t7","message":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log\r","keep":true}
+{"case":"unc-not-a-host-2-t8","message":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log\r\n","keep":true}
+{"case":"unc-not-a-host-2-t9","message":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log ","keep":true}
+{"case":"unc-not-a-host-2-t10","message":"trailing C:\\\\Windows\\\\CBS\\\\CBS.log ","keep":true}
+{"case":"unc-not-a-host-2-t11","message":"split C:\\\\Windows\\\\CBS\\\\CBS.log second half C:\\\\Windows\\\\CBS\\\\CBS.log","keep":true}
+{"case":"unc-not-a-host-3-t1","message":"\\\\?\\C:\\Windows","keep":true}
+{"case":"unc-not-a-host-3-t2","message":"value: \\\\?\\C:\\Windows","keep":true}
+{"case":"unc-not-a-host-3-t3","message":"\"\\\\?\\C:\\Windows\"","keep":true}
+{"case":"unc-not-a-host-3-t4","message":"[info] connect from \\\\?\\C:\\Windows ok","keep":true}
+{"case":"unc-not-a-host-3-t5","message":"field=\\\\?\\C:\\Windows;next=plain","keep":true}
+{"case":"unc-not-a-host-3-t6","message":"trailing \\\\?\\C:\\Windows\n","keep":true}
+{"case":"unc-not-a-host-3-t7","message":"trailing \\\\?\\C:\\Windows\r","keep":true}
+{"case":"unc-not-a-host-3-t8","message":"trailing \\\\?\\C:\\Windows\r\n","keep":true}
+{"case":"unc-not-a-host-3-t9","message":"trailing \\\\?\\C:\\Windows ","keep":true}
+{"case":"unc-not-a-host-3-t10","message":"trailing \\\\?\\C:\\Windows ","keep":true}
+{"case":"unc-not-a-host-3-t11","message":"split \\\\?\\C:\\Windows second half \\\\?\\C:\\Windows","keep":true}
+{"case":"fqdn-internal-1-t1","message":"db01.corp.local"}
+{"case":"fqdn-internal-1-t2","message":"value: db01.corp.local"}
+{"case":"fqdn-internal-1-t3","message":"\"db01.corp.local\""}
+{"case":"fqdn-internal-1-t4","message":"[info] connect from db01.corp.local ok"}
+{"case":"fqdn-internal-1-t5","message":"field=db01.corp.local;next=plain"}
+{"case":"fqdn-internal-1-t6","message":"trailing db01.corp.local\n"}
+{"case":"fqdn-internal-1-t7","message":"trailing db01.corp.local\r"}
+{"case":"fqdn-internal-1-t8","message":"trailing db01.corp.local\r\n"}
+{"case":"fqdn-internal-1-t9","message":"trailing db01.corp.local "}
+{"case":"fqdn-internal-1-t10","message":"trailing db01.corp.local "}
+{"case":"fqdn-internal-1-t11","message":"split db01.corp.local second half db01.corp.local"}
+{"case":"fqdn-internal-2-t1","message":"printer.home.arpa"}
+{"case":"fqdn-internal-2-t2","message":"value: printer.home.arpa"}
+{"case":"fqdn-internal-2-t3","message":"\"printer.home.arpa\""}
+{"case":"fqdn-internal-2-t4","message":"[info] connect from printer.home.arpa ok"}
+{"case":"fqdn-internal-2-t5","message":"field=printer.home.arpa;next=plain"}
+{"case":"fqdn-internal-2-t6","message":"trailing printer.home.arpa\n"}
+{"case":"fqdn-internal-2-t7","message":"trailing printer.home.arpa\r"}
+{"case":"fqdn-internal-2-t8","message":"trailing printer.home.arpa\r\n"}
+{"case":"fqdn-internal-2-t9","message":"trailing printer.home.arpa "}
+{"case":"fqdn-internal-2-t10","message":"trailing printer.home.arpa "}
+{"case":"fqdn-internal-2-t11","message":"split printer.home.arpa second half printer.home.arpa"}
+{"case":"fqdn-internal-3-t1","message":"wsus.example.lan"}
+{"case":"fqdn-internal-3-t2","message":"value: wsus.example.lan"}
+{"case":"fqdn-internal-3-t3","message":"\"wsus.example.lan\""}
+{"case":"fqdn-internal-3-t4","message":"[info] connect from wsus.example.lan ok"}
+{"case":"fqdn-internal-3-t5","message":"field=wsus.example.lan;next=plain"}
+{"case":"fqdn-internal-3-t6","message":"trailing wsus.example.lan\n"}
+{"case":"fqdn-internal-3-t7","message":"trailing wsus.example.lan\r"}
+{"case":"fqdn-internal-3-t8","message":"trailing wsus.example.lan\r\n"}
+{"case":"fqdn-internal-3-t9","message":"trailing wsus.example.lan "}
+{"case":"fqdn-internal-3-t10","message":"trailing wsus.example.lan "}
+{"case":"fqdn-internal-3-t11","message":"split wsus.example.lan second half wsus.example.lan"}
+{"case":"fqdn-internal-4-t1","message":"mail.example.intranet"}
+{"case":"fqdn-internal-4-t2","message":"value: mail.example.intranet"}
+{"case":"fqdn-internal-4-t3","message":"\"mail.example.intranet\""}
+{"case":"fqdn-internal-4-t4","message":"[info] connect from mail.example.intranet ok"}
+{"case":"fqdn-internal-4-t5","message":"field=mail.example.intranet;next=plain"}
+{"case":"fqdn-internal-4-t6","message":"trailing mail.example.intranet\n"}
+{"case":"fqdn-internal-4-t7","message":"trailing mail.example.intranet\r"}
+{"case":"fqdn-internal-4-t8","message":"trailing mail.example.intranet\r\n"}
+{"case":"fqdn-internal-4-t9","message":"trailing mail.example.intranet "}
+{"case":"fqdn-internal-4-t10","message":"trailing mail.example.intranet "}
+{"case":"fqdn-internal-4-t11","message":"split mail.example.intranet second half mail.example.intranet"}
+{"case":"fqdn-public-1-t1","message":"www.example.com","keep":true}
+{"case":"fqdn-public-1-t2","message":"value: www.example.com","keep":true}
+{"case":"fqdn-public-1-t3","message":"\"www.example.com\"","keep":true}
+{"case":"fqdn-public-1-t4","message":"[info] connect from www.example.com ok","keep":true}
+{"case":"fqdn-public-1-t5","message":"field=www.example.com;next=plain","keep":true}
+{"case":"fqdn-public-1-t6","message":"trailing www.example.com\n","keep":true}
+{"case":"fqdn-public-1-t7","message":"trailing www.example.com\r","keep":true}
+{"case":"fqdn-public-1-t8","message":"trailing www.example.com\r\n","keep":true}
+{"case":"fqdn-public-1-t9","message":"trailing www.example.com ","keep":true}
+{"case":"fqdn-public-1-t10","message":"trailing www.example.com ","keep":true}
+{"case":"fqdn-public-1-t11","message":"split www.example.com second half www.example.com","keep":true}
+{"case":"fqdn-public-2-t1","message":"api.example.net","keep":true}
+{"case":"fqdn-public-2-t2","message":"value: api.example.net","keep":true}
+{"case":"fqdn-public-2-t3","message":"\"api.example.net\"","keep":true}
+{"case":"fqdn-public-2-t4","message":"[info] connect from api.example.net ok","keep":true}
+{"case":"fqdn-public-2-t5","message":"field=api.example.net;next=plain","keep":true}
+{"case":"fqdn-public-2-t6","message":"trailing api.example.net\n","keep":true}
+{"case":"fqdn-public-2-t7","message":"trailing api.example.net\r","keep":true}
+{"case":"fqdn-public-2-t8","message":"trailing api.example.net\r\n","keep":true}
+{"case":"fqdn-public-2-t9","message":"trailing api.example.net ","keep":true}
+{"case":"fqdn-public-2-t10","message":"trailing api.example.net ","keep":true}
+{"case":"fqdn-public-2-t11","message":"split api.example.net second half api.example.net","keep":true}
+{"case":"non-ascii-digits-1-t1","message":"１２３-４５-６７８９","keep":true}
+{"case":"non-ascii-digits-1-t2","message":"value: １２３-４５-６７８９","keep":true}
+{"case":"non-ascii-digits-1-t3","message":"\"１２３-４５-６７８９\"","keep":true}
+{"case":"non-ascii-digits-1-t4","message":"[info] connect from １２３-４５-６７８９ ok","keep":true}
+{"case":"non-ascii-digits-1-t5","message":"field=１２３-４５-６７８９;next=plain","keep":true}
+{"case":"non-ascii-digits-1-t6","message":"trailing １２３-４５-６７８９\n","keep":true}
+{"case":"non-ascii-digits-1-t7","message":"trailing １２３-４５-６７８９\r","keep":true}
+{"case":"non-ascii-digits-1-t8","message":"trailing １２３-４５-６７８９\r\n","keep":true}
+{"case":"non-ascii-digits-1-t9","message":"trailing １２３-４５-６７８９ ","keep":true}
+{"case":"non-ascii-digits-1-t10","message":"trailing １２３-４５-６７８９ ","keep":true}
+{"case":"non-ascii-digits-1-t11","message":"split １２３-４５-６７８９ second half １２３-４５-６７８９","keep":true}
+{"case":"non-ascii-digits-2-t1","message":"١٢٣-٤٥-٦٧٨٩","keep":true}
+{"case":"non-ascii-digits-2-t2","message":"value: ١٢٣-٤٥-٦٧٨٩","keep":true}
+{"case":"non-ascii-digits-2-t3","message":"\"١٢٣-٤٥-٦٧٨٩\"","keep":true}
+{"case":"non-ascii-digits-2-t4","message":"[info] connect from ١٢٣-٤٥-٦٧٨٩ ok","keep":true}
+{"case":"non-ascii-digits-2-t5","message":"field=١٢٣-٤٥-٦٧٨٩;next=plain","keep":true}
+{"case":"non-ascii-digits-2-t6","message":"trailing ١٢٣-٤٥-٦٧٨٩\n","keep":true}
+{"case":"non-ascii-digits-2-t7","message":"trailing ١٢٣-٤٥-٦٧٨٩\r","keep":true}
+{"case":"non-ascii-digits-2-t8","message":"trailing ١٢٣-٤٥-٦٧٨٩\r\n","keep":true}
+{"case":"non-ascii-digits-2-t9","message":"trailing ١٢٣-٤٥-٦٧٨٩ ","keep":true}
+{"case":"non-ascii-digits-2-t10","message":"trailing ١٢٣-٤٥-٦٧٨٩ ","keep":true}
+{"case":"non-ascii-digits-2-t11","message":"split ١٢٣-٤٥-٦٧٨٩ second half ١٢٣-٤٥-٦٧٨٩","keep":true}
+{"case":"non-ascii-digits-3-t1","message":"４１１１１１１１１１１１１１１１","keep":true}
+{"case":"non-ascii-digits-3-t2","message":"value: ４１１１１１１１１１１１１１１１","keep":true}
+{"case":"non-ascii-digits-3-t3","message":"\"４１１１１１１１１１１１１１１１\"","keep":true}
+{"case":"non-ascii-digits-3-t4","message":"[info] connect from ４１１１１１１１１１１１１１１１ ok","keep":true}
+{"case":"non-ascii-digits-3-t5","message":"field=４１１１１１１１１１１１１１１１;next=plain","keep":true}
+{"case":"non-ascii-digits-3-t6","message":"trailing ４１１１１１１１１１１１１１１１\n","keep":true}
+{"case":"non-ascii-digits-3-t7","message":"trailing ４１１１１１１１１１１１１１１１\r","keep":true}
+{"case":"non-ascii-digits-3-t8","message":"trailing ４１１１１１１１１１１１１１１１\r\n","keep":true}
+{"case":"non-ascii-digits-3-t9","message":"trailing ４１１１１１１１１１１１１１１１ ","keep":true}
+{"case":"non-ascii-digits-3-t10","message":"trailing ４１１１１１１１１１１１１１１１ ","keep":true}
+{"case":"non-ascii-digits-3-t11","message":"split ４１１１１１１１１１１１１１１１ second half ４１１１１１１１１１１１１１１１","keep":true}
+{"case":"non-ascii-digits-4-t1","message":"１０.０.１.５０","keep":true}
+{"case":"non-ascii-digits-4-t2","message":"value: １０.０.１.５０","keep":true}
+{"case":"non-ascii-digits-4-t3","message":"\"１０.０.１.５０\"","keep":true}
+{"case":"non-ascii-digits-4-t4","message":"[info] connect from １０.０.１.５０ ok","keep":true}
+{"case":"non-ascii-digits-4-t5","message":"field=１０.０.１.５０;next=plain","keep":true}
+{"case":"non-ascii-digits-4-t6","message":"trailing １０.０.１.５０\n","keep":true}
+{"case":"non-ascii-digits-4-t7","message":"trailing １０.０.１.５０\r","keep":true}
+{"case":"non-ascii-digits-4-t8","message":"trailing １０.０.１.５０\r\n","keep":true}
+{"case":"non-ascii-digits-4-t9","message":"trailing １０.０.１.５０ ","keep":true}
+{"case":"non-ascii-digits-4-t10","message":"trailing １０.０.１.５０ ","keep":true}
+{"case":"non-ascii-digits-4-t11","message":"split １０.０.１.５０ second half １０.０.１.５０","keep":true}
+{"case":"non-ascii-adjacent-1-t1","message":"café00:1A:2B:3C:4D:5E"}
+{"case":"non-ascii-adjacent-1-t2","message":"value: café00:1A:2B:3C:4D:5E"}
+{"case":"non-ascii-adjacent-1-t3","message":"\"café00:1A:2B:3C:4D:5E\""}
+{"case":"non-ascii-adjacent-1-t4","message":"[info] connect from café00:1A:2B:3C:4D:5E ok"}
+{"case":"non-ascii-adjacent-1-t5","message":"field=café00:1A:2B:3C:4D:5E;next=plain"}
+{"case":"non-ascii-adjacent-1-t6","message":"trailing café00:1A:2B:3C:4D:5E\n"}
+{"case":"non-ascii-adjacent-1-t7","message":"trailing café00:1A:2B:3C:4D:5E\r"}
+{"case":"non-ascii-adjacent-1-t8","message":"trailing café00:1A:2B:3C:4D:5E\r\n"}
+{"case":"non-ascii-adjacent-1-t9","message":"trailing café00:1A:2B:3C:4D:5E "}
+{"case":"non-ascii-adjacent-1-t10","message":"trailing café00:1A:2B:3C:4D:5E "}
+{"case":"non-ascii-adjacent-1-t11","message":"split café00:1A:2B:3C:4D:5E second half café00:1A:2B:3C:4D:5E"}
+{"case":"non-ascii-adjacent-2-t1","message":"café 00:1A:2B:3C:4D:5E"}
+{"case":"non-ascii-adjacent-2-t2","message":"value: café 00:1A:2B:3C:4D:5E"}
+{"case":"non-ascii-adjacent-2-t3","message":"\"café 00:1A:2B:3C:4D:5E\""}
+{"case":"non-ascii-adjacent-2-t4","message":"[info] connect from café 00:1A:2B:3C:4D:5E ok"}
+{"case":"non-ascii-adjacent-2-t5","message":"field=café 00:1A:2B:3C:4D:5E;next=plain"}
+{"case":"non-ascii-adjacent-2-t6","message":"trailing café 00:1A:2B:3C:4D:5E\n"}
+{"case":"non-ascii-adjacent-2-t7","message":"trailing café 00:1A:2B:3C:4D:5E\r"}
+{"case":"non-ascii-adjacent-2-t8","message":"trailing café 00:1A:2B:3C:4D:5E\r\n"}
+{"case":"non-ascii-adjacent-2-t9","message":"trailing café 00:1A:2B:3C:4D:5E "}
+{"case":"non-ascii-adjacent-2-t10","message":"trailing café 00:1A:2B:3C:4D:5E "}
+{"case":"non-ascii-adjacent-2-t11","message":"split café 00:1A:2B:3C:4D:5E second half café 00:1A:2B:3C:4D:5E"}
+{"case":"non-ascii-adjacent-3-t1","message":"müller@example.net"}
+{"case":"non-ascii-adjacent-3-t2","message":"value: müller@example.net"}
+{"case":"non-ascii-adjacent-3-t3","message":"\"müller@example.net\""}
+{"case":"non-ascii-adjacent-3-t4","message":"[info] connect from müller@example.net ok"}
+{"case":"non-ascii-adjacent-3-t5","message":"field=müller@example.net;next=plain"}
+{"case":"non-ascii-adjacent-3-t6","message":"trailing müller@example.net\n"}
+{"case":"non-ascii-adjacent-3-t7","message":"trailing müller@example.net\r"}
+{"case":"non-ascii-adjacent-3-t8","message":"trailing müller@example.net\r\n"}
+{"case":"non-ascii-adjacent-3-t9","message":"trailing müller@example.net "}
+{"case":"non-ascii-adjacent-3-t10","message":"trailing müller@example.net "}
+{"case":"non-ascii-adjacent-3-t11","message":"split müller@example.net second half müller@example.net"}
+{"case":"non-ascii-adjacent-4-t1","message":"naïve 10.0.1.50 ok"}
+{"case":"non-ascii-adjacent-4-t2","message":"value: naïve 10.0.1.50 ok"}
+{"case":"non-ascii-adjacent-4-t3","message":"\"naïve 10.0.1.50 ok\""}
+{"case":"non-ascii-adjacent-4-t4","message":"[info] connect from naïve 10.0.1.50 ok ok"}
+{"case":"non-ascii-adjacent-4-t5","message":"field=naïve 10.0.1.50 ok;next=plain"}
+{"case":"non-ascii-adjacent-4-t6","message":"trailing naïve 10.0.1.50 ok\n"}
+{"case":"non-ascii-adjacent-4-t7","message":"trailing naïve 10.0.1.50 ok\r"}
+{"case":"non-ascii-adjacent-4-t8","message":"trailing naïve 10.0.1.50 ok\r\n"}
+{"case":"non-ascii-adjacent-4-t9","message":"trailing naïve 10.0.1.50 ok "}
+{"case":"non-ascii-adjacent-4-t10","message":"trailing naïve 10.0.1.50 ok "}
+{"case":"non-ascii-adjacent-4-t11","message":"split naïve 10.0.1.50 ok second half naïve 10.0.1.50 ok"}
+{"case":"non-ascii-adjacent-5-t1","message":"用户 \\\\FILESRV01\\share"}
+{"case":"non-ascii-adjacent-5-t2","message":"value: 用户 \\\\FILESRV01\\share"}
+{"case":"non-ascii-adjacent-5-t3","message":"\"用户 \\\\FILESRV01\\share\""}
+{"case":"non-ascii-adjacent-5-t4","message":"[info] connect from 用户 \\\\FILESRV01\\share ok"}
+{"case":"non-ascii-adjacent-5-t5","message":"field=用户 \\\\FILESRV01\\share;next=plain"}
+{"case":"non-ascii-adjacent-5-t6","message":"trailing 用户 \\\\FILESRV01\\share\n"}
+{"case":"non-ascii-adjacent-5-t7","message":"trailing 用户 \\\\FILESRV01\\share\r"}
+{"case":"non-ascii-adjacent-5-t8","message":"trailing 用户 \\\\FILESRV01\\share\r\n"}
+{"case":"non-ascii-adjacent-5-t9","message":"trailing 用户 \\\\FILESRV01\\share "}
+{"case":"non-ascii-adjacent-5-t10","message":"trailing 用户 \\\\FILESRV01\\share "}
+{"case":"non-ascii-adjacent-5-t11","message":"split 用户 \\\\FILESRV01\\share second half 用户 \\\\FILESRV01\\share"}
+{"case":"placeholder-1-t1","message":"<host-1>","keep":true}
+{"case":"placeholder-1-t2","message":"value: <host-1>","keep":true}
+{"case":"placeholder-1-t3","message":"\"<host-1>\"","keep":true}
+{"case":"placeholder-1-t4","message":"[info] connect from <host-1> ok","keep":true}
+{"case":"placeholder-1-t5","message":"field=<host-1>;next=plain","keep":true}
+{"case":"placeholder-1-t6","message":"trailing <host-1>\n","keep":true}
+{"case":"placeholder-1-t7","message":"trailing <host-1>\r","keep":true}
+{"case":"placeholder-1-t8","message":"trailing <host-1>\r\n","keep":true}
+{"case":"placeholder-1-t9","message":"trailing <host-1> ","keep":true}
+{"case":"placeholder-1-t10","message":"trailing <host-1> ","keep":true}
+{"case":"placeholder-1-t11","message":"split <host-1> second half <host-1>","keep":true}
+{"case":"placeholder-2-t1","message":"<user-2>","keep":true}
+{"case":"placeholder-2-t2","message":"value: <user-2>","keep":true}
+{"case":"placeholder-2-t3","message":"\"<user-2>\"","keep":true}
+{"case":"placeholder-2-t4","message":"[info] connect from <user-2> ok","keep":true}
+{"case":"placeholder-2-t5","message":"field=<user-2>;next=plain","keep":true}
+{"case":"placeholder-2-t6","message":"trailing <user-2>\n","keep":true}
+{"case":"placeholder-2-t7","message":"trailing <user-2>\r","keep":true}
+{"case":"placeholder-2-t8","message":"trailing <user-2>\r\n","keep":true}
+{"case":"placeholder-2-t9","message":"trailing <user-2> ","keep":true}
+{"case":"placeholder-2-t10","message":"trailing <user-2> ","keep":true}
+{"case":"placeholder-2-t11","message":"split <user-2> second half <user-2>","keep":true}
+{"case":"placeholder-3-t1","message":"<client-A>","keep":true}
+{"case":"placeholder-3-t2","message":"value: <client-A>","keep":true}
+{"case":"placeholder-3-t3","message":"\"<client-A>\"","keep":true}
+{"case":"placeholder-3-t4","message":"[info] connect from <client-A> ok","keep":true}
+{"case":"placeholder-3-t5","message":"field=<client-A>;next=plain","keep":true}
+{"case":"placeholder-3-t6","message":"trailing <client-A>\n","keep":true}
+{"case":"placeholder-3-t7","message":"trailing <client-A>\r","keep":true}
+{"case":"placeholder-3-t8","message":"trailing <client-A>\r\n","keep":true}
+{"case":"placeholder-3-t9","message":"trailing <client-A> ","keep":true}
+{"case":"placeholder-3-t10","message":"trailing <client-A> ","keep":true}
+{"case":"placeholder-3-t11","message":"split <client-A> second half <client-A>","keep":true}
+{"case":"placeholder-4-t1","message":"<ip-3>","keep":true}
+{"case":"placeholder-4-t2","message":"value: <ip-3>","keep":true}
+{"case":"placeholder-4-t3","message":"\"<ip-3>\"","keep":true}
+{"case":"placeholder-4-t4","message":"[info] connect from <ip-3> ok","keep":true}
+{"case":"placeholder-4-t5","message":"field=<ip-3>;next=plain","keep":true}
+{"case":"placeholder-4-t6","message":"trailing <ip-3>\n","keep":true}
+{"case":"placeholder-4-t7","message":"trailing <ip-3>\r","keep":true}
+{"case":"placeholder-4-t8","message":"trailing <ip-3>\r\n","keep":true}
+{"case":"placeholder-4-t9","message":"trailing <ip-3> ","keep":true}
+{"case":"placeholder-4-t10","message":"trailing <ip-3> ","keep":true}
+{"case":"placeholder-4-t11","message":"split <ip-3> second half <ip-3>","keep":true}
+{"case":"placeholder-5-t1","message":"<ip-3>/24","keep":true}
+{"case":"placeholder-5-t2","message":"value: <ip-3>/24","keep":true}
+{"case":"placeholder-5-t3","message":"\"<ip-3>/24\"","keep":true}
+{"case":"placeholder-5-t4","message":"[info] connect from <ip-3>/24 ok","keep":true}
+{"case":"placeholder-5-t5","message":"field=<ip-3>/24;next=plain","keep":true}
+{"case":"placeholder-5-t6","message":"trailing <ip-3>/24\n","keep":true}
+{"case":"placeholder-5-t7","message":"trailing <ip-3>/24\r","keep":true}
+{"case":"placeholder-5-t8","message":"trailing <ip-3>/24\r\n","keep":true}
+{"case":"placeholder-5-t9","message":"trailing <ip-3>/24 ","keep":true}
+{"case":"placeholder-5-t10","message":"trailing <ip-3>/24 ","keep":true}
+{"case":"placeholder-5-t11","message":"split <ip-3>/24 second half <ip-3>/24","keep":true}
+{"case":"placeholder-6-t1","message":"<user-2>@<host-1>","keep":true}
+{"case":"placeholder-6-t2","message":"value: <user-2>@<host-1>","keep":true}
+{"case":"placeholder-6-t3","message":"\"<user-2>@<host-1>\"","keep":true}
+{"case":"placeholder-6-t4","message":"[info] connect from <user-2>@<host-1> ok","keep":true}
+{"case":"placeholder-6-t5","message":"field=<user-2>@<host-1>;next=plain","keep":true}
+{"case":"placeholder-6-t6","message":"trailing <user-2>@<host-1>\n","keep":true}
+{"case":"placeholder-6-t7","message":"trailing <user-2>@<host-1>\r","keep":true}
+{"case":"placeholder-6-t8","message":"trailing <user-2>@<host-1>\r\n","keep":true}
+{"case":"placeholder-6-t9","message":"trailing <user-2>@<host-1> ","keep":true}
+{"case":"placeholder-6-t10","message":"trailing <user-2>@<host-1> ","keep":true}
+{"case":"placeholder-6-t11","message":"split <user-2>@<host-1> second half <user-2>@<host-1>","keep":true}
+{"case":"already-redacted-1-t1","message":"redacted1@example.invalid","keep":true}
+{"case":"already-redacted-1-t2","message":"value: redacted1@example.invalid","keep":true}
+{"case":"already-redacted-1-t3","message":"\"redacted1@example.invalid\"","keep":true}
+{"case":"already-redacted-1-t4","message":"[info] connect from redacted1@example.invalid ok","keep":true}
+{"case":"already-redacted-1-t5","message":"field=redacted1@example.invalid;next=plain","keep":true}
+{"case":"already-redacted-1-t6","message":"trailing redacted1@example.invalid\n","keep":true}
+{"case":"already-redacted-1-t7","message":"trailing redacted1@example.invalid\r","keep":true}
+{"case":"already-redacted-1-t8","message":"trailing redacted1@example.invalid\r\n","keep":true}
+{"case":"already-redacted-1-t9","message":"trailing redacted1@example.invalid ","keep":true}
+{"case":"already-redacted-1-t10","message":"trailing redacted1@example.invalid ","keep":true}
+{"case":"already-redacted-1-t11","message":"split redacted1@example.invalid second half redacted1@example.invalid","keep":true}
+{"case":"already-redacted-2-t1","message":"192.0.2.5","keep":true}
+{"case":"already-redacted-2-t2","message":"value: 192.0.2.5","keep":true}
+{"case":"already-redacted-2-t3","message":"\"192.0.2.5\"","keep":true}
+{"case":"already-redacted-2-t4","message":"[info] connect from 192.0.2.5 ok","keep":true}
+{"case":"already-redacted-2-t5","message":"field=192.0.2.5;next=plain","keep":true}
+{"case":"already-redacted-2-t6","message":"trailing 192.0.2.5\n","keep":true}
+{"case":"already-redacted-2-t7","message":"trailing 192.0.2.5\r","keep":true}
+{"case":"already-redacted-2-t8","message":"trailing 192.0.2.5\r\n","keep":true}
+{"case":"already-redacted-2-t9","message":"trailing 192.0.2.5 ","keep":true}
+{"case":"already-redacted-2-t10","message":"trailing 192.0.2.5 ","keep":true}
+{"case":"already-redacted-2-t11","message":"split 192.0.2.5 second half 192.0.2.5","keep":true}
+{"case":"already-redacted-3-t1","message":"198.51.100.7","keep":true}
+{"case":"already-redacted-3-t2","message":"value: 198.51.100.7","keep":true}
+{"case":"already-redacted-3-t3","message":"\"198.51.100.7\"","keep":true}
+{"case":"already-redacted-3-t4","message":"[info] connect from 198.51.100.7 ok","keep":true}
+{"case":"already-redacted-3-t5","message":"field=198.51.100.7;next=plain","keep":true}
+{"case":"already-redacted-3-t6","message":"trailing 198.51.100.7\n","keep":true}
+{"case":"already-redacted-3-t7","message":"trailing 198.51.100.7\r","keep":true}
+{"case":"already-redacted-3-t8","message":"trailing 198.51.100.7\r\n","keep":true}
+{"case":"already-redacted-3-t9","message":"trailing 198.51.100.7 ","keep":true}
+{"case":"already-redacted-3-t10","message":"trailing 198.51.100.7 ","keep":true}
+{"case":"already-redacted-3-t11","message":"split 198.51.100.7 second half 198.51.100.7","keep":true}
+{"case":"already-redacted-4-t1","message":"2001:db8::1","keep":true}
+{"case":"already-redacted-4-t2","message":"value: 2001:db8::1","keep":true}
+{"case":"already-redacted-4-t3","message":"\"2001:db8::1\"","keep":true}
+{"case":"already-redacted-4-t4","message":"[info] connect from 2001:db8::1 ok","keep":true}
+{"case":"already-redacted-4-t5","message":"field=2001:db8::1;next=plain","keep":true}
+{"case":"already-redacted-4-t6","message":"trailing 2001:db8::1\n","keep":true}
+{"case":"already-redacted-4-t7","message":"trailing 2001:db8::1\r","keep":true}
+{"case":"already-redacted-4-t8","message":"trailing 2001:db8::1\r\n","keep":true}
+{"case":"already-redacted-4-t9","message":"trailing 2001:db8::1 ","keep":true}
+{"case":"already-redacted-4-t10","message":"trailing 2001:db8::1 ","keep":true}
+{"case":"already-redacted-4-t11","message":"split 2001:db8::1 second half 2001:db8::1","keep":true}
+{"case":"already-redacted-5-t1","message":"2001:db8:0:0:0:0:0:1","keep":true}
+{"case":"already-redacted-5-t2","message":"value: 2001:db8:0:0:0:0:0:1","keep":true}
+{"case":"already-redacted-5-t3","message":"\"2001:db8:0:0:0:0:0:1\"","keep":true}
+{"case":"already-redacted-5-t4","message":"[info] connect from 2001:db8:0:0:0:0:0:1 ok","keep":true}
+{"case":"already-redacted-5-t5","message":"field=2001:db8:0:0:0:0:0:1;next=plain","keep":true}
+{"case":"already-redacted-5-t6","message":"trailing 2001:db8:0:0:0:0:0:1\n","keep":true}
+{"case":"already-redacted-5-t7","message":"trailing 2001:db8:0:0:0:0:0:1\r","keep":true}
+{"case":"already-redacted-5-t8","message":"trailing 2001:db8:0:0:0:0:0:1\r\n","keep":true}
+{"case":"already-redacted-5-t9","message":"trailing 2001:db8:0:0:0:0:0:1 ","keep":true}
+{"case":"already-redacted-5-t10","message":"trailing 2001:db8:0:0:0:0:0:1 ","keep":true}
+{"case":"already-redacted-5-t11","message":"split 2001:db8:0:0:0:0:0:1 second half 2001:db8:0:0:0:0:0:1","keep":true}
+{"case":"already-redacted-6-t1","message":"::ffff:192.0.2.5","keep":true}
+{"case":"already-redacted-6-t2","message":"value: ::ffff:192.0.2.5","keep":true}
+{"case":"already-redacted-6-t3","message":"\"::ffff:192.0.2.5\"","keep":true}
+{"case":"already-redacted-6-t4","message":"[info] connect from ::ffff:192.0.2.5 ok","keep":true}
+{"case":"already-redacted-6-t5","message":"field=::ffff:192.0.2.5;next=plain","keep":true}
+{"case":"already-redacted-6-t6","message":"trailing ::ffff:192.0.2.5\n","keep":true}
+{"case":"already-redacted-6-t7","message":"trailing ::ffff:192.0.2.5\r","keep":true}
+{"case":"already-redacted-6-t8","message":"trailing ::ffff:192.0.2.5\r\n","keep":true}
+{"case":"already-redacted-6-t9","message":"trailing ::ffff:192.0.2.5 ","keep":true}
+{"case":"already-redacted-6-t10","message":"trailing ::ffff:192.0.2.5 ","keep":true}
+{"case":"already-redacted-6-t11","message":"split ::ffff:192.0.2.5 second half ::ffff:192.0.2.5","keep":true}
+{"case":"already-redacted-7-t1","message":"00:00:5E:00:53:AA","keep":true}
+{"case":"already-redacted-7-t2","message":"value: 00:00:5E:00:53:AA","keep":true}
+{"case":"already-redacted-7-t3","message":"\"00:00:5E:00:53:AA\"","keep":true}
+{"case":"already-redacted-7-t4","message":"[info] connect from 00:00:5E:00:53:AA ok","keep":true}
+{"case":"already-redacted-7-t5","message":"field=00:00:5E:00:53:AA;next=plain","keep":true}
+{"case":"already-redacted-7-t6","message":"trailing 00:00:5E:00:53:AA\n","keep":true}
+{"case":"already-redacted-7-t7","message":"trailing 00:00:5E:00:53:AA\r","keep":true}
+{"case":"already-redacted-7-t8","message":"trailing 00:00:5E:00:53:AA\r\n","keep":true}
+{"case":"already-redacted-7-t9","message":"trailing 00:00:5E:00:53:AA ","keep":true}
+{"case":"already-redacted-7-t10","message":"trailing 00:00:5E:00:53:AA ","keep":true}
+{"case":"already-redacted-7-t11","message":"split 00:00:5E:00:53:AA second half 00:00:5E:00:53:AA","keep":true}
+{"case":"already-redacted-8-t1","message":"000-01-0001","keep":true}
+{"case":"already-redacted-8-t2","message":"value: 000-01-0001","keep":true}
+{"case":"already-redacted-8-t3","message":"\"000-01-0001\"","keep":true}
+{"case":"already-redacted-8-t4","message":"[info] connect from 000-01-0001 ok","keep":true}
+{"case":"already-redacted-8-t5","message":"field=000-01-0001;next=plain","keep":true}
+{"case":"already-redacted-8-t6","message":"trailing 000-01-0001\n","keep":true}
+{"case":"already-redacted-8-t7","message":"trailing 000-01-0001\r","keep":true}
+{"case":"already-redacted-8-t8","message":"trailing 000-01-0001\r\n","keep":true}
+{"case":"already-redacted-8-t9","message":"trailing 000-01-0001 ","keep":true}
+{"case":"already-redacted-8-t10","message":"trailing 000-01-0001 ","keep":true}
+{"case":"already-redacted-8-t11","message":"split 000-01-0001 second half 000-01-0001","keep":true}
+{"case":"already-redacted-10-t1","message":"4000000000000000","keep":true}
+{"case":"already-redacted-10-t2","message":"value: 4000000000000000","keep":true}
+{"case":"already-redacted-10-t3","message":"\"4000000000000000\"","keep":true}
+{"case":"already-redacted-10-t4","message":"[info] connect from 4000000000000000 ok","keep":true}
+{"case":"already-redacted-10-t5","message":"field=4000000000000000;next=plain","keep":true}
+{"case":"already-redacted-10-t6","message":"trailing 4000000000000000\n","keep":true}
+{"case":"already-redacted-10-t7","message":"trailing 4000000000000000\r","keep":true}
+{"case":"already-redacted-10-t8","message":"trailing 4000000000000000\r\n","keep":true}
+{"case":"already-redacted-10-t9","message":"trailing 4000000000000000 ","keep":true}
+{"case":"already-redacted-10-t10","message":"trailing 4000000000000000 ","keep":true}
+{"case":"already-redacted-10-t11","message":"split 4000000000000000 second half 4000000000000000","keep":true}
+{"case":"already-redacted-12-t1","message":"HOST0001","keep":true}
+{"case":"already-redacted-12-t2","message":"value: HOST0001","keep":true}
+{"case":"already-redacted-12-t3","message":"\"HOST0001\"","keep":true}
+{"case":"already-redacted-12-t4","message":"[info] connect from HOST0001 ok","keep":true}
+{"case":"already-redacted-12-t5","message":"field=HOST0001;next=plain","keep":true}
+{"case":"already-redacted-12-t6","message":"trailing HOST0001\n","keep":true}
+{"case":"already-redacted-12-t7","message":"trailing HOST0001\r","keep":true}
+{"case":"already-redacted-12-t8","message":"trailing HOST0001\r\n","keep":true}
+{"case":"already-redacted-12-t9","message":"trailing HOST0001 ","keep":true}
+{"case":"already-redacted-12-t10","message":"trailing HOST0001 ","keep":true}
+{"case":"already-redacted-12-t11","message":"split HOST0001 second half HOST0001","keep":true}
+{"case":"already-redacted-13-t1","message":"C:\\Users\\User00001\\a.log","keep":true}
+{"case":"already-redacted-13-t2","message":"value: C:\\Users\\User00001\\a.log","keep":true}
+{"case":"already-redacted-13-t3","message":"\"C:\\Users\\User00001\\a.log\"","keep":true}
+{"case":"already-redacted-13-t4","message":"[info] connect from C:\\Users\\User00001\\a.log ok","keep":true}
+{"case":"already-redacted-13-t5","message":"field=C:\\Users\\User00001\\a.log;next=plain","keep":true}
+{"case":"already-redacted-13-t6","message":"trailing C:\\Users\\User00001\\a.log\n","keep":true}
+{"case":"already-redacted-13-t7","message":"trailing C:\\Users\\User00001\\a.log\r","keep":true}
+{"case":"already-redacted-13-t8","message":"trailing C:\\Users\\User00001\\a.log\r\n","keep":true}
+{"case":"already-redacted-13-t9","message":"trailing C:\\Users\\User00001\\a.log ","keep":true}
+{"case":"already-redacted-13-t10","message":"trailing C:\\Users\\User00001\\a.log ","keep":true}
+{"case":"already-redacted-13-t11","message":"split C:\\Users\\User00001\\a.log second half C:\\Users\\User00001\\a.log","keep":true}
+{"case":"already-redacted-14-t1","message":"\\\\HOST0001\\share","keep":true}
+{"case":"already-redacted-14-t2","message":"value: \\\\HOST0001\\share","keep":true}
+{"case":"already-redacted-14-t3","message":"\"\\\\HOST0001\\share\"","keep":true}
+{"case":"already-redacted-14-t4","message":"[info] connect from \\\\HOST0001\\share ok","keep":true}
+{"case":"already-redacted-14-t5","message":"field=\\\\HOST0001\\share;next=plain","keep":true}
+{"case":"already-redacted-14-t6","message":"trailing \\\\HOST0001\\share\n","keep":true}
+{"case":"already-redacted-14-t7","message":"trailing \\\\HOST0001\\share\r","keep":true}
+{"case":"already-redacted-14-t8","message":"trailing \\\\HOST0001\\share\r\n","keep":true}
+{"case":"already-redacted-14-t9","message":"trailing \\\\HOST0001\\share ","keep":true}
+{"case":"already-redacted-14-t10","message":"trailing \\\\HOST0001\\share ","keep":true}
+{"case":"already-redacted-14-t11","message":"split \\\\HOST0001\\share second half \\\\HOST0001\\share","keep":true}
+{"case":"credential-json-key-1-t1","message":"{\"password\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-1-t2","message":"value: {\"password\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-1-t3","message":"\"{\"password\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-1-t4","message":"[info] connect from {\"password\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-1-t5","message":"field={\"password\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-1-t6","message":"trailing {\"password\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-1-t7","message":"trailing {\"password\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-1-t8","message":"trailing {\"password\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-1-t9","message":"trailing {\"password\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-1-t10","message":"trailing {\"password\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-1-t11","message":"split {\"password\": \"aGVsbG8td29ybGQ\"} second half {\"password\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-2-t1","message":"{\"pwd\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-2-t2","message":"value: {\"pwd\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-2-t3","message":"\"{\"pwd\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-2-t4","message":"[info] connect from {\"pwd\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-2-t5","message":"field={\"pwd\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-2-t6","message":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-2-t7","message":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-2-t8","message":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-2-t9","message":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-2-t10","message":"trailing {\"pwd\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-2-t11","message":"split {\"pwd\": \"aGVsbG8td29ybGQ\"} second half {\"pwd\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-3-t1","message":"{\"secret\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-3-t2","message":"value: {\"secret\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-3-t3","message":"\"{\"secret\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-3-t4","message":"[info] connect from {\"secret\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-3-t5","message":"field={\"secret\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-3-t6","message":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-3-t7","message":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-3-t8","message":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-3-t9","message":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-3-t10","message":"trailing {\"secret\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-3-t11","message":"split {\"secret\": \"aGVsbG8td29ybGQ\"} second half {\"secret\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-4-t1","message":"{\"token\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-4-t2","message":"value: {\"token\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-4-t3","message":"\"{\"token\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-4-t4","message":"[info] connect from {\"token\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-4-t5","message":"field={\"token\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-4-t6","message":"trailing {\"token\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-4-t7","message":"trailing {\"token\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-4-t8","message":"trailing {\"token\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-4-t9","message":"trailing {\"token\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-4-t10","message":"trailing {\"token\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-4-t11","message":"split {\"token\": \"aGVsbG8td29ybGQ\"} second half {\"token\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-5-t1","message":"{\"apikey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-5-t2","message":"value: {\"apikey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-5-t3","message":"\"{\"apikey\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-5-t4","message":"[info] connect from {\"apikey\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-5-t5","message":"field={\"apikey\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-5-t6","message":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-5-t7","message":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-5-t8","message":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-5-t9","message":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-5-t10","message":"trailing {\"apikey\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-5-t11","message":"split {\"apikey\": \"aGVsbG8td29ybGQ\"} second half {\"apikey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-6-t1","message":"{\"api_key\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-6-t2","message":"value: {\"api_key\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-6-t3","message":"\"{\"api_key\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-6-t4","message":"[info] connect from {\"api_key\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-6-t5","message":"field={\"api_key\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-6-t6","message":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-6-t7","message":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-6-t8","message":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-6-t9","message":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-6-t10","message":"trailing {\"api_key\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-6-t11","message":"split {\"api_key\": \"aGVsbG8td29ybGQ\"} second half {\"api_key\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-7-t1","message":"{\"accountkey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-7-t2","message":"value: {\"accountkey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-7-t3","message":"\"{\"accountkey\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-7-t4","message":"[info] connect from {\"accountkey\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-7-t5","message":"field={\"accountkey\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-7-t6","message":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-7-t7","message":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-7-t8","message":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-7-t9","message":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-7-t10","message":"trailing {\"accountkey\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-7-t11","message":"split {\"accountkey\": \"aGVsbG8td29ybGQ\"} second half {\"accountkey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-8-t1","message":"{\"accesskey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-8-t2","message":"value: {\"accesskey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-8-t3","message":"\"{\"accesskey\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-8-t4","message":"[info] connect from {\"accesskey\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-8-t5","message":"field={\"accesskey\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-8-t6","message":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-8-t7","message":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-8-t8","message":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-8-t9","message":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-8-t10","message":"trailing {\"accesskey\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-8-t11","message":"split {\"accesskey\": \"aGVsbG8td29ybGQ\"} second half {\"accesskey\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-9-t1","message":"{\"credential\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-9-t2","message":"value: {\"credential\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-9-t3","message":"\"{\"credential\": \"aGVsbG8td29ybGQ\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-9-t4","message":"[info] connect from {\"credential\": \"aGVsbG8td29ybGQ\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-9-t5","message":"field={\"credential\": \"aGVsbG8td29ybGQ\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-9-t6","message":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-9-t7","message":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-9-t8","message":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-9-t9","message":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-9-t10","message":"trailing {\"credential\": \"aGVsbG8td29ybGQ\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-9-t11","message":"split {\"credential\": \"aGVsbG8td29ybGQ\"} second half {\"credential\": \"aGVsbG8td29ybGQ\"}","keep":true,"credential":true}
+{"case":"credential-json-key-10-t1","message":"{\"passphrase\": \"correct horse battery staple\"}","keep":true,"credential":true}
+{"case":"credential-json-key-10-t2","message":"value: {\"passphrase\": \"correct horse battery staple\"}","keep":true,"credential":true}
+{"case":"credential-json-key-10-t3","message":"\"{\"passphrase\": \"correct horse battery staple\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-10-t4","message":"[info] connect from {\"passphrase\": \"correct horse battery staple\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-10-t5","message":"field={\"passphrase\": \"correct horse battery staple\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-10-t6","message":"trailing {\"passphrase\": \"correct horse battery staple\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-10-t7","message":"trailing {\"passphrase\": \"correct horse battery staple\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-10-t8","message":"trailing {\"passphrase\": \"correct horse battery staple\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-10-t9","message":"trailing {\"passphrase\": \"correct horse battery staple\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-10-t10","message":"trailing {\"passphrase\": \"correct horse battery staple\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-10-t11","message":"split {\"passphrase\": \"correct horse battery staple\"} second half {\"passphrase\": \"correct horse battery staple\"}","keep":true,"credential":true}
+{"case":"credential-json-key-11-t1","message":"{\"password\": 1234}","keep":true,"credential":true}
+{"case":"credential-json-key-11-t2","message":"value: {\"password\": 1234}","keep":true,"credential":true}
+{"case":"credential-json-key-11-t3","message":"\"{\"password\": 1234}\"","keep":true,"credential":true}
+{"case":"credential-json-key-11-t4","message":"[info] connect from {\"password\": 1234} ok","keep":true,"credential":true}
+{"case":"credential-json-key-11-t5","message":"field={\"password\": 1234};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-11-t6","message":"trailing {\"password\": 1234}\n","keep":true,"credential":true}
+{"case":"credential-json-key-11-t7","message":"trailing {\"password\": 1234}\r","keep":true,"credential":true}
+{"case":"credential-json-key-11-t8","message":"trailing {\"password\": 1234}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-11-t9","message":"trailing {\"password\": 1234} ","keep":true,"credential":true}
+{"case":"credential-json-key-11-t10","message":"trailing {\"password\": 1234} ","keep":true,"credential":true}
+{"case":"credential-json-key-11-t11","message":"split {\"password\": 1234} second half {\"password\": 1234}","keep":true,"credential":true}
+{"case":"credential-json-key-12-t1","message":"{\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}","keep":true,"credential":true}
+{"case":"credential-json-key-12-t2","message":"value: {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}","keep":true,"credential":true}
+{"case":"credential-json-key-12-t3","message":"\"{\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\"","keep":true,"credential":true}
+{"case":"credential-json-key-12-t4","message":"[info] connect from {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"} ok","keep":true,"credential":true}
+{"case":"credential-json-key-12-t5","message":"field={\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"};next=plain","keep":true,"credential":true}
+{"case":"credential-json-key-12-t6","message":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\n","keep":true,"credential":true}
+{"case":"credential-json-key-12-t7","message":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\r","keep":true,"credential":true}
+{"case":"credential-json-key-12-t8","message":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}\r\n","keep":true,"credential":true}
+{"case":"credential-json-key-12-t9","message":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-12-t10","message":"trailing {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"} ","keep":true,"credential":true}
+{"case":"credential-json-key-12-t11","message":"split {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"} second half {\"user\": \"jsmith\", \"password\": \"aGVsbG8td29ybGQ\", \"host\": \"<host-1>\"}","keep":true,"credential":true}
+{"case":"astral-1-t1","message":"😀10.0.1.50"}
+{"case":"astral-1-t2","message":"value: 😀10.0.1.50"}
+{"case":"astral-1-t3","message":"\"😀10.0.1.50\""}
+{"case":"astral-1-t4","message":"[info] connect from 😀10.0.1.50 ok"}
+{"case":"astral-1-t5","message":"field=😀10.0.1.50;next=plain"}
+{"case":"astral-1-t6","message":"trailing 😀10.0.1.50\n"}
+{"case":"astral-1-t7","message":"trailing 😀10.0.1.50\r"}
+{"case":"astral-1-t8","message":"trailing 😀10.0.1.50\r\n"}
+{"case":"astral-1-t9","message":"trailing 😀10.0.1.50 "}
+{"case":"astral-1-t10","message":"trailing 😀10.0.1.50 "}
+{"case":"astral-1-t11","message":"split 😀10.0.1.50 second half 😀10.0.1.50"}
+{"case":"astral-2-t1","message":"10.0.1.50😀"}
+{"case":"astral-2-t2","message":"value: 10.0.1.50😀"}
+{"case":"astral-2-t3","message":"\"10.0.1.50😀\""}
+{"case":"astral-2-t4","message":"[info] connect from 10.0.1.50😀 ok"}
+{"case":"astral-2-t5","message":"field=10.0.1.50😀;next=plain"}
+{"case":"astral-2-t6","message":"trailing 10.0.1.50😀\n"}
+{"case":"astral-2-t7","message":"trailing 10.0.1.50😀\r"}
+{"case":"astral-2-t8","message":"trailing 10.0.1.50😀\r\n"}
+{"case":"astral-2-t9","message":"trailing 10.0.1.50😀 "}
+{"case":"astral-2-t10","message":"trailing 10.0.1.50😀 "}
+{"case":"astral-2-t11","message":"split 10.0.1.50😀 second half 10.0.1.50😀"}
+{"case":"astral-3-t1","message":"😀 alice@example.net"}
+{"case":"astral-3-t2","message":"value: 😀 alice@example.net"}
+{"case":"astral-3-t3","message":"\"😀 alice@example.net\""}
+{"case":"astral-3-t4","message":"[info] connect from 😀 alice@example.net ok"}
+{"case":"astral-3-t5","message":"field=😀 alice@example.net;next=plain"}
+{"case":"astral-3-t6","message":"trailing 😀 alice@example.net\n"}
+{"case":"astral-3-t7","message":"trailing 😀 alice@example.net\r"}
+{"case":"astral-3-t8","message":"trailing 😀 alice@example.net\r\n"}
+{"case":"astral-3-t9","message":"trailing 😀 alice@example.net "}
+{"case":"astral-3-t10","message":"trailing 😀 alice@example.net "}
+{"case":"astral-3-t11","message":"split 😀 alice@example.net second half 😀 alice@example.net"}
+{"case":"astral-4-t1","message":"ali😀ce@example.net"}
+{"case":"astral-4-t2","message":"value: ali😀ce@example.net"}
+{"case":"astral-4-t3","message":"\"ali😀ce@example.net\""}
+{"case":"astral-4-t4","message":"[info] connect from ali😀ce@example.net ok"}
+{"case":"astral-4-t5","message":"field=ali😀ce@example.net;next=plain"}
+{"case":"astral-4-t6","message":"trailing ali😀ce@example.net\n"}
+{"case":"astral-4-t7","message":"trailing ali😀ce@example.net\r"}
+{"case":"astral-4-t8","message":"trailing ali😀ce@example.net\r\n"}
+{"case":"astral-4-t9","message":"trailing ali😀ce@example.net "}
+{"case":"astral-4-t10","message":"trailing ali😀ce@example.net "}
+{"case":"astral-4-t11","message":"split ali😀ce@example.net second half ali😀ce@example.net"}
+{"case":"astral-5-t1","message":"𐐀00:1A:2B:3C:4D:5E"}
+{"case":"astral-5-t2","message":"value: 𐐀00:1A:2B:3C:4D:5E"}
+{"case":"astral-5-t3","message":"\"𐐀00:1A:2B:3C:4D:5E\""}
+{"case":"astral-5-t4","message":"[info] connect from 𐐀00:1A:2B:3C:4D:5E ok"}
+{"case":"astral-5-t5","message":"field=𐐀00:1A:2B:3C:4D:5E;next=plain"}
+{"case":"astral-5-t6","message":"trailing 𐐀00:1A:2B:3C:4D:5E\n"}
+{"case":"astral-5-t7","message":"trailing 𐐀00:1A:2B:3C:4D:5E\r"}
+{"case":"astral-5-t8","message":"trailing 𐐀00:1A:2B:3C:4D:5E\r\n"}
+{"case":"astral-5-t9","message":"trailing 𐐀00:1A:2B:3C:4D:5E "}
+{"case":"astral-5-t10","message":"trailing 𐐀00:1A:2B:3C:4D:5E "}
+{"case":"astral-5-t11","message":"split 𐐀00:1A:2B:3C:4D:5E second half 𐐀00:1A:2B:3C:4D:5E"}
+{"case":"astral-6-t1","message":"00:1A:2B:3C:4D:5😀E"}
+{"case":"astral-6-t2","message":"value: 00:1A:2B:3C:4D:5😀E"}
+{"case":"astral-6-t3","message":"\"00:1A:2B:3C:4D:5😀E\""}
+{"case":"astral-6-t4","message":"[info] connect from 00:1A:2B:3C:4D:5😀E ok"}
+{"case":"astral-6-t5","message":"field=00:1A:2B:3C:4D:5😀E;next=plain"}
+{"case":"astral-6-t6","message":"trailing 00:1A:2B:3C:4D:5😀E\n"}
+{"case":"astral-6-t7","message":"trailing 00:1A:2B:3C:4D:5😀E\r"}
+{"case":"astral-6-t8","message":"trailing 00:1A:2B:3C:4D:5😀E\r\n"}
+{"case":"astral-6-t9","message":"trailing 00:1A:2B:3C:4D:5😀E "}
+{"case":"astral-6-t10","message":"trailing 00:1A:2B:3C:4D:5😀E "}
+{"case":"astral-6-t11","message":"split 00:1A:2B:3C:4D:5😀E second half 00:1A:2B:3C:4D:5😀E"}
+{"case":"astral-7-t1","message":"C:\\Users\\js😀mith\\a.log"}
+{"case":"astral-7-t2","message":"value: C:\\Users\\js😀mith\\a.log"}
+{"case":"astral-7-t3","message":"\"C:\\Users\\js😀mith\\a.log\""}
+{"case":"astral-7-t4","message":"[info] connect from C:\\Users\\js😀mith\\a.log ok"}
+{"case":"astral-7-t5","message":"field=C:\\Users\\js😀mith\\a.log;next=plain"}
+{"case":"astral-7-t6","message":"trailing C:\\Users\\js😀mith\\a.log\n"}
+{"case":"astral-7-t7","message":"trailing C:\\Users\\js😀mith\\a.log\r"}
+{"case":"astral-7-t8","message":"trailing C:\\Users\\js😀mith\\a.log\r\n"}
+{"case":"astral-7-t9","message":"trailing C:\\Users\\js😀mith\\a.log "}
+{"case":"astral-7-t10","message":"trailing C:\\Users\\js😀mith\\a.log "}
+{"case":"astral-7-t11","message":"split C:\\Users\\js😀mith\\a.log second half C:\\Users\\js😀mith\\a.log"}
+{"case":"astral-8-t1","message":"C:\\Users\\𐐀mith\\a.log"}
+{"case":"astral-8-t2","message":"value: C:\\Users\\𐐀mith\\a.log"}
+{"case":"astral-8-t3","message":"\"C:\\Users\\𐐀mith\\a.log\""}
+{"case":"astral-8-t4","message":"[info] connect from C:\\Users\\𐐀mith\\a.log ok"}
+{"case":"astral-8-t5","message":"field=C:\\Users\\𐐀mith\\a.log;next=plain"}
+{"case":"astral-8-t6","message":"trailing C:\\Users\\𐐀mith\\a.log\n"}
+{"case":"astral-8-t7","message":"trailing C:\\Users\\𐐀mith\\a.log\r"}
+{"case":"astral-8-t8","message":"trailing C:\\Users\\𐐀mith\\a.log\r\n"}
+{"case":"astral-8-t9","message":"trailing C:\\Users\\𐐀mith\\a.log "}
+{"case":"astral-8-t10","message":"trailing C:\\Users\\𐐀mith\\a.log "}
+{"case":"astral-8-t11","message":"split C:\\Users\\𐐀mith\\a.log second half C:\\Users\\𐐀mith\\a.log"}
+{"case":"astral-9-t1","message":"4111111111111😀111"}
+{"case":"astral-9-t2","message":"value: 4111111111111😀111"}
+{"case":"astral-9-t3","message":"\"4111111111111😀111\""}
+{"case":"astral-9-t4","message":"[info] connect from 4111111111111😀111 ok"}
+{"case":"astral-9-t5","message":"field=4111111111111😀111;next=plain"}
+{"case":"astral-9-t6","message":"trailing 4111111111111😀111\n"}
+{"case":"astral-9-t7","message":"trailing 4111111111111😀111\r"}
+{"case":"astral-9-t8","message":"trailing 4111111111111😀111\r\n"}
+{"case":"astral-9-t9","message":"trailing 4111111111111😀111 "}
+{"case":"astral-9-t10","message":"trailing 4111111111111😀111 "}
+{"case":"astral-9-t11","message":"split 4111111111111😀111 second half 4111111111111😀111"}
+{"case":"astral-10-t1","message":"😀4111111111111111"}
+{"case":"astral-10-t2","message":"value: 😀4111111111111111"}
+{"case":"astral-10-t3","message":"\"😀4111111111111111\""}
+{"case":"astral-10-t4","message":"[info] connect from 😀4111111111111111 ok"}
+{"case":"astral-10-t5","message":"field=😀4111111111111111;next=plain"}
+{"case":"astral-10-t6","message":"trailing 😀4111111111111111\n"}
+{"case":"astral-10-t7","message":"trailing 😀4111111111111111\r"}
+{"case":"astral-10-t8","message":"trailing 😀4111111111111111\r\n"}
+{"case":"astral-10-t9","message":"trailing 😀4111111111111111 "}
+{"case":"astral-10-t10","message":"trailing 😀4111111111111111 "}
+{"case":"astral-10-t11","message":"split 😀4111111111111111 second half 😀4111111111111111"}
+{"case":"astral-11-t1","message":"😀123-45-6789"}
+{"case":"astral-11-t2","message":"value: 😀123-45-6789"}
+{"case":"astral-11-t3","message":"\"😀123-45-6789\""}
+{"case":"astral-11-t4","message":"[info] connect from 😀123-45-6789 ok"}
+{"case":"astral-11-t5","message":"field=😀123-45-6789;next=plain"}
+{"case":"astral-11-t6","message":"trailing 😀123-45-6789\n"}
+{"case":"astral-11-t7","message":"trailing 😀123-45-6789\r"}
+{"case":"astral-11-t8","message":"trailing 😀123-45-6789\r\n"}
+{"case":"astral-11-t9","message":"trailing 😀123-45-6789 "}
+{"case":"astral-11-t10","message":"trailing 😀123-45-6789 "}
+{"case":"astral-11-t11","message":"split 😀123-45-6789 second half 😀123-45-6789"}
+{"case":"astral-12-t1","message":"𐐀db01.corp.local"}
+{"case":"astral-12-t2","message":"value: 𐐀db01.corp.local"}
+{"case":"astral-12-t3","message":"\"𐐀db01.corp.local\""}
+{"case":"astral-12-t4","message":"[info] connect from 𐐀db01.corp.local ok"}
+{"case":"astral-12-t5","message":"field=𐐀db01.corp.local;next=plain"}
+{"case":"astral-12-t6","message":"trailing 𐐀db01.corp.local\n"}
+{"case":"astral-12-t7","message":"trailing 𐐀db01.corp.local\r"}
+{"case":"astral-12-t8","message":"trailing 𐐀db01.corp.local\r\n"}
+{"case":"astral-12-t9","message":"trailing 𐐀db01.corp.local "}
+{"case":"astral-12-t10","message":"trailing 𐐀db01.corp.local "}
+{"case":"astral-12-t11","message":"split 𐐀db01.corp.local second half 𐐀db01.corp.local"}
+{"case":"astral-13-t1","message":"\\\\FILESRV01😀\\share"}
+{"case":"astral-13-t2","message":"value: \\\\FILESRV01😀\\share"}
+{"case":"astral-13-t3","message":"\"\\\\FILESRV01😀\\share\""}
+{"case":"astral-13-t4","message":"[info] connect from \\\\FILESRV01😀\\share ok"}
+{"case":"astral-13-t5","message":"field=\\\\FILESRV01😀\\share;next=plain"}
+{"case":"astral-13-t6","message":"trailing \\\\FILESRV01😀\\share\n"}
+{"case":"astral-13-t7","message":"trailing \\\\FILESRV01😀\\share\r"}
+{"case":"astral-13-t8","message":"trailing \\\\FILESRV01😀\\share\r\n"}
+{"case":"astral-13-t9","message":"trailing \\\\FILESRV01😀\\share "}
+{"case":"astral-13-t10","message":"trailing \\\\FILESRV01😀\\share "}
+{"case":"astral-13-t11","message":"split \\\\FILESRV01😀\\share second half \\\\FILESRV01😀\\share"}
+{"case":"astral-14-t1","message":"😀\\\\FILESRV01\\share"}
+{"case":"astral-14-t2","message":"value: 😀\\\\FILESRV01\\share"}
+{"case":"astral-14-t3","message":"\"😀\\\\FILESRV01\\share\""}
+{"case":"astral-14-t4","message":"[info] connect from 😀\\\\FILESRV01\\share ok"}
+{"case":"astral-14-t5","message":"field=😀\\\\FILESRV01\\share;next=plain"}
+{"case":"astral-14-t6","message":"trailing 😀\\\\FILESRV01\\share\n"}
+{"case":"astral-14-t7","message":"trailing 😀\\\\FILESRV01\\share\r"}
+{"case":"astral-14-t8","message":"trailing 😀\\\\FILESRV01\\share\r\n"}
+{"case":"astral-14-t9","message":"trailing 😀\\\\FILESRV01\\share "}
+{"case":"astral-14-t10","message":"trailing 😀\\\\FILESRV01\\share "}
+{"case":"astral-14-t11","message":"split 😀\\\\FILESRV01\\share second half 😀\\\\FILESRV01\\share"}
+{"case":"astral-15-t1","message":"😀::ffff:10.0.1.50"}
+{"case":"astral-15-t2","message":"value: 😀::ffff:10.0.1.50"}
+{"case":"astral-15-t3","message":"\"😀::ffff:10.0.1.50\""}
+{"case":"astral-15-t4","message":"[info] connect from 😀::ffff:10.0.1.50 ok"}
+{"case":"astral-15-t5","message":"field=😀::ffff:10.0.1.50;next=plain"}
+{"case":"astral-15-t6","message":"trailing 😀::ffff:10.0.1.50\n"}
+{"case":"astral-15-t7","message":"trailing 😀::ffff:10.0.1.50\r"}
+{"case":"astral-15-t8","message":"trailing 😀::ffff:10.0.1.50\r\n"}
+{"case":"astral-15-t9","message":"trailing 😀::ffff:10.0.1.50 "}
+{"case":"astral-15-t10","message":"trailing 😀::ffff:10.0.1.50 "}
+{"case":"astral-15-t11","message":"split 😀::ffff:10.0.1.50 second half 😀::ffff:10.0.1.50"}
+{"case":"astral-16-t1","message":"😀fd12:3456::10.0.1.50"}
+{"case":"astral-16-t2","message":"value: 😀fd12:3456::10.0.1.50"}
+{"case":"astral-16-t3","message":"\"😀fd12:3456::10.0.1.50\""}
+{"case":"astral-16-t4","message":"[info] connect from 😀fd12:3456::10.0.1.50 ok"}
+{"case":"astral-16-t5","message":"field=😀fd12:3456::10.0.1.50;next=plain"}
+{"case":"astral-16-t6","message":"trailing 😀fd12:3456::10.0.1.50\n"}
+{"case":"astral-16-t7","message":"trailing 😀fd12:3456::10.0.1.50\r"}
+{"case":"astral-16-t8","message":"trailing 😀fd12:3456::10.0.1.50\r\n"}
+{"case":"astral-16-t9","message":"trailing 😀fd12:3456::10.0.1.50 "}
+{"case":"astral-16-t10","message":"trailing 😀fd12:3456::10.0.1.50 "}
+{"case":"astral-16-t11","message":"split 😀fd12:3456::10.0.1.50 second half 😀fd12:3456::10.0.1.50"}
+{"case":"astral-17-t1","message":"😀fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"astral-17-t2","message":"value: 😀fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"astral-17-t3","message":"\"😀fd12:3456:789a:1:0:0:10.0.1.50\""}
+{"case":"astral-17-t4","message":"[info] connect from 😀fd12:3456:789a:1:0:0:10.0.1.50 ok"}
+{"case":"astral-17-t5","message":"field=😀fd12:3456:789a:1:0:0:10.0.1.50;next=plain"}
+{"case":"astral-17-t6","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50\n"}
+{"case":"astral-17-t7","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50\r"}
+{"case":"astral-17-t8","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50\r\n"}
+{"case":"astral-17-t9","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 "}
+{"case":"astral-17-t10","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 "}
+{"case":"astral-17-t11","message":"split 😀fd12:3456:789a:1:0:0:10.0.1.50 second half 😀fd12:3456:789a:1:0:0:10.0.1.50"}
+{"case":"astral-18-t1","message":"😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60"}
+{"case":"astral-18-t2","message":"value: 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60"}
+{"case":"astral-18-t3","message":"\"😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60\""}
+{"case":"astral-18-t4","message":"[info] connect from 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60 ok"}
+{"case":"astral-18-t5","message":"field=😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60;next=plain"}
+{"case":"astral-18-t6","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60\n"}
+{"case":"astral-18-t7","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60\r"}
+{"case":"astral-18-t8","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60\r\n"}
+{"case":"astral-18-t9","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60 "}
+{"case":"astral-18-t10","message":"trailing 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60 "}
+{"case":"astral-18-t11","message":"split 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60 second half 😀fd12:3456:789a:1:0:0:10.0.1.50 and 10.0.1.60"}
+{"case":"astral-19-t1","message":"😀10.0.1.50-10.0.1.60"}
+{"case":"astral-19-t2","message":"value: 😀10.0.1.50-10.0.1.60"}
+{"case":"astral-19-t3","message":"\"😀10.0.1.50-10.0.1.60\""}
+{"case":"astral-19-t4","message":"[info] connect from 😀10.0.1.50-10.0.1.60 ok"}
+{"case":"astral-19-t5","message":"field=😀10.0.1.50-10.0.1.60;next=plain"}
+{"case":"astral-19-t6","message":"trailing 😀10.0.1.50-10.0.1.60\n"}
+{"case":"astral-19-t7","message":"trailing 😀10.0.1.50-10.0.1.60\r"}
+{"case":"astral-19-t8","message":"trailing 😀10.0.1.50-10.0.1.60\r\n"}
+{"case":"astral-19-t9","message":"trailing 😀10.0.1.50-10.0.1.60 "}
+{"case":"astral-19-t10","message":"trailing 😀10.0.1.50-10.0.1.60 "}
+{"case":"astral-19-t11","message":"split 😀10.0.1.50-10.0.1.60 second half 😀10.0.1.50-10.0.1.60"}
+{"case":"astral-20-t1","message":"😀10.0.0.0/8"}
+{"case":"astral-20-t2","message":"value: 😀10.0.0.0/8"}
+{"case":"astral-20-t3","message":"\"😀10.0.0.0/8\""}
+{"case":"astral-20-t4","message":"[info] connect from 😀10.0.0.0/8 ok"}
+{"case":"astral-20-t5","message":"field=😀10.0.0.0/8;next=plain"}
+{"case":"astral-20-t6","message":"trailing 😀10.0.0.0/8\n"}
+{"case":"astral-20-t7","message":"trailing 😀10.0.0.0/8\r"}
+{"case":"astral-20-t8","message":"trailing 😀10.0.0.0/8\r\n"}
+{"case":"astral-20-t9","message":"trailing 😀10.0.0.0/8 "}
+{"case":"astral-20-t10","message":"trailing 😀10.0.0.0/8 "}
+{"case":"astral-20-t11","message":"split 😀10.0.0.0/8 second half 😀10.0.0.0/8"}
+{"case":"mixed-1","message":"user jsmith at 10.0.1.50 mailed alice@example.net from db01.corp.local"}
+{"case":"mixed-2","message":"C:\\Users\\jsmith\\a.log copied to \\\\FILESRV01\\share by S-1-5-21-1234567890-987654321-1122334455-1001"}
+{"case":"mixed-3","message":"NIC 00:1A:2B:3C:4D:5E leased 198.18.0.15 in 10.0.0.0/8 gateway fd12:3456::1"}
+{"case":"mixed-4","message":"order 1234567890123456 paid with 4111111111111111 by +12025550147"}
+{"case":"mixed-5","message":"session for <user-2> on <host-1> resolved to 10.0.1.50 (client <client-A>)"}
+{"case":"mixed-6","message":"backup of \\\\FILESRV01\\share to <host-1> failed for <user-2>\n"}
+{"case":"mixed-7","message":"ticket 000-12-3456 raised by alice@example.net about 198.18.0.15\n"}
+{"case":"mixed-8","message":"audit: 123-45-6789 and 123-45-0000 and 4111111111111111 and 4111111111111112"}
+{"case":"mixed-9","message":"😀 user js😀mith at 10.0.1.50 mailed ali😀ce@example.net 😀"}
+{"case":"mixed-10","message":"𐐀 <host-1> 😀 10.0.1.50 <user-2> 𐐀 alice@example.net\n"}
+{"case":"placeholder-only-1","message":"connection from <host-1> by <user-2> for <client-A> at <ip-3>","keep":true}
+{"case":"placeholder-only-2","message":"\\\\<host-1>\\share\\a.txt","keep":true}
+{"case":"placeholder-only-3","message":"C:\\Users\\<user-2>\\AppData\\Local\\a.log","keep":true}
+{"case":"placeholder-only-4","message":"<client-A> reported <ip-3> unreachable from <host-1>\n","keep":true}
+{"case":"credential-multiline-anchor-1","message":"\rtoken=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-2","message":"\rapi_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-3","message":"\rsecret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-4","message":"\rexport access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-5","message":"\rset auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-6","message":"\rtoken=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-7","message":"\rapi_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-8","message":"\r\ntoken=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-9","message":"\r\napi_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-10","message":"\r\nsecret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-11","message":"\r\nexport access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-12","message":"\r\nset auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-13","message":"\r\ntoken=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-14","message":"\r\napi_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-15","message":" token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-16","message":" api_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-17","message":" secret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-18","message":" export access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-19","message":" set auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-20","message":" token=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-21","message":" api_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-22","message":" token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-23","message":" api_key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-24","message":" secret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-25","message":" export access_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-26","message":" set auth_token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-27","message":" token=\"ZZCREDZZ\"","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-28","message":" api_key='ZZCREDZZ'","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-29","message":"Server=db01;Password=ZZCREDZZ;\r","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-30","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-31","message":"Server=db01;Password=ZZCREDZZ;\r\n","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-32","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;\r\n","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-33","message":"Server=db01;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-34","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-35","message":"Server=db01;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-multiline-anchor-36","message":"Data Source=db01;User ID=ZZNEIGHZZ;Password=ZZCREDZZ; ","keep":true,"credential":true}
+{"case":"credential-case-folding-1","message":"token=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-2","message":"toKen=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-3","message":"PASSWORD=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-4","message":"PAſSWORD=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-5","message":"{\"password\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"credential-case-folding-6","message":"{\"paſsword\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"credential-case-folding-7","message":"api_Key=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-8","message":"ſecret=ZZCREDZZ","keep":true,"credential":true}
+{"case":"credential-case-folding-9","message":"{\"toKen\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"credential-case-folding-10","message":"{\"ſecret\":\"ZZCREDZZ\"}","keep":true,"credential":true}
+{"case":"overlap-tiebreak-1","message":"https://ZZNEIGHZZ:ZZCREDZZ@h😀st.corp.local/abcdefgh"}
+{"case":"overlap-tiebreak-2","message":"https://ZZNEIGHZZ:ZZCREDZZ@[fd12:3456::10.0.1.50]/p"}
+{"case":"overlap-tiebreak-3","message":"https://ZZNEIGHZZ:ZZCREDZZ@db01.corp.local/ali😀ce@example.net"}
+{"case":"overlap-tiebreak-4","message":"user ali😀ce@example.net at fd12:3456::10.0.1.50"}
+{"case":"overlap-tiebreak-5","message":"😀10.0.0.0/8 and 😀192.168.1.0/24"}
+{"case":"overlap-tiebreak-6","message":"route 😀198.18.0.0/15 via ::ffff:10.0.1.50"}
+{"case":"overlap-tiebreak-7","message":"😀::ffff:10.0.1.50 mailed ali😀ce@example.net"}
+{"case":"empty-ish-1","message":"","keep":true}
+{"case":"empty-ish-2","message":" ","keep":true}
+{"case":"empty-ish-3","message":"\n","keep":true}
+{"case":"empty-ish-4","message":"no personal data on this line at all","keep":true}
