@@ -265,7 +265,7 @@
 {"case": "securestring-argument-redacted", "input": "$sec = ConvertTo-SecureString Sy-nth-Pw-21 -AsPlainText -Force", "vrl": "$sec = ConvertTo-SecureString <redacted> -AsPlainText -Force"}
 {"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"a\"\"b\" -AsPlainText -Force", "vrl": "ConvertTo-SecureString <redacted> -AsPlainText -Force"}
 {"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString 'it''s' -AsPlainText", "vrl": "ConvertTo-SecureString <redacted> -AsPlainText"}
-{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"Sy nth", "vrl": "ConvertTo-SecureString \"Sy nth"}
+{"case": "securestring-argument-redacted", "input": "ConvertTo-SecureString \"Sy nth", "vrl": "ConvertTo-SecureString <redacted>"}
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString -String $plain -AsPlainText -Force", "vrl": "ConvertTo-SecureString -String $plain -AsPlainText -Force"}
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString $env:PW -AsPlainText", "vrl": "ConvertTo-SecureString $env:PW -AsPlainText"}
 {"case": "securestring-argument-lookalikes-survive", "input": "Get-Help ConvertTo-SecureString -Full", "vrl": "Get-Help ConvertTo-SecureString -Full"}

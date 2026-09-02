@@ -34,7 +34,7 @@ library (private) by `tools/redaction-corpus.py` and `tools/test-redaction-corpu
 --update-golden`, and carried here verbatim so both implementations answer to one standard.
 
 `corpus.jsonl` and `vrl-golden.txt` are current as of source library commit
-`1f06a04e4158946de60aca7ecc54fd82b29751d6` (1466 cases).
+`7bb901b95b54cd41636c45538dfaff70cd28aeb1` (1472 cases).
 Record the commit whenever they are refreshed: without it, a difference between the two
 implementations cannot be told apart from a difference in when the copy was taken.
 
@@ -68,6 +68,9 @@ value and by requiring `-AsPlainText` before a bare positional counts as a secre
 That second change is a NARROWING, and the pin carries it: `ConvertTo-SecureString X` with no
 `-AsPlainText` anywhere in the command is no longer a redaction upstream, because the cmdlet itself
 rejects a plaintext argument without that flag.
+One shape is exempt from that flag requirement: a quoted positional whose quote never closes before
+the end of the line, which is how script-block logging splits a command across events.
+A quote opened and abandoned cannot be prose, so the shape alone carries the redaction.
 The refresh to this pin also brought five collector literals this library has no detector for (a
 PowerShell credential constructor, an `-ArgumentList` credential pair, an encoded-command body, a
 quoted key name before `=`, and unquoted values after compound secret flags).

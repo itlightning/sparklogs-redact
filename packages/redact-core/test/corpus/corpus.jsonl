@@ -1464,3 +1464,9 @@
 {"message": "ConvertTo-SecureString \"ZZNEIGHZZ\""}
 {"message": "--account-key=<redacted>; --metadata \"env=ZZNEIGHZZ;tier=1\""}
 {"message": "Use ConvertTo-SecureString instead of New-Object -String <redacted>"}
+{"message": "ConvertTo-SecureString \"ZZCREDZZ"}
+{"message": "ConvertTo-SecureString 'ZZCREDZZ"}
+{"message": "-AsPlainText; ConvertTo-SecureString \"ZZCREDZZ"}
+{"message": "ConvertTo-SecureString ZZNEIGHZZ"}
+{"message": "ConvertTo-SecureString \"ZZNEIGHZZ\""}
+{"message": "Use ConvertTo-SecureString \"ZZNEIGHZZ\" here"}
