@@ -83,7 +83,11 @@ engines whose `\d`, `\b` and end-of-line semantics are wider than JavaScript's:
 
 - SSN-shaped and card-shaped runs written in fullwidth and Arabic-Indic digits, which must not match.
 - An accented letter glued to a MAC address, where a Unicode-aware `\b` stops matching.
-- Lines that end in a newline character.
+- A token immediately before each line terminator the engines rank differently: `\n`, a bare `\r`,
+  `\r\n`, U+2028 LINE SEPARATOR and U+2029 PARAGRAPH SEPARATOR. JavaScript's `.` refuses all five
+  and its `$` means end of input; .NET-derived engines exclude only `\n` from `.` and let `$` match
+  before a trailing one; RE2 draws the line elsewhere again. One case per terminator also puts a
+  second copy of the token after U+2028, so both sides of the break are graded.
 
 A port that reads those differently produces a different golden line, which is what committing a
 golden is for.

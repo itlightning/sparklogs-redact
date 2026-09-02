@@ -19,9 +19,10 @@
 // DIALECT. The same patterns run here on JavaScript regex, on the collector in Rust, and in Go
 // ports. Those dialects disagree about what `\d` and `\b` mean outside ASCII and about where a line
 // ends, so the corpus carries lines that can WITNESS the disagreement: non-ASCII digits in an
-// SSN-shaped and a card-shaped run, an accented letter glued to a MAC address, and lines that end
-// in a newline character. A port whose dialect differs produces a different golden line, which is
-// the whole point of committing one.
+// SSN-shaped and a card-shaped run, an accented letter glued to a MAC address, and a token followed
+// by each of the terminators the engines rank differently (\n, bare \r, \r\n, U+2028, U+2029). A
+// port whose dialect differs produces a different golden line, which is the whole point of
+// committing one.
 //
 // EVERY VALUE IS SYNTHETIC and drawn from a documentation or reserved range. Addresses that this
 // engine treats as ALREADY redacted (RFC 5737 TEST-NET, RFC 3849 2001:db8::/32, example.com) cannot
@@ -40,8 +41,15 @@ const OUT = path.join(
 
 /**
  * Contexts every token value is placed in. Deliberately free of anything a detector could match, so
- * a golden line moves only when the VALUE's treatment moves. The last one ends the line in a
- * newline character, which is where regex dialects disagree about `$`.
+ * a golden line moves only when the VALUE's treatment moves.
+ *
+ * The last five put a LINE TERMINATOR straight after the token, because that is where dialects stop
+ * agreeing on where a line ends. JavaScript's `.` refuses \n, \r, U+2028 and U+2029, and `$`
+ * without the multiline flag only means end of input. .NET-derived engines exclude \n from `.` and
+ * nothing else, so \r, U+2028 and U+2029 are ordinary characters a `.` will happily cross, and
+ * their `$` also matches just before a trailing \n. Go's RE2 draws the line somewhere else again,
+ * and treats U+2028 and U+2029 as neither space nor terminator. A token sitting immediately before
+ * one of these is therefore the shortest case that can tell those engines apart.
  */
 const TEMPLATES = [
   (v) => v,
@@ -50,6 +58,11 @@ const TEMPLATES = [
   (v) => `[info] connect from ${v} ok`,
   (v) => `field=${v};next=plain`,
   (v) => `trailing ${v}\n`,
+  (v) => `trailing ${v}\r`,
+  (v) => `trailing ${v}\r\n`,
+  (v) => `trailing ${v}\u2028`,
+  (v) => `trailing ${v}\u2029`,
+  (v) => `split ${v}\u2028second half ${v}`,
 ];
 
 /** Token values crossed with every template. `keep` means the line must survive byte-identical. */
