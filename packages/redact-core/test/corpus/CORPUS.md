@@ -33,8 +33,8 @@ No line came from a real log.
 library (private) by `tools/redaction-corpus.py` and `tools/test-redaction-corpus.py
 --update-golden`, and carried here verbatim so both implementations answer to one standard.
 
-`corpus.jsonl` and `vrl-golden.txt` are current as of source library commit
-`7bb901b95b54cd41636c45538dfaff70cd28aeb1` (1472 cases).
+`corpus.jsonl`, `vrl-golden.txt` and `vrl-fixtures.jsonl` are current as of source library commit
+`a779eb1f67ab90c8a8b48e8261180b7a3c62f669` (1476 cases).
 Record the commit whenever they are refreshed: without it, a difference between the two
 implementations cannot be told apart from a difference in when the copy was taken.
 
@@ -82,7 +82,17 @@ The leak and over-redaction counters in `corpus.test.ts` are back at zero, which
 pinned throughout: the pins were deliberately not moved while the gap was open, so it could not be
 absorbed silently.
 
-Parity is 1871 of 1896 and is not expected to reach the full corpus.
+The refresh to `a779eb1` brought one more collector change: `net user` and `net use` inside a
+single-quote wrapper. The apostrophe stays out of the ordinary terminator sets, because a bare
+password may contain one and admitting it there would split the value; a dedicated branch reached
+only from a literal `'` immediately before `net` treats the next `'` as the wrapper close, which is
+sound because a single-quoted run cannot carry a raw apostrophe of its own. This library leaked that
+shape against the new golden and now carries the same scoped branch, so the direction counters stay
+at zero. The refresh also fully regenerated `vrl-fixtures.jsonl`, which had lagged the previous pin
+by fifteen rows (the unterminated-quote securestring cases and the single-quoted `curl -u` cases);
+this engine already matched all fifteen.
+
+Parity is 1895 of 1920 and is not expected to reach the full corpus.
 The remaining cases are two divergences that remove the credential either way, which is why they
 cost parity and neither direction counter: a quoted value keeps its quotes here and loses them
 upstream, and a connection-string value hands back its trailing `;` and following options

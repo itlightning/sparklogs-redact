@@ -37,7 +37,7 @@ const NEIGH = /ZZNEIGHZZ/g;
 // neither counter above.
 const LEAKS = 0;
 const OVER_REDACTIONS = 0;
-const PARITY = 1871;
+const PARITY = 1895;
 
 const count = (text: string, marker: RegExp) => (text.match(marker) ?? []).length;
 

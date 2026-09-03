@@ -819,6 +819,32 @@ const POSITIONAL_CASES: [string, string, string][] = [
     "rasdial ContosoVPN vpnuser SYNTHRAS0000",
     "rasdial ContosoVPN vpnuser REDACTED-SECRET-1",
   ],
+  // The single-quote wrapper. A bare password may CONTAIN an apostrophe, so the apostrophe is not a
+  // terminator for the ordinary value branches. It becomes one only where a literal single quote
+  // sits immediately before `net`: that quote can only be the wrapper's own open, because a
+  // single-quoted run cannot carry a raw apostrophe of its own without ending early, so the next
+  // one is the close. A trailing switch still ends the value first and survives, as it does
+  // outside a wrapper.
+  [
+    "net user inside a single-quote wrapper",
+    "audit: cmd='net user alice SYNTHNET0005' result=ok",
+    "audit: cmd='net user alice REDACTED-SECRET-1' result=ok",
+  ],
+  [
+    "net user inside a wrapper, trailing switch kept",
+    "'net user svc_probe SYNTHNET0006 /add'",
+    "'net user svc_probe REDACTED-SECRET-1 /add'",
+  ],
+  [
+    "net use inside a wrapper, /user option kept",
+    "audit: cmd='net use Z: \\\\fs01\\backups SYNTHUSE0001 /user:acme\\bob' result=ok",
+    "audit: cmd='net use Z: \\\\fs01\\backups REDACTED-SECRET-1 /user:acme\\bob' result=ok",
+  ],
+  [
+    "unwrapped password containing an apostrophe still redacts whole",
+    "net user alice SYNTHNET0007's",
+    "net user alice REDACTED-SECRET-1",
+  ],
 ];
 
 for (const [label, input, expected] of POSITIONAL_CASES) {
@@ -843,6 +869,10 @@ const POSITIONAL_NEGATIVES = [
   "rasdial ContosoVPN /disconnect",
   "rasdial",
   "bitsadmin /list /allusers",
+  // A wrapper with no password positional: no space before the closing quote, so there is nothing
+  // for the value branch to start on, exactly as in the unwrapped form.
+  "'net user alice'",
+  "'net use Z: \\\\fs01\\backups /persistent:yes'",
 ];
 
 for (const text of POSITIONAL_NEGATIVES) {

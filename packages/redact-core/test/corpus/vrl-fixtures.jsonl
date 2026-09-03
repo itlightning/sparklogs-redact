@@ -236,6 +236,11 @@
 {"case": "net-use-documented-variants-survive", "input": "net use Z: \\\\fs01\\backups failed with error 53", "vrl": "net use Z: \\\\fs01\\backups failed with error 53"}
 {"case": "net-use-documented-variants-survive", "input": "net useage report generated", "vrl": "net useage report generated"}
 {"case": "net-use-documented-variants-survive", "input": "net use Z: reconnect pending", "vrl": "net use Z: reconnect pending"}
+{"case": "net-single-quote-wrapper-redacted", "input": "audit: cmd='net user alice Sy-nth-Pw-108' result=ok", "vrl": "audit: cmd='net user alice <redacted>' result=ok"}
+{"case": "net-single-quote-wrapper-redacted", "input": "audit: cmd='net use Z: \\\\fs01\\backups Sy-nth-Pw-109 /user:CORP\\svc_backup' result=ok", "vrl": "audit: cmd='net use Z: \\\\fs01\\backups <redacted> /user:CORP\\svc_backup' result=ok"}
+{"case": "net-single-quote-wrapper-redacted", "input": "'net user svc_probe Sy-nth-Pw-110 /add'", "vrl": "'net user svc_probe <redacted> /add'"}
+{"case": "net-single-quote-wrapper-redacted", "input": "net user alice Sy-nth-Pw-111's", "vrl": "net user alice <redacted>"}
+{"case": "net-single-quote-wrapper-no-password-survives", "input": "'net user alice'", "vrl": "'net user alice'"}
 {"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "bitsadmin /SetCredentials PatchJob SERVER NTLM CORP\\bitssvc Sy-nth-Pw-18", "vrl": "bitsadmin /SetCredentials PatchJob SERVER NTLM CORP\\bitssvc <redacted>"}
 {"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "bitsadmin /SetCredentials PatchJob PROXY BASIC svc \"Sy nth Pw 19\"", "vrl": "bitsadmin /SetCredentials PatchJob PROXY BASIC svc <redacted>"}
 {"case": "bitsadmin-setcredentials-fifth-positional-redacted", "input": "bitsadmin /SetCredentials J SERVER NTLM svc \"a\"\"b\"", "vrl": "bitsadmin /SetCredentials J SERVER NTLM svc <redacted>"}
@@ -273,6 +278,13 @@
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertFrom-SecureString $s", "vrl": "ConvertFrom-SecureString $s"}
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureStringHelper \"x\"", "vrl": "ConvertTo-SecureStringHelper \"x\""}
 {"case": "securestring-argument-lookalikes-survive", "input": "ConvertTo-SecureString -AsPlainText -Force -String $p", "vrl": "ConvertTo-SecureString -AsPlainText -Force -String $p"}
+{"case": "securestring-unterminated-quote-no-flag-required", "input": "ConvertTo-SecureString \"Sy nth Pw 24", "vrl": "ConvertTo-SecureString <redacted>"}
+{"case": "securestring-unterminated-quote-no-flag-required", "input": "ConvertTo-SecureString 'Sy nth Pw 25", "vrl": "ConvertTo-SecureString <redacted>"}
+{"case": "securestring-unterminated-quote-no-flag-required", "input": "-AsPlainText; ConvertTo-SecureString \"Sy nth Pw 26", "vrl": "-AsPlainText; ConvertTo-SecureString <redacted>"}
+{"case": "securestring-unterminated-quote-lookalikes-survive", "input": "ConvertTo-SecureString Sy-nth-Pw-27", "vrl": "ConvertTo-SecureString Sy-nth-Pw-27"}
+{"case": "securestring-unterminated-quote-lookalikes-survive", "input": "ConvertTo-SecureString \"Sy-nth-Pw-28\"", "vrl": "ConvertTo-SecureString \"Sy-nth-Pw-28\""}
+{"case": "securestring-unterminated-quote-lookalikes-survive", "input": "ConvertTo-SecureString 'Sy-nth-Pw-29'", "vrl": "ConvertTo-SecureString 'Sy-nth-Pw-29'"}
+{"case": "securestring-unterminated-quote-lookalikes-survive", "input": "Use ConvertTo-SecureString \"as documented\" here", "vrl": "Use ConvertTo-SecureString \"as documented\" here"}
 {"case": "securestring-pipeline-redacted", "input": "\"Sy-nth-Pw-22\" | ConvertTo-SecureString -AsPlainText -Force", "vrl": "<redacted> | ConvertTo-SecureString -AsPlainText -Force"}
 {"case": "securestring-pipeline-redacted", "input": "'Sy nth Pw 23' | ConvertTo-SecureString -AsPlainText", "vrl": "<redacted> | ConvertTo-SecureString -AsPlainText"}
 {"case": "securestring-pipeline-redacted", "input": "\"a\"\"b\"|ConvertTo-SecureString -AsPlainText -Force", "vrl": "<redacted>|ConvertTo-SecureString -AsPlainText -Force"}
@@ -372,7 +384,7 @@
 {"case": "positional-forms-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"rasdial ContosoVPN vpnuser Sy-nth-Pw-74\"}", "vrl": "{\"CommandLine\":\"rasdial ContosoVPN vpnuser <redacted>\"}"}
 {"case": "positional-forms-inside-a-quoted-wrapper", "input": "{\"CommandLine\":\"bitsadmin /SetCredentials J SERVER NTLM svc Sy-nth-Pw-75\"}", "vrl": "{\"CommandLine\":\"bitsadmin /SetCredentials J SERVER NTLM svc <redacted>"}
 {"case": "positional-forms-inside-a-quoted-wrapper", "input": "cmd /c \"net user bob a\"b\"", "vrl": "cmd /c \"net user bob <redacted>\"b\""}
-{"case": "positional-forms-inside-a-quoted-wrapper", "input": "powershell -Command 'net user bob Sy-nth-Pw-76'", "vrl": "powershell -Command 'net user bob Sy-nth-Pw-76'"}
+{"case": "positional-forms-inside-a-quoted-wrapper", "input": "powershell -Command 'net user bob Sy-nth-Pw-76'", "vrl": "powershell -Command 'net user bob <redacted>'"}
 {"case": "net-use-option-first-order", "input": "net use \\\\\\\\srv\\share /user:CORP\\alice Sy-nth-Pw-77", "vrl": "net use \\\\\\\\srv\\share /user:CORP\\alice <redacted>"}
 {"case": "net-use-option-first-order", "input": "net use Z: \\\\\\\\srv\\share /user:CORP\\alice /persistent:no Sy-nth-Pw-78", "vrl": "net use Z: \\\\\\\\srv\\share /user:CORP\\alice /persistent:no <redacted>"}
 {"case": "net-use-option-first-order", "input": "net use \\\\\\\\srv\\share /user:CORP\\alice", "vrl": "net use \\\\\\\\srv\\share /user:CORP\\alice"}
@@ -419,3 +431,11 @@
 {"case": "transfer-credential-verb-takes-no-terminator", "input": "bitsadmin /SetCredentials J SERVER NTLM u Sy-nth-Pw-100 and more text", "vrl": "bitsadmin /SetCredentials J SERVER NTLM u <redacted> and more text"}
 {"case": "transfer-credential-verb-apostrophe-values", "input": "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM u don'tSy-nth-Pw-101\"", "vrl": "cmd /c \"bitsadmin /SetCredentials J SERVER NTLM u <redacted>\""}
 {"case": "transfer-credential-verb-apostrophe-values", "input": "bitsadmin /SetCredentials J SERVER NTLM u don'tSy-nth-Pw-102", "vrl": "bitsadmin /SetCredentials J SERVER NTLM u <redacted>"}
+{"case": "curl-userinfo-single-quoted-halves", "input": "curl -u 'admin:Sy-nth-Pw-103' https://api.x.example.invalid/v1", "vrl": "curl -u 'admin:<redacted>' https://api.x.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-halves", "input": "curl --user 'admin:Sy-nth-Pw-104' https://api.x.example.invalid/v1", "vrl": "curl --user 'admin:<redacted>' https://api.x.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-halves", "input": "curl -u admin:'Sy nth Pw 105' https://api.x.example.invalid/v1", "vrl": "curl -u admin:<redacted> https://api.x.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-halves", "input": "curl -u 'admin:it''sSy-nth-Pw-106' https://api.y.example.invalid/v1", "vrl": "curl -u 'admin:<redacted>' https://api.y.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-halves", "input": "curl -u ':Sy-nth-Pw-107' https://api.x.example.invalid/v1", "vrl": "curl -u ':<redacted>' https://api.x.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-lookalikes-survive", "input": "curl --user-agent 'SparkLogsAgent/1.9' https://api.x.example.invalid/v1", "vrl": "curl --user-agent 'SparkLogsAgent/1.9' https://api.x.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-lookalikes-survive", "input": "curl -u 'admin' https://api.x.example.invalid/v1", "vrl": "curl -u 'admin' https://api.x.example.invalid/v1"}
+{"case": "curl-userinfo-single-quoted-lookalikes-survive", "input": "curl -u 'admin:' https://api.x.example.invalid/v1", "vrl": "curl -u 'admin:' https://api.x.example.invalid/v1"}

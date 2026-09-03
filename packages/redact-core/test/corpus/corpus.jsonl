@@ -1470,3 +1470,7 @@
 {"message": "ConvertTo-SecureString ZZNEIGHZZ"}
 {"message": "ConvertTo-SecureString \"ZZNEIGHZZ\""}
 {"message": "Use ConvertTo-SecureString \"ZZNEIGHZZ\" here"}
+{"message": "audit: cmd='net user alice ZZCREDZZ' result=ok"}
+{"message": "audit: cmd='net use Z: \\\\fs01\\backups ZZCREDZZ /user:CORP\\svc_backup' result=ok"}
+{"message": "net user alice ZZCREDZZ's"}
+{"message": "'net user ZZNEIGHZZ'"}

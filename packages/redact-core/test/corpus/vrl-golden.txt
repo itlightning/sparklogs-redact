@@ -1470,3 +1470,7 @@
 "ConvertTo-SecureString ZZNEIGHZZ"
 "ConvertTo-SecureString \"ZZNEIGHZZ\""
 "Use ConvertTo-SecureString \"ZZNEIGHZZ\" here"
+"audit: cmd='net user alice <redacted>' result=ok"
+"audit: cmd='net use Z: \\\\fs01\\backups <redacted> /user:CORP\\svc_backup' result=ok"
+"net user alice <redacted>"
+"'net user ZZNEIGHZZ'"
