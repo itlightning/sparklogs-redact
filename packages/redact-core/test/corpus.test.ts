@@ -29,12 +29,15 @@ const NEIGH = /ZZNEIGHZZ/g;
 // recorded here and a regression cannot hide inside slack. Leaks and over-redactions are both at
 // zero and belong there: against the collector golden, nothing here ships a credential the
 // collector removed and nothing here eats a neighbour the collector kept. Parity is short of the
-// full corpus on purpose, and every remaining case is a deliberate divergence: a value whose
-// surrounding quotes this implementation keeps, or a line where the flag guard stops a value that
-// the collector runs on.
+// full corpus on purpose, because byte-identical output is not the contract the direction counters
+// above are. Every remaining case is one of two deliberate divergences: a quoted value whose
+// surrounding quotes this implementation keeps and the collector takes with the secret, and a
+// connection-string value whose trailing `;` and following options the two engines hand back
+// differently. Both leave the credential removed either way, which is why they cost parity and
+// neither counter above.
 const LEAKS = 0;
 const OVER_REDACTIONS = 0;
-const PARITY = 1802;
+const PARITY = 1871;
 
 const count = (text: string, marker: RegExp) => (text.match(marker) ?? []).length;
 

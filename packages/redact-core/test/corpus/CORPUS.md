@@ -71,12 +71,22 @@ rejects a plaintext argument without that flag.
 One shape is exempt from that flag requirement: a quoted positional whose quote never closes before
 the end of the line, which is how script-block logging splits a command across events.
 A quote opened and abandoned cannot be prose, so the shape alone carries the redaction.
-The refresh to this pin also brought five collector literals this library has no detector for (a
+The refresh to this pin also brought five collector literals this library had no detector for: a
 PowerShell credential constructor, an `-ArgumentList` credential pair, an encoded-command body, a
-quoted key name before `=`, and unquoted values after compound secret flags).
-Until those are ported, the leak and over-redaction counters in `corpus.test.ts` describe real
-divergence rather than an empty set, and they are pinned at zero on purpose so the gap cannot be
+quoted key name before `=`, and unquoted values after compound secret flags.
+All five are now here as their own detectors, the positional secure-string form carries the
+`-AsPlainText` gate and its unterminated-quote exemption, and a sixth shape the sweep exposed (a
+credential assigned to a `$`-sigiled PowerShell variable) is covered by a narrowed port of the
+collector's prose `key=value` rule.
+The leak and over-redaction counters in `corpus.test.ts` are back at zero, which is where they were
+pinned throughout: the pins were deliberately not moved while the gap was open, so it could not be
 absorbed silently.
+
+Parity is 1871 of 1896 and is not expected to reach the full corpus.
+The remaining cases are two divergences that remove the credential either way, which is why they
+cost parity and neither direction counter: a quoted value keeps its quotes here and loses them
+upstream, and a connection-string value hands back its trailing `;` and following options
+differently in the two engines.
 
 ## The PII corpus
 
