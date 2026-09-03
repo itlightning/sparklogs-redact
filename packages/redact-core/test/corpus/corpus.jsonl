@@ -1391,3 +1391,86 @@
 {"message": "mysql.exe -u ZZNEIGHZZ -P 3306"}
 {"message": "psexec.exe \\\\h -u ZZNEIGHZZ /p ZZNEIGHZZ"}
 {"message": "schtasks /query /tn ZZNEIGHZZ"}
+{"message": "$sec = ConvertTo-SecureString \"ZZCREDZZ\" -AsPlainText -Force"}
+{"message": "$sec = ConvertTo-SecureString -AsPlainText -Force \"ZZCREDZZ\""}
+{"message": "$sec = ConvertTo-SecureString -String \"ZZCREDZZ\" -AsPlainText -Force"}
+{"message": "$sec = \"ZZCREDZZ\" | ConvertTo-SecureString -AsPlainText -Force"}
+{"message": "$c = New-Object System.Management.Automation.PSCredential(\"ZZNEIGHZZ\", \"ZZCREDZZ\")"}
+{"message": "$c = [PSCredential]::new(\"ZZNEIGHZZ\", \"ZZCREDZZ\")"}
+{"message": "Connect-AzAccount -ServicePrincipal -Tenant ZZNEIGHZZ -ApplicationId ZZNEIGHZZ -ClientSecret \"ZZCREDZZ\""}
+{"message": "Invoke-RestMethod -Uri https://rmm.example.com/api -Token \"ZZCREDZZ\""}
+{"message": "Set-LocalUser -Name ZZNEIGHZZ -Password \"ZZCREDZZ\""}
+{"message": "msiexec /i app.msi APIKEY=\"ZZCREDZZ\" INSTALLDIR=\"ZZNEIGHZZ\""}
+{"message": "$sec = ConvertTo-SecureString 'ZZCREDZZ' -AsPlainText -Force"}
+{"message": "$sec = ConvertTo-SecureString -AsPlainText -Force 'ZZCREDZZ'"}
+{"message": "$sec = ConvertTo-SecureString -String 'ZZCREDZZ' -AsPlainText -Force"}
+{"message": "$sec = 'ZZCREDZZ' | ConvertTo-SecureString -AsPlainText -Force"}
+{"message": "$c = New-Object System.Management.Automation.PSCredential('ZZNEIGHZZ', 'ZZCREDZZ')"}
+{"message": "$c = [PSCredential]::new('ZZNEIGHZZ', 'ZZCREDZZ')"}
+{"message": "Connect-AzAccount -ServicePrincipal -Tenant ZZNEIGHZZ -ApplicationId ZZNEIGHZZ -ClientSecret 'ZZCREDZZ'"}
+{"message": "Invoke-RestMethod -Uri https://rmm.example.com/api -Token 'ZZCREDZZ'"}
+{"message": "Set-LocalUser -Name ZZNEIGHZZ -Password 'ZZCREDZZ'"}
+{"message": "msiexec /i app.msi APIKEY='ZZCREDZZ' INSTALLDIR='ZZNEIGHZZ'"}
+{"message": "Connect-AzAccount -ServicePrincipal -ClientSecret ZZCREDZZ -Tenant ZZNEIGHZZ"}
+{"message": "Invoke-RestMethod https://rmm.example.com/api -AccessToken ZZCREDZZ"}
+{"message": "New-ADUser -Name ZZNEIGHZZ -AccountPassword ZZCREDZZ"}
+{"message": "$apiKey = ZZCREDZZ"}
+{"message": "$api_key = ZZCREDZZ; $tenant = ZZNEIGHZZ"}
+{"message": "$body = @{client_secret=ZZCREDZZ;client_id=ZZNEIGHZZ}"}
+{"message": "Invoke-WebRequest -Headers @{Authorization = 'Bearer ZZCREDZZ'} -Uri https://api.example.com"}
+{"message": "$cs = 'Server=sql01;Database=ZZNEIGHZZ;User ID=ZZNEIGHZZ;Password=ZZCREDZZ;Encrypt=true'"}
+{"message": "powershell.exe -NoProfile -EncodedCommand QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ"}
+{"message": "pwsh -enc aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+{"message": "powershell -ec 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'"}
+{"message": "$c = New-Object System.Management.Automation.PSCredential('ZZNEIGHZZ', $secure)"}
+{"message": "Get-ADUser -Filter * -Credential $ZZNEIGHZZCred"}
+{"message": "Connect-AzAccount -Credential $azCred -Tenant ZZNEIGHZZ"}
+{"message": "$sec = ConvertTo-SecureString $env:ZZNEIGHZZ -AsPlainText -Force"}
+{"message": "$sec = ConvertTo-SecureString -String $plain -AsPlainText -Force"}
+{"message": "Set-LocalUser -Name ZZNEIGHZZ -Password $sec"}
+{"message": "$apiKeyPath = 'C:\\ProgramData\\ZZNEIGHZZ\\key.txt'"}
+{"message": "$ApiKeyName = 'ZZNEIGHZZ'"}
+{"message": "Write-Host 'Rotating the API key for ZZNEIGHZZ'"}
+{"message": "powershell.exe -ExecutionPolicy Bypass -File C:\\scripts\\ZZNEIGHZZ.ps1"}
+{"message": "powershell.exe -EncodedCommand QQQQQQQQ"}
+{"message": "Get-Item -Path 'HKLM:\\SOFTWARE\\ZZNEIGHZZ' -ErrorAction SilentlyContinue"}
+{"message": "$job = Start-Job -Name ZZNEIGHZZ -ScriptBlock { Get-Service }"}
+{"message": "the -Password parameter is ZZNEIGHZZ"}
+{"message": "the -Token parameter is ZZNEIGHZZ"}
+{"message": "Set the -Secret argument to the ZZNEIGHZZ value"}
+{"message": "$h = @{ \"X-Api-Key\" = \"ZZCREDZZ\"; \"Accept\" = \"ZZNEIGHZZ\" }"}
+{"message": "$body = @{\"client_secret\" = \"ZZCREDZZ\"; \"client_id\" = \"ZZNEIGHZZ\"}"}
+{"message": "$hdr = @{ \"Authorization\" = \"Bearer ZZCREDZZ\" }"}
+{"message": "\"password\" = \"ZZCREDZZ\""}
+{"message": "$c = New-Object PSCredential -ArgumentList \"ZZNEIGHZZ\", \"ZZCREDZZ\""}
+{"message": "$c = New-Object System.Management.Automation.PSCredential -ArgumentList $ZZNEIGHZZUser, \"ZZCREDZZ\""}
+{"message": "$h = @{ 'X-Api-Key' = 'ZZCREDZZ'; 'Accept' = 'ZZNEIGHZZ' }"}
+{"message": "$body = @{'client_secret' = 'ZZCREDZZ'; 'client_id' = 'ZZNEIGHZZ'}"}
+{"message": "$hdr = @{ 'Authorization' = 'Bearer ZZCREDZZ' }"}
+{"message": "'password' = 'ZZCREDZZ'"}
+{"message": "$c = New-Object PSCredential -ArgumentList 'ZZNEIGHZZ', 'ZZCREDZZ'"}
+{"message": "$c = New-Object System.Management.Automation.PSCredential -ArgumentList $ZZNEIGHZZUser, 'ZZCREDZZ'"}
+{"message": "$h = @{ 'ApiKeyName' = 'ZZNEIGHZZ' }"}
+{"message": "$h = @{ 'X-Api-Key' = $apiKey }"}
+{"message": "$c = New-Object PSCredential -ArgumentList 'ZZNEIGHZZ', $secure"}
+{"message": "Get-Content -Path 'C:\\keys\\ZZNEIGHZZ.txt'"}
+{"message": "Write-Verbose 'checking the -ApiKey and -ClientSecret settings for ZZNEIGHZZ'"}
+{"message": "# the -AccessToken parameter defaults to the ZZNEIGHZZ value"}
+{"message": "Set the -ClientSecret argument before running against ZZNEIGHZZ"}
+{"message": "the -AccountPassword switch is required when creating ZZNEIGHZZ"}
+{"message": "ConvertTo-SecureString ZZCREDZZ -AsPlainText -Force"}
+{"message": "ConvertTo-SecureString -AsPlainText -Force ZZCREDZZ"}
+{"message": "ConvertTo-SecureString ZZNEIGHZZ"}
+{"message": "ConvertTo-SecureString \"ZZNEIGHZZ\""}
+{"message": "--account-key=<redacted>; --metadata \"env=ZZNEIGHZZ;tier=1\""}
+{"message": "Use ConvertTo-SecureString instead of New-Object -String <redacted>"}
+{"message": "ConvertTo-SecureString \"ZZCREDZZ"}
+{"message": "ConvertTo-SecureString 'ZZCREDZZ"}
+{"message": "-AsPlainText; ConvertTo-SecureString \"ZZCREDZZ"}
+{"message": "ConvertTo-SecureString ZZNEIGHZZ"}
+{"message": "ConvertTo-SecureString \"ZZNEIGHZZ\""}
+{"message": "Use ConvertTo-SecureString \"ZZNEIGHZZ\" here"}
+{"message": "audit: cmd='net user alice ZZCREDZZ' result=ok"}
+{"message": "audit: cmd='net use Z: \\\\fs01\\backups ZZCREDZZ /user:CORP\\svc_backup' result=ok"}
+{"message": "net user alice ZZCREDZZ's"}
+{"message": "'net user ZZNEIGHZZ'"}

@@ -33,8 +33,8 @@ No line came from a real log.
 library (private) by `tools/redaction-corpus.py` and `tools/test-redaction-corpus.py
 --update-golden`, and carried here verbatim so both implementations answer to one standard.
 
-`corpus.jsonl` and `vrl-golden.txt` are current as of source library commit
-`9970c8b52cd81cb8978801253f834991c504a382` (1393 cases).
+`corpus.jsonl`, `vrl-golden.txt` and `vrl-fixtures.jsonl` are current as of source library commit
+`a779eb1f67ab90c8a8b48e8261180b7a3c62f669` (1476 cases).
 Record the commit whenever they are refreshed: without it, a difference between the two
 implementations cannot be told apart from a difference in when the copy was taken.
 
@@ -54,15 +54,49 @@ The shapes are carried in `pii-corpus.jsonl` (group `credential-json-key`) meanw
 assert only that the PII profiles leave configuration alone.
 Closing the gap properly means extending the generator upstream.
 
-Two credential shapes are worth knowing about before porting the patterns, because the redacted span
-is wider than the value:
+One credential shape is worth knowing about before porting the patterns, because the redacted span is
+wider than the value: `Use ConvertTo-SecureString instead of New-Object -String "X"`, where the span
+takes the quotes with it.
 
-- `--account-key=X; --metadata "env=Y;tier=1"` - the span runs through the trailing `;`.
-- `Use ConvertTo-SecureString instead of New-Object -String "X"` - the span takes the quotes with it.
+Both engines that produced a golden here reach a fixed point on it after one pass.
+A port reported needing a third pass on it and on the `--account-key=X; --metadata "env=Y;tier=1"`
+line (in the over-redaction direction), so a port should verify convergence rather than assume one
+pass settles.
+The collector closed both at the pin above, by keeping the trailing `;` outside the connection-string
+value and by requiring `-AsPlainText` before a bare positional counts as a secret.
 
-Both reach a fixed point after one pass in this engine.
-A port reported needing a third pass on them (in the over-redaction direction), so a port should
-verify convergence rather than assume one pass settles.
+That second change is a NARROWING, and the pin carries it: `ConvertTo-SecureString X` with no
+`-AsPlainText` anywhere in the command is no longer a redaction upstream, because the cmdlet itself
+rejects a plaintext argument without that flag.
+One shape is exempt from that flag requirement: a quoted positional whose quote never closes before
+the end of the line, which is how script-block logging splits a command across events.
+A quote opened and abandoned cannot be prose, so the shape alone carries the redaction.
+The refresh to this pin also brought five collector literals this library had no detector for: a
+PowerShell credential constructor, an `-ArgumentList` credential pair, an encoded-command body, a
+quoted key name before `=`, and unquoted values after compound secret flags.
+All five are now here as their own detectors, the positional secure-string form carries the
+`-AsPlainText` gate and its unterminated-quote exemption, and a sixth shape the sweep exposed (a
+credential assigned to a `$`-sigiled PowerShell variable) is covered by a narrowed port of the
+collector's prose `key=value` rule.
+The leak and over-redaction counters in `corpus.test.ts` are back at zero, which is where they were
+pinned throughout: the pins were deliberately not moved while the gap was open, so it could not be
+absorbed silently.
+
+The refresh to `a779eb1` brought one more collector change: `net user` and `net use` inside a
+single-quote wrapper. The apostrophe stays out of the ordinary terminator sets, because a bare
+password may contain one and admitting it there would split the value; a dedicated branch reached
+only from a literal `'` immediately before `net` treats the next `'` as the wrapper close, which is
+sound because a single-quoted run cannot carry a raw apostrophe of its own. This library leaked that
+shape against the new golden and now carries the same scoped branch, so the direction counters stay
+at zero. The refresh also fully regenerated `vrl-fixtures.jsonl`, which had lagged the previous pin
+by fifteen rows (the unterminated-quote securestring cases and the single-quoted `curl -u` cases);
+this engine already matched all fifteen.
+
+Parity is 1895 of 1920 and is not expected to reach the full corpus.
+The remaining cases are two divergences that remove the credential either way, which is why they
+cost parity and neither direction counter: a quoted value keeps its quotes here and loses them
+upstream, and a connection-string value hands back its trailing `;` and following options
+differently in the two engines.
 
 ## The PII corpus
 

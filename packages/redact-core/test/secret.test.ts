@@ -819,6 +819,32 @@ const POSITIONAL_CASES: [string, string, string][] = [
     "rasdial ContosoVPN vpnuser SYNTHRAS0000",
     "rasdial ContosoVPN vpnuser REDACTED-SECRET-1",
   ],
+  // The single-quote wrapper. A bare password may CONTAIN an apostrophe, so the apostrophe is not a
+  // terminator for the ordinary value branches. It becomes one only where a literal single quote
+  // sits immediately before `net`: that quote can only be the wrapper's own open, because a
+  // single-quoted run cannot carry a raw apostrophe of its own without ending early, so the next
+  // one is the close. A trailing switch still ends the value first and survives, as it does
+  // outside a wrapper.
+  [
+    "net user inside a single-quote wrapper",
+    "audit: cmd='net user alice SYNTHNET0005' result=ok",
+    "audit: cmd='net user alice REDACTED-SECRET-1' result=ok",
+  ],
+  [
+    "net user inside a wrapper, trailing switch kept",
+    "'net user svc_probe SYNTHNET0006 /add'",
+    "'net user svc_probe REDACTED-SECRET-1 /add'",
+  ],
+  [
+    "net use inside a wrapper, /user option kept",
+    "audit: cmd='net use Z: \\\\fs01\\backups SYNTHUSE0001 /user:acme\\bob' result=ok",
+    "audit: cmd='net use Z: \\\\fs01\\backups REDACTED-SECRET-1 /user:acme\\bob' result=ok",
+  ],
+  [
+    "unwrapped password containing an apostrophe still redacts whole",
+    "net user alice SYNTHNET0007's",
+    "net user alice REDACTED-SECRET-1",
+  ],
 ];
 
 for (const [label, input, expected] of POSITIONAL_CASES) {
@@ -843,6 +869,10 @@ const POSITIONAL_NEGATIVES = [
   "rasdial ContosoVPN /disconnect",
   "rasdial",
   "bitsadmin /list /allusers",
+  // A wrapper with no password positional: no space before the closing quote, so there is nothing
+  // for the value branch to start on, exactly as in the unwrapped form.
+  "'net user alice'",
+  "'net use Z: \\\\fs01\\backups /persistent:yes'",
 ];
 
 for (const text of POSITIONAL_NEGATIVES) {
@@ -1170,4 +1200,127 @@ test("json credential key: a Unicode prefix does not defeat the ends-with rule",
   const red = r();
   const text = '{"contraseña_passwordExpiry":"90"}';
   assert.equal(red.redact(text).text, text);
+});
+
+// --- The script-body families. A PowerShell script block reaches a log whole, so the credential
+// inside it is written in the language rather than passed as a command-line flag, and every
+// flag-anchored detector above is blind to it. Each case anchors on a construct that can only be a
+// secret in that position: an argument slot, a quoted key, a sigiled variable name, a base64 body.
+
+const SCRIPT_BODY_CASES: [string, string, string][] = [
+  [
+    "credential constructor keeps the account name and the quotes",
+    '$c = New-Object System.Management.Automation.PSCredential("acme\\svc_backup", "Sy nth Pw 1")',
+    '$c = New-Object System.Management.Automation.PSCredential("acme\\svc_backup", "REDACTED-SECRET-1")',
+  ],
+  [
+    "credential constructor, ::new spelling, single quotes",
+    "$c = [PSCredential]::new('svc_backup', 'Sy-nth-Pw-2')",
+    "$c = [PSCredential]::new('svc_backup', 'REDACTED-SECRET-1')",
+  ],
+  [
+    "credential pair through -ArgumentList",
+    '$c = New-Object PSCredential -ArgumentList "svc_backup", "Sy nth Pw 3"',
+    '$c = New-Object PSCredential -ArgumentList "svc_backup", "REDACTED-SECRET-1"',
+  ],
+  [
+    "credential pair through -ArgumentList, name held in a variable",
+    "$c = New-Object PSCredential -ArgumentList $user, 'Sy-nth-Pw-4'",
+    "$c = New-Object PSCredential -ArgumentList $user, 'REDACTED-SECRET-1'",
+  ],
+  [
+    "encoded command body, quotes taken with it",
+    `powershell.exe -NoProfile -EncodedCommand ${"Q".repeat(88)}`,
+    "powershell.exe -NoProfile -EncodedCommand REDACTED-SECRET-1",
+  ],
+  [
+    "encoded command, -enc spelling",
+    `pwsh -enc '${"a".repeat(64)}'`,
+    "pwsh -enc REDACTED-SECRET-1",
+  ],
+  [
+    "quoted key in a hashtable, neighbour key untouched",
+    '$h = @{ "X-Api-Key" = "Sy-nth-Pw-5"; "Accept" = "application/json" }',
+    '$h = @{ "X-Api-Key" = "REDACTED-SECRET-1"; "Accept" = "application/json" }',
+  ],
+  [
+    "quoted key, single quotes",
+    "$body = @{'client_secret' = 'Sy-nth-Pw-6'; 'client_id' = '0000'}",
+    "$body = @{'client_secret' = 'REDACTED-SECRET-1'; 'client_id' = '0000'}",
+  ],
+  [
+    "unquoted value after a compound secret parameter",
+    "Connect-AzAccount -ServicePrincipal -ClientSecret Sy-nth-Pw-7 -Tenant acme",
+    "Connect-AzAccount -ServicePrincipal -ClientSecret REDACTED-SECRET-1 -Tenant acme",
+  ],
+  [
+    "unquoted value after a compound password parameter",
+    "New-ADUser -Name bob -AccountPassword Sy-nth-Pw-8",
+    "New-ADUser -Name bob -AccountPassword REDACTED-SECRET-1",
+  ],
+  [
+    "credential assigned to a sigiled variable",
+    "$apiKey = Sy-nth-Pw-9",
+    "$apiKey = REDACTED-SECRET-1",
+  ],
+  [
+    "sigiled variable assignment stops at the next statement",
+    "$api_key = Sy-nth-Pw-10; $tenant = acme",
+    "$api_key = REDACTED-SECRET-1; $tenant = acme",
+  ],
+  [
+    "securestring positional, switches before the value",
+    "$sec = ConvertTo-SecureString -AsPlainText -Force 'Sy-nth-Pw-11'",
+    "$sec = ConvertTo-SecureString -AsPlainText -Force REDACTED-SECRET-1",
+  ],
+  [
+    "securestring positional, switch after the value",
+    "$sec = ConvertTo-SecureString Sy-nth-Pw-12 -AsPlainText -Force",
+    "$sec = ConvertTo-SecureString REDACTED-SECRET-1 -AsPlainText -Force",
+  ],
+  [
+    "securestring positional whose quote never closes needs no switch",
+    'ConvertTo-SecureString "Sy nth',
+    "ConvertTo-SecureString REDACTED-SECRET-1",
+  ],
+];
+
+for (const [label, input, expected] of SCRIPT_BODY_CASES) {
+  test(`powershell script body: ${label}`, () => {
+    const red = r();
+    const out = red.redact(input);
+    assert.equal(out.text, expected);
+    assert.equal(red.redact(out.text).text, out.text, "idempotent on its own output");
+    assert.deepEqual(red.scan(out.text), []);
+  });
+}
+
+// A positional with no -AsPlainText anywhere is not a plaintext credential: the cmdlet itself
+// rejects one without that switch, so a bare word after the cmdlet name is a variable or prose.
+// The rest are the shapes a slightly greedier version of one of the rows above would eat.
+const SCRIPT_BODY_NEGATIVES = [
+  "ConvertTo-SecureString AgentPw",
+  'Use ConvertTo-SecureString "AgentPw" here',
+  "$c = New-Object PSCredential($user, $secure)",
+  "powershell -EncodedCommand QQQQQQQQ",
+  '$h = @{ "passwordPolicy" = "30" }',
+  "Get-Command -ApiKeyPath C:\\cfg\\key.txt",
+  "$apiKeyPath = C:\\cfg\\key.txt",
+];
+
+for (const text of SCRIPT_BODY_NEGATIVES) {
+  test(`powershell script body negative: ${text}`, () => {
+    assert.equal(r().redact(text).text, text);
+  });
+}
+
+test("powershell script body: a compound parameter named in prose loses the word after it", () => {
+  // The priced cost of reading an unquoted value after a compound parameter, kept visible here
+  // rather than asserted away: a sentence naming the flag pays one word, and the collector-side
+  // implementation makes the same trade.
+  const red = r();
+  assert.equal(
+    red.redact("the -AccountPassword switch is required when creating bob").text,
+    "the -AccountPassword REDACTED-SECRET-1 is required when creating bob",
+  );
 });

@@ -10,7 +10,13 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 
 ### Added
 
-- Command-line: `psexec-password-flag` (`psexec` / `psexec64` `-p`, attached or spaced), `mysql-password-flag` (`mysql` / `mysqldump` `-p<value>`, attached only), `schtasks-runas-password` (`/RP value` and `/RP:value`). 42 secret-profile detectors.
+- Command-line: `psexec-password-flag` (`psexec` / `psexec64` `-p`, attached or spaced), `mysql-password-flag` (`mysql` / `mysqldump` `-p<value>`, attached only), `schtasks-runas-password` (`/RP value` and `/RP:value`).
+- PowerShell script bodies, where a credential is written in the language rather than passed as a flag: `powershell-credential-constructor` (second argument of `New-Object ... PSCredential(...)` and `[PSCredential]::new(...)`), `powershell-credential-argumentlist` (the same pair through `-ArgumentList`), `powershell-encoded-command` (`-EncodedCommand` / `-enc` / `-ec` base64 body), `quoted-key-credential` (a key written as a string before `=`, the hashtable and header shape), `powershell-secret-parameter-unquoted` (unquoted value after a compound parameter such as `-ApiKey` or `-AccountPassword`), `powershell-variable-credential` (`$apiKey = ...`). 48 secret-profile detectors.
+
+### Changed
+
+- `powershell-securestring-argument` reads a positional value on either side of the `-AsPlainText` and `-Force` switches, and now requires `-AsPlainText` somewhere on the command, since the cmdlet rejects a plaintext argument without it. A quoted positional whose quote never closes before the end of the line is exempt: that shape cannot be prose.
+- `net-user-password` and `net-use-password` gain a scoped single-quote-wrapper branch, reached only when a literal `'` sits immediately before `net`. There the next `'` is the wrapper close, so `cmd='net user alice <password>'` redacts; the ordinary branches still refuse the apostrophe, so a bare password containing one is not split.
 
 ## 0.3.0
 
