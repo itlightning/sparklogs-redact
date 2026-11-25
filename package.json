@@ -5,7 +5,7 @@
   "description": "Monorepo for @sparklogs/redact-* — consistent PII pseudonymisation + residual-PII scanning for logs. Framework-agnostic core, a Node CLI, and React components for in-browser redaction.",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
   },
   "workspaces": [
     "packages/*"
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.19.19",
-    "tsup": "^8.0.0",
+    "tsup": "^9.0.0",
     "typescript": "^5.5.0"
   }
 }
