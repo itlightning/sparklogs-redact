@@ -22,15 +22,14 @@ typecheck:
 	$(NPM) run typecheck
 
 test:
-	@echo "== test (all workspaces with a test script) =="
+	@echo "== test (repo scripts + all workspaces with a test script) =="
 	$(NPM) test
 
-# Log all findings (incl. dev); fail only on high/critical in production dependencies.
+# Fails on any advisory in any dependency (shipped or development, any severity) that has no
+# reviewed entry in advisory-ignore.json.
 audit:
-	@echo "== audit: full report (all deps; informational) =="
-	-$(NPM) audit || true
-	@echo "== audit: gate (production deps, high and critical) =="
-	$(NPM) audit --omit=dev --audit-level=high
+	@echo "== audit (all deps, any severity; ignore entries in advisory-ignore.json) =="
+	$(NODE) scripts/audit-gate.mjs
 
 smoke:
 	@echo "== smoke: CLI profiles =="
@@ -50,8 +49,8 @@ help:
 	@echo "  make install    npm ci (all workspaces)"
 	@echo "  make build      npm run build (core, cli, react)"
 	@echo "  make typecheck  tsc --noEmit in core, cli, and react"
-	@echo "  make test       node --test in every package that defines test"
-	@echo "  make audit      npm audit (log all); fail on prod high/critical"
+	@echo "  make test       repo script tests + every package that defines test"
+	@echo "  make audit      fail on any advisory without an advisory-ignore.json entry"
 	@echo "  make smoke      CLI profiles + scan on test/fixtures/clean/sample.fixture"
 	@echo "  make check-versions  lockstep package.json + CHANGELOG gate"
 	@echo ""
