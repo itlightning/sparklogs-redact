@@ -9,6 +9,7 @@ Package versions in this monorepo are released in **lockstep** with `@sparklogs/
 ## Unreleased
 
 - No functional changes; picks up `@sparklogs/redact-core`.
+- **Fixed**: type declarations compile with `skipLibCheck: false`; the `@sparklogs/redact-core` declarations they import no longer fail (TS1039, TS1046). The exported names and types are unchanged.
 
 ## 0.3.0
 
