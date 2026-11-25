@@ -97,8 +97,19 @@ make ci    # npm ci · build · typecheck · test · audit · smoke · check-ver
 ```
 
 `make ci` installs all workspaces, builds every package, typechecks core/cli/react, runs all package
-tests, runs `npm audit` (fails on high/critical in **production** deps only), smoke-tests the CLI
-bundle, and verifies lockstep versions plus changelog conventions.
+tests, runs the advisory gate, smoke-tests the CLI bundle, and verifies lockstep versions plus
+changelog conventions.
+
+The advisory gate (`make audit`, [`scripts/audit-gate.mjs`](scripts/audit-gate.mjs)) audits every
+dependency in `package-lock.json`, shipped and development alike, and fails on any advisory at any
+severity.
+It passes its scope to npm explicitly, so settings such as `NODE_ENV=production`, `omit`, `offline`
+or a workspace filter cannot narrow it.
+The only exception is a reviewed entry in [`advisory-ignore.json`](advisory-ignore.json), an
+object mapping each GHSA advisory id to its reason (`{ "GHSA-...": "..." }`): why the advisory
+does not apply (not reachable, and why) or why no fix is tolerable yet.
+An advisory that an upgrade can clear is upgraded, not ignored.
+The gate also fails on an entry with no reason and on an entry that matches no current advisory.
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live
