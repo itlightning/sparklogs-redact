@@ -1,6 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { collectAdvisories, evaluate, parseIgnores } from "./audit-gate.mjs";
+import {
+  auditArgs,
+  checkCoverage,
+  collectAdvisories,
+  evaluate,
+  parseIgnores,
+  runAudit,
+} from "./audit-gate.mjs";
 
 // Trimmed from a real `npm audit --json` report: vitest lists its own advisory plus a transitive
 // one by package name, which is reported again under @vitest/mocker.
@@ -93,10 +100,78 @@ test("ignore entries need a GHSA id and a non-empty reason", () => {
 
 test("an audit that cannot run or cannot be read fails closed", () => {
   assert.throws(() => collectAdvisories({ error: { summary: "network down" } }), /network down/);
+  const emptySummary = { message: "audit endpoint returned an error", error: { summary: "" } };
+  assert.throws(() => collectAdvisories(emptySummary), /audit endpoint returned an error/);
+  const noTotal = { auditReportVersion: 2, vulnerabilities: {}, metadata: {} };
+  assert.throws(() => collectAdvisories(noTotal), /no metadata\.vulnerabilities\.total/);
   assert.throws(() => collectAdvisories({ auditReportVersion: 1, advisories: {} }), /format/);
   const unlisted = { ...CLEAN, metadata: { vulnerabilities: { total: 3 } } };
   assert.throws(() => collectAdvisories(unlisted), /lists no advisory/);
   const noUrl = report();
   delete noUrl.vulnerabilities.vitest.via[1].url;
   assert.throws(() => collectAdvisories(noUrl), /no GHSA url/);
+});
+
+test("a report covering fewer packages than the lockfile lists fails", () => {
+  const lockfile = {
+    packages: {
+      "": { name: "root" },
+      "node_modules/a": { version: "1.0.0" },
+      "node_modules/b": { version: "1.0.0" },
+      "node_modules/@scope/ws": { link: true, resolved: "packages/ws" },
+      "packages/ws": { version: "0.1.0" },
+    },
+  };
+  const covering = (total) => ({ metadata: { dependencies: { total } } });
+  assert.equal(checkCoverage(covering(4), lockfile), 4);
+  assert.throws(() => checkCoverage(covering(2), lockfile), /covers 2 packages, lockfile lists 3/);
+  assert.throws(() => checkCoverage({ metadata: {} }, lockfile), /covers undefined packages/);
+});
+
+test("workspace globs become --workspace folders; other glob shapes are refused", () => {
+  const args = auditArgs({ workspaces: ["packages/*", "tools/*"] });
+  assert.deepEqual(args.slice(-2), ["--workspace=packages", "--workspace=tools"]);
+  assert.throws(() => auditArgs({ workspaces: ["packages/**"] }), /not of the form <dir>\/\*/);
+});
+
+// Stands in for npm in an environment set to narrow the audit every way npm allows: each setting
+// below applies unless the command line overrides it, and any narrowing yields a clean report.
+function narrowingNpm(command, args, options) {
+  assert.equal(command, "npm");
+  assert.equal(options.cwd, "/repo");
+  const flags = new Set(args);
+  const narrowed = [
+    !flags.has("--include=dev"), // NODE_ENV=production, omit=dev, only=prod, production=true
+    !flags.has("--include=optional"), // omit=optional
+    !flags.has("--include=peer"), // omit=peer
+    !flags.has("--offline=false"), // offline=true: no advisory lookup, still a clean report
+    !flags.has("--registry=https://registry.npmjs.org/"), // a registry with no advisories
+    !flags.has("--workspaces=true"), // workspaces=false: root dependencies only
+    !flags.has("--include-workspace-root=true"), // workspace filter without the root
+    !args.some((a) => a.startsWith("--workspace=")), // workspace=<one package>
+    !flags.has("--package-lock-only"),
+    !flags.has("--json"),
+  ].some(Boolean);
+  const out = JSON.stringify(narrowed ? CLEAN : report());
+  // npm audit exits 1 when it finds advisories, with the report on stdout.
+  if (!narrowed) throw Object.assign(new Error("npm exited 1"), { stdout: out });
+  return out;
+}
+
+test("the gate's npm arguments override every setting that narrows the audit", () => {
+  const args = auditArgs({ workspaces: ["packages/*"] });
+  const advisories = collectAdvisories(runAudit("/repo", args, narrowingNpm));
+  assert.deepEqual([...advisories.keys()], ["GHSA-82fw-gwwq-j7x9", "GHSA-qxg6-89mg-rqv8"]);
+  for (const dropped of args.slice(1)) {
+    const fewer = args.filter((a) => a !== dropped);
+    const narrowed = collectAdvisories(runAudit("/repo", fewer, narrowingNpm));
+    assert.equal(narrowed.size, 0, `dropping ${dropped} should narrow the stand-in audit`);
+  }
+});
+
+test("an npm failure with no report on stdout is rethrown", () => {
+  const broken = () => {
+    throw Object.assign(new Error("spawn npm ENOENT"), { stdout: "" });
+  };
+  assert.throws(() => runAudit("/repo", ["audit"], broken), /ENOENT/);
 });
