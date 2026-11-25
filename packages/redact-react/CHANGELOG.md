@@ -6,7 +6,7 @@ All notable changes to `@sparklogs/redact-react` are documented here. This proje
 Package versions in this monorepo are released in **lockstep** with `@sparklogs/redact-core` and
 `@sparklogs/redact-cli` (same version number; see repo root README).
 
-## Unreleased
+## 0.4.0
 
 - No functional changes; picks up `@sparklogs/redact-core`.
 - **Fixed**: type declarations compile with `skipLibCheck: false`; the `@sparklogs/redact-core` declarations they import no longer fail (TS1039, TS1046). The exported names and types are unchanged.
