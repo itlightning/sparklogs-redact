@@ -10,6 +10,7 @@ import {
   collectDeclaredAdvisories,
   discover,
   evaluate,
+  gate,
   nonRegistryDependencies,
   NPM_ADVISORY_URL,
   OSV_QUERY_URL,
@@ -241,7 +242,7 @@ test("an npm failure with no report on stdout is rethrown", () => {
   assert.throws(() => runAudit("/repo", ["audit"], broken), /ENOENT/);
 });
 
-test("discovery audits every tracked package-lock.json and refuses other lockfile kinds", () => {
+test("discovery audits every package-lock.json and refuses files it cannot read", () => {
   const { lockDirs, manifestDirs, problems } = discover([
     "package.json",
     "package-lock.json",
@@ -251,11 +252,30 @@ test("discovery audits every tracked package-lock.json and refuses other lockfil
     "site/yarn.lock",
     "orphan/package-lock.json",
     "README.md",
+    "site/bun.lockb",
+    "tools/go.mod",
+    "app/pubspec.yaml",
+    "crate/Cargo.toml",
+    "py/requirements-dev.txt",
+    "py/pyproject.toml",
+    "Pipfile",
+    "Gemfile",
+    "php/composer.json",
   ]);
   assert.deepEqual(lockDirs, [".", "tools/x", "orphan"]);
   assert.deepEqual(manifestDirs, [".", "packages/a", "tools/x"]);
+  const other = (path) => `${path}: dependency file of an ecosystem this gate does not audit`;
   assert.deepEqual(problems, [
     "site/yarn.lock: lockfile kind not audited by this gate; use package-lock.json",
+    "site/bun.lockb: lockfile kind not audited by this gate; use package-lock.json",
+    other("tools/go.mod"),
+    other("app/pubspec.yaml"),
+    other("crate/Cargo.toml"),
+    other("py/requirements-dev.txt"),
+    other("py/pyproject.toml"),
+    other("Pipfile"),
+    other("Gemfile"),
+    other("php/composer.json"),
     "orphan/package-lock.json: no package.json",
   ]);
 });
@@ -274,6 +294,8 @@ test("a manifest needs its own lockfile or a workspace entry in an ancestor lock
 
 const MANIFEST = { workspaces: ["packages/*"] };
 const FORKED = "git+ssh://git@github.com/someone/forked.git#abc";
+// A host that only starts like the registry's.
+const LOOKALIKE = "https://registry.npmjs.org.example.invalid/lodash/-/lodash-4.17.21.tgz";
 const reg = (name, version = "1.0.0") => ({
   version,
   resolved: `https://registry.npmjs.org/${name}/-/${name}-${version}.tgz`,
@@ -291,6 +313,7 @@ test("only registry packages and links to workspace members need no declaration"
       "node_modules/bundled": { version: "1.0.0", inBundle: true },
       "node_modules/forked": { resolved: FORKED },
       "node_modules/tarball": { resolved: "https://example.com/tarball-1.0.0.tgz" },
+      "node_modules/lookalike": { resolved: LOOKALIKE },
       "node_modules/local-tgz": { resolved: "file:vendor/local-tgz-1.0.0.tgz" },
       "node_modules/outside": { link: true, resolved: "../elsewhere/outside" },
       "node_modules/vendored": { link: true, resolved: "vendor/vendored" },
@@ -305,6 +328,7 @@ test("only registry packages and links to workspace members need no declaration"
       resolved: "https://example.com/tarball-1.0.0.tgz",
       source: "https://example.com/tarball-1.0.0.tgz",
     },
+    { name: "lookalike", resolved: LOOKALIKE, source: LOOKALIKE },
     {
       name: "local-tgz",
       resolved: "file:vendor/local-tgz-1.0.0.tgz",
@@ -467,4 +491,125 @@ test("finding ids reach the workflow as one line separated by spaces", () => {
     ["out", "findings=GHSA-82fw-gwwq-j7x9 MAL-2026-1\n"],
     ["out", "findings=\n"],
   ]);
+});
+
+// A whole repository for gate(): one workspace member, one registry dependency, npm and the two
+// advisory endpoints stubbed. Each test changes one thing and expects the gate to notice.
+function repo() {
+  const lockfile = {
+    lockfileVersion: 3,
+    packages: {
+      "": { name: "root", workspaces: ["packages/*"] },
+      "packages/a": { version: "0.1.0" },
+      "node_modules/@scope/a": { link: true, resolved: "packages/a" },
+      "node_modules/lodash": reg("lodash", "4.17.21"),
+    },
+  };
+  return {
+    files: {
+      "package.json": { name: "root", workspaces: ["packages/*"] },
+      "package-lock.json": lockfile,
+      "packages/a/package.json": { name: "@scope/a" },
+      "advisory-ignore.json": {},
+      "advisory-sources.json": {},
+    },
+    audit: { ...CLEAN, metadata: { ...CLEAN.metadata, dependencies: { total: 3 } } },
+    npmAnswer: NPM_CONTROL_ANSWER,
+    osvAnswer: () => OSV_CONTROL_ANSWER,
+    output: [],
+  };
+}
+
+async function runGate(r) {
+  const env = {
+    root: "/repo",
+    readText: (path) => {
+      if (!(path in r.files)) throw new Error(`ENOENT ${path}`);
+      return JSON.stringify(r.files[path]);
+    },
+    trackedFiles: () => Object.keys(r.files),
+    exec: () => JSON.stringify(r.audit),
+    fetchFn: stubFetch((url, body) => [
+      200,
+      url === NPM_ADVISORY_URL ? r.npmAnswer : r.osvAnswer(body),
+    ]).fetchFn,
+    today: TODAY,
+  };
+  return gate(env, "out", (file, text) => r.output.push(text));
+}
+
+test("gate: a clean repository passes and writes an empty finding list", async () => {
+  const r = repo();
+  const { failures, summary } = await runGate(r);
+  assert.deepEqual(failures, []);
+  assert.match(summary, /^3 packages in 1 lockfile\(s\), 0 declared source\(s\)/);
+  assert.deepEqual(r.output, ["findings=\n"]);
+});
+
+test("gate: an advisory fails and its id reaches the output file", async () => {
+  const r = repo();
+  r.audit = { ...report(), metadata: { ...report().metadata, dependencies: { total: 3 } } };
+  const { failures } = await runGate(r);
+  assert.equal(failures.length, 2);
+  assert.deepEqual(r.output, ["findings=GHSA-82fw-gwwq-j7x9 GHSA-qxg6-89mg-rqv8\n"]);
+});
+
+test("gate: an undeclared non-registry dependency fails", async () => {
+  const r = repo();
+  r.files["package-lock.json"].packages["node_modules/forked"] = { resolved: FORKED };
+  r.audit.metadata.dependencies.total = 4;
+  const { failures } = await runGate(r);
+  assert.deepEqual(failures.length, 1);
+  assert.match(failures[0], /^forked \(git\+ssh:.*\) does not come from the npm registry/);
+});
+
+test("gate: an npm advisory endpoint that answers empty fails", async () => {
+  const r = repo();
+  r.npmAnswer = {};
+  const { failures } = await runGate(r);
+  assert.match(failures.join("\n"), /advisories\/bulk: no GHSA-35jh-r3h4-6jhm/);
+});
+
+test("gate: an audit covering fewer packages than the lockfile fails", async () => {
+  const r = repo();
+  r.audit.metadata.dependencies.total = 1;
+  const { failures } = await runGate(r);
+  assert.deepEqual(failures, ["npm audit: report covers 1 packages, lockfile lists 2"]);
+});
+
+test("gate: a tracked package.json no lockfile covers fails", async () => {
+  const r = repo();
+  r.files["packages/b/package.json"] = { name: "@scope/b" };
+  const { failures } = await runGate(r);
+  assert.deepEqual(failures, ["packages/b/package.json: no package-lock.json covers it"]);
+});
+
+test("gate: with a declaration, OSV must return the control advisory", async () => {
+  const r = repo();
+  r.files["package-lock.json"].packages["node_modules/forked"] = { resolved: FORKED };
+  r.audit.metadata.dependencies.total = 4;
+  r.files["advisory-sources.json"] = { forked: { ...DECLARED.forked, version: "4.18.1" } };
+  r.osvAnswer = () => ({});
+  const { failures } = await runGate(r);
+  assert.match(failures.join("\n"), /api\.osv\.dev\/v1\/query: no GHSA-35jh-r3h4-6jhm/);
+});
+
+test("gate: an advisory against a declared upstream release fails", async () => {
+  const r = repo();
+  r.files["package-lock.json"].packages["node_modules/forked"] = { resolved: FORKED };
+  r.audit.metadata.dependencies.total = 4;
+  r.files["advisory-sources.json"] = DECLARED;
+  const { failures } = await runGate(r);
+  assert.deepEqual(failures, [
+    "GHSA-35jh-r3h4-6jhm (high) forked (copy of lodash@4.17.20): Command Injection in lodash",
+  ]);
+  assert.deepEqual(r.output, ["findings=GHSA-35jh-r3h4-6jhm\n"]);
+});
+
+test("gate: an error becomes a failure line and leaves the finding list empty", async () => {
+  const r = repo();
+  delete r.files["advisory-sources.json"];
+  const { failures } = await runGate(r);
+  assert.deepEqual(failures, ["ENOENT advisory-sources.json"]);
+  assert.deepEqual(r.output, ["findings=\n"]);
 });

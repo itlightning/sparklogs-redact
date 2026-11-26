@@ -106,8 +106,9 @@ at any severity.
 It passes its scope to npm explicitly, so settings such as `NODE_ENV=production`, `omit`, `offline`
 or a workspace filter cannot narrow it.
 It fails closed: on a tracked `package.json` that no lockfile covers, on a lockfile without a
-`packages` map, and when the advisory endpoint cannot be reached or does not return the advisory of
-a known-vulnerable control package.
+`packages` map, on a tracked lockfile of another package manager or dependency file of another
+ecosystem (such as `yarn.lock`, `go.mod` or `pyproject.toml`), and when the advisory endpoint
+cannot be reached or does not return the advisory of a known-vulnerable control package.
 
 A dependency that does not come from the npm registry (git, tarball, `file:`, or a link outside the
 workspace folders) fails unless [`advisory-sources.json`](advisory-sources.json) declares it:

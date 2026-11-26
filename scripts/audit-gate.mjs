@@ -37,7 +37,8 @@ export const IGNORE_FILE = "advisory-ignore.json";
 export const SOURCES_FILE = "advisory-sources.json";
 const LOCKFILE = "package-lock.json";
 const MANIFEST = "package.json";
-// Lockfiles of other package managers: this gate cannot audit them, so a tracked one fails.
+// Lockfiles of other npm-family package managers, and manifests and lockfiles of other
+// ecosystems: this gate cannot audit them, so a tracked one fails rather than going unread.
 const UNSUPPORTED_LOCKFILES = new Set([
   "npm-shrinkwrap.json",
   "yarn.lock",
@@ -45,6 +46,24 @@ const UNSUPPORTED_LOCKFILES = new Set([
   "bun.lock",
   "bun.lockb",
 ]);
+const OTHER_ECOSYSTEM_FILES = new Set([
+  "go.mod",
+  "go.sum",
+  "pubspec.yaml",
+  "pubspec.lock",
+  "Cargo.toml",
+  "Cargo.lock",
+  "pyproject.toml",
+  "poetry.lock",
+  "uv.lock",
+  "Pipfile",
+  "Pipfile.lock",
+  "Gemfile",
+  "Gemfile.lock",
+  "composer.json",
+  "composer.lock",
+]);
+const REQUIREMENTS_FILE = /^requirements.*\.txt$/;
 const REGISTRY = "https://registry.npmjs.org/";
 const GHSA_ID = /^GHSA(-[0-9a-z]{4}){3}$/;
 const GHSA_URL = /^https:\/\/github\.com\/advisories\/(GHSA(?:-[0-9a-z]{4}){3})$/;
@@ -206,6 +225,8 @@ export function discover(tracked) {
     else if (base === MANIFEST) manifestDirs.push(posix.dirname(path));
     else if (UNSUPPORTED_LOCKFILES.has(base)) {
       problems.push(`${path}: lockfile kind not audited by this gate; use ${LOCKFILE}`);
+    } else if (OTHER_ECOSYSTEM_FILES.has(base) || REQUIREMENTS_FILE.test(base)) {
+      problems.push(`${path}: dependency file of an ecosystem this gate does not audit`);
     }
   }
   for (const dir of lockDirs) {
@@ -482,17 +503,14 @@ function parseJson(text, source) {
   }
 }
 
-function readJson(path) {
-  return parseJson(readFileSync(join(ROOT, path), "utf8"), path);
-}
-
-function trackedFiles() {
-  const out = execFileSync("git", ["ls-files", "-z"], { cwd: ROOT, encoding: "utf8" });
-  return out.split("\0").filter(Boolean);
-}
-
-async function run() {
-  const ignores = parseIgnores(readJson(IGNORE_FILE), utcDay(new Date()));
+/**
+ * The gate against an environment: `readText(path)` reads a repository file, `trackedFiles()`
+ * lists the files git tracks, `exec` runs npm (execFileSync's signature), `fetchFn` is fetch,
+ * `today` is the UTC date. Returns { failures, findingIds, summary }.
+ */
+export async function run({ root, readText, trackedFiles, exec, fetchFn, today }) {
+  const readJson = (path) => parseJson(readText(path), path);
+  const ignores = parseIgnores(readJson(IGNORE_FILE), today);
   const declarations = parseDeclarations(readJson(SOURCES_FILE));
   const { lockDirs, manifestDirs, problems } = discover(trackedFiles());
   const failures = [...problems];
@@ -507,18 +525,18 @@ async function run() {
   const lockfiles = new Map(projects.map(({ dir, lockfile }) => [dir, lockfile]));
   failures.push(...uncoveredManifests(manifestDirs, lockfiles));
 
-  await checkNpmEndpoint(fetch);
+  await checkNpmEndpoint(fetchFn);
   const findings = new Map();
   let covered = 0;
   for (const { dir, lockfile, manifest } of projects) {
-    const report = runAudit(join(ROOT, dir), auditArgs(manifest));
+    const report = runAudit(join(root, dir), auditArgs(manifest), exec);
     collectAdvisories(report, findings);
     covered += checkCoverage(report, lockfile);
   }
   failures.push(...checkDeclarations(declarations, dependencies));
   if (declarations.length > 0) {
-    await checkOsvEndpoint(fetch);
-    await collectDeclaredAdvisories(declarations, findings, fetch);
+    await checkOsvEndpoint(fetchFn);
+    await collectDeclaredAdvisories(declarations, findings, fetchFn);
   }
   const result = evaluate(findings, ignores);
   failures.push(...result.failures);
@@ -528,6 +546,25 @@ async function run() {
   return { failures, findingIds: result.findingIds, summary };
 }
 
+/**
+ * Runs the gate and, when `outputFile` is given, appends its finding ids there through `append`.
+ * Returns { failures, summary }; any error becomes a failure line.
+ */
+export async function gate(env, outputFile, append = appendFileSync) {
+  let failures;
+  let findingIds = [];
+  let summary;
+  try {
+    ({ failures, findingIds, summary } = await run(env));
+  } catch (err) {
+    // fetch reports a network failure as "fetch failed" with the reason in `cause`.
+    const cause = err.cause ? `: ${err.cause.message ?? err.cause}` : "";
+    failures = `${err.message}${cause}`.split("\n");
+  }
+  if (outputFile) writeFindingIds(outputFile, findingIds, append);
+  return { failures, summary };
+}
+
 async function main() {
   const flag = process.argv.indexOf("--github-output");
   const outputFile = flag >= 0 ? process.argv[flag + 1] : undefined;
@@ -535,17 +572,20 @@ async function main() {
     console.error("FAIL: --github-output needs a file");
     process.exit(1);
   }
-  let failures;
-  let findingIds = [];
-  let summary;
-  try {
-    ({ failures, findingIds, summary } = await run());
-  } catch (err) {
-    // fetch reports a network failure as "fetch failed" with the reason in `cause`.
-    const cause = err.cause ? `: ${err.cause.message ?? err.cause}` : "";
-    failures = `${err.message}${cause}`.split("\n");
-  }
-  if (outputFile) writeFindingIds(outputFile, findingIds);
+  const { failures, summary } = await gate(
+    {
+      root: ROOT,
+      readText: (path) => readFileSync(join(ROOT, path), "utf8"),
+      trackedFiles: () =>
+        execFileSync("git", ["ls-files", "-z"], { cwd: ROOT, encoding: "utf8" })
+          .split("\0")
+          .filter(Boolean),
+      exec: execFileSync,
+      fetchFn: fetch,
+      today: utcDay(new Date()),
+    },
+    outputFile,
+  );
   for (const line of failures) console.error(`FAIL: ${line}`);
   if (failures.length > 0) process.exit(1);
   console.log(`  ok: no unignored advisory across ${summary}`);
