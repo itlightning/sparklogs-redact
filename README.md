@@ -101,15 +101,50 @@ tests, runs the advisory gate, smoke-tests the CLI bundle, and verifies lockstep
 changelog conventions.
 
 The advisory gate (`make audit`, [`scripts/audit-gate.mjs`](scripts/audit-gate.mjs)) audits every
-dependency in `package-lock.json`, shipped and development alike, and fails on any advisory at any
-severity.
+tracked `package-lock.json`, shipped and development dependencies alike, and fails on any advisory
+at any severity.
 It passes its scope to npm explicitly, so settings such as `NODE_ENV=production`, `omit`, `offline`
 or a workspace filter cannot narrow it.
-The only exception is a reviewed entry in [`advisory-ignore.json`](advisory-ignore.json), an
-object mapping each GHSA advisory id to its reason (`{ "GHSA-...": "..." }`): why the advisory
-does not apply (not reachable, and why) or why no fix is tolerable yet.
+It fails closed: on a tracked `package.json` that no lockfile covers, on a lockfile without a
+`packages` map, and when the advisory endpoint cannot be reached or does not return the advisory of
+a known-vulnerable control package.
+
+A dependency that does not come from the npm registry (git, tarball, `file:`, or a link outside the
+workspace folders) fails unless [`advisory-sources.json`](advisory-sources.json) declares it:
+
+```json
+{ "<name in package-lock.json>": {
+    "ecosystem": "npm",
+    "upstream": "<the registry package it copies>",
+    "version": "<the newest upstream release the copy fully contains>",
+    "commit": "<optional: the upstream commit it is based on>",
+    "why": "<why the registry release is not used>" } }
+```
+
+The gate then asks [OSV](https://osv.dev) for advisories against that upstream release and treats
+each one as a finding.
+A declaration that matches no dependency fails.
+
+The only exception is a reviewed entry in [`advisory-ignore.json`](advisory-ignore.json), one per
+advisory id:
+
+```json
+{ "GHSA-xxxx-xxxx-xxxx": { "reason": "...", "until": "YYYY-MM-DD" } }
+```
+
+The reason says why the advisory does not apply (not reachable, and why) or why no fix is tolerable
+yet.
 An advisory that an upgrade can clear is upgraded, not ignored.
-The gate also fails on an entry with no reason and on an entry that matches no current advisory.
+The gate fails on an entry with no reason, on an `until` that is missing or more than 90 days
+ahead, on an entry whose `until` date (UTC) has arrived, and on an entry that matches no current
+advisory.
+
+[`.github/workflows/advisories.yml`](.github/workflows/advisories.yml) runs the same gate on pull
+requests, on pushes to `main`, daily and on demand.
+Outside pull requests it keeps one open issue labeled `dependency-advisory` while the check fails
+and closes it when the check passes.
+GitHub disables the daily run after 60 days without repository activity; re-enable it in the
+Actions tab.
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live
