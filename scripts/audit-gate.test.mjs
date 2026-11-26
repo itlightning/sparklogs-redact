@@ -101,15 +101,18 @@ test("an ignore entry that matches no advisory fails as stale", () => {
   });
 });
 
-test("ignore entries name one advisory and carry a reason and an until date", () => {
+test("ignore entries name one advisory and carry a reason", () => {
   const bad = {
     "no reason": { "GHSA-82fw-gwwq-j7x9": { until: "2027-01-01" } },
     "blank reason": { "GHSA-82fw-gwwq-j7x9": { reason: "  ", until: "2027-01-01" } },
-    "no until": { "GHSA-82fw-gwwq-j7x9": { reason: "r" } },
     "unparseable until": { "GHSA-82fw-gwwq-j7x9": entry("next spring") },
     "impossible date": { "GHSA-82fw-gwwq-j7x9": entry("2027-02-30") },
     "until not a string": { "GHSA-82fw-gwwq-j7x9": entry(20270101) },
     "reason only (old form)": { "GHSA-82fw-gwwq-j7x9": "r" },
+    "vuln without its date part": { "GHSA-82fw-gwwq-j7x9": { reason: "r", vuln: "VULN-1" } },
+    "vuln with a short date": { "GHSA-82fw-gwwq-j7x9": { reason: "r", vuln: "VULN-2026112-1" } },
+    "vuln lower case": { "GHSA-82fw-gwwq-j7x9": { reason: "r", vuln: "vuln-20261125-1" } },
+    "vuln not a string": { "GHSA-82fw-gwwq-j7x9": { reason: "r", vuln: 20261125 } },
     "a package": { vitest: entry() },
     "a severity": { high: entry() },
     "a wildcard": { "GHSA-*": entry() },
@@ -125,18 +128,27 @@ test("ignore entries name one advisory and carry a reason and an until date", ()
   assert.deepEqual(parseIgnores({ "MAL-2026-123": extra }, TODAY), [
     { id: "MAL-2026-123", reason: "r", until: "2027-01-01" },
   ]);
+  const deferred = { reason: "r", until: "2030-01-01", vuln: "VULN-20261125-12" };
+  assert.doesNotThrow(() => parseIgnores({ "GHSA-82fw-gwwq-j7x9": deferred }, TODAY));
 });
 
-test("an ignore entry lapses on its until date and may reach 90 days ahead", () => {
+test("an entry with a reason and no date has no end and clears its advisory", () => {
+  const ignores = parseIgnores({ "GHSA-82fw-gwwq-j7x9": { reason: "not reachable" } }, TODAY);
+  assert.equal(ignores[0].until, undefined);
+  const { failures, findingIds } = evaluate(collectAdvisories(report()), ignores);
+  assert.deepEqual(findingIds, ["GHSA-qxg6-89mg-rqv8"]);
+  assert.equal(failures.length, 1);
+});
+
+test("an ignore entry lapses on its until date, however far ahead that is", () => {
   const at = (until, today) => () => parseIgnores({ "GHSA-82fw-gwwq-j7x9": entry(until) }, today);
   assert.doesNotThrow(at("2026-11-26", TODAY));
   assert.throws(at("2026-11-25", TODAY), /lapsed on 2026-11-25/);
   assert.throws(at("2026-11-01", TODAY), /lapsed on 2026-11-01/);
-  assert.doesNotThrow(at("2027-02-23", TODAY)); // today + 90
-  assert.throws(at("2027-02-24", TODAY), /more than 90 days ahead/); // today + 91
-  // Across a leap day: 2028-01-01 + 90 days is 2028-03-31.
-  assert.doesNotThrow(at("2028-03-31", "2028-01-01"));
-  assert.throws(at("2028-04-01", "2028-01-01"), /more than 90 days/);
+  assert.doesNotThrow(at("2036-11-25", TODAY));
+  assert.doesNotThrow(at("2028-02-29", "2028-02-28"));
+  assert.throws(at("2028-02-29", "2028-02-29"), /lapsed on 2028-02-29/);
+  assert.throws(at("2027-02-29", TODAY), /must be a date/);
 });
 
 test("today is the UTC date, whatever the local offset", () => {
@@ -261,6 +273,7 @@ test("a manifest needs its own lockfile or a workspace entry in an ancestor lock
 });
 
 const MANIFEST = { workspaces: ["packages/*"] };
+const FORKED = "git+ssh://git@github.com/someone/forked.git#abc";
 const reg = (name, version = "1.0.0") => ({
   version,
   resolved: `https://registry.npmjs.org/${name}/-/${name}-${version}.tgz`,
@@ -276,7 +289,7 @@ test("only registry packages and links to workspace members need no declaration"
       "node_modules/lodash": reg("lodash"),
       "packages/core/node_modules/nested": reg("nested"),
       "node_modules/bundled": { version: "1.0.0", inBundle: true },
-      "node_modules/forked": { resolved: "git+ssh://git@github.com/someone/forked.git#abc" },
+      "node_modules/forked": { resolved: FORKED },
       "node_modules/tarball": { resolved: "https://example.com/tarball-1.0.0.tgz" },
       "node_modules/local-tgz": { resolved: "file:vendor/local-tgz-1.0.0.tgz" },
       "node_modules/outside": { link: true, resolved: "../elsewhere/outside" },
@@ -286,13 +299,21 @@ test("only registry packages and links to workspace members need no declaration"
     },
   };
   assert.deepEqual(nonRegistryDependencies(lockfile, MANIFEST, "package-lock.json"), [
-    { name: "forked", source: "git+ssh://git@github.com/someone/forked.git#abc" },
-    { name: "tarball", source: "https://example.com/tarball-1.0.0.tgz" },
-    { name: "local-tgz", source: "file:vendor/local-tgz-1.0.0.tgz" },
-    { name: "outside", source: "link to ../elsewhere/outside" },
-    { name: "vendored", source: "link to vendor/vendored" },
-    { name: "escape", source: "link to packages/../../escape" },
-    { name: "unresolved", source: "no resolved source" },
+    { name: "forked", resolved: FORKED, source: FORKED },
+    {
+      name: "tarball",
+      resolved: "https://example.com/tarball-1.0.0.tgz",
+      source: "https://example.com/tarball-1.0.0.tgz",
+    },
+    {
+      name: "local-tgz",
+      resolved: "file:vendor/local-tgz-1.0.0.tgz",
+      source: "file:vendor/local-tgz-1.0.0.tgz",
+    },
+    { name: "outside", resolved: "../elsewhere/outside", source: "link to ../elsewhere/outside" },
+    { name: "vendored", resolved: "vendor/vendored", source: "link to vendor/vendored" },
+    { name: "escape", resolved: "packages/../../escape", source: "link to packages/../../escape" },
+    { name: "unresolved", resolved: undefined, source: "no resolved source" },
   ]);
 });
 
@@ -308,15 +329,16 @@ const DECLARED = {
     ecosystem: "npm",
     upstream: "lodash",
     version: "4.17.20",
+    locked: FORKED,
     why: "carries a fix not yet released",
   },
 };
 
-test("declarations need every field and npm as the ecosystem; commit is optional", () => {
+test("declarations need every field, locked included, and npm; commit is optional", () => {
   assert.deepEqual(parseDeclarations({}), []);
   const withCommit = { forked: { ...DECLARED.forked, commit: "0123abc" } };
   assert.equal(parseDeclarations(withCommit)[0].commit, "0123abc");
-  for (const field of ["ecosystem", "upstream", "version", "why"]) {
+  for (const field of ["ecosystem", "upstream", "version", "locked", "why"]) {
     const missing = { forked: { ...DECLARED.forked } };
     delete missing.forked[field];
     assert.throws(() => parseDeclarations(missing), new RegExp(`${field} is required`), field);
@@ -334,7 +356,10 @@ test("declarations need every field and npm as the ecosystem; commit is optional
 });
 
 test("an undeclared non-registry dependency fails, and so does a stale declaration", () => {
-  const deps = [{ name: "forked", source: "git+ssh://x" }, { name: "other", source: "file:o.tgz" }];
+  const deps = [
+    { name: "forked", resolved: FORKED, source: FORKED },
+    { name: "other", resolved: "file:o.tgz", source: "file:o.tgz" },
+  ];
   const declarations = parseDeclarations({ ...DECLARED, gone: DECLARED.forked });
   assert.deepEqual(checkDeclarations(declarations, deps), [
     "other (file:o.tgz) does not come from the npm registry; " +
@@ -342,6 +367,15 @@ test("an undeclared non-registry dependency fails, and so does a stale declarati
     "advisory-sources.json: gone matches no non-registry dependency; remove it",
   ]);
   assert.deepEqual(checkDeclarations(parseDeclarations(DECLARED), deps.slice(0, 1)), []);
+});
+
+test("a declaration whose locked value differs from the lockfile must be reviewed", () => {
+  const moved = "git+ssh://git@github.com/someone/forked.git#def";
+  const deps = [{ name: "forked", resolved: moved, source: moved }];
+  assert.deepEqual(checkDeclarations(parseDeclarations(DECLARED), deps), [
+    `advisory-sources.json: forked locks ${FORKED} but the lockfile resolves ${moved}; ` +
+      "review the declared upstream version and update locked",
+  ]);
 });
 
 // Stands in for fetch: `answer(url, body)` returns [status, JSON body] or throws.

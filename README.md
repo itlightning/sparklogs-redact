@@ -118,33 +118,42 @@ workspace folders) fails unless [`advisory-sources.json`](advisory-sources.json)
     "upstream": "<the registry package it copies>",
     "version": "<the newest upstream release the copy fully contains>",
     "commit": "<optional: the upstream commit it is based on>",
+    "locked": "<its resolved value in package-lock.json>",
     "why": "<why the registry release is not used>" } }
 ```
 
 The gate then asks [OSV](https://osv.dev) for advisories against that upstream release and treats
 each one as a finding.
-A declaration that matches no dependency fails.
+A declaration that matches no dependency fails, and so does one whose `locked` value differs from
+the lockfile: moving the dependency means reviewing its declared upstream release in the same
+change.
 
 The only exception is a reviewed entry in [`advisory-ignore.json`](advisory-ignore.json), one per
 advisory id:
 
 ```json
-{ "GHSA-xxxx-xxxx-xxxx": { "reason": "...", "until": "YYYY-MM-DD" } }
+{ "GHSA-xxxx-xxxx-xxxx": { "reason": "...", "until": "YYYY-MM-DD", "vuln": "VULN-YYYYMMDD-N" } }
 ```
 
 The reason says why the advisory does not apply (not reachable, and why) or why no fix is tolerable
 yet.
 An advisory that an upgrade can clear is upgraded, not ignored.
-The gate fails on an entry with no reason, on an `until` that is missing or more than 90 days
-ahead, on an entry whose `until` date (UTC) has arrived, and on an entry that matches no current
-advisory.
+`until` and `vuln` are optional: an advisory that applies and is deferred names its tracking id in
+`vuln` and the date the deferral ends in `until`; an advisory that does not apply carries neither.
+The gate fails on an entry with no reason, on an `until` that is not a date, on an entry whose
+`until` date (UTC) has arrived, on a `vuln` not of the form `VULN-YYYYMMDD-N`, and on an entry that
+matches no current advisory.
 
-[`.github/workflows/advisories.yml`](.github/workflows/advisories.yml) runs the same gate on pull
-requests, on pushes to `main`, daily and on demand.
-Outside pull requests it keeps one open issue labeled `dependency-advisory` while the check fails
-and closes it when the check passes.
-GitHub disables the daily run after 60 days without repository activity; re-enable it in the
-Actions tab.
+The gate needs only Node (the version in [`.node-version`](.node-version)) and git, with no install
+or build, so it also runs from a fresh clone:
+
+```bash
+node --test scripts/audit-gate.test.mjs && node scripts/audit-gate.mjs
+```
+
+It exits 1 and prints a `FAIL:` line per problem when the check fails.
+`--github-output <file>` also appends `findings=<ids>` to that file: the advisory ids that failed,
+separated by spaces.
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live

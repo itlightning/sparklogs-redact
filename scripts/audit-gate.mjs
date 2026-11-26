@@ -17,10 +17,11 @@
  * advisory endpoint does not return the advisory of a known-vulnerable control package, when a
  * report covers fewer packages than its lockfile lists, and when a lockfile has no packages map.
  *
- * advisory-ignore.json maps each advisory id to { "reason": "...", "until": "YYYY-MM-DD" }. The
- * reason states why the advisory does not apply (not reachable, and why) or why no fix is
- * tolerable yet. An entry lapses on its `until` date (UTC), which may be at most 90 days ahead.
- * An advisory that an upgrade can clear is upgraded, not ignored.
+ * advisory-ignore.json maps each advisory id to { "reason": "...", "until"?: "YYYY-MM-DD",
+ * "vuln"?: "VULN-YYYYMMDD-N" }. The reason states why the advisory does not apply (not reachable,
+ * and why) or why no fix is tolerable yet. An entry with an `until` date lapses on that date (UTC);
+ * `vuln` names the vulnerability record of an advisory that applies and is deferred. An advisory
+ * that an upgrade can clear is upgraded, not ignored.
  *
  * `--github-output <file>` appends `findings=<ids>` to that file: the advisories that failed the
  * gate, separated by spaces, empty when the gate passed or failed for another reason.
@@ -49,7 +50,7 @@ const GHSA_ID = /^GHSA(-[0-9a-z]{4}){3}$/;
 const GHSA_URL = /^https:\/\/github\.com\/advisories\/(GHSA(?:-[0-9a-z]{4}){3})$/;
 // An ignore entry names exactly one advisory: a GitHub advisory or an OSV malicious-package id.
 const ADVISORY_ID = /^(GHSA(-[0-9a-z]{4}){3}|MAL-\d{4}-\d+)$/;
-const MAX_IGNORE_DAYS = 90;
+const VULN_ID = /^VULN-\d{8}-\d+$/;
 const FETCH_TIMEOUT_MS = 30_000;
 
 // PROVENANCE: OBSERVED registry.npmjs.org 2026-11-25, response trimmed in audit-gate.test.mjs.
@@ -107,12 +108,6 @@ export function utcDay(now) {
   return now.toISOString().slice(0, 10);
 }
 
-function addDays(day, days) {
-  const date = new Date(`${day}T00:00:00Z`);
-  date.setUTCDate(date.getUTCDate() + days);
-  return utcDay(date);
-}
-
 function isDay(text) {
   if (typeof text !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(text)) return false;
   const date = new Date(`${text}T00:00:00Z`);
@@ -121,43 +116,47 @@ function isDay(text) {
 
 /**
  * Validates the parsed ignore file against `today` (YYYY-MM-DD, UTC); returns { id, reason, until }
- * entries or lists every problem. An entry lapses on its `until` date.
+ * entries or lists every problem. An entry with an `until` date lapses on that date.
  */
 export function parseIgnores(data, today) {
   if (data === null || typeof data !== "object" || Array.isArray(data)) {
     throw new Error(`${IGNORE_FILE}: expected an object mapping advisory ids to entries`);
   }
-  const latest = addDays(today, MAX_IGNORE_DAYS);
   const problems = [];
   for (const [id, entry] of Object.entries(data)) {
     const at = `${IGNORE_FILE}: ${id}`;
     if (!ADVISORY_ID.test(id)) problems.push(`${at}: not a single advisory id (GHSA or MAL)`);
     if (entry === null || typeof entry !== "object" || Array.isArray(entry)) {
-      problems.push(`${at}: expected { "reason": "...", "until": "YYYY-MM-DD" }`);
+      problems.push(`${at}: expected an object with a reason`);
       continue;
     }
     if (typeof entry.reason !== "string" || entry.reason.trim() === "") {
       problems.push(`${at}: reason is required`);
     }
-    if (!isDay(entry.until)) {
-      problems.push(`${at}: until must be a date YYYY-MM-DD, got ${JSON.stringify(entry.until)}`);
-    } else if (entry.until <= today) {
-      problems.push(`${at}: lapsed on ${entry.until}; fix the advisory or review the entry`);
-    } else if (entry.until > latest) {
-      problems.push(`${at}: until ${entry.until} is more than ${MAX_IGNORE_DAYS} days ahead`);
+    if (entry.until !== undefined) {
+      if (!isDay(entry.until)) {
+        const got = JSON.stringify(entry.until);
+        problems.push(`${at}: until, when present, must be a date YYYY-MM-DD, got ${got}`);
+      } else if (entry.until <= today) {
+        problems.push(`${at}: lapsed on ${entry.until}; fix the advisory or review the entry`);
+      }
+    }
+    if (entry.vuln !== undefined && !(typeof entry.vuln === "string" && VULN_ID.test(entry.vuln))) {
+      problems.push(`${at}: vuln, when present, must be VULN-YYYYMMDD-N`);
     }
   }
   if (problems.length > 0) throw new Error(problems.join("\n"));
   return Object.entries(data).map(([id, e]) => ({ id, reason: e.reason, until: e.until }));
 }
 
-const DECLARATION_FIELDS = ["ecosystem", "upstream", "version", "why"];
+const DECLARATION_FIELDS = ["ecosystem", "upstream", "version", "locked", "why"];
 const OPTIONAL_DECLARATION_FIELDS = ["commit"];
 
 /**
  * Validates the parsed sources file; returns { name, upstream, version, ... } entries or lists
- * every problem. `version` is the newest upstream release the copy fully contains; `commit`, when
- * present, records the upstream commit it is based on.
+ * every problem. `version` is the newest upstream release the copy fully contains; `locked` is the
+ * lockfile's `resolved` value for it, so moving the dependency means reviewing the declaration;
+ * `commit`, when present, records the upstream commit it is based on.
  */
 export function parseDeclarations(data) {
   if (data === null || typeof data !== "object" || Array.isArray(data)) {
@@ -235,7 +234,8 @@ export function uncoveredManifests(manifestDirs, lockfiles) {
 
 /**
  * Returns the lockfile's dependencies that do not come from the npm registry, as
- * { name, source }. A workspace member of this lockfile's project is first-party and skipped.
+ * { name, resolved, source }: `resolved` is the lockfile's value, `source` describes it. A
+ * workspace member of this lockfile's project is first-party and skipped.
  * Throws on a lockfile without a packages map (lockfileVersion 1), which npm audit and this check
  * would otherwise pass without reading.
  */
@@ -258,28 +258,41 @@ export function nonRegistryDependencies(lockfile, manifest, where) {
     if (at < 0) continue;
     const name = key.slice(at + "node_modules/".length);
     if (entry.link) {
-      if (!isMember(entry.resolved)) found.push({ name, source: `link to ${entry.resolved}` });
+      if (!isMember(entry.resolved)) {
+        found.push({ name, resolved: entry.resolved, source: `link to ${entry.resolved}` });
+      }
     } else if (typeof entry.resolved === "string") {
-      if (!entry.resolved.startsWith(REGISTRY)) found.push({ name, source: entry.resolved });
+      if (!entry.resolved.startsWith(REGISTRY)) {
+        found.push({ name, resolved: entry.resolved, source: entry.resolved });
+      }
     } else if (!entry.inBundle) {
       // A bundled package ships inside its parent's tarball, which is checked on its own.
-      found.push({ name, source: "no resolved source" });
+      found.push({ name, resolved: undefined, source: "no resolved source" });
     }
   }
   return found;
 }
 
-/** Failure lines for undeclared non-registry dependencies and for stale declarations. */
+/**
+ * Failure lines for undeclared non-registry dependencies, for declarations whose `locked` value no
+ * longer matches the lockfile, and for stale declarations.
+ */
 export function checkDeclarations(declarations, dependencies) {
   const failures = [];
-  const declared = new Set(declarations.map((d) => d.name));
+  const declared = new Map(declarations.map((d) => [d.name, d]));
   const seen = new Set();
   for (const dep of dependencies) {
     seen.add(dep.name);
-    if (!declared.has(dep.name)) {
+    const decl = declared.get(dep.name);
+    if (!decl) {
       failures.push(
         `${dep.name} (${dep.source}) does not come from the npm registry; ` +
           `declare its upstream in ${SOURCES_FILE}`,
+      );
+    } else if (decl.locked !== dep.resolved) {
+      failures.push(
+        `${SOURCES_FILE}: ${dep.name} locks ${decl.locked} but the lockfile resolves ` +
+          `${dep.source}; review the declared upstream version and update locked`,
       );
     }
   }
