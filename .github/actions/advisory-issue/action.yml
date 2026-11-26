@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+# Shared template, copied unchanged into several repositories. Do not edit this copy.
+# ci-advisory-issue template v1
+#
+# Records a dependency advisory scan's result as a GitHub issue: failure opens one
+# issue with the label (or comments on the oldest open one), success comments on and
+# closes every open one, cancelled or skipped fails this step and changes nothing.
+#
+# Caller contract:
+# - A job of its own that needs the scan job, with
+#     if: ${{ always() && github.event_name != 'pull_request' }}
+#   and permissions issues: write, contents: read. Check out the repository first so
+#   this local action is on disk. The script refuses pull_request events anyway.
+# - result: needs.<scan job>.result. findings: a scan job output, one line of finding
+#   ids separated by spaces, empty when the failure is not a finding.
+# - Triggers: push records only for the default branch; schedule and workflow_dispatch
+#   record for whatever ref they ran on.
+name: Advisory issue
+description: Open a GitHub issue when a dependency advisory check fails and close it when the check passes
+
+inputs:
+  result:
+    description: "The scan job's result: success, failure, cancelled or skipped"
+    required: true
+  findings:
+    description: One line of finding ids separated by spaces (may be empty)
+    default: ""
+  label:
+    description: Label that marks the issue
+    default: dependency-advisory
+  check-name:
+    description: Name of the check, for the issue title and text
+    default: Dependency advisory check
+  github-token:
+    description: Token for the issue and label calls (needs issues write)
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        ADVISORY_ISSUE_RESULT: ${{ inputs.result }}
+        ADVISORY_ISSUE_FINDINGS: ${{ inputs.findings }}
+        ADVISORY_ISSUE_LABEL: ${{ inputs.label }}
+        ADVISORY_ISSUE_CHECK_NAME: ${{ inputs.check-name }}
+      run: bash "$GITHUB_ACTION_PATH/advisory-issue.sh"

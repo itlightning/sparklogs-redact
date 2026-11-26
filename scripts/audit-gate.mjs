@@ -22,7 +22,7 @@
  * tolerable yet. An entry lapses on its `until` date (UTC), which may be at most 90 days ahead.
  * An advisory that an upgrade can clear is upgraded, not ignored.
  *
- * `--github-output <file>` appends `finding_ids=<ids>` to that file: the advisories that failed the
+ * `--github-output <file>` appends `findings=<ids>` to that file: the advisories that failed the
  * gate, separated by spaces, empty when the gate passed or failed for another reason.
  */
 
@@ -456,9 +456,9 @@ export function runAudit(cwd, args, exec = execFileSync) {
   return parseJson(out, "npm audit output");
 }
 
-/** Appends `finding_ids=<ids>` to a GitHub Actions output file. */
+/** Appends `findings=<ids>` to a GitHub Actions output file. */
 export function writeFindingIds(file, ids, append = appendFileSync) {
-  append(file, `finding_ids=${ids.join(" ")}\n`);
+  append(file, `findings=${ids.join(" ")}\n`);
 }
 
 function parseJson(text, source) {

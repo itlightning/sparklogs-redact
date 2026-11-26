@@ -430,7 +430,7 @@ test("finding ids reach the workflow as one line separated by spaces", () => {
   writeFindingIds("out", ["GHSA-82fw-gwwq-j7x9", "MAL-2026-1"], (f, t) => written.push([f, t]));
   writeFindingIds("out", [], (f, t) => written.push([f, t]));
   assert.deepEqual(written, [
-    ["out", "finding_ids=GHSA-82fw-gwwq-j7x9 MAL-2026-1\n"],
-    ["out", "finding_ids=\n"],
+    ["out", "findings=GHSA-82fw-gwwq-j7x9 MAL-2026-1\n"],
+    ["out", "findings=\n"],
   ]);
 });
