@@ -101,15 +101,60 @@ tests, runs the advisory gate, smoke-tests the CLI bundle, and verifies lockstep
 changelog conventions.
 
 The advisory gate (`make audit`, [`scripts/audit-gate.mjs`](scripts/audit-gate.mjs)) audits every
-dependency in `package-lock.json`, shipped and development alike, and fails on any advisory at any
-severity.
+tracked `package-lock.json`, shipped and development dependencies alike, and fails on any advisory
+at any severity.
 It passes its scope to npm explicitly, so settings such as `NODE_ENV=production`, `omit`, `offline`
 or a workspace filter cannot narrow it.
-The only exception is a reviewed entry in [`advisory-ignore.json`](advisory-ignore.json), an
-object mapping each GHSA advisory id to its reason (`{ "GHSA-...": "..." }`): why the advisory
-does not apply (not reachable, and why) or why no fix is tolerable yet.
+It fails closed: on a tracked `package.json` that no lockfile covers, on a lockfile without a
+`packages` map, on a tracked lockfile of another package manager or dependency file of another
+ecosystem (such as `yarn.lock`, `go.mod` or `pyproject.toml`), and when the advisory endpoint
+cannot be reached or does not return the advisory of a known-vulnerable control package.
+
+A dependency that does not come from the npm registry (git, tarball, `file:`, or a link outside the
+workspace folders) fails unless [`advisory-sources.json`](advisory-sources.json) declares it:
+
+```json
+{ "<name in package-lock.json>": {
+    "ecosystem": "npm",
+    "upstream": "<the registry package it copies>",
+    "version": "<the newest upstream release the copy fully contains>",
+    "commit": "<optional: the upstream commit it is based on>",
+    "locked": "<its resolved value in package-lock.json>",
+    "why": "<why the registry release is not used>" } }
+```
+
+The gate then asks [OSV](https://osv.dev) for advisories against that upstream release and treats
+each one as a finding.
+A declaration that matches no dependency fails, and so does one whose `locked` value differs from
+the lockfile: moving the dependency means reviewing its declared upstream release in the same
+change.
+
+The only exception is a reviewed entry in [`advisory-ignore.json`](advisory-ignore.json), one per
+advisory id:
+
+```json
+{ "GHSA-xxxx-xxxx-xxxx": { "reason": "...", "until": "YYYY-MM-DD", "vuln": "VULN-YYYYMMDD-N" } }
+```
+
+The reason says why the advisory does not apply (not reachable, and why) or why no fix is tolerable
+yet.
 An advisory that an upgrade can clear is upgraded, not ignored.
-The gate also fails on an entry with no reason and on an entry that matches no current advisory.
+`until` and `vuln` are optional: an advisory that applies and is deferred names its tracking id in
+`vuln` and the date the deferral ends in `until`; an advisory that does not apply carries neither.
+The gate fails on an entry with no reason, on an `until` that is not a date, on an entry whose
+`until` date (UTC) has arrived, on a `vuln` not of the form `VULN-YYYYMMDD-N`, and on an entry that
+matches no current advisory.
+
+The gate needs only Node (the version in [`.node-version`](.node-version)) and git, with no install
+or build, so it also runs from a fresh clone:
+
+```bash
+node --test scripts/audit-gate.test.mjs && node scripts/audit-gate.mjs
+```
+
+It exits 1 and prints a `FAIL:` line per problem when the check fails.
+`--github-output <file>` also appends `findings=<ids>` to that file: the advisory ids that failed,
+separated by spaces.
 
 On pull requests, the workflow posts a sticky summary comment (see
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml)). Synthetic clean fixtures for `scan` live

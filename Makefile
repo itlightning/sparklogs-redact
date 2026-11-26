@@ -25,8 +25,9 @@ test:
 	@echo "== test (repo scripts + all workspaces with a test script) =="
 	$(NPM) test
 
-# Fails on any advisory in any dependency (shipped or development, any severity) that has no
-# reviewed entry in advisory-ignore.json.
+# Fails on any advisory in any dependency of any tracked lockfile (shipped or development, any
+# severity) that has no reviewed entry in advisory-ignore.json, and on any dependency from outside
+# the npm registry that advisory-sources.json does not declare.
 audit:
 	@echo "== audit (all deps, any severity; ignore entries in advisory-ignore.json) =="
 	$(NODE) scripts/audit-gate.mjs
